@@ -1,7 +1,8 @@
-import tensorflow as tf
 import numpy as np
-from src import model_importer
-from matplotlib import pyplot as plt
+import tensorflow as tf
+import model_importer
+
+
 from PIL import Image
 
 
@@ -45,15 +46,15 @@ def build_model():
     return model
 
 
-def load_gen_weights(model):
-    npas = model_importer.load_mat_model_weights('../../gen.mat')
-    model.layers[0].set_weights([npas[0], np.reshape(npas[1], (7040,))])
-    model.layers[4].set_weights([np.reshape(npas[3], (5, 5, 80, 160)), np.reshape(npas[4], (80,))])
-    model.layers[7].set_weights([np.reshape(npas[6], (5, 5, 40, 80)), np.reshape(npas[7], (40,))])
-    model.layers[10].set_weights([np.reshape(npas[9], (5, 5, 20, 40)), np.reshape(npas[10], (20,))])
-    model.layers[13].set_weights([np.reshape(npas[12], (5, 5, 3, 20))])
+def load_gen_weights(gmodel):
+    npas = model_importer.load_mat_model_weights('../gen.mat')
+    gmodel.layers[0].set_weights([npas[0], np.reshape(npas[1], (7040,))])
+    gmodel.layers[4].set_weights([np.reshape(npas[3], (5, 5, 80, 160)), np.reshape(npas[4], (80,))])
+    gmodel.layers[7].set_weights([np.reshape(npas[6], (5, 5, 40, 80)), np.reshape(npas[7], (40,))])
+    gmodel.layers[10].set_weights([np.reshape(npas[9], (5, 5, 20, 40)), np.reshape(npas[10], (20,))])
+    gmodel.layers[13].set_weights([np.reshape(npas[12], (5, 5, 3, 20))])
 
-    return model
+    return gmodel
 
 
 def scale_gen_output(prediction):
@@ -68,6 +69,7 @@ def save_gen_output_to_file(matrix):
     print(f'Saving image matrix of size {np.shape(matrix)}')
     img = Image.fromarray(matrix, 'RGB')
     img.show()
+    # TODO
 
 
 if __name__ == '__main__':
