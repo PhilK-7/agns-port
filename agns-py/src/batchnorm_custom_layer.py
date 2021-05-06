@@ -1,5 +1,5 @@
 import tensorflow as tf
-
+# TODO
 
 class BatchNormCustomLayer(tf.keras.layers.Layer):
     def __init__(self, output_size):
