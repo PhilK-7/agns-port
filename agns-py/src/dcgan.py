@@ -6,6 +6,7 @@ import pathlib as pal
 from PIL import Image
 import os
 import net_utils
+import math
 
 '''
 Some parts were taken from official tutorials:
@@ -33,7 +34,7 @@ def load_real_images(limit_to_first=1000):
             file_path = os.path.join(path, img_file)
 
             # show progress bar
-            prog_str = net_utils.display_custom_loading_bar(current_index,
+            prog_str = net_utils.display_custom_loading_bar('Loading', current_index,
                                                             max_index if limit_to_first == -1 else limit_to_first)
             if prog_str != current_prog_str:
                 current_prog_str = prog_str
@@ -49,10 +50,10 @@ def load_real_images(limit_to_first=1000):
                 matrix = np.concatenate((matrix, img_matrix))
             current_index += 1
 
-    return (matrix / 127.5) - 1  # transformation
+    return (matrix / 127.5) - 1  # transformation to range (-1, 1)
 
 
-def train_discriminator(n_epochs):
+def train_dcgan(n_epochs):
     # definitions
 
     # load correct weights state
@@ -83,23 +84,42 @@ def train_discriminator(n_epochs):
             gen_loss = net_utils.get_gen_loss(fake_output)
             discrim_loss = net_utils.get_discrim_loss(real_output, fake_output)
 
-
         # compute and apply gradients
         gen_gradients = gen_tape.gradient(gen_loss, g_model.trainable_variables)
         discrim_gradients = discrim_tape.gradient(discrim_loss, d_model.trainable_variables)
         gen_optimizer.apply_gradients(zip(gen_gradients, g_model.trainable_variables))
         discrim_optimizer.apply_gradients(zip(discrim_gradients, d_model.trainable_variables))
 
+        return gen_loss, discrim_loss
+
     # get data
     real_images = load_real_images()
     print(np.shape(real_images))
     num_samples = real_images.shape[0]
-    labels_real = np.full((num_samples, 1), label_real)
+    num_batches = math.ceil(num_samples / 260)  # number of training data batches
 
     for epoch in range(n_epochs):
+        print(f'Epoch {epoch + 1}:')
+        batch_index = 0
+        ep_g_loss_sum, ep_d_loss_sum = 0, 0
+
         for batch in net_utils.product_training_batches(real_images):
-            training_step(batch)
+            print(net_utils.display_custom_loading_bar('Training', batch_index, num_batches))
+            g_loss, d_loss = training_step(batch)
+            ep_g_loss_sum += g_loss
+            ep_d_loss_sum += d_loss
+            batch_index += 1
+
+        print(f'Avg. generator loss: {ep_g_loss_sum / num_batches}, '
+              f'avg. discriminator loss: {ep_d_loss_sum / num_batches}')
+
+    # TODO final stuff?
+    random_z = np.random.standard_normal((1, 25))
+    gen_output = np.reshape(g_model.predict(random_z), (64, 176, 3))
+    gen_img = (gen_output + 1) * 127.5
+    out_img = Image.fromarray(gen_img, mode='RGB')
+    out_img.show()
 
 
 if __name__ == '__main__':
-    train_discriminator(5)
+    train_dcgan(20)

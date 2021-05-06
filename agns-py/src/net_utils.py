@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy as np
+import math
 
 label_real = 0.9  # soft label (see paper)
 bce = tf.keras.losses.BinaryCrossentropy(from_logits=True)  # binary cross-entropy
@@ -38,22 +39,25 @@ def product_training_batches(data, bs=260):
     :param bs: the batch size (the last batch might be smaller)
     """
     n_samples = data.shape[0]
-    current_batch_start = 0
+    n_batches = math.ceil(n_samples / bs)
+    current_batch_index = 0
 
-    while current_batch_start < n_samples:
-        try:
-            yield data[current_batch_start:(current_batch_start + bs)]
-            current_batch_start += bs
-        except ValueError:
-            yield data[current_batch_start:]
+    while current_batch_index < n_batches:
+        if current_batch_index < n_batches - 1:
+            yield data[current_batch_index * bs: ((current_batch_index + 1) * bs)]
+        else:
+            yield data[current_batch_index * (n_batches - 1):]
+        current_batch_index += 1
 
 
+def display_custom_loading_bar(msg, current_prog, max):
+    """
 
-def display_custom_loading_bar(current_prog, max):
+    """
     progress = (current_prog / max) * 100  # progress in %
     progress_saved = progress
     bars_left = 50  # one char for every 2%
-    display_str = 'Loading: '
+    display_str = msg + ':   '
 
     while progress > 0:
         display_str += '='
