@@ -3,7 +3,6 @@ import model_importer
 import numpy as np
 from PIL import Image
 import net_utils
-import batchnorm_custom_layer as bn
 
 
 def build_model():

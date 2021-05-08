@@ -1,4 +1,4 @@
-from scipy import io
+#from scipy import io
 
 '''
 The purpose of this module is to import saved model weights from .mat files,

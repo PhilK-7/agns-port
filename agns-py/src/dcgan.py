@@ -58,11 +58,11 @@ def train_dcgan(n_epochs):
 
     # load correct weights state
     d_model = eyeglass_discriminator.build_model()
-    # TODO only load mat weights if first training
-    d_model = eyeglass_discriminator.load_discrim_weights(d_model)
+    # TODO only load mat weights if first training?
+    #d_model = eyeglass_discriminator.load_discrim_weights(d_model)
 
     g_model = eyeglass_generator.build_model()
-    g_model = eyeglass_generator.load_gen_weights(g_model)
+    #g_model = eyeglass_generator.load_gen_weights(g_model)
     gen_optimizer = tf.keras.optimizers.Adam(2e-4)
     discrim_optimizer = tf.keras.optimizers.Adam(2e-4)
 
@@ -77,7 +77,7 @@ def train_dcgan(n_epochs):
         with tf.GradientTape() as gen_tape, tf.GradientTape() as discrim_tape:
             generated_images = g_model(noise, training=True)  # generate fake images
 
-            # train discriminator
+            # get outputs for discriminator
             real_output = d_model(images, training=True)
             fake_output = d_model(generated_images, training=True)
 
