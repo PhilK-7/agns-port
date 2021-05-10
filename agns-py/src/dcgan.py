@@ -14,8 +14,9 @@ https://www.tensorflow.org/tutorials/generative/dcgan, and
 https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html
 '''
 
-label_real = 0.9  # soft label (see paper)
-label_fake = 0
+LABEL_REAL = 0.9  # soft label (see paper)
+LABEL_FAKE = 0
+BATCH_SIZE = 48
 
 
 def load_real_images(limit_to_first=1000):
@@ -68,7 +69,7 @@ def train_dcgan(n_epochs):
 
     # custom training procedure function (see Tensorflow DCGAN tutorial)
     @tf.function
-    def training_step(images, bs=260):
+    def training_step(images, bs=BATCH_SIZE):
         """
 
         """
@@ -93,17 +94,17 @@ def train_dcgan(n_epochs):
         return gen_loss, discrim_loss
 
     # get data
-    real_images = load_real_images()
+    real_images = load_real_images(-1)
     print(np.shape(real_images))
     num_samples = real_images.shape[0]
-    num_batches = math.ceil(num_samples / 260)  # number of training data batches
+    num_batches = math.ceil(num_samples / BATCH_SIZE)  # number of training data batches
 
     for epoch in range(n_epochs):
         print(f'Epoch {epoch + 1}:')
         batch_index = 0
         ep_g_loss_sum, ep_d_loss_sum = 0, 0
 
-        for batch in net_utils.product_training_batches(real_images):
+        for batch in net_utils.produce_training_batches(real_images, BATCH_SIZE):
             print(net_utils.display_custom_loading_bar('Training', batch_index, num_batches))
             g_loss, d_loss = training_step(batch)
             ep_g_loss_sum += g_loss
@@ -122,4 +123,4 @@ def train_dcgan(n_epochs):
 
 
 if __name__ == '__main__':
-    train_dcgan(20)
+    train_dcgan(200)
