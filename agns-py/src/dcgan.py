@@ -8,6 +8,8 @@ import os
 import net_utils
 import math
 from tensorflow.python.framework.errors_impl import NotFoundError
+from matplotlib import pyplot as plt
+import time
 
 '''
 Some parts were taken from official tutorials:
@@ -55,7 +57,40 @@ def load_real_images(limit_to_first=1000):
     return (matrix / 127.5) - 1  # transformation to range (-1, 1)
 
 
-def train_dcgan(n_epochs, start_fresh=False):
+def generate_samples(generator):
+    """
+
+    """
+    np.random.seed(42)
+    fix_vector = np.random.standard_normal((9, 25))  # get the 9 random generator input vectors
+    preds = (generator(fix_vector, training=False) + 1) * 127.5  # generator inference to generate samples
+    fig = plt.figure(figsize=(4, 4))
+
+    # plot
+    for i in range(9):
+        plt.subplot(4, 4, i + 1)
+        plt.imshow(preds[i, :, :, :])
+        plt.axis('off')
+
+    plt.savefig('../saved-plots/generator-samples.png')
+    plt.show()
+
+
+def plot_losses(g_losses, d_losses):
+    n_iters = len(g_losses)
+    iters_list = range(1, n_iters+1)
+
+    plt.plot(iters_list, g_losses, label='Generator')
+    plt.plot(iters_list, d_losses, label='Discriminator')
+    plt.xlabel('Iterations')
+    plt.ylabel('Model loss')
+    plt.title('DCGAN losses during last training session')
+
+    plt.savefig('../saved-plots/dcgan_last_training.png')
+    plt.show()
+
+
+def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
     """
 
     """
@@ -65,7 +100,7 @@ def train_dcgan(n_epochs, start_fresh=False):
     # get models
 
     g_model = eyeglass_generator.build_model()
-    #g_model = eyeglass_generator.load_gen_weights(g_model)
+    # g_model = eyeglass_generator.load_gen_weights(g_model)
     d_model = eyeglass_discriminator.build_model()
     # TODO only load mat weights if first training?
     # d_model = eyeglass_discriminator.load_discrim_weights(d_model)
@@ -84,6 +119,7 @@ def train_dcgan(n_epochs, start_fresh=False):
     # define optimizer, same as described in paper
     gen_optimizer = tf.keras.optimizers.Adam(2e-4)
     discrim_optimizer = tf.keras.optimizers.Adam(2e-4)
+    g_losses, d_losses = [], []
 
     # custom training procedure function (see Tensorflow DCGAN tutorial)
     @tf.function
@@ -117,34 +153,42 @@ def train_dcgan(n_epochs, start_fresh=False):
     num_samples = real_images.shape[0]
     num_batches = math.ceil(num_samples / BATCH_SIZE)  # number of training data batches
 
+    # training loop
     for epoch in range(n_epochs):
         print(f'Epoch {epoch + 1}:')
+        epoch_start_time = time.time()
         batch_index = 0
         ep_g_loss_sum, ep_d_loss_sum = 0, 0
 
-        for batch in net_utils.produce_training_batches(real_images, BATCH_SIZE):
+        for batch in net_utils.produce_training_batches(real_images, BATCH_SIZE):  # mini-batch training
             print(net_utils.display_custom_loading_bar('Training', batch_index, num_batches))
             g_loss, d_loss = training_step(batch)  # one training iteration for this batch
-
-            # checkpoints both parts of the model
-            g_model.save_weights('../saved-models/gweights')
-            d_model.save_weights('../saved-models/dweights')
 
             # observe error on that batch
             ep_g_loss_sum += g_loss
             ep_d_loss_sum += d_loss
             batch_index += 1
 
-        print(f'Avg. generator loss: {ep_g_loss_sum / num_batches}, '
-              f'avg. discriminator loss: {ep_d_loss_sum / num_batches}')
+        # checkpoints both parts of the model
+        if epoch % epochs_save_period == 0:
+            g_model.save_weights('../saved-models/gweights')
+            d_model.save_weights('../saved-models/dweights')
+
+        # evaluate epoch
+        avg_g_loss = ep_g_loss_sum / num_batches
+        g_losses.append(avg_g_loss)
+        avg_d_loss = ep_d_loss_sum / num_batches
+        d_losses.append(avg_d_loss)
+        epoch_end_time = time.time()
+        epoch_time = round(epoch_end_time - epoch_start_time) + 1
+        print(f'Avg. generator loss: {avg_g_loss}, '
+              f'avg. discriminator loss: {avg_d_loss}')
+        print(f'Epoch lasted for {epoch_time} seconds.')
 
     # TODO final stuff?
-    random_z = np.random.standard_normal((1, 25))
-    gen_output = np.reshape(g_model.predict(random_z), (64, 176, 3))
-    gen_img = (gen_output + 1) * 127.5
-    out_img = Image.fromarray(gen_img, mode='RGB')
-    out_img.show()
+    generate_samples(g_model)
+    plot_losses(g_losses, d_losses)
 
 
 if __name__ == '__main__':
-    train_dcgan(42)
+    train_dcgan(10)
