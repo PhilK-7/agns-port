@@ -38,7 +38,8 @@ def build_model():
             tf.keras.layers.BatchNormalization(),
             tf.keras.layers.ReLU(),
             deconv4
-        ]
+        ],
+        name='Generator'
     )
 
     model.summary()

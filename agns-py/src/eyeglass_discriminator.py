@@ -36,7 +36,8 @@ def build_model():
             reshape,
             tf.keras.layers.Flatten(),
             dense
-        ]
+        ],
+        name='Discriminator'
     )
 
     model.summary()

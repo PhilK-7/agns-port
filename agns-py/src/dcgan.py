@@ -7,6 +7,7 @@ from PIL import Image
 import os
 import net_utils
 import math
+from tensorflow.python.framework.errors_impl import NotFoundError
 
 '''
 Some parts were taken from official tutorials:
@@ -54,16 +55,33 @@ def load_real_images(limit_to_first=1000):
     return (matrix / 127.5) - 1  # transformation to range (-1, 1)
 
 
-def train_dcgan(n_epochs):
+def train_dcgan(n_epochs, start_fresh=False):
+    """
+
+    """
+
     # definitions
 
-    # load correct weights state
-    d_model = eyeglass_discriminator.build_model()
-    # TODO only load mat weights if first training?
-    #d_model = eyeglass_discriminator.load_discrim_weights(d_model)
+    # get models
 
     g_model = eyeglass_generator.build_model()
     #g_model = eyeglass_generator.load_gen_weights(g_model)
+    d_model = eyeglass_discriminator.build_model()
+    # TODO only load mat weights if first training?
+    # d_model = eyeglass_discriminator.load_discrim_weights(d_model)
+
+    if not start_fresh:  # load parameters from previous training
+        try:
+            g_model.load_weights('../saved-models/gweights')
+            d_model.load_weights('../saved-models/dweights')
+            print('>>>>>>> DCGAN weights loaded.')
+        except NotFoundError:
+            print('>>>>>>> No weights found, using fresh initialized weights!')
+
+    else:
+        print('>>>>>>> Initialized DCGAN weights.')
+
+    # define optimizer, same as described in paper
     gen_optimizer = tf.keras.optimizers.Adam(2e-4)
     discrim_optimizer = tf.keras.optimizers.Adam(2e-4)
 
@@ -106,7 +124,13 @@ def train_dcgan(n_epochs):
 
         for batch in net_utils.produce_training_batches(real_images, BATCH_SIZE):
             print(net_utils.display_custom_loading_bar('Training', batch_index, num_batches))
-            g_loss, d_loss = training_step(batch)
+            g_loss, d_loss = training_step(batch)  # one training iteration for this batch
+
+            # checkpoints both parts of the model
+            g_model.save_weights('../saved-models/gweights')
+            d_model.save_weights('../saved-models/dweights')
+
+            # observe error on that batch
             ep_g_loss_sum += g_loss
             ep_d_loss_sum += d_loss
             batch_index += 1
@@ -123,4 +147,4 @@ def train_dcgan(n_epochs):
 
 
 if __name__ == '__main__':
-    train_dcgan(200)
+    train_dcgan(42)
