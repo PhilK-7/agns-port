@@ -30,6 +30,7 @@ def load_real_images(limit_to_first=1000):
     current_prog_str = ''
     current_index = 0
     print('Loading images...')
+    start_time = time.time()
     for img_file in img_files:
 
         if limit_to_first != -1 and current_index >= limit_to_first:  # when limit is used
@@ -54,6 +55,10 @@ def load_real_images(limit_to_first=1000):
                 matrix = np.concatenate((matrix, img_matrix))
             current_index += 1
 
+    end_time = time.time()
+    total_time = round(end_time - start_time) + 1
+    print(f'Loading all images took {total_time} seconds.')
+
     return (matrix / 127.5) - 1  # transformation to range (-1, 1)
 
 
@@ -63,12 +68,12 @@ def generate_samples(generator):
     """
     np.random.seed(42)
     fix_vector = np.random.standard_normal((9, 25))  # get the 9 random generator input vectors
-    preds = (generator(fix_vector, training=False) + 1) * 127.5  # generator inference to generate samples
-    fig = plt.figure(figsize=(4, 4))
+    preds = (generator(fix_vector, training=False) + 1) / 2  # generator inference to generate samples, out range [0, 1]
+    fig = plt.figure(figsize=(3, 3))
 
     # plot
     for i in range(9):
-        plt.subplot(4, 4, i + 1)
+        plt.subplot(3, 3, i + 1)
         plt.imshow(preds[i, :, :, :])
         plt.axis('off')
 
@@ -82,8 +87,9 @@ def plot_losses(g_losses, d_losses):
 
     plt.plot(iters_list, g_losses, label='Generator')
     plt.plot(iters_list, d_losses, label='Discriminator')
-    plt.xlabel('Iterations')
+    plt.xlabel('Epochs ')
     plt.ylabel('Model loss')
+    plt.legend(loc='upper right')
     plt.title('DCGAN losses during last training session')
 
     plt.savefig('../saved-plots/dcgan_last_training.png')
@@ -173,6 +179,7 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
         if epoch % epochs_save_period == 0:
             g_model.save_weights('../saved-models/gweights')
             d_model.save_weights('../saved-models/dweights')
+            print('Model state saved.')
 
         # evaluate epoch
         avg_g_loss = ep_g_loss_sum / num_batches
@@ -191,4 +198,4 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
 
 
 if __name__ == '__main__':
-    train_dcgan(10)
+    train_dcgan(22)
