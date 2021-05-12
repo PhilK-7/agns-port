@@ -10,6 +10,7 @@ import math
 from tensorflow.python.framework.errors_impl import NotFoundError
 from matplotlib import pyplot as plt
 import time
+import imageio
 
 '''
 Some parts were taken from official tutorials:
@@ -66,19 +67,32 @@ def generate_samples(generator):
     """
 
     """
+    # get the random vectors and their current predictions
     np.random.seed(42)
     fix_vector = np.random.standard_normal((9, 25))  # get the 9 random generator input vectors
     preds = (generator(fix_vector, training=False) + 1) / 2  # generator inference to generate samples, out range [0, 1]
     fig = plt.figure(figsize=(3, 3))
 
-    # plot
+    # plot predictions
     for i in range(9):
         plt.subplot(3, 3, i + 1)
         plt.imshow(preds[i, :, :, :])
         plt.axis('off')
 
-    plt.savefig('../saved-plots/generator-samples.png')
-    plt.show()
+    # save plot
+    n = len(os.listdir('../saved-plots/samples')) + 1  # the n-th samples image
+    plt.savefig(f'../saved-plots/samples/samples_{round(time.time())}_epoch{n}.png')
+
+
+def generate_samples_gif():
+    file_path = '../saved-plots/samples-history.gif'
+    img_paths = sorted(os.listdir('../saved-plots/samples/'))
+
+    with imageio.get_writer(file_path, mode='I', fps=5) as writer:
+        for path in img_paths:
+            img = imageio.imread(os.path.join('../saved-plots/samples/', path))
+
+            writer.append_data(img)
 
 
 def plot_losses(g_losses, d_losses):
@@ -188,12 +202,13 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
         d_losses.append(avg_d_loss)
         epoch_end_time = time.time()
         epoch_time = round(epoch_end_time - epoch_start_time) + 1
+        generate_samples(g_model)  # also create new samples image
         print(f'Avg. generator loss: {avg_g_loss}, '
               f'avg. discriminator loss: {avg_d_loss}')
         print(f'Epoch lasted for {epoch_time} seconds.')
 
     # TODO final stuff?
-    generate_samples(g_model)
+    generate_samples_gif()
     plot_losses(g_losses, d_losses)
 
 
