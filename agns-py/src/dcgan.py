@@ -22,7 +22,7 @@ https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html
 '''
 
 
-BATCH_SIZE = 56
+BATCH_SIZE = 65
 
 
 def load_real_images(limit_to_first=1000):
@@ -65,7 +65,7 @@ def load_real_images(limit_to_first=1000):
     return (matrix / 127.5) - 1  # transformation to range (-1, 1)
 
 
-def generate_samples(generator, g_loss):
+def generate_samples(generator, epoch):
     """
 
     """
@@ -83,7 +83,7 @@ def generate_samples(generator, g_loss):
 
     # save plot
     n = len(os.listdir('../saved-plots/samples')) + 1  # the n-th samples image
-    plt.title(f'Generator @ loss {g_loss}')
+    plt.title(f'Gen @E{epoch}')
     plt.savefig(f'../saved-plots/samples/samples_{round(time.time())}_epoch{n}.png')
     # do not draw later
     plt.clf()
@@ -162,7 +162,7 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
             print('>>>>>>> No weights found, using fresh initialized weights!')
 
     else:  # new weights; remove outdated files
-        print('>>>>>>> Initialized DCGAN weights.')
+        print('>>>>>>> Initialized new DCGAN weights.')
         loss_hist_path = '../saved-plots/losses.csv'
         if os.path.exists(loss_hist_path):
             os.remove(loss_hist_path)
@@ -242,7 +242,7 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
         d_losses.append(avg_d_loss)
         epoch_end_time = time.time()
         epoch_time = round(epoch_end_time - epoch_start_time) + 1
-        generate_samples(g_model, avg_g_loss)  # also create new samples image
+        generate_samples(g_model, epoch+1)  # also create new samples image
         print(f'Avg. generator loss: {avg_g_loss}, '
               f'avg. discriminator loss: {avg_d_loss}')
         update_loss_dataframe(avg_g_loss, avg_d_loss)  # add losses to losses.csv
@@ -256,4 +256,4 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
 
 
 if __name__ == '__main__':
-    train_dcgan(16, start_fresh=True)
+    train_dcgan(30, start_fresh=True)
