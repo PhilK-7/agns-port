@@ -3,10 +3,12 @@ import os
 import time
 
 import imageio
+import shutil
 import numpy as np
 import tensorflow as tf
 from PIL import Image
 from matplotlib import pyplot as plt
+import pandas as pd
 from tensorflow.python.framework.errors_impl import NotFoundError
 
 import eyeglass_discriminator
@@ -19,9 +21,8 @@ https://www.tensorflow.org/tutorials/generative/dcgan, and
 https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html
 '''
 
-LABEL_REAL = 0.9  # soft label (see paper)
-LABEL_FAKE = 0
-BATCH_SIZE = 48
+
+BATCH_SIZE = 56
 
 
 def load_real_images(limit_to_first=1000):
@@ -72,7 +73,7 @@ def generate_samples(generator, g_loss):
     np.random.seed(42)
     fix_vector = np.random.standard_normal((9, 25))  # get the 9 random generator input vectors
     preds = (generator(fix_vector, training=False) + 1) / 2  # generator inference to generate samples, out range [0, 1]
-    plt.figure(figsize=(3, 3))
+    fig = plt.figure(figsize=(3, 3))
 
     # plot predictions
     for i in range(9):
@@ -84,7 +85,9 @@ def generate_samples(generator, g_loss):
     n = len(os.listdir('../saved-plots/samples')) + 1  # the n-th samples image
     plt.title(f'Generator @ loss {g_loss}')
     plt.savefig(f'../saved-plots/samples/samples_{round(time.time())}_epoch{n}.png')
-    plt.clf()  # do not draw later
+    # do not draw later
+    plt.clf()
+    plt.close(fig)
 
 
 def generate_samples_gif():
@@ -98,19 +101,41 @@ def generate_samples_gif():
             writer.append_data(img)
 
 
-def plot_losses(g_losses, d_losses):
-    n_iters = len(g_losses)
-    iters_list = range(1, n_iters+1)
+def update_loss_dataframe(g_loss, d_loss):
+    """
 
-    plt.plot(iters_list, g_losses, label='Generator')
-    plt.plot(iters_list, d_losses, label='Discriminator')
-    plt.xlabel('Epochs ')
-    plt.ylabel('Model loss')
-    plt.legend(loc='upper right')
-    plt.title('DCGAN losses during last training session')
+    """
+    new_data = pd.DataFrame(np.array([[g_loss, d_loss]]), columns=['GLoss', 'DLoss'])
+    try:
+        df = pd.read_csv('../saved-plots/losses.csv', index_col=[0])
+        df = pd.concat([df, new_data])
+    except FileNotFoundError:
+        df = new_data
 
-    plt.savefig('../saved-plots/dcgan_last_training.png')
-    plt.show()
+    df.to_csv('../saved-plots/losses.csv')  # write back
+
+
+def plot_losses():
+
+    try:
+        df = pd.read_csv('../saved-plots/losses.csv', index_col=[0])
+        epochs_so_far = len(df.index)
+        iters_list = range(1, epochs_so_far + 1)
+        g_losses = df['GLoss']
+        d_losses = df['DLoss']
+
+        plt.plot(iters_list, g_losses, label='Generator')
+        plt.plot(iters_list, d_losses, label='Discriminator')
+        plt.xlabel('Epochs ')
+        plt.ylabel('Model loss')
+        plt.legend(loc='upper right')
+        plt.title('DCGAN losses history')
+
+        plt.savefig('../saved-plots/dcgan_loss_history.png')
+        plt.show()
+
+    except FileNotFoundError:
+        print('No losses computed yet.')
 
 
 def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
@@ -136,8 +161,14 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
         except NotFoundError:
             print('>>>>>>> No weights found, using fresh initialized weights!')
 
-    else:
+    else:  # new weights; remove outdated files
         print('>>>>>>> Initialized DCGAN weights.')
+        loss_hist_path = '../saved-plots/losses.csv'
+        if os.path.exists(loss_hist_path):
+            os.remove(loss_hist_path)
+        gend_samples_path = '../saved-plots/samples/'
+        shutil.rmtree(gend_samples_path)
+        os.makedirs(gend_samples_path)
 
     # define optimizer, same as described in paper
     gen_optimizer = tf.keras.optimizers.Adam(2e-4)
@@ -176,8 +207,14 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
     num_samples = real_images.shape[0]
     num_batches = math.ceil(num_samples / BATCH_SIZE)  # number of training data batches
 
+    # determine total epoch number
+    try:
+        epochs_so_far = len(pd.read_csv('../saved-plots/losses.csv', index_col=[0]).index)
+    except FileNotFoundError:
+        epochs_so_far = 0
+
     # training loop
-    for epoch in range(n_epochs):
+    for epoch in range(epochs_so_far, epochs_so_far + n_epochs):
         print(f'Epoch {epoch + 1}:')
         epoch_start_time = time.time()
         batch_index = 0
@@ -208,12 +245,15 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
         generate_samples(g_model, avg_g_loss)  # also create new samples image
         print(f'Avg. generator loss: {avg_g_loss}, '
               f'avg. discriminator loss: {avg_d_loss}')
+        update_loss_dataframe(avg_g_loss, avg_d_loss)  # add losses to losses.csv
         print(f'Epoch lasted for {epoch_time} seconds.')
 
     # TODO final stuff?
+    g_model.save_weights('../saved-models/gweights')
+    d_model.save_weights('../saved-models/dweights')
     generate_samples_gif()
-    plot_losses(g_losses, d_losses)
+    plot_losses()
 
 
 if __name__ == '__main__':
-    train_dcgan(10)
+    train_dcgan(16, start_fresh=True)
