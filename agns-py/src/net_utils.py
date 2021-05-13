@@ -33,11 +33,12 @@ def get_discrim_loss(fake_image_out, real_image_out):
 
 def produce_training_batches(data, bs=260):
     """
-    Produces equi-sized batches of training data from a given dataset.
+    Produces random, equi-sized mini-batches of training data from a given dataset.
 
     :param data: the dataset, as a numpy array (4D)
     :param bs: the batch size (the last batch might be smaller)
     """
+    np.random.shuffle(data)  # shuffle randomly to get randomized mini batches
     n_samples = data.shape[0]
     n_batches = math.ceil(n_samples / bs)
     current_batch_index = 0

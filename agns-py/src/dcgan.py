@@ -1,16 +1,17 @@
-import eyeglass_generator
-import eyeglass_discriminator
-import tensorflow as tf
-import numpy as np
-import pathlib as pal
-from PIL import Image
-import os
-import net_utils
 import math
-from tensorflow.python.framework.errors_impl import NotFoundError
-from matplotlib import pyplot as plt
+import os
 import time
+
 import imageio
+import numpy as np
+import tensorflow as tf
+from PIL import Image
+from matplotlib import pyplot as plt
+from tensorflow.python.framework.errors_impl import NotFoundError
+
+import eyeglass_discriminator
+import eyeglass_generator
+import net_utils
 
 '''
 Some parts were taken from official tutorials:
@@ -63,7 +64,7 @@ def load_real_images(limit_to_first=1000):
     return (matrix / 127.5) - 1  # transformation to range (-1, 1)
 
 
-def generate_samples(generator):
+def generate_samples(generator, g_loss):
     """
 
     """
@@ -71,7 +72,7 @@ def generate_samples(generator):
     np.random.seed(42)
     fix_vector = np.random.standard_normal((9, 25))  # get the 9 random generator input vectors
     preds = (generator(fix_vector, training=False) + 1) / 2  # generator inference to generate samples, out range [0, 1]
-    fig = plt.figure(figsize=(3, 3))
+    plt.figure(figsize=(3, 3))
 
     # plot predictions
     for i in range(9):
@@ -81,7 +82,9 @@ def generate_samples(generator):
 
     # save plot
     n = len(os.listdir('../saved-plots/samples')) + 1  # the n-th samples image
+    plt.title(f'Generator @ loss {g_loss}')
     plt.savefig(f'../saved-plots/samples/samples_{round(time.time())}_epoch{n}.png')
+    plt.clf()  # do not draw later
 
 
 def generate_samples_gif():
@@ -168,7 +171,7 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
         return gen_loss, discrim_loss
 
     # get data
-    real_images = load_real_images(-1)
+    real_images = load_real_images(-1)  # load all real images
     print(np.shape(real_images))
     num_samples = real_images.shape[0]
     num_batches = math.ceil(num_samples / BATCH_SIZE)  # number of training data batches
@@ -202,7 +205,7 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
         d_losses.append(avg_d_loss)
         epoch_end_time = time.time()
         epoch_time = round(epoch_end_time - epoch_start_time) + 1
-        generate_samples(g_model)  # also create new samples image
+        generate_samples(g_model, avg_g_loss)  # also create new samples image
         print(f'Avg. generator loss: {avg_g_loss}, '
               f'avg. discriminator loss: {avg_d_loss}')
         print(f'Epoch lasted for {epoch_time} seconds.')
@@ -213,4 +216,4 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
 
 
 if __name__ == '__main__':
-    train_dcgan(22)
+    train_dcgan(10)
