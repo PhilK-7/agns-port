@@ -204,7 +204,7 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
         return gen_loss, discrim_loss
 
     # get data
-    real_images = load_real_images(2000)  # load all real images TODO
+    real_images = load_real_images(-1)  # load all real images
     print(np.shape(real_images))
     num_samples = real_images.shape[0]
     num_batches = math.ceil(num_samples / BATCH_SIZE)  # number of training data batches
@@ -258,4 +258,4 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
 
 
 if __name__ == '__main__':
-    train_dcgan(20)
+    train_dcgan(30)

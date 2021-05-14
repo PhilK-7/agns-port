@@ -21,15 +21,16 @@ def get_gen_loss(fake_image_out):
     """
 
     """
-    return bce(np.full(fake_image_out.shape, LABEL_REAL), fake_image_out)  # log(D(G(z)))
+
+    return bce(np.zeros(fake_image_out.shape), fake_image_out)
 
 
 def get_discrim_loss(fake_image_out, real_image_out):
     """
 
     """
-    fake_loss = bce(np.zeros(fake_image_out.shape), fake_image_out)  # log(1 - D(G(z)))
-    real_loss = bce(np.full(real_image_out.shape, LABEL_REAL), real_image_out)  # log(D(x))
+    fake_loss = bce(np.full(fake_image_out.shape, LABEL_REAL), fake_image_out)  # log(1 - D(G(z)))
+    real_loss = bce(np.ones(real_image_out.shape), real_image_out)  # log(D(x))
 
     return fake_loss + real_loss
 
