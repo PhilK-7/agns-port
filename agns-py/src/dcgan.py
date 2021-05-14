@@ -96,7 +96,7 @@ def generate_samples_gif():
     file_path = '../saved-plots/samples-history.gif'
     img_paths = sorted(os.listdir('../saved-plots/samples/'))
 
-    with imageio.get_writer(file_path, mode='I', fps=5) as writer:
+    with imageio.get_writer(file_path, mode='I', fps=6) as writer:
         for path in img_paths:
             img = imageio.imread(os.path.join('../saved-plots/samples/', path))
 
@@ -258,4 +258,4 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
 
 
 if __name__ == '__main__':
-    train_dcgan(30)
+    train_dcgan(20)
