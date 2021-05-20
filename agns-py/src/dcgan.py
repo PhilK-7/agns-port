@@ -258,4 +258,4 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
 
 
 if __name__ == '__main__':
-    train_dcgan(20)
+    train_dcgan(150)
