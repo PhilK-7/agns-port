@@ -46,7 +46,7 @@ def build_model():
 
 
 def load_discrim_weights(dmodel):
-    npas = model_importer.load_mat_model_weights('../discrim.mat')
+    npas = model_importer.load_dcgan_mat_model_weights('../matlab-models/discrim.mat')
     dmodel.layers[0].set_weights([np.reshape(npas[0], (5, 5, 3, 20)), net_utils.get_xavier_initialization((20,))])
     dmodel.layers[2].set_weights([np.reshape(npas[1], (5, 5, 20, 40)), net_utils.get_xavier_initialization((40,))])
     dmodel.layers[5].set_weights([np.reshape(npas[4], (5, 5, 40, 80)), net_utils.get_xavier_initialization((80,))])

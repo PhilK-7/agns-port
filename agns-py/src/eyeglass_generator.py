@@ -48,7 +48,7 @@ def build_model():
 
 
 def load_gen_weights(gmodel):
-    npas = model_importer.load_mat_model_weights('../gen.mat')
+    npas = model_importer.load_dcgan_mat_model_weights('../matlab-models/gen.mat')
     gmodel.layers[0].set_weights([npas[0], net_utils.get_xavier_initialization((7040,))])
     gmodel.layers[4].set_weights([np.reshape(npas[3], (5, 5, 80, 160)), net_utils.get_xavier_initialization((80,))])
     gmodel.layers[7].set_weights([np.reshape(npas[6], (5, 5, 40, 80)), net_utils.get_xavier_initialization((40,))])

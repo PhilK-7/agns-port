@@ -1,4 +1,5 @@
-#from scipy import io
+from scipy import io
+import numpy as np
 
 '''
 The purpose of this module is to import saved model weights from .mat files,
@@ -6,9 +7,9 @@ and to transform them so that Tensorflow / Keras can load those model weights.
 '''
 
 
-def load_mat_model_weights(mat_file_path):
+def load_dcgan_mat_model_weights(mat_file_path):
     """
-    Loads model weights from a .mat file that contains a dictionary.
+    Loads model weights from a DCGAN .mat file that contains a dictionary.
     :param mat_file_path: a path to a .mat file
     :return: a list containing the weight matrices for every layer of a model, from start to end
     """
@@ -18,6 +19,14 @@ def load_mat_model_weights(mat_file_path):
 
     return [mat for mat in matrix]  # outer numpy array as list
 
+
+def load_fr_mat_model_weights(mat_file_path):
+    """
+
+    """
+
+    mat_file = io.loadmat(mat_file_path)
+    print(mat_file)
 
 # TODO Note unsure about (1, n) matrices?
 
@@ -56,9 +65,15 @@ discrim.mat weight parameters:
 
 
 if __name__ == '__main__':
-    data = load_mat_model_weights('../gen.mat')
+    #load_fr_mat_model_weights('../matlab-models/openface10-recognition-nn.mat')
+    data = io.loadmat('../matlab-models/openface10-recognition-nn.mat')
+    print(data)
+    print(data.keys())
+    fw = data['None']
+    print(np.shape(fw))
+    '''
     print(data)
     print(len(data))
     for a in data:
-        print(a.shape)
+        print(a.shape)'''
 
