@@ -26,6 +26,14 @@ BATCH_SIZE = 65
 
 
 def load_real_images(limit_to_first=1000):
+    """
+    Loads the training images for the DCGAN from path 'data/eyeglasses' at the same level.
+    This transforms them into the needed numpy matrix shape.
+
+    :param limit_to_first: use n first images from directory for training; all if value is -1
+    """
+
+    # get image paths and info
     path = '../data/eyeglasses/'
     img_files = os.listdir(path)
     max_index = len(img_files)
@@ -34,7 +42,8 @@ def load_real_images(limit_to_first=1000):
     current_index = 0
     print('Loading images...')
     start_time = time.time()
-    for img_file in img_files:
+
+    for img_file in img_files:  # load images
 
         if limit_to_first != -1 and current_index >= limit_to_first:  # when limit is used
             break
@@ -51,13 +60,14 @@ def load_real_images(limit_to_first=1000):
             img = Image.open(file_path)
             img = img.crop((25, 53, 201, 117))  # crop to correct size
             img_matrix = np.asarray(img)
-            img_matrix = np.reshape(img_matrix, (1, 64, 176, 3))
+            img_matrix = np.reshape(img_matrix, (1, 64, 176, 3))  # to correct numpy size
             if matrix is None:
                 matrix = img_matrix
             else:
                 matrix = np.concatenate((matrix, img_matrix))
             current_index += 1
 
+    # needed time
     end_time = time.time()
     total_time = round(end_time - start_time) + 1
     print(f'Loading all images took {total_time} seconds.')
@@ -67,8 +77,14 @@ def load_real_images(limit_to_first=1000):
 
 def generate_samples(generator, epoch):
     """
+    Generates a set of generator output samples from a set of (fixed) random vector inputs.
+    For every epoch, nine outputs each are generated, and plotted into a single image.
+    The plots are saved at 'saved-plots/samples/' with file names that include UNIX time and the overall epoch.
 
+    :param generator: the DCGAN's generator model
+    :param epoch: which total epoch this is called at, for visualization purposes
     """
+
     # get the random vectors and their current predictions
     np.random.seed(42)
     fix_vector = np.random.standard_normal((9, 25))  # get the 9 random generator input vectors
@@ -93,6 +109,11 @@ def generate_samples(generator, epoch):
 
 
 def generate_samples_gif():
+    """
+    Generates a GIF from the images in 'saved-plots/samples', in chronological order.
+    The resulting GIF will be saved at 'saved-plots/samples-history.gif'.
+    """
+
     file_path = '../saved-plots/samples-history.gif'
     img_paths = sorted(os.listdir('../saved-plots/samples/'))
 
@@ -105,27 +126,38 @@ def generate_samples_gif():
 
 def update_loss_dataframe(g_loss, d_loss):
     """
+    Updates the loss pandas dataframe that keeps track of the DCGAN models' losses over time,
+    found at 'saved-plots/losses.csv'. Creates the file if it doesn't exist.
 
+    :param g_loss: last generator loss
+    :param d_loss: last discriminator loss
     """
+
     new_data = pd.DataFrame(np.array([[g_loss, d_loss]]), columns=['GLoss', 'DLoss'])
     try:
-        df = pd.read_csv('../saved-plots/losses.csv', index_col=[0])
+        df = pd.read_csv('../saved-plots/losses.csv', index_col=[0])  # get dataframe
         df = pd.concat([df, new_data])
-    except FileNotFoundError:
+    except FileNotFoundError:  # first training / new training
         df = new_data
 
     df.to_csv('../saved-plots/losses.csv')  # write back
 
 
 def plot_losses():
+    """
+    Plots the DCGAN's losses and saves the plot to 'saved-plots/dcgan_loss_history.png'.
+    The pandas dataframe in 'saved-plots/losses.csv' must exist.
+    """
 
     try:
+        # get dataframe and extract info
         df = pd.read_csv('../saved-plots/losses.csv', index_col=[0])
         epochs_so_far = len(df.index)
         iters_list = range(1, epochs_so_far + 1)
         g_losses = df['GLoss']
         d_losses = df['DLoss']
 
+        # plot the data
         plt.plot(iters_list, g_losses, label='Generator')
         plt.plot(iters_list, d_losses, label='Discriminator')
         plt.xlabel('Epochs ')
@@ -133,16 +165,23 @@ def plot_losses():
         plt.legend(loc='upper right')
         plt.title('DCGAN losses history')
 
+        # save plot to file and show it
         plt.savefig('../saved-plots/dcgan_loss_history.png')
         plt.show()
 
-    except FileNotFoundError:
+    except FileNotFoundError:  # no dataframe found
         print('No losses computed yet.')
 
 
 def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
     """
+    Trains the DCGAN that should learn to generate / discriminate glasses.
+    It assumes there is a directory 'saved-models' at the same level, where model weights are loaded and saved to.
+    Also, the losses and the current progress are tracked, and visualized with other functions.
 
+    :param n_epochs: for how many epochs to train (this session)
+    :param start_fresh: whether the DCGAN training process should be started anew
+    :param epochs_save_period: after how many epochs each the model should be checkpointed (also saved at session end)
     """
 
     # definitions
