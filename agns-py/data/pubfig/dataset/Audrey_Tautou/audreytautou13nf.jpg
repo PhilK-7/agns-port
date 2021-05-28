@@ -1,0 +1,1668 @@
+<!DOCTYPE  html>
+<html lang="de" >
+<head><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<title>freenet Webhosting - Die All-in-One Lösung für Ihre eigene Website</title>
+<meta name="description" content="Starten Sie jetzt Ihre Onlinepräsenz." />
+<meta name="robots" content="index, follow, noodp, noydir" />
+<meta property="og:type" content="website" />
+<meta property="og:description" content="Starten Sie jetzt Ihre Onlinepräsenz." />
+<meta property="og:title" content="freenet Webhosting - Die All-in-One Lösung für Ihre eigene Website" />
+<meta property="og:site_name" content="freenet.de E-Mail" />
+<meta property="og:image" content="https://blob.freent.de/contentblob/1973262/data/freenet_fb_logo.png" /><!--[if lte IE 8]>
+<link rel="stylesheet" href="https://email.freenet.de/code/5622882/2/ie8.css"  />
+<![endif]--><link rel="stylesheet" href="https://email.freenet.de/code/5029724/7/frn_cookie_layer_RD.css"  />
+<link rel="stylesheet" href="https://email.freenet.de/code/6318380/1442731131/_EmailLib.css"  />
+<link rel="stylesheet" href="https://email.freenet.de/code/7162436/6/Basic.css"  />
+<link rel="stylesheet" href="https://email.freenet.de/code/7160558/30/Domain.css"  />
+<link rel="stylesheet" href="https://email.freenet.de/code/7160566/7/Domain_Grafiken.css"  />
+<link rel="stylesheet" href="https://email.freenet.de/code/7160560/17/Domain_Medias.css"  />
+<link rel="stylesheet" href="https://email.freenet.de/code/7564652/7/Domain_Builder.css"  />
+<!-- start[head] -->
+<!-- end[head] -->
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<link rel="shortcut icon" type="image/x-icon" href="https://blob.freent.de/contentblob/5625134/1/data/freenet-32x32.ico" />
+<meta name="robots" content="index, follow, noodp, noydir" />
+<meta name="google-site-verification" content="PJtIcqLvd5pbgvoQy4P_OdtdXej4E0lIu5gIpNdZG5w" />
+<meta name="language" content="de" />
+<meta name="copyright" content="freenet.de GmbH" />
+<meta name="organization" content="freenet.de GmbH" />
+<meta name="author" content="freenet.de - freenet" />
+<meta name="publisher" content="freenet.de - freenet" />
+<meta property="fb:app_id" content="140319285993092" />
+<meta property="fb:admins" content="1195671585, 100000487061078, 100000318309384" />
+<script type='text/javascript'>
+var isLoggedIn = '0';
+var webmailAdress = 'https://webmail.freenet.de/';
+</script>
+<script src="https://cdn.stroeerdigitalgroup.de/metatag/live/SDG_ConsentOnly/metaTag.min.js" ></script>
+<script src="https://email.freenet.de/code/5626204/792584312/EmailLib.js" ></script>
+<script src="https://email.freenet.de/code/7175400/2/Basic_Javascript.js" ></script>
+<script src="https://email.freenet.de/code/7048480/38/domain_javascript.js" ></script>
+<script src="https://email.freenet.de/code/6629486/1/jquery_slick.js" ></script>
+<!-- @@ partnerHead @@ -->
+</head>
+<body class="mailDomain">
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MTLVWB"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MTLVWB');</script>
+<!-- End Google Tag Manager -->
+<div id="frnMain">
+<div id="frnKopf_Neu" >
+<div id="frnKopfRechts">
+<div id="frnLogo">
+<img src="https://blob.freent.de/contentblob/5622948/1/original/emaillogoshade.gif" width="3" height="2" alt="" />
+</div>
+<div id="frnKopfLogo">
+<div id="frnKopfLinkleiste" class="frnNoTopicHeadline">
+<div id="shopHead">
+<div class="contentZone">
+<div id="freenet-logo"><a href="https://www.freenet.de/index.html">&nbsp;</a></div>
+<div id="navbarIconContainer">
+<div id="productText">Produkte</div>
+<div id="burgerIcon"></div>
+<div class="nav-header-icons"></div>
+</div>
+<div class="loginButtonContainer">
+<div class="loginButton">
+LOGIN <div class="loginarrow"></div>
+</div>
+<div class="loginsWrapper">
+<ul>
+<li id="basicEntry"><a href="https://www.freenet.de/index.html" id="startLogin"> Basic </a></li>
+<li id="classicEntry"><a href="https://power.freenet.de" id="classicLogin"> Start <br> Classic </a></li>
+<li id="domainEntry"><div onclick="EMO_Login.showLoginBox('domain');" href="" id="domainLogin"> Domain </div></li>
+<li id="freenetEntry"><div onclick="EMO_Login.showLoginBox('freenet');" href="" id="freenetLogin"> freenet </div></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="loginBox">
+<div class="headerLoginBoxes" id="domainLoginBox">
+<input type="hidden" value="freenet" name="mode">
+<input type="hidden" value="servicelogin" name="_page">
+<input type="hidden" value="freenet_domainlogin" name="page_basic">
+<input type="text" class="registrationElements placeholder" value="Domainname" onblur="EMO_Login.checkDomainValue()" onfocus="EMO_Login.removeDomainValue()" id="frn_DomainLoginName" name="domain">
+<input type="password" placeholder="Passwort" class="registrationElements placeholder" name="passtext" style="display: inline;" id="passtextDomain">
+<input type="password"  style="display: none;" class="registrationElements" id="frn_DomainLoginPassword" name="passwort">
+<div class="domainLoginBoxHelpLink">
+<a target="_blank" href="https://kundenservice.freenet.de/artikel/2015 ">Brauchen Sie Hilfe?</a>
+</div>
+<input type="submit" value="Domain Login" class="mailDomainButtons" id="domainLoginBoxSubmit">
+</div>
+<div class="headerLoginBoxes" id="freenetLoginBox">
+<form action="https://auth.freenet.de/mail/login.php" method="post" name="loginform" id="loginForm">
+<input type="hidden" value="2" name="world">
+<input type="hidden" value="https://webmail.freenet.de/?goTo=showCSCDomain" id="callback" name="callback">
+<input type="text" class="registrationElements placeholder" value="Benutzername" onblur="EMO_Login.checkUsernameValue()" onfocus="EMO_Login.removeUsernameValue()" id="username" name="u">
+<input type="text" onfocus="EMO_Login.changePasswordField();" value="Passwort" class="registrationElements placeholder" name="passtext" style="display: inline;" id="passtext">
+<input type="password" onblur="EMO_Login.checkPasswordField()" style="display: none;" class="registrationElements" id="password" name="password">
+<div class="domainLoginBoxHelpLink">
+<a target="_blank" href="https://kundenservice.freenet.de">Brauchen Sie Hilfe?</a>
+</div>
+<input type="submit" value="freenet Login" class="mailDomainButtons" id="freenetLoginBoxSubmit">
+</form>
+</div>
+</div>
+<div id="interAppAnroid"><a href="https://app.adjust.com/ejiaf3" target="_blank"><img src="" /></a><div class="closeLayer"></div></div>
+<div id="interAppIos"><a href="https://app.adjust.com/q7o4jw" target="_blank"><img src="" /></a><div class="closeLayer"></div></div>
+</div>
+<a href="https://www.freenet.de/index.html" id="frnKopfLogoLink" title="freenet.de - E-Mail, Cloud, Nachrichten &amp; Services"></a>
+</div>
+<div id="frnKopfWelcome"></div>
+<nav class="frn_topnavi topnavi_7089244">
+<ul id="frnKopfLeiste">
+<li id="produkte_np" >
+<a href="https://email.freenet.de/produkte-empty/index.html" onclick="" target="_self" title="Produkte">Produkte<i></i></a>
+</li>
+<li id="home_icon" >
+<a href="https://www.freenet.de/index.html" onclick="" target="_self" title="Home">Home<i></i></a>
+</li>
+<li id="mail_basic_np" >
+<a href="https://email.freenet.de/index.html" onclick="" target="_self" title="Basic">Basic<i></i></a>
+</li>
+<li id="mail_plus_np" >
+<a href="https://email.freenet.de/basicplus/index.html" onclick="" target="_self" title="basic ">basic <i></i></a>
+</li>
+<li id="start_np" >
+<a href="https://email.freenet.de/start/index.html" onclick="" target="_self" title="start">start<i></i></a>
+</li>
+<li id="classic_np" >
+<a href="https://email.freenet.de/classic/index.html" onclick="" target="_self" title="classic">classic<i></i></a>
+</li>
+<li id="norton_np" >
+<a href="https://email.freenet.de/norton/index.html" onclick="" target="_self" title="Online-Sicherheit">Online-Sicherheit<i></i></a>
+</li>
+<li id="idschutz_np" >
+<a href="https://email.freenet.de/idschutz/index.html" onclick="" target="_self" title="Identitätsschutz">Identitätsschutz<i></i></a>
+</li>
+<li class="active">
+<a href="https://email.freenet.de/domain/index.html" onclick="" target="_self" title="Webhosting">Webhosting<i></i></a>
+</li>
+<li id="login_np" >
+<a href="#" onclick="" target="_self" title="Login">Login<i></i></a>
+</li>
+<li id="login_mail_basic" >
+<a href="https://www.freenet.de/index.html" onclick="" target="_self" title="Mail basic">Mail basic<i></i></a>
+</li>
+<li id="login_mail_start_classic" >
+<a href="https://power.freenet.de" onclick="" target="_self" title="Mail start &amp; classic">Mail start &amp; classic<i></i></a>
+</li>
+<li >
+<a href="https://email.freenet.de/wifi/index.html" onclick="" target="_self" title="WIFI">WIFI<i></i></a>
+</li>
+</ul>
+</nav>
+<script>
+Frn.initNavigation();
+</script>
+</div>
+</div>
+<div id="frnRahmenWrapper">
+<div id="frnRahmen">
+<script>
+/* <![CDATA[ */
+initThemenFlyout();
+initNaviHorizontal();
+/* ]]> */</script>
+<div style="clear: both;"></div>
+<!-- bo Layouttable -->
+<div id="frnContentGutter">
+<div id="frnContentTop">
+<div class="lay4">
+</div>
+</div>
+<div id="frnTopic" class="frn_col5_typ0MR ">
+<div id="frnContentMain" class="frn_col5_typ0M">
+<!-- CONTENT[ -->
+<div class="lay5">
+<div class="frn_cont frn_col5 frn_typ5 frn_cont_noborder frn_cont_first_pagecontent domain-head-box domain-header-pic"  ><div class="frn_contHead">
+<strong></strong>
+</div>
+<div class="clearBoth"></div>
+<div class="frn_contInlett">
+<div style="display:none" id="domain-layer">
+<div class="domain-icon"></div>
+<h2 class="font-bold"> Willkommen bei freenet Domain!</h2>
+<h3> Wir haben unser Hosting-Angebot für Sie vollständig modernisiert und benutzerfreundlicher gestaltet.</h3>
+<div class="linkButton greenButton" id="btn-layer-ok"><div class="buttonText">OK </div></div>
+</div>
+<div class="bluewrapper">
+<div class="bluebg">
+</div>
+</div>
+<div class="domain-head-content-wrapper">
+<div class="headerContentWrapper">
+<div class="backgroundWhite" >
+<div class="headlineBox">
+<h1 class="headline">freenet Webhosting</h1>
+</div>
+<div class="box-text">
+Die All-In-One Lösung für Ihre eigene Website
+</div>
+<div class="introductionLinkContainer">
+<ul class="checkmarkList greenListCheckMark">
+<li> Serverstandort Deutschland</li>
+<li> Schnelle Ladezeiten </li>
+<li> Modernes Kundenportal </li>
+</ul>
+</div>
+</div>
+</div>
+<div id="loginStatus" class="frn_login_status" style="display:none;">
+<div class="loginStatusInner">
+<h3 id="loginSatusHeadline"></h3>
+<div id="loginSatusText" class="frn_login_status_text"></div>
+<a class="frn_login_status_button" href="#"></a>
+<div class="frn_loginBoxTrennerStatus"></div>
+</div>
+</div>
+<div class="domain-lowerbox onlyDesktop">
+<div id="wish-domain-box">
+<div class="domain-box-headline"> Wunschdomain prüfen</div>
+<div >
+<input id="wish-domain-input" type="text" placeholder=".de Domain suchen " onkeypress="keybrdWishkey(this.value)">
+<a class="linkButton greyButton" href="" onclick="registrationSS()" id="btn-check"><div class="buttonText centerFixs">Prüfen</div><div class="button-double-arrow"></div></a>
+</div>
+</div>
+<div id="login-domain-box">
+<div class="domain-box-headline"> Domain Login <a href="https://kundenservice.freenet.de/artikel/2015"> Brauchen Sie Hilfe?</a></div>
+<div onkeypress="keybrdKey()">
+<input id="domain-input" type="text" placeholder="Domainname">
+<input id="pw-input" type="password" placeholder="Passwort">
+<a class="linkButton greenButton" id="btn-domain-login" ><div class="buttonText" >LOGIN</div><div class="button-double-arrow"></div></a>
+</div>
+</div>
+</div>
+<div class="domain-lowerbox tablet hideDesktop">
+<div id="wish-domain-box-tablet">
+<div class="domain-box-headline"> Wunschdomain prüfen</div>
+<div>
+<div class="greyButton" id="btn-check-tablet"><div class="buttonText">JETZT PRÜFEN<i class="button-double-arrow"></i></div></div>
+</div>
+</div>
+<div id="login-domain-box-tablet">
+<div class="domain-box-headline"> Domain Login</div>
+<div>
+<div class="greenButton" id="btn-domain-login-tablet"><div class="buttonText">JETZT EINLOGGEN<i class="button-double-arrow"></i></div></div>
+</div>
+</div>
+<div id="login-domain-popup">
+<div class="domain-box-headline"> Domain Login <a href="https://kundenservice.freenet.de/artikel/2015"> Brauchen Sie Hilfe?</a></div>
+<div>
+<input id="domain-input-popup" type="text" placeholder="Domainname">
+<input id="pw-input-popup" type="password" placeholder="Passwort">
+<div class="linkButton greenButton" id="btn-domain-login-popup"><div class="buttonText">LOGIN <i class="button-double-arrow"></i></div></div>
+</div>
+<div class="cross"></div>
+</div>
+<div id="check-domain-popup">
+<div class="domain-box-headline"> Wunschdomain prüfen <a href="https://kundenservice.freenet.de/artikel/2015"> Brauchen Sie Hilfe?</a></div>
+<div>
+<input id="check-domain-input-popup" type="text" placeholder="Domainname">
+<div class="linkButton greenButton" id="btn-check-domain-login-popup"><div class="buttonText">PRÜFEN <i class="button-double-arrow"></i></div></div>
+</div>
+<div class="cross"></div>
+</div>
+</div>
+<div class="domain-lowerbox mobile hideDesktop">
+<div id="login-domain-box-mobile">
+<div class="greenButton" id="btn-domain-login-mobile">
+<div class="buttonText">DOMAIN LOGIN<i class="button-double-arrow"></i></div>
+</div>
+</div>
+<div id="wish-domain-box-mobile">
+<div class="linkwrapper">
+<div id="btn-check-mobile"><div class="buttonText">Wunschdomain prüfen <i class="button-double-arrow"></i></div></div>
+</div>
+</div>
+<div id="login-domain-popup-mobile">
+<div class="domain-box-headline"> Domain Login </div>
+<div class="domain-pop-container">
+<input id="domain-input-popup-mobile" type="text" placeholder="Domainname">
+<input id="pw-input-popup-mobile" type="password" placeholder="Passwort">
+<a href="https://kundenservice.freenet.de/artikel/2015"> Brauchen Sie Hilfe?</a>
+<div class="linkButton greenButton" id="btn-domain-login-popup-mobile"><div class="buttonText">LOGIN <i class="button-double-arrow"></i></div></div>
+</div>
+<div class="cross"></div>
+</div>
+<div id="check-domain-popup-mobile">
+<div class="domain-box-headline"> Wunschdomain prüfen </div>
+<div class="domain-pop-container">
+<input id="check-domain-input-popup-mobile" type="text" placeholder="Domainname">
+<a href="https://kundenservice.freenet.de/artikel/2015"> Brauchen Sie Hilfe?</a>
+<div class="linkButton greenButton" id="btn-check-domain-login-popup-mobile"><div class="buttonText">PRÜFEN<i class="button-double-arrow"></i></div></div>
+</div>
+<div class="cross"></div>
+</div>
+</div>
+</div>
+<div class="clearBoth"></div>
+</div>
+</div>
+<div class="frn_cont frn_col5 frn_typ5 frn_cont_noborder  domain_builder"  ><div class="frn_contHead">
+<strong></strong>
+</div>
+<div class="clearBoth"></div>
+<div class="frn_contInlett">
+<p class="ihrenPromoTopic"> Im Handumdrehen zur eigenen Website</p><div class="slideshow-container">
+<div class="mySlides fade ">
+<div class="divFirst" id="div1First">
+<img class="imageFirst" src="https://blob.freent.de/contentblob/7564004/1/original/fnmailbabysitterjpg.jpg"  alt="beste Baby desktop" />
+<img class="imagePhone" src="https://blob.freent.de/contentblob/7564008/1/original/fnmailbabysittersmartphonepng.png" alt="about us hosting mobile" />
+<div class="textFirst" id="text1First">
+<p>Designvorlage:<br><strong>BABYSITTER</strong></p>
+</div>
+<button class="tarifPassenden firstButton" id="firstButton1" onclick="changeHref()" >PASSENDEN TARIF WÄHLEN</button>
+</div>
+<div class="divSecond" id="div2First">
+<img class="imageSecond" src="https://blob.freent.de/contentblob/7564076/1/original/fnmailmreventjpg.jpg" alt="Mr Event webhosting desktop"  />
+<img class="imagePhone" src="https://blob.freent.de/contentblob/7564084/1/original/fnmailmreventsmartphonepng.png" alt="mr event webhosting mobile" />
+<div class="textSecond">
+<p>Designvorlage:<br><strong>MR. EVENT</strong></p>
+</div>
+<button class="tarifPassenden secondButton" onclick="changeHref()">PASSENDEN TARIF WÄHLEN</button>
+</div>
+<div class="divThird" id="div3First">
+<img class="imageThird" src="https://blob.freent.de/contentblob/7564058/1/original/fnmailinetjpg.jpg"  alt="INET High speed internet webhosting" />
+<img class="imagePhone" src="https://blob.freent.de/contentblob/7564064/1/original/fnmailinetsmartphonepng.png" alt="INET high speed internet hosting small" />
+<div class="textThird">
+<p>Designvorlage:<br><strong>INET</strong></p>
+</div>
+<button class="tarifPassenden thirdButton" onclick="changeHref()">PASSENDEN TARIF WÄHLEN</button>
+</div>
+</div>
+<div class="mySlides fade">
+<div class="divFirst">
+<img class="imageFirst" src="https://blob.freent.de/contentblob/7564012/1/original/fnmailcasesjpg.jpg"  alt="smart phone hullen hosting" />
+<img class="imagePhone" src="https://blob.freent.de/contentblob/7564016/1/original/fnmailcasessmartphonepng.png" alt="smartphone klein hosting" />
+<div class="textFirst">
+<p>Designvorlage:<br><strong>CASES</strong></p>
+</div>
+<button class="tarifPassenden firstButton" onclick="changeHref()">PASSENDEN TARIF WÄHLEN</button>
+</div>
+<div class="divSecond">
+<img class="imageSecond" src="https://blob.freent.de/contentblob/7564020/1/original/fnmaildonnygardenjpg.jpg"  alt="Donny webhosting" />
+<img class="imagePhone" src="https://blob.freent.de/contentblob/7564024/1/original/fnmaildonnygardensmartphonepng.png" alt="Donny webhosting klein" />
+<div class="textSecond">
+<p>Designvorlage:<br><strong>DONNY GARDEN</strong></p>
+</div>
+<button class="tarifPassenden secondButton" onclick="changeHref()">PASSENDEN TARIF WÄHLEN</button>
+</div>
+<div class="divThird">
+<img class="imageThird" src="https://blob.freent.de/contentblob/7564028/1/original/fnmailfahrraederjpg.jpg"  alt="Fahrrader Webhosting" />
+<img class="imagePhone" src="https://blob.freent.de/contentblob/7564032/1/original/fnmailfahrraedersmartphonepng.png" alt="fahrrader hsoting klein" />
+<div class="textThird">
+<p>Designvorlage:<br><strong>FAHRRÄDER</strong></p>
+</div>
+<button class="tarifPassenden thirdButton" onclick="changeHref()">PASSENDEN TARIF WÄHLEN</button>
+</div>
+</div>
+<div class="mySlides fade">
+<div class="divFirst">
+<img class="imageFirst" src="https://blob.freent.de/contentblob/7564036/1/original/fnmailhomedekojpg.jpg"  alt="home und deko hosting" />
+<img class="imagePhone" src="https://blob.freent.de/contentblob/7564044/1/original/fnmailhomedekosmartphonepng.png" alt="home und deko klein hosting" />
+<div class="textFirst">
+<p>Designvorlage:<br><strong>HOME & DEKO</strong></p>
+</div>
+<button class="tarifPassenden firstButton" onclick="changeHref()">PASSENDEN TARIF WÄHLEN</button>
+</div>
+<div class="divSecond">
+<img class="imageSecond" src="https://blob.freent.de/contentblob/7564116/1/original/fnmailstartupraketejpg.jpg" alt="start up rakete webhosting" />
+<img class="imagePhone" src="https://blob.freent.de/contentblob/7564118/1/original/fnmailstartupraketesmartphonepng.png" alt="startup webhosting phone" />
+<div class="textSecond">
+<p>Designvorlage:<br><strong>STARTUP RAKETE</strong></p>
+</div>
+<button class="tarifPassenden secondButton" onclick="changeHref()">PASSENDEN TARIF WÄHLEN</button>
+</div>
+<div class="divThird">
+<img class="imageThird" src="https://blob.freent.de/contentblob/7564068/1/original/fnmailkraftderfruechtejpg.jpg"  alt="früchte webhosting" />
+<img class="imagePhone" src="https://blob.freent.de/contentblob/7564072/1/original/fnmailkraftderfruechtesmartphonepng.png" alt="früchte webhosting mobile" />
+<div class="textThird">
+<p>Designvorlage:<br><strong>KRAFT DER FRÜCHTE</strong></p>
+</div>
+<button class="tarifPassenden thirdButton" onclick="changeHref()">PASSENDEN TARIF WÄHLEN</button>
+</div>
+</div>
+<div class="mySlides fade">
+<div class="divFirst">
+<img class="imageFirst" src="https://blob.freent.de/contentblob/7564124/1/original/fnmailzirkeldeslebensjpg.jpg"  alt="leben dein webhosting desktop" />
+<img class="imagePhone" src="https://blob.freent.de/contentblob/7564126/1/original/fnmailzirkeldeslebenssmartphonepng.png" alt="dein leben webhosting mobile" />
+<div class="textFirst">
+<p>Designvorlage:<br><strong>ZIRKEL DES LEBENS</strong></p>
+</div>
+<button class="tarifPassenden firstButton" onclick="changeHref()">PASSENDEN TARIF WÄHLEN</button>
+</div>
+<div class="divSecond">
+<img class="imageSecond" src="https://blob.freent.de/contentblob/7564092/1/original/fnmailprivateranwaltjpg.jpg" alt="daniel cloud webhosting desktop" />
+<img class="imagePhone" src="https://blob.freent.de/contentblob/7564098/1/original/fnmailprivateranwaltsmartphonepng.png" alt="daniel cloud webhosting mobile" />
+<div class="textSecond">
+<p>Designvorlage:<br><strong>PRIVATER ANWALT</strong></p>
+</div>
+<button class="tarifPassenden secondButton" onclick="changeHref()">PASSENDEN TARIF WÄHLEN</button>
+</div>
+<div class="divThird">
+<img class="imageThird" src="https://blob.freent.de/contentblob/7564106/1/original/fnmailreisebuerojpg.jpg"  alt="paradis webhosting desktop" />
+<img class="imagePhone" src="https://blob.freent.de/contentblob/7564110/1/original/fnmailreisebuerosmartphonepng.png" alt="paradis webhosting mobile" />
+<div class="textThird">
+<p>Designvorlage:<br><strong>REISEBÜRO</strong></p>
+</div>
+<button class="tarifPassenden thirdButton" onclick="changeHref()">PASSENDEN TARIF WÄHLEN</button>
+</div>
+</div>
+<div class="mySlides fade">
+<!-- <div class="numbertext">5 / 5</div> -->
+<div class="divFirst">
+<img class="imageFirst" src="https://blob.freent.de/contentblob/7564112/1/original/fnmailsportzentrumjpg.jpg"  alt="sport zentrum webhosting desktop" />
+<img class="imagePhone" src="https://blob.freent.de/contentblob/7564114/1/original/fnmailsportzentrumsmartphonepng.png" alt="sports zentrum webhosting mobile" />
+<div class="textFirst">
+<p>Designvorlage:<br><strong>SPORT ZENTRUM</strong></p>
+</div>
+<button class="tarifPassenden firstButton" onclick="changeHref()">PASSENDEN TARIF WÄHLEN</button>
+</div>
+<div class="divSecond">
+<img class="imageSecond" src="https://blob.freent.de/contentblob/7564052/1/original/fnmailimportjpg.jpg"  alt="normal webhosting" />
+<img class="imagePhone" src="https://blob.freent.de/contentblob/7564056/1/original/fnmailimportsmartphonepng.png" alt="normal hosting mobile" />
+<div class="textSecond">
+<p>Designvorlage:<br><strong>IMPORT</strong></p>
+</div>
+<button class="tarifPassenden secondButton" onclick="changeHref()">PASSENDEN TARIF WÄHLEN</button>
+</div>
+<div class="divThird">
+<img class="imageThird" src="https://blob.freent.de/contentblob/7564120/1/original/fnmailteatimejpg.jpg"  alt="tea time webhosting desktop" />
+<img class="imagePhone" src="https://blob.freent.de/contentblob/7564122/1/original/fnmailteatimesmartphonepng.png" alt="webhosting mobile" />
+<div class="textThird">
+<p>Designvorlage:<br><strong>TEATIME</strong></p>
+</div>
+<button class="tarifPassenden thirdButton" onclick="changeHref()">PASSENDEN TARIF WÄHLEN</button>
+</div>
+</div>
+<a class="prev" onclick="plusSlides(-1)"><div class="klickToggle1">&#10094;</div></a>
+<a class="next" onclick="plusSlides(1)"> <div class="klickToggle2">&#10095;</div></a>
+</div>
+<br>
+<div style="text-align:center">
+<span class="dot" onclick="currentSlide(1)"></span>
+<span class="dot" onclick="currentSlide(2)"></span>
+<span class="dot" onclick="currentSlide(3)"></span>
+<span class="dot" onclick="currentSlide(4)"></span>
+<span class="dot" onclick="currentSlide(5)"></span>
+</div>
+<script>
+function changeHref() {
+window.location.href= "#sectionProduct";
+}
+$(".prev").click(function(){
+$(".mySlides").removeClass("animate-right");
+$(".mySlides").addClass("animate-left");
+});
+$(".next").click(function(){
+$(".mySlides").removeClass("animate-left");
+$(".mySlides").addClass("animate-right");
+});
+$(".dot").click(function(){
+$(".mySlides").removeClass("animate-right");
+$(".mySlides").removeClass("animate-left");
+});
+var slideIndex = 1;
+showSlides(slideIndex);
+function plusSlides(n) {
+showSlides(slideIndex += n);
+}
+function currentSlide(n) {
+showSlides(slideIndex = n);
+}
+function showSlides(n) {
+var i;
+var slides = document.getElementsByClassName("mySlides");
+var dots = document.getElementsByClassName("dot");
+if (n > slides.length) {slideIndex = 1}
+if (n < 1) {slideIndex = slides.length}
+for (i = 0; i < slides.length; i++) {
+slides[i].style.display = "none";
+}
+for (i = 0; i < dots.length; i++) {
+dots[i].className = dots[i].className.replace(" active", "");
+}
+slides[slideIndex-1].style.display = "block";
+dots[slideIndex-1].className += " active";
+}
+$(".divFirst").hover(function() {
+$('.textFirst').css({"color": "white" , "z-index": "2", "background":"rgba(33, 49, 77, 0.5)", "position": "relative" });
+$('.firstButton').css("display", "block");
+}, function() {
+$('.textFirst').css({"color": "rgb(33, 49, 77)" , "z-index": "-1", "background-color":"white", "position": "initial" });
+$('.firstButton').css("display", "none");
+$('.divFirst').css({ "z-index": "1" });
+});
+$(".divSecond").hover(function() {
+$('.textSecond').css({"color": "white" , "z-index": "2", "background":"rgba(33, 49, 77, 0.5)", "position": "relative" });
+$('.secondButton').css("display", "block");
+}, function() {
+$('.textSecond').css({"color": "rgb(33, 49, 77)" , "z-index": "-1", "background-color":"white", "position": "initial" });
+$('.secondButton').css("display", "none");
+$('.divSecond').css({ "z-index": "1" });
+});
+$(".divThird").hover(function() {
+$('.textThird').css({"color": "white" , "z-index": "2", "background":"rgba(33, 49, 77, 0.5)", "position": "relative" });
+$('.thirdButton').css("display", "block");
+}, function() {
+$('.textThird').css({"color": "rgb(33, 49, 77)" , "z-index": "-1", "background-color":"white", "position": "initial" });
+$('.thirdButton').css("display", "none");
+$('.divThird').css({ "z-index": "1" });
+});
+</script>
+<div class="pagearrow clickable
+"><div class="topicarrow animated bounce"></div>
+</div><div class="clearBoth"></div>
+</div>
+</div>
+<div class="frn_cont frn_col5 frn_typ5 frn_cont_noborder  domain_features"  ><div class="frn_contHead">
+<strong></strong>
+</div>
+<div class="clearBoth"></div>
+<div class="frn_contInlett">
+<div class="contentWrapper checkd" id="sectionProduct">
+<div class="outer-div">
+<div class="inner-div">
+<p class="ihrenTariff"> Wählen Sie jetzt Ihren passenden Tarif aus:</p>
+<div class="tarifContentSection">
+<div class="tarifS">
+<div class="iconTariff"><div class="hosting-icons"><div class="icon_genericStyle icon-hostingS"> </div> </div> </div>
+<div class="web S"> Webhosting Start</div>
+<div class="priceTarif">
+<div class="priceTag">
+<div class="productsubs">
+mtl. nur <br>
+<div class="price">
+<div class="euro">3,</div>
+<div class="cent">99</div>
+<div class="sign">€</div>
+</div>
+</div>
+</div>
+</div>
+<div class="tariffContent">
+<ul class="checkContent checkmarkList greenListCheckMark">
+<li>1 .de Domain</li>
+<li>75 GB Speicherplatz</li>
+<li>10 SSD Datenbanken</li>
+<li>100 E-Mail-Adressen</li>
+<li>Homepage-Baukasten</li>
+<li>Backup-Manager</li>
+<!-- <li>1-Click-Installer (Wordpress & co.)</li> -->
+</ul>
+<div class="buttonContent">
+<div class="buttonText">
+<a class="linkButton greenButton" href="" onclick="registrationS()" id="webS">
+Jetzt Bestellen
+<span class="button-double-arrow"></span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div class="tarifM">
+<div class="iconTariff"><div class="hosting-icons"><div class="icon_genericStyle icon-hostingM"> </div> </div> </div>
+<div class="web M"> Webhosting Power</div>
+<div class="priceTarif">
+<div class="priceTag">
+<div class="productsubs">
+mtl. nur <br>
+<div class="price">
+<div class="euro">6,</div>
+<div class="cent">99</div>
+<div class="sign">€</div>
+</div>
+</div>
+</div>
+</div>
+<div class="tariffContent">
+<ul class="checkContent checkmarkList greenListCheckMark">
+<li>1 .de Domain</li>
+<li>150 GB Speicherplatz</li>
+<li>50 SSD Datenbanken</li>
+<li>200 E-Mail-Adressen</li>
+<li>Homepage-Baukasten</li>
+<li>Backup-Manager</li>
+<!-- <li>1-Click-Installer (Wordpress & co.)</li> -->
+<li>Let's Encrypt</li> 
+</ul>
+<div class="buttonContent">
+<div class="buttonText">
+<a class="linkButton greenButton" href="" onclick="registrationM()" id="webM">
+Jetzt Bestellen
+<span class="button-double-arrow"></span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div class="tarifL">
+<div class="iconTariff"><div class="hosting-icons"> <div class="icon_genericStyle icon-hostingL"> </div></div> </div>
+<div class="web L"> Webhosting Pro</div>
+<div class="priceTarif">
+<div class="priceTag">
+<div class="productsubs">
+mtl. nur <br>
+<div class="price">
+<div class="euro">9,</div>
+<div class="cent">99</div>
+<div class="sign">€</div>
+</div>
+</div>
+</div>
+</div>
+<div class="tariffContent">
+<ul class="checkContent checkmarkList greenListCheckMark">
+<li>1 .de Domain</li>
+<li>300 GB Speicherplatz</li>
+<li>Unbegrenzt SSD Datenbanken</li>
+<li>500 E-Mail-Adressen</li>
+<li>Homepage-Baukasten</li>
+<li>Backup-Manager</li>
+<!-- <li>1-Click-Installer (Wordpress & co.)</li> -->
+<li>Let's Encrypt</li> 
+</ul>
+<div class="buttonContent">
+<div class="buttonText">
+<a class="linkButton greenButton" href="" onclick="registrationL()" id="webL">
+Jetzt Bestellen
+<span class="button-double-arrow"></span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div class="tarifXL">
+<div class="iconTariff"><div class="hosting-icons"><div class="icon_genericStyle icon-hostingXL"> </div> </div> </div>
+<div class="web XL"> Webhosting Business</div>
+<div class="priceTarif">
+<div class="priceTag">
+<div class="productsubs">
+mtl. nur <br>
+<div class="tarifPrice">
+<div class=" pricess">
+<div class=" euros">19,</div>
+<div class=" cents centsFix">99</div>
+<div class=" signs signsFix">€</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="tariffContent">
+<ul class="checkContent checkmarkList greenListCheckMark">
+<li>1 .de Domain</li>
+<li>600 GB Speicherplatz</li>
+<li>Unbegrenzt SSD Datenbanken</li>
+<li>1000 E-Mail-Adressen</li>
+<li>Homepage-Baukasten</li>
+<li>Backup-Manager</li>
+<!-- <li>1-Click-Installer (Wordpress & co.)</li> -->
+<li>Let's Encrypt</li>
+</ul>
+<div class="buttonContent">
+<div class="buttonText">
+<a class="linkButton greenButton" href="" onclick="registrationXL()" id="webXL">
+Jetzt Bestellen
+<span class="button-double-arrow"></span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pagearrow clickable
+"><div class="topicarrow animated bounce"></div>
+</div><div class="clearBoth"></div>
+</div>
+</div>
+<div class="frn_cont frn_col5 frn_typ5 frn_cont_noborder  tariff_features"  ><div class="frn_contHead">
+<strong></strong>
+</div>
+<div class="clearBoth"></div>
+<div class="frn_contInlett">
+<div class="contentWrapper tariffInformationen">
+<h1 class="headline">
+Detaillierte Tarifinformationen
+</h1>
+<div class="tariffBoxWrapper">
+<div class="product prod1">
+<table class="tariffTitel">
+<tr>
+<th class="column0 noborder tariffPackage"></th>
+<th class="column1 tariffPackage">START</th>
+<th class="column2 tariffPackage">POWER</th>
+<th class="column3 tariffPackage">PRO</th>
+<th class="column4 tariffPackage">BUSINESS</th>
+</tr>
+</table>
+<button class="accordion active" id="lamo">Vertragsinformationen</button>
+<div class="panel" style="max-height: 200px;">
+<table class="panelData">
+<tr>
+<td class="column0">Preis (mtl.)
+</td>
+<td class="column1">3,99 &euro;</td>
+<td class="column2">6,99 &euro;</td>
+<td class="column3 alignFix">9,99 &euro;</td>
+<td class="column4 alignFix">19,99 &euro;</td>
+</tr>
+<tr>
+<td class="column0">Einrichtungsgebühr</td>
+<td class="column1">0,00 &euro;</td>
+<td class="column2">0,00 &euro;</td>
+<td class="column3 alignFix"> 0,00 &euro;</td>
+<td class="column4 alignFix">0,00 &euro;</td>
+</tr>
+<tr>
+<td class="column0">Vertragslaufzeit</td>
+<td class="column1">12 Monate</td>
+<td class="column2">12 Monate</td>
+<td class="column3 alignFix">12 Monate</td>
+<td class="column4 alignFix">12 Monate</td>
+</tr>
+<tr>
+<td class="column0">Abrechnung</td>
+<td class="column1">Jährlich</td>
+<td class="column2">Jährlich</td>
+<td class="column3 alignFix">Halbjährlich</td>
+<td class="column4 alignFix">Vierteljährlich</td>
+</tr>
+</table>
+</div>
+<button class="accordion">Webspace</button>
+<div class="panel">
+<table class="panelData">
+<tr>
+<td class="column0">Speicherplatz
+<div class="tooltip">
+<!--<img src="" width="7px" height="11px"> -->
+<span class="tooltiptext speicherplatz">
+Der Speicherplatz (Webspace) Ihres Tarifs dient der Speicherung aller für den Betrieb Ihrer Homepage erforderlichen Daten. Dazu zählen neben HTML- oder PHP-Dateien auch Bilder oder Videos, die Sie auf Ihrer Homepage einbetten.</span>
+</div>
+</td>
+<td class="column1">75 GB</td>
+<td class="column2">150 GB</td>
+<td class="column3 alignFix">300 GB</td>
+<td class="column4 alignFix">600 GB</td>
+</tr>
+<tr>
+<td class="column0">SSD-Speicherplatz
+<div class="tooltip">
+<span class="tooltiptext SSDspeicherplatz">Alle Ihre Daten werden ausschließlich auf Serversystemen mit SSD-Festplatten betrieben, die schnelle Ladezeiten garantieren.</span>
+</div>
+</td>
+<td class="column1 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+<tr>
+<td class="column0">Traffic monatlich (Fair Use)
+<div class="tooltip">
+<span class="tooltiptext trafficMonatlich">Bei jedem Abruf Ihrer Homepage entsteht ein Datentransfer.
+Je mehr Besucher Ihre Homepage hat, desto mehr Datenvolumen benötigen Sie. Bei allen unseren Tarifen ist der Datentransfer bzw. Datentraffic inklusive.</span>
+</div>
+</td>
+<td class="column1">Unbegrenzt</td>
+<td class="column2">Unbegrenzt</td>
+<td class="column3 alignFix">Unbegrenzt</td>
+<td class="column4 alignFix">Unbegrenzt</td>
+</tr>
+<tr>
+<td class="column0">FTP-Accounts
+<div class="tooltip">
+<span class="tooltiptext FTPaccounts">Via FTP können Sie Dateien auf Ihren Webspace übertragen. Mittels verschiedener FTP-Accounts können Sie Berechtigungen verteilen, sodass
+einige Accounts nur Zugriff auf bestimmte Verzeichnisse Ihrer Homepage erhalten (Bsp.: Der Webdesigner soll nur Zugriff auf die HTML-Templates erhalten,
+nicht aber auf die Software).</span>
+</div>
+</td>
+<td class="column1">Unbegrenzt</td>
+<td class="column2">Unbegrenzt</td>
+<td class="column3 alignFix">Unbegrenzt</td>
+<td class="column4 alignFix">Unbegrenzt</td>
+</tr>
+<tr>
+<td class="column0">SSH
+<div class="tooltip">
+<span class="tooltiptext SSH">Mit Secure Shell (SSH) können Sie eine verschlüsselte Verbindung zwischen Ihrem Computer und der Kommandezeile des Servers herstellen.</span>
+</div>
+</td>
+<td class="column1"></td>
+<td class="column2 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+<tr>
+<td class="column0">Cronjobs
+<div class="tooltip">
+<span class="tooltiptext cronjobs">Mittels Cronjobs können Sie planen, dass ein bestimmtes Skript auf Ihrem Webspace zu einem bestimmten Zeitpunkt ausgeführt werden soll.</span>
+</div>
+</td>
+<td class="column1">2</td>
+<td class="column2">4</td>
+<td class="column3 alignFix">50</td>
+<td class="column4 alignFix">200</td>
+</tr>
+</table>
+</div>
+<button class="accordion">Domains</button>
+<div class="panel">
+<table class="panelData">
+<tr>
+<td class="column0">.de Domains inklusive</td>
+<td class="column1">1</td>
+<td class="column2">1</td>
+<td class="column3 alignFix">1</td>
+<td class="column4 alignFix">1</td>
+</tr>
+<tr>
+<td class="column0">Subdomains
+<div class="tooltip">
+<span class="tooltiptext subdomains">Mit einer Subdomain lassen sich bestimmte Bereiche Ihrer Homepage direkt erreichen, z.B. http://support.meinedomain.de.</span>
+</div>
+</td>
+<td class="column1">Unbegrenzt</td>
+<td class="column2">Unbegrenzt</td>
+<td class="column3 alignFix">Unbegrenzt</td>
+<td class="column4 alignFix">Unbegrenzt</td>
+</tr>
+<!-- <tr>
+<td class="column0">Let's Encrypt
+<div class="tooltip encrypt">
+<span class="tooltiptext subdomains">Schützen Sie sensible Daten auf Ihrer Webseite mit einem SSL-Zertifikat von Let's Encrypt.</span>
+</div>
+</td>
+<td class="column1"></td>
+<td class="column2 "><div class="jaCheckGreen"></div></td>
+<td class="column3 alignFix "><div class="jaCheckGreen"></div></td>
+<td class="column4 alignFix"><div class="jaCheckGreen"></div></td>
+</tr> -->
+</table>
+</div>
+<!-- addition email section -->
+<button class="accordion">E-Mail</button>
+<div class="panel">
+<table class="panelData">
+<tr>
+<td class="column0">E-Mail-Adressen</td>
+<td class="column1">100</td>
+<td class="column2">200</td>
+<td class="column3 alignFix">500</td>
+<td class="column4 alignFix">1000</td>
+</tr>
+<tr>
+<td class="column0">Speicherplatz pro Postfach</td>
+<td class="column1">2 GB</td>
+<td class="column2">2 GB</td>
+<td class="column3 alignFix">5 GB</td>
+<td class="column4 alignFix">5 GB</td>
+</tr>
+<tr>
+<td class="column0">Webmailer</td>
+<td class="column1 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+<tr>
+<td class="column0">Spamschutz</td>
+<td class="column1 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+<tr>
+<td class="column0">Virenschutz</td>
+<td class="column1 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+<!-- <tr>
+<td class="column0">Let's Encrypt</td>
+<td class="column1"></td>
+<td class="column2 "><div class="jaCheckGreen"></div></td>
+<td class="column3 alignFix "><div class="jaCheckGreen"></div></td>
+<td class="column4 alignFix"><div class="jaCheckGreen"></div></td>
+</tr> -->
+</table>
+</div>
+<!-- addition finished -->
+<button class="accordion">Datenbanken & Skripte</button>
+<div class="panel">
+<table class="panelData">
+<tr>
+<td class="column0">RAM (Arbeitsspeicher)
+<div class="tooltip">
+<span class="tooltiptext ram">RAM steht für "Random-Access Memory" und beschreibt den Arbeitsspeicher des gewählten Tarifs.</span>
+</div>
+</td>
+<td class="column1">512 MB</td>
+<td class="column2">768 MB</td>
+<td class="column3 alignFix">1,5 GB</td>
+<td class="column4 alignFix">4 GB</td>
+</tr>
+<tr>
+<td class="column0">memory_limit
+<div class="tooltip">
+<span class="tooltiptext memorylimit">Das Memory Limit beschreibt, wieviel Speicher ein einzelner PHP-Prozess beanspruchen darf.</span>
+</div>
+</td>
+<td class="column1">256 MB</td>
+<td class="column2">384 MB</td>
+<td class="column3 alignFix">512 MB</td>
+<td class="column4 alignFix">768 MB</td>
+</tr>
+<tr>
+<td class="column0">max_execution_time
+<div class="tooltip">
+<span class="tooltiptext maxtime">Diese Einstellung steht für die maximale Zeit in Sekunden, die ein Skript laufen darf, bevor es beendet wird.</span>
+</div>
+</td>
+<td class="column1">60 sek</td>
+<td class="column2">90 sek</td>
+<td class="column3 alignFix">120 sek</td>
+<td class="column4 alignFix">300 sek</td>
+</tr>
+<tr>
+<td class="column0">MySQL 5 Datenbanken (Fair Use)
+<div class="tooltip">
+<span class="tooltiptext mysqlDatenbanken">MySQL ist ein Datenbankmanagementsystem und die Grundlage für dynamische, zeitgemäße Homepages.</span>
+</div>
+</td>
+<td class="column1">10</td>
+<td class="column2">50</td>
+<td class="column3 alignFix">Unbegrenzt</td>
+<td class="column4 alignFix">Unbegrenzt</td>
+</tr>
+<tr>
+<td class="column0">SQLite
+<div class="tooltip">
+<span class="tooltiptext SQlite">SQLite ist ein eingebettetes Datenbanksystem. Um SQLite zu verwenden, wird PHP7 vorausgesetzt.</span>
+</div>
+</td>
+<td class="column1 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+<tr>
+<td class="column0">OPcache
+<div class="tooltip">
+<span class="tooltiptext OPcache">Mit OPcache kann die Verarbeitung von PHP-Anwendungen erheblich beschleunigt werden. Damit können die Ladezeiten Ihrer Homepage verringert werden.
+Für OPcache wird PHP7 vorausgesetzt.</span>
+</div>
+</td>
+<td class="column1 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+<tr>
+<td class="column0">PHP 5.6 und PHP 7.0 - 7.3
+<div class="tooltip">
+<span class="tooltiptext php">PHP ist eine gängige Open-Source-Skriptsprache. Ihnen stehen die Versionen PHP5.6, PHP7.0, PHP7.1, PHP7.2 oder PHP7.3 zur Verfügung.</span>
+</div>
+</td>
+<td class="column1 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+<tr>
+<td class="column0">Ruby
+<div class="tooltip">
+<span class="tooltiptext ruby">Ruby ist Webframework, dass zahlreiche Funktionen und Anwendungsmöglichkeiten mit sich bringt.</span>
+</div>
+</td>
+<td class="column1">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+<tr>
+<td class="column0">CGI/Eigene CGI
+<div class="tooltip">
+<span class="tooltiptext CGI">CGI ist ein Protokoll, das den Austausch eines Webservers mit externer Software oder Skripten ermöglicht.</span>
+</div>
+</td>
+<td class="column1">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+<tr>
+<td class="column0">GD2 Graphics Library
+<div class="tooltip">
+<span class="tooltiptext GD2">Mittels dieser Open-Source-Bibliothek können Grafiken erzeugt und manipuliert (z.B. dynamische Größenänderung oder Farbwechsel) werden.</span>
+</div>
+</td>
+<td class="column2">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column1">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+<tr>
+<td class="column0">Image Magick
+<div class="tooltip">
+<span class="tooltiptext imageMagic">Image Magick wird wie die GD2 Graphics Library zur Erzeugung und Manipulation von Grafiken verwendet.</span>
+</div>
+</td>
+<td class="column1">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+<tr>
+<td class="column0">SSI
+<div class="tooltip">
+<span class="tooltiptext SSL">Mit der Skriptsprache SSI (Server Side Includes) können Sie Inhalte einer Datei oder die dynamische Ausgabe eines Programmes in Ihre Homepage einfügen.</span>
+</div>
+</td>
+<td class="column1">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+<tr>
+<td class="column0">InnoDB
+<div class="tooltip">
+<span class="tooltiptext innoDB">InnoDB stellt eine Erweiterung für das Datenbankmanagementsystem MySQL dar.</span>
+</div>
+</td>
+<td class="column1 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+<!-- <tr>
+<td class="column0">1-Click Installer
+<div class="tooltip">
+<span class="tooltiptext clickInstaller">Viele Tools wie Wordpress oder Joomla! lassen sich per Knopfdruck installieren.</span>
+</div>
+</td>
+<td class="column1 "><div class="jaCheckGreen"></div></td>
+<td class="column2 "><div class="jaCheckGreen"></div></td>
+<td class="column3 alignFix "><div class="jaCheckGreen"></div></td>
+<td class="column4 alignFix "><div class="jaCheckGreen"></div></td>
+</tr> -->
+<tr>
+<td class="column0">mod_rewrite
+<div class="tooltip">
+<span class="tooltiptext modRewrite">Mit dieser Einstellung können Sie alternative URLs Ihrer Homepage erreichbar machen. So können Sie z.B. suchmaschinenfreundlichere URLs erzeugen.</span>
+</div>
+</td>
+<td class="column1 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+<tr>
+<td class="column0">allow_ url_fopen
+<div class="tooltip">
+<span class="tooltiptext urlFopen">Sie haben die Möglichkeit den Fernzugriff auf URLs aus Ihren PHP-Anwendungen zu aktivieren.</span>
+</div>
+</td>
+<td class="column1">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+<tr>
+<td class="column0">eigene PHP-Einstellungen
+<div class="tooltip">
+<span class="tooltiptext PHPeinstellungen">Wie bieten Ihnen die Möglichkeit verschiedenste PHP-Einstellungen selbst zu ändern. Dazu gehören bspw. memory_limit, max_execution_time und viele weitere.</span>
+</div>
+</td>
+<td class="column1">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+</table>
+</div>
+<button class="accordion">Sicherheit & Verfügbarkeit</button>
+<div class="panel">
+<table class="panelData">
+<tr>
+<td class="column0">Backup-Manager
+<div class="tooltip">
+<span class="tooltiptext backupManager">Ohne Programmierkenntnisse erstellen Sie vollständige Backups Ihrer Homepage und spielen diese bei Bedarf wieder ein.</span>
+</div>
+</td>
+<td class="column1">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+<tr>
+<td class="column0">Web Application Firewall
+<div class="tooltip">
+<span class="tooltiptext appfireWall">Die Web-Application-Firewall erkennt Angriffe (z.B. SQL-Injection & Cross-Site Scripting) zuverlässig und wehrt diese ab, bevor sie Ihre Webseite erreichen.</span>
+</div>
+</td>
+<td class="column1">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+<tr>
+<td class="column0">.htaccess/Verzeichnisschutz
+<div class="tooltip">
+<span class="tooltiptext htaccess">Sie können eigene .htaccess-Dateien auf Ihrem Webspace ablegen und damit bspw. einen .htaccess-Passwortschutz erstellen.</span>
+</div>
+</td>
+<td class="column1">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+</table>
+</div>
+<button class="accordion">Weitere Features</button>
+<div class="panel">
+<table class="panelData">
+<tr>
+<td class="column0">Homepage-Baukasten
+<div class="tooltip">
+<span class="tooltiptext baukasten">Mit unserem Homepage-Baukasten erstellen Sie im Handumdrehen Ihre eigene Homepage. Wählen Sie aus zahlreichen Vorlagen die passende aus oder erstellen Sie Ihre individuellen Webauftritt.</span>
+</div>
+</td>
+<td class="column1 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+<tr>
+<td class="column0">DNS-Funktionalität
+<div class="tooltip">
+<span class="tooltiptext dnsfunction">Für jede Domainzone werden Einträge auf drei voneinander getrennten Nameservern erstellt. Bei Bedarf können diese Einträge manuell geändert werden.</span>
+</div>
+</td>
+<td class="column1">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column2 ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column3 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+<td class="column4 alignFix ">
+<div class="jaCheckGreen"></div>
+</td>
+</tr>
+</table>
+</div>
+<table class="tariffTitel">
+<tr>
+<th class="column0 noborder "></th>
+<th class="column1 backWhite">
+<div class="tariff">START</div>
+<div class="tarifPrice">
+mtl. nur
+<br />
+<div class="prices">
+<div class="euros">3,</div>
+<div class="cents">99</div>
+<div class="signs">€</div>
+</div>
+</div>
+<div class="tarifBottom">
+<a class="tarifGreen" href="" onclick="registrationS()" id="webTarifS">
+Bestellen
+<span class="button-double-arrow"></span>
+</a>
+</div>
+</th>
+<th class="column2 backWhite">
+<div class="tariff">POWER</div>
+<div class="tarifPrice">
+mtl. nur
+<br />
+<div class="prices">
+<div class="euros">6,</div>
+<div class="cents">99</div>
+<div class="signs">€</div>
+</div>
+</div>
+<div class="tarifBottom">
+<a class="tarifGreen" href="" onclick="registrationM()" id="webTarifM">
+Bestellen
+<span class="button-double-arrow"></span>
+</a>
+</div>
+</th>
+<th class="column3 backWhite">
+<div class="tariff">PRO</div>
+<div class="tarifPrice">
+mtl. nur
+<br />
+<div class="prices">
+<div class="euros">9,</div>
+<div class="cents">99</div>
+<div class="signs">€</div>
+</div>
+</div>
+<div class="tarifBottom">
+<a class="tarifGreen" href="" onclick="registrationL()" id="webTarifL">
+Bestellen
+<span class="button-double-arrow"></span>
+</a>
+</div>
+</th>
+<th class="column4 backWhite">
+<div class="tariff"> BUSINESS</div>
+<div class="tarifPrice">
+mtl. nur
+<br />
+<div class="prices centerFix">
+<div class="euros">19,</div>
+<div class="cents centsFix">99</div>
+<div class="signs signsFix">€</div>
+</div>
+</div>
+<div class="tarifBottom">
+<a class="tarifGreen" href="" onclick="registrationXL()" id="webTarifXL">
+Bestellen
+<span class="button-double-arrow"></span>
+</a>
+</div>
+</th>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<script>
+window.onload = function() {
+var am = document.getElementById("lamo");
+var i;
+}
+var acc = document.getElementsByClassName("accordion");
+var i;
+for (i = 0; i < acc.length; i++) {
+acc[i].addEventListener("click", function() {
+this.classList.toggle("active");
+var panel = this.nextElementSibling;
+if (panel.style.maxHeight) {
+panel.style.maxHeight = null;
+panel.style.overflow = 'hidden';
+} else {
+panel.style.maxHeight = panel.scrollHeight + "px";
+panel.style.overflow = 'visible';
+}
+});
+}
+</script>
+<div class="pagearrow clickable
+"><div class="topicarrow animated bounce"></div>
+</div><div class="clearBoth"></div>
+</div>
+</div>
+<div class="frn_cont frn_col5 frn_typ5 frn_cont_noborder  basic_features"  ><div class="frn_contHead">
+<strong></strong>
+</div>
+<div class="clearBoth"></div>
+<div class="frn_contInlett">
+<div class="contentWrapper">
+<h1 class="headline">
+Alle Vorteile von freenet Webhosting
+</h1>
+<h2 class="subheadline"></h2>
+<div class="featureBoxWrapper">
+<div class="featureBoxs">
+<div class="box-icon server-icon"></div>
+<div class="text-wrapper">
+<div class="box-headline">Serverstandort Deutschland</div>
+<div class="boxtext"> Wir garantieren Ihnen, dass alle Ihre Daten ausschließlich auf Servern in Deutschland gespeichert werden.</div>
+</div>
+</div>
+<div class="featureBoxs">
+<div class="box-icon spam-icon"></div>
+<div class="text-wrapper">
+<div class="box-headline">Spam- und Virenschutz</div>
+<div class="boxtext"> Unser professioneller Spam- & Virenschutz hält Ihr Postfach frei von unerwünschten und gefährlichen E-Mails.</div>
+</div>
+</div>
+</div>
+<div class="featureBoxWrapper">
+<div class="featureBoxs">
+<div class="box-icon traffic-icon"></div>
+<div class="text-wrapper">
+<div class="box-headline">Unbegrenzter Traffic</div>
+<div class="boxtext">Egal, wie viele Besucher auf Ihrer Webseite sind, mit freenet Webhosting haben Sie immer genügend Datenvolumen.</div>
+</div>
+</div>
+<div class="featureBoxs">
+<div class="box-icon service-icon"></div>
+<div class="text-wrapper">
+<div class="box-headline">Modernes Kundenportal</div>
+<div class="boxtext"> Über unser intuitives Kundenportal verwalten Sie ganz einfach und schnell all Ihre Daten und Produkte.</div>
+</div>
+</div>
+</div>
+<div class="featureBoxWrapper">
+<div class="featureBoxs">
+<div class="box-icon availability-icon"></div>
+<div class="text-wrapper">
+<div class="box-headline">Garantierte Verfügbarkeit</div>
+<div class="boxtext"> Unsere Server-Hardware ist stets auf dem aktuellsten Stand der Technik. Damit garantieren wir höchste Verfügbarkeit unserer Server.</div>
+</div>
+</div>
+<div class="featureBoxs">
+<div class="box-icon performance-icon"></div>
+<div class="text-wrapper">
+<div class="box-headline">Maximale Performance </div>
+<div class="boxtext"> Extrem schnelle Ladezeiten sind Ihnen bei freenet Webhosting dank der ausschließlichen Verwendung von SSD-Festplatten garantiert.</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pagearrow clickable
+"><div class="topicarrow animated bounce"></div>
+</div><div class="clearBoth"></div>
+</div>
+</div>
+<div class="frn_cont frn_col5 frn_typ5 frn_cont_noborder  basic_faq"  ><div class="frn_contHead">
+<strong></strong>
+</div>
+<div class="clearBoth"></div>
+<div class="frn_contInlett">
+<div class="contentWrapper">
+<h1 class="headline">
+Fragen zu freenet Webhosting
+</h1>
+<div class="faq-item">
+<div class="faq-headline">
+<div class="arrow arrow-right"></div><div class="arrow arrow-down"></div> Webhosting - Was ist das? <div class="cross"></div>
+</div>
+<div class="faq-content">
+Jeder, der heute eine Website oder ein Webprojekt betreiben möchte, benötigt dafür Speicherplatz, Datenbanken und E-Mail-Speicherplatz.<br />Diesen Speicherplatz, auch als Webspace bezeichnet, dient der Speicherung aller für den Betrieb Ihrer Homepage erforderlichen Daten wie HTML- und PHP-Dateien, Bilder, Videos, Musik usw. Unser SSD-Webspace ist für alle Web-Anwendungen bestens geeignet.
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-headline">
+<div class="arrow arrow-right"></div><div class="arrow arrow-down"></div> Sind meine Daten sicher? <div class="cross"></div>
+</div>
+<div class="faq-content">
+freenet Webhosting garantiert Ihnen zu 100 % Datenspeicherung in Deutschland. Ihre Website wird ausschließlich auf unseren Servern in Deutschland gehostet, wodurch auch für uns die strengen deutschen Datenschutz- und Sicherheitsstandards gelten.
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-headline linebreakFix">
+<div class="arrow arrow-right"></div><div class="arrow arrow-down"></div> Welche Vorteile bietet mir freenet Webhosting? <div class="cross"></div>
+</div>
+<div class="faq-content">
+Wenn Sie sich für freenet Webhosting entscheiden, erhalten Sie eine All-in-One-Lösung für Ihr eigenes Webprojekt.
+Wir bieten Ihnen unbegrenztes Datenvolumen für Ihre Webseite, somit ist Ihre Website auch bei starken Besucheranstürmen gewappnet. Dank der Nutzung von SSD-Festplatten besticht freenet Webhosting durch maximale Performance.<br />
+Unser zusätzlicher Spam- und Virenschutz hält Ihr Postfach frei von unerwünschten und gefährlichen E-Mails, sodass Sie sich auf das Wesentliche konzentrieren können.
+</div>
+</div>
+</div>
+<div class="clearBoth"></div>
+</div>
+</div>
+<div class="clearBoth"></div>
+</div>
+<!-- ] -->
+</div>
+</div>
+<div style="clear: both;"></div>
+<div id="frnContentBottom">
+<!-- CONTENT[ -->
+<div class="lay5">
+</div>
+<!-- ] -->
+</div>
+<script>
+/* <![CDATA[ */
+initLazyImages(false);
+/* ]]> */</script>
+</div>
+<!-- eo Layouttable -->
+<div style="clear: both;"></div>
+<div id="frnGreen"></div>
+</div>
+<div id="frnFoot">
+<div id="desktopfooter">
+<div id="desktopFooterContentWrapper">
+<div class="footerColumn">
+<div class="footerColumnText">
+<div><a href="https://kundenservice.freenet.de/kontakt" target="_blank">Kontakt</a></div>
+<div><a href="https://kundenservice.freenet.de/" target="_blank">Online-Hilfe</a></div>
+<div><a href="https://www.facebook.com/freenet/" target="_blank">Facebook</a></div>
+<div><a id="footerTarifvergleich" href="https://blob.freent.de/contentblob/4784972/26/data/lb-freenetmail.pdf">Tarifvergleich</a></div>
+</div>
+</div>
+<div class="footerColumn">
+<div class="footerColumnText">
+<div><a href="https://www.freenet-group.de/index.html" target="_blank">freenet Group</a></div>
+<div><a href="https://www.freenet-group.de/karriere/index.html" target="_blank">Karriere</a></div>
+<div><a href="https://www.stroeer.de/digitale-werbung.html" target="_blank">Mediadaten</a></div>
+<div><a href="https://www.freenet.de/impressum/index.html" target="_blank">Impressum</a></div>
+</div>
+</div>
+<div class="footerColumn">
+<div class="footerColumnText">
+<div><a href="https://www.freenet.de/agb/index.html" target="_blank">AGB</a></div>
+<div><a href="https://www.freenet.de/datenschutz/index.html" target="_blank">Datenschutz</a></div>
+<div><a href="https://email.freenet.de/index.html">freenet Mail</a></div>
+<div><a href="https://email.freenet.de/cloud/freenet-cloud/index.html">freenet Cloud</a></div>
+</div>
+</div>
+<div class="footerColumn">
+<div class="footerColumnText">
+<div><a href="https://www.freenetmobile.de/index.php" target="_blank">freenetmobile</a></div>
+<div><a href="https://www.freenet.tv/" target="_blank">freenet TV</a></div>
+<div><a href="https://www.freenet.de/email/index.html">Mail & Cloud-Blog</a></div>
+</div>
+<div class="footerColumn2">
+<div class="footer_icon_container floatContentWrapper">
+<div class="footer_icons mail-icons-paypal"></div>
+<div class="footer_icons mail-icons-visa"></div>
+<div class="footer_icons mail-icons-master-card"></div>
+<div class="footer_icons mail-icons-sepa"></div>
+</div>
+<div id="mailFooterRegistrationSiegel">
+<div class="footerDesktopSeals"></div>
+</div>
+</div>
+</div>
+<div id="footerGroup">Eine Marke der freenet Group</div>
+</div>
+<div id="footerTexte">
+<div id="footerContent">
+<div id="footerContentWrapper">
+<div class="footerColumn1">
+<div class="footer_text_container">
+<div><a href="https://www.freenet.de/impressum/index.html" target="_blank">Impressum</a></div>
+<div><a href="https://www.freenet.de/datenschutz/index.html" target="_blank">Datenschutz</a></div>
+</div>
+<div class="footer_brand_container">
+<div>Eine Marke der freenet Group</div>
+</div>
+</div>  
+<div class="footerColumn2">
+<div class="footer_icon_container">
+<div class="footer_icons icon-emig"></div>
+<div class="footer_icons icon-cloud"></div>
+<div class="footer_icons icon-green"></div>
+<div class="footer_icons icon-secure"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div> <div id="frnIVW"><!-- IVW/SZM VERSION="2.0" -->
+<script>
+/* <![CDATA[ */
+var iam_data = {
+"mg":"yes",
+"st":"freenet",
+"cp":"stat/freenet/mail/landingpages",
+"oc":"26171230",
+"sv":"ke",
+"sc":"yes"
+};
+if(typeof szmMobile !== "undefined" && szmMobile === true){iam_data.st = "mobfreen";}
+iom.c(iam_data);
+/* ]]> */</script>
+<!--/IVW/SZM -->
+<script>
+/* <![CDATA[ */var evCnt=["26171230","email","/domain/index.html","p","stat/freenet/mail/landingpages"];
+if (typeof(frn_Ivw) == "object" ) { frn_Ivw.setKeyVal('fCnt',false) };
+/* ]]> */</script>
+</div><div id="frnBanner">
+<div id="frnBannerAd">
+<div id="fnbanner"><!-- PH Banner  -->
+</div>
+</div>
+</div>
+<!-- PH Sky -->
+</div>
+<!-- PH SWF -->
+<!-- PH Popunder -->
+<!-- PH ad99 -->
+<!-- Thu May 27 20:12:09 CEST 2021  --54--  , rev: 'Revision Id: 8ea4e13d90b6594db42aa17b29568543b7ad0bfa : 04.02.2021 11:24' --></body>
+</html>

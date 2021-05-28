@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+<head>
+
+<meta charset="utf-8">
+<!-- 
+	This website is powered by TYPO3 - inspiring people to share!
+	TYPO3 is a free open source Content Management Framework initially created by Kasper Skaarhoj and licensed under GNU/GPL.
+	TYPO3 is copyright 1998-2018 of Kasper Skaarhoj. Extensions are copyright of their respective owners.
+	Information and contribution at https://typo3.org/
+-->
+
+
+
+<title>Kommunales Kino, Esslingen: Kommunales Kino Esslingen</title>
+<meta name="generator" content="TYPO3 CMS">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<link rel="stylesheet" type="text/css" href="typo3temp/Assets/d188ac34c6.css?1474198671" media="all">
+<link rel="stylesheet" type="text/css" href="typo3temp/Assets/29714ac280.css?1474381159" media="all">
+<link rel="stylesheet" type="text/css" href="typo3conf/ext/jh_magnificpopup/Resources/Public/css/magnific-popup.css?1474283727" media="all">
+<link rel="stylesheet" type="text/css" href="typo3conf/ext/pxa_cookie_bar/Resources/Public/Css/bar_v_1.css?1563355615" media="all">
+<link rel="stylesheet" type="text/css" href="fileadmin/templates/css/Cinema.css?1525686863" media="all">
+<link rel="stylesheet" type="text/css" href="typo3conf/ext/ck_cinema/Resources/Public/Css/Carousel.css?1522852246" media="all">
+<link rel="stylesheet" type="text/css" href="typo3conf/ext/femanager/Resources/Public/Css/Main.css?1521472052" media="all">
+<link rel="stylesheet" type="text/css" href="fileadmin/templates/css/styles.css?1568714360" media="all">
+<link rel="stylesheet" type="text/css" href="fileadmin/templates/css/schienen.css?1588679300" media="all">
+
+
+
+<script src="typo3conf/ext/ck_cinema/Resources/Public/Js/jquery-1.11.3.min.js?1522852248" type="text/javascript"></script>
+<script src="typo3conf/ext/ck_cinema/Resources/Public/Js/Cinema.js?1522852248" type="text/javascript"></script>
+<script src="fileadmin/templates/js/main.js?1473082436" type="text/javascript"></script>
+<script src="typo3temp/Assets/dd82474708.js?1466174535" type="text/javascript"></script>
+
+
+<script>var PxaCookieWarningHelper = {setDocumentClass : function(className) {
+    document.documentElement.className += (document.documentElement.className == "" ? "":" ") + className;
+},cookieCloseUrl:"https://koki-es.de/index.php?id=3&id=3&type=314638125&tx_pxacookiebar_pxacookiebar%5Baction%5D=closeWarning&cHash=f7dca139669c4224351113d3f0f402ef",cookieBarUrl:"https://koki-es.de/index.php?id=3&id=3&type=314638125&tx_pxacookiebar_pxacookiebar%5Baction%5D=warning&cHash=c2a41c6ab86cf645e13b2af33f5d09d1",getCookie : function(c_name) {
+	var i, x, y, ARRcookies = document.cookie.split(";");
+	for (i = 0; i < ARRcookies.length; i++) {
+		x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
+		y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
+		x = x.replace(/^\s+|\s+$/g, "");
+		if (x == c_name) {
+			return unescape(y) == '1';
+		}
+	}
+
+	return false;
+},disableAjaxLoading: false,isActiveConsent: false,};PxaCookieWarningHelper['cookieIsSet']=PxaCookieWarningHelper.getCookie('pxa_cookie_warning');if(!PxaCookieWarningHelper['cookieIsSet'] && PxaCookieWarningHelper['disableAjaxLoading']) {PxaCookieWarningHelper.setDocumentClass("visible-cookie-warning");}</script><link rel="stylesheet" type="text/css" href="typo3conf/ext/freecssdropdownmenu/res/css/dropdown/dropdown.css" /><link rel="stylesheet" type="text/css" href="fileadmin/templates/menu/default.css" /><link href="fileadmin/templates/extensions/direct_mail_subscription/pi/DM_subscription.css" media="screen" rel="stylesheet" type="text/css"><link href="fileadmin/templates/css/column.css" media="screen" rel="stylesheet" type="text/css">
+</head>
+<body class="fe-0" id="page-3">
+﻿<div id="stage">
+<div id="socialmedia_1"><a href="https://www.facebook.com/KoKi.Esslingen" target="_blank"><img src="fileadmin/default/picts/icons/spacer.png" width="29" height="29" /></a></div>
+<div id="socialmedia_2"><a href="https://www.instagram.com/kommunaleskino_esslingen/?hl=de" target="_self"><img src="fileadmin/default/picts/icons/spacer.png" width="29" height="29" /></a></div>
+<div id="header">
+<div id="header_container">
+<div id="logo_container"><a href="index.php" target="_self"><img src="fileadmin/default/picts/icons/spacer.png" width="500" height="40" style="margin-top:-20px;" /></a></div>
+<div id="image_container">
+<div class="tx-ck-cinema">
+	
+    
+        <script type="text/javascript">
+            jQuery(document).ready(function ($) {
+
+                var jssor_1_options = {
+                    $AutoPlay: false,
+                    $AutoPlaySteps: 1,
+                    $SlideDuration: 160,
+                    $SlideWidth: 93,
+                    $SlideSpacing: 15,
+                    $Cols: 6,
+                    $ArrowNavigatorOptions: {
+                        $Class: $JssorArrowNavigator$,
+                        $Steps: 1
+                    },
+                    $BulletNavigatorOptions: {
+                        $Class: $JssorBulletNavigator$,
+                        $SpacingX: 1,
+                        $SpacingY: 1
+                    }
+                };
+
+                var jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
+            });
+        </script>
+    
+    <div class="carousel-container" id="jssor_1" style="position: relative; margin: 0 auto; top: 15px; left: 0px; width: 950px; height: 150px; overflow: hidden; visibility: hidden;">
+        <!-- Loading Screen -->
+        <div data-u="loading" style="position: absolute; top: 0px; left: 0px;">
+            <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block; top: 0px; left: 0px; width: 100%; height: 100%;"></div>
+            <div style="position:absolute;display:block;background:url('img/loading.gif') no-repeat center center;top:0px;left:0px;width:100%;height:100%;"></div>
+        </div>
+        <div data-u="slides" style="cursor: default; position: relative; top: 0px; left: 0px; width: 800px; height: 150px; overflow: hidden;">
+            
+            <div style="display: none;">
+                
+                        <a href="index.php?id=81&amp;tx_ckcinema_pi1%5BshowUid%5D=4397&amp;tx_ckcinema_pi1%5BmovieUid%5D=2557&amp;tx_ckcinema_pi1%5Baction%5D=detail&amp;tx_ckcinema_pi1%5Bcontroller%5D=Program&amp;cHash=a174eeca8ff5ffbd93efd5517b197970">
+                            <img data-u="image" alt="image1" src="fileadmin/_processed_/8/1/csm_chaddr-unter-uns-der-fluss_3b521052a6.jpg" width="93" height="131" />
+                        </a>
+                    
+            </div>
+            
+            <div style="display: none;">
+                
+                        <a href="index.php?id=81&amp;tx_ckcinema_pi1%5BshowUid%5D=4398&amp;tx_ckcinema_pi1%5BmovieUid%5D=309&amp;tx_ckcinema_pi1%5Baction%5D=detail&amp;tx_ckcinema_pi1%5Bcontroller%5D=Program&amp;cHash=fa3cfa929cec87d4229d984a9e1b72c8">
+                            <img data-u="image" alt="image2" src="fileadmin/_processed_/f/9/csm_lunchbox_d35cee8e32.jpg" width="93" height="131" />
+                        </a>
+                    
+            </div>
+            
+            <a data-u="ad" href="http://www.jssor.com" style="display:none">Bootstrap Slider</a>
+        </div>
+        <!-- Bullet Navigator -->
+        <div data-u="navigator" class="jssorb03" style="bottom:10px;right:10px;">
+            <!-- bullet navigator item prototype -->
+            <div data-u="prototype" style="width:21px;height:21px;">
+                <div data-u="numbertemplate"></div>
+            </div>
+        </div>
+        <!-- Arrow Navigator -->
+        <span data-u="arrowleft" class="jssora03l" style="top:0px;left:-80px;width:55px;height:84px;background: #800000;" data-autocenter="2"><span class="arrl"></span></span>
+        <span data-u="arrowright" class="jssora03r" style="top:0px;right:110px;width:55px;height:84px;background: #800000;" data-autocenter="2"><span class="arrr"></span></span>
+
+
+    </div>
+
+</div>
+</div>
+
+<div id="banner"></div>
+
+<div id="impnav">
+</div>
+
+</div>
+</div>
+
+<div id="content_container">
+<div id="links">
+<div id="tnav"><ul class="dropdown dropdown-horizontal"><li class="toplevel"><a href="index.php?id=5" title="Kino">KINO</a><ul class="dropdown-bg"><li class="dir last"><a href="index.php?id=83" title="Barrierefreiheit">Barrierefreiheit</a><ul class="dropdown-bg"><li class="dropdown-item"><a href="index.php?id=84" title="Audiodeskription">AUDIODESKRIPTION</a></li><li class="dropdown-item"><a href="index.php?id=85" title="Service für Hörbeeinträchtigte">SERVICE FÜR HÖRBEEINTRÄCHTIGTE</a></li></ul></li></ul><span class="dir"></span></li><li class="toplevel"><a href="index.php?id=4" title="Verein">VEREIN</a><ul class="dropdown-bg"><li class="dropdown-item"><a href="index.php?id=8" title="UNSER TEAM">UNSER TEAM</a></li><li class="dropdown-item"><a href="index.php?id=9" title="Mitgliedschaft">MITGLIEDSCHAFT</a></li><li class="dropdown-item"><a href="index.php?id=337" title="Mitmachen">MITMACHEN</a></li><li class="dropdown-item"><a href="index.php?id=10" title="Konzeption">KONZEPTION</a></li><li class="dropdown-item"><a href="index.php?id=395" title="Erklärung der Vielen">ERKLÄRUNG DER VIELEN</a></li><li class="dropdown-item"><a href="index.php?id=12" title="Meilensteine">MEILENSTEINE</a></li><li class="dropdown-item"><a href="index.php?id=11" title="Satzung">SATZUNG</a></li></ul><span class="dir"></span></li><li class="toplevel"><a href="index.php?id=6" title="Kontakt">KONTAKT</a><ul class="dropdown-bg"><li class="dropdown-item"><a href="index.php?id=154" title="Kontaktformular">KONTAKTFORMULAR</a></li><li class="dropdown-item"><a href="index.php?id=349" title="NEWSLETTER">NEWSLETTER</a></li><li class="dropdown-item"><a href="index.php?id=87" title="Filmeinreichungen">FILMEINREICHUNGEN</a></li></ul><span class="dir"></span></li><li class="toplevel"><a href="index.php?id=352" title="Impressum">IMPRESSUM</a></li><li class="toplevel"><a href="index.php?id=351" title="Datenschutz">DATENSCHUTZ</a></li><li class="toplevel"><a href="index.php?id=138" title="Suche">SUCHE</a></li></ul>
+</div>
+<div id="programm_container">
+<div id="programm_nav">
+<ul id='programm_nav'><li><a href="index.php?id=14&amp;no_cache=1">HAUPTPROGRAMM</a></li><li><a href="index.php?id=15">SPECIALS</a></li><li><a href="index.php?id=39">GONZO! KINDERKINO</a></li><li><a href="index.php?id=51">SCHULKINO</a></li><li><a href="index.php?id=20">KINO AUF DER BURG</a></li><li><a href="index.php?id=21">QUEERFILM</a></li><li><a href="index.php?id=77">KINO AM CAMPUS</a></li><li><a href="index.php?id=23">FILM-ARCHIV</a></li></ul>
+</div>
+</div>
+
+</div>
+
+	<div id="content_right">
+			<div id="c1892" class="csc-default layout-0"><div class="csc-header csc-header-n1"><h4 class="csc-firstHeader">SCHULKINOWOCHE BADEN-WÜRTTEMBERG </h4></div><div class="csc-textpic csc-textpic-center csc-textpic-above"><div class="csc-textpic-imagewrap" data-csc-images="1" data-csc-cols="1"><div class="csc-textpic-center-outer"><div class="csc-textpic-center-inner"><figure class="csc-textpic-image csc-textpic-last"><a href="https://koki-es.de/index.php?id=19&amp;no_cache=1" target="_blank"><img src="fileadmin/_processed_/9/6/csm_SKW-BW21_514e31f715.png" width="166" height="94" alt=""></a></figure></div></div></div><div class="csc-textpic-text"></div></div></div><div id="c1881" class="csc-default layout-0 csc-space-before-15"><div class="csc-header csc-header-n2"><h4>ONLINE-GUTSCHEINE | SPENDENTICKET </h4></div><div class="csc-textpic-text"><p class="bodytext">Helfen Sie uns mit dem Kauf von<b> <a href="https://www.kinoheld.de/cinema-esslingen/kommunales-kino-esslingen/vouchers?panel=vouchers" target="_blank">&gt;ONLINE-GUTSCHEINEN</a></b> (NEU!) und/oder <b>&gt;<a href="http://www.contra-corona.de/" target="_blank"> SPENDENTICKETS</a></b> durch den Lockdown!</p></div></div><div id="c1883" class="csc-default layout-0 csc-space-before-15"><div class="csc-header csc-header-n3"><h4>5 Jahre Städtepartnerschaft Coimbatore - Esslingen</h4></div><div class="csc-textpic csc-textpic-center csc-textpic-above"><div class="csc-textpic-imagewrap" data-csc-images="1" data-csc-cols="2"><div class="csc-textpic-center-outer"><div class="csc-textpic-center-inner"><figure class="csc-textpic-image csc-textpic-last"><a href="https://koki-es.de/index.php?id=14&amp;no_cache=1" target="_blank"><img src="fileadmin/_processed_/f/9/csm_akshat-gupta-2mB_-6iI_eU-unsplash_64d1a5b207.jpg" width="166" height="111" alt=""></a></figure></div></div></div><div class="csc-textpic-text"></div></div></div>
+        </div>
+	<div id="content_main">
+		<div id="c1" class="csc-default layout-0"><div class="csc-header csc-header-n1"><h4 class="csc-firstHeader">KOMMUNALES KINO ESSLINGEN</h4></div><div class="csc-textpic-text"><p class="bodytext">&nbsp;</p>
+<p class="bodytext">&nbsp;</p></div></div><div id="c9" class="csc-default layout-0"><div class="csc-textpic-text"><h6>LIEBES PUBLIKUM!</h6>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext"><b>Es wird tatsächlich ernst!</b></p>
+<p class="bodytext">Am Freitag, dem 28.05. darf das LUX wieder öffnen und <b>ab dem 11.06. ist dann auch die Kultur dran</b>, sofern die 7-Tage-Inzidenz im Landkreis Esslingen nicht wieder steigt, die örtlichen Behörden diesen Schritt rechtzeitig bekanntmachen und wir alles richtig verstanden und gerechnet haben! </p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext">Die Regeln sind strenger als im Sommer/Herbst 2021: Sie müssen für den Kinobesuch einen der folgenden Nachweise erbringen: einen <b>tagesaktuellen negativen Corona-Test</b>, einen <b>Impfnachweis</b> (gültig ab 2 Wochen nach Zweitimpfung) oder den<b> Nachweis, dass Sie genesen sind</b>. Kinder ohne Symptome unter 6 Jahren sind von dieser Pflicht befreit.</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext"><b>Kontaktbeschränkungen</b> (für Getestete maximal 5 Personen aus maximal zwei Haushalten + haushaltsangehörige Kinder unter 14 Jahren | Geimpfte und Genesene zählen nicht zur Gesamtpersonenzahl), <b>Maskenpflicht</b> (im Kino wohl auch am Platz) und <b>Abstandsregeln</b> bestehen weiterhin. Die <b>Kontaktnachverfolgung</b> muss gewährleistet sein. Wir werden hierfür die <b><a href="https://www.luca-app.de/" target="_blank">&gt; LUCA-APP </a></b>nutzen und bitten Sie, diese im Vorfeld herunterzuladen.&nbsp; </p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext">Wir hoffen, dass Sie sich trotz allem wieder aufs Kino freuen! Tolle neue Filme gibt es auf jeden Fall!</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext"><b><span class="gesamt">Bleiben Sie bitte gesund und trotzdem vorsichtig! </span></b></p>
+<p class="bodytext"><b><span class="gesamt">Ihr/euer Kinoteam</span></b></p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext">&nbsp;</p>
+<p class="bodytext">&nbsp;</p></div></div>
+	</div>
+
+
+</div>
+</div>
+<script src="typo3conf/ext/jh_magnificpopup/Resources/Public/js/jquery.magnific-popup.min.js?1473864896" type="text/javascript"></script>
+<script src="typo3conf/ext/jh_magnificpopup/Resources/Public/js/jquery.filter-isImageFile.min.js?1473864896" type="text/javascript"></script>
+<script src="typo3conf/ext/jh_magnificpopup/Resources/Public/js/jquery.mfpInlineFunctions.min.js?1473864896" type="text/javascript"></script>
+<script src="typo3conf/ext/femanager/Resources/Public/JavaScripts/jquery.fineuploader-3.5.0.min.js?1521472052" type="text/javascript"></script>
+<script src="typo3conf/ext/pxa_cookie_bar/Resources/Public/Js/pxa_cookie_warning.js?1563355615" type="text/javascript"></script>
+<script src="typo3conf/ext/ck_cinema/Resources/Public/Js/jssor.slider.mini.js?1522852248" type="text/javascript"></script>
+<script src="typo3conf/ext/femanager/Resources/Public/JavaScripts/Validation.js?1521472052" type="text/javascript"></script>
+<script src="typo3conf/ext/femanager/Resources/Public/JavaScripts/Femanager.js?1521472052" type="text/javascript"></script>
+<script src="typo3temp/Assets/4c532e4f4c.js?1470406735" type="text/javascript"></script>
+
+
+</body>
+</html>

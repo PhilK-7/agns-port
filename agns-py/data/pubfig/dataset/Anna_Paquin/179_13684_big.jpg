@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="de" data-ign="2018" prefix="og: http://ogp.me/ns#">
+<head>
+<title>IGN Deutschland</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Auf IGN Deutschland erfahrt ihr alles aus der Welt der Videospiele (Playstation 4, Xbox One, PC, Wii U), Kinofilme, Serien und Gadgets!" />
+<link rel="preload" as="style" href="/s/ign/css/ignf.css">
+<link rel="canonical" href="http://de.ign.com/">
+
+<meta name="robots" content="max-image-preview:large">
+<link rel="next" id="infinitenext" href="/?page=2">
+
+<link href="/s/ign/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<link rel="mask-icon" href="https://oystatic.ignimgs.com/src/core/img/favicon/safari_favicon.svg" color="#bf1313"/>
+<script id="gdpr" type="text/javascript">
+(function(){
+  var readCookie = function(cookieName) {var b = document.cookie.match('(^|;)\\s*' + cookieName + '\\s*=\\s*([^;]+)');return b ? b.pop() : ''; }
+  window.geoCC=readCookie('geoCC'); var c = readCookie('euconsent');
+  window.gdprApplies = (geoCC && /be|bg|cz|dk|de|ee|ie|el|es|fr|hr|it|cy|lv|lt|lu|hu|mt|nl|at|pl|pt|ro|si|sk|fi|no|se|gb|uk|unk/i.test(geoCC)) ? true: false;
+  if (!gdprApplies || (c && c.indexOf('__') != -1)) { window.GDPR = 0; } /* consent */
+  else { window.GDPR = 1; } /* noconsent */
+  window.googletag = window.googletag || {'cmd': []}; window.googletag.cmd.push(function() { window.googletag.pubads().setRequestNonPersonalizedAds(window.GDPR); console.log("NPA="+window.GDPR);  });
+  (window.adsbygoogle=window.adsbygoogle||[]).requestNonPersonalizedAds=window.GDPR;
+})();
+</script>
+<script type="text/javascript">
+  window.ICMS = window.ICMS || { cmd: [], libs: ['/cookienotice.js?437'], css: [], gdprloader: [], deferredJSLoader:[] };
+  ICMS.lang = 'de'; ICMS.siteID = 'ign_de'; ICMS.siteName = 'IGN Deutschland';
+  ICMS.amzTag = ''; ICMS.contentId = ''; ICMS.contentSlug = ''; ICMS.keywordSlug = '';
+  ICMS.baseUri = ''; ICMS.pageName = ''; ICMS.pageUrl = '';
+  ICMS.isPublished = ''; ICMS.backendEditUrl = '';
+  ICMS.isEmbed = (window.self !== window.top) ? true : false;
+  ICMS.cmd.push(function() { IGNInternationalInit(); });
+</script>
+<script type="text/javascript">window.ICMS.cmd.push(function() { 
+//object-fit replacement for MSIE 11
+if (window.navigator.userAgent.indexOf("Trident") != -1) {
+    ICMS.each(".vspotlight .card img.thumb", function() {
+      var t = this, s = "url(" + ICMS.attr(t, "src") + ")", p = t.parentElement;
+      t.style.visibility = "hidden";
+      p.style.backgroundSize = "cover";
+      p.style.backgroundRepeat = "no-repeat";
+      p.style.backgroundPosition = "center";
+      p.style.backgroundImage = s;
+    });
+}
+ });</script>
+<script src="/s/bundle_ign.js?437" defer></script><script src="https://sm.ign.com/zdadkit2.js?437" defer></script>
+
+  
+  
+
+<meta name="twitter:site" content="@igndeutschland"><meta property="og:site_name" content="IGN Deutschland" /><meta property="fb:app_id" content="115982828429116" /><meta property="fb:profile_id" content="https://www.facebook.com/IGN.Deutschland" /><meta property="fb:pages" content="161362763879693" /><meta property="og:type" content="website"><meta property="og:title" content="IGN Deutschland"><meta property="og:locale" content="de_DE"><meta property="og:url" content="https://de.ign.com/"><meta property="og:image" content="https://de.ign.com/s/ign/social_logo.png"><meta property="og:description" content="Auf IGN Deutschland erfahrt ihr alles aus der Welt der Videospiele (Playstation 4, Xbox One, PC, Wii U), Kinofilme, Serien und Gadgets!">
+<link rel="alternate" hreflang="de" href="https://de.ign.com/" />
+<link rel="alternate" hreflang="en-se" href="https://nordic.ign.com/" />
+<link rel="alternate" hreflang="en-gb" href="https://www.ign.com/uk" />
+<link rel="alternate" hreflang="cs" href="https://cz.ign.com/" />
+<link rel="alternate" hreflang="en-za" href="https://za.ign.com/" />
+<link rel="alternate" hreflang="es-mx" href="https://latam.ign.com/" />
+<link rel="alternate" hreflang="en-sg" href="https://sea.ign.com/" />
+<link rel="alternate" hreflang="en-in" href="https://in.ign.com/" />
+<link rel="alternate" hreflang="pt-pt" href="https://pt.ign.com/" />
+<link rel="alternate" hreflang="ar" href="https://me.ign.com/ar/" />
+<link rel="alternate" hreflang="en-ae" href="https://me.ign.com/en/" />
+<link rel="alternate" hreflang="en-us" href="https://www.ign.com/" />
+<link rel="alternate" hreflang="en" href="https://www.ign.com/" />
+<link rel="alternate" hreflang="es-419" href="https://latam.ign.com/" />
+<link rel="alternate" hreflang="fr" href="https://fr.ign.com/" />
+<link rel="alternate" hreflang="el" href="https://gr.ign.com/" />
+<link rel="alternate" hreflang="ru" href="https://ru.ign.com/" />
+<link rel="alternate" hreflang="x-default" href="http://www.ign.com/" />
+<link rel="alternate" hreflang="es-es" href="https://es.ign.com/" />
+<link rel="alternate" hreflang="zh" href="https://www.ign.com.cn/" />
+<link rel="alternate" hreflang="he" href="https://il.ign.com/" />
+<meta http-equiv="content-language" content="de" />
+<link rel="alternate" hreflang="nl" href="https://nl.ign.com/" />
+<link rel="alternate" hreflang="it" href="https://it.ign.com/" />
+<link rel="alternate" hreflang="ja" href="https://jp.ign.com/" />
+<link rel="alternate" hreflang="pt-br" href="https://br.ign.com/" />
+<link rel="alternate" hreflang="tr" href="https://tr.ign.com/" />
+<link rel="alternate" hreflang="en-my" href="https://sea.ign.com/" />
+<link rel="alternate" hreflang="en-au" href="https://www.ign.com/au" />
+<link rel="alternate" hreflang="ko" href="https://kr.ign.com/" />
+
+
+  <link rel="alternate" type="application/rss+xml" title="IGN Deutschland Feed " href="/feed.xml" />
+
+
+<!-- Trackers -->
+<script type="text/javascript" src="https://www.google-analytics.com/analytics.js" async="true" ></script>
+<script type="text/javascript">window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-24879182-1', 'ign.com');
+if (window.GDPR) { ga('set', 'anonymizeIp', true); ga('set', 'displayFeaturesTask', null); };
+
+ga('send', 'pageview' );
+ga('create', 'UA-71985660-5', 'ign.com', 'ignus'); ga('ignus.send', 'pageview');
+</script>
+<script type="text/javascript">var _comscore = _comscore || []; _comscore.push({c1: "2", c2: "3000068", cs_ucfr: (window.GDPR) ? "0":"1" });</script>
+<script type="text/javascript" src="https://sb.scorecardresearch.com/beacon.js" async="true"></script>
+<noscript><img src="https://sb.scorecardresearch.com/p?c1=2&amp;c2=3000068&amp;c4=" alt="*" style="position: absolute" width="1" height="1"></noscript>
+
+
+<link rel="preload" href="/s/ign/css/ignf.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="/s/ign/css/ignf.css"></noscript>
+<style type="text/css">/* MOBILE FIRST */ body, html { margin: 0px; padding: 0px; font-family: 'ars-maquette-web', sans-serif; text-rendering: optimizeLegibility; -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; } body, html { overflow-x: hidden } body, header { padding-top: 0px; } body.rtl { direction: rtl; } /* Adtech Skin support */ body.hasSkin section.vspotlight, body.hasSkin section.popular, body.hasSkin section.broll, body.hasSkin section.stripe, body.hasSkin .hspotlight, body.hasSkin .list-content, body.hasSkin .wrap { max-width: 1240px; padding: 8px 10px; } body.hasSkin section.broll, body.hasSkin section.wrap.videofeatured { padding-left: 10px; padding-right: 10px; background-color: #FFF; box-sizing: border-box; } body.hasSkin section.stripe { padding-left: 10px; padding-right: 10px; margin: 0px auto; } body.hasSkin .page-content { max-width: 1240px; margin: 0 auto; background-color: #FFF; padding-top: 5px; box-sizing: border-box;} body.hasSkin section.hero article { width: 1240px; max-width: 1240px; background-position: center; background-repeat: no-repeat; } body.hasSkin section.hero { margin-left: initial; margin-right: initial; } body.hasSkin .herogrid { padding: 10px; box-sizing: border-box; } body.hasSkin .spacer { display: none; } header { position: fixed; width: 100%; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; top: 0px; background-color: #FFF; z-index: 10; } #ignheader { margin: 0px auto; height: 44px; position: relative; padding: 8px 0px 7px 0px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08); } #ignheader #chksearch { position: absolute; top: 10px; right: 10px; height: 40px; width: 40px; cursor: pointer; opacity: 0; z-index: 900; -webkit-touch-callout: none; } #ignheader #chksearch:checked { right: 125px; z-index: 99999; } #ignheader #chksearch:checked ~ #search-modal-container { display: block; } #ignheader .editions { height: 200%;} #ignheader .editions p { display: block; margin: 0px; padding: 0px; font-size: 24px; vertical-align: top; line-height: 32px; margin-left: 5px; font-family: 'ars-maquette-web', sans-serif; color: #252627; } #ignheader .editions ul { display: none; margin: 0px; padding: 25px 18% 25px 36%; width: 118%; top: 96px; left: -36%; background-color: #f4f4f4; list-style-type: none; position: absolute; z-index: 10; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08); border: 1px solid rgba(37, 38, 39, 0.15); } #ignheader .editions ul li { display: inline-block; width: 220px; height: 18px; vertical-align: top; margin: 0px; padding: 8px 30px; font-size: 16px; color: #252627; font-weight: 500; line-height: 18px; } #ignheader .editions ul li.big { margin: 0px !important;} #ignheader .editions ul li:last-child { display: block; clear: both; margin: 0px auto; padding-left: 0; padding: 0; padding-top: 10px; transform: translate(-36%,0)} #ignheader .editions ul span.language { width: 39px; display: inline-block; color: #bf1313; font-size: 18px; line-height: 18px; } #ignheader .editions ul span.option { display: inline-block; line-height: 18px; } #ignheader .editions ul span.option a { color: #252627; text-decoration: none;} #ignheader .editions ul span.brand.option { font-weight: 700; } #ignheader .editions ul span.brand.option a { display: flex; align-items: center; column-gap: 8px; } #ignheader #search-modal-container { position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; background: #ffffff; display: none; } #ignheader .search-modal { height: 100%; display: flex; -webkit-box-pack: justify; justify-content: space-between; background-color: #ffffff; -webkit-box-align: center; align-items: center;} #ignheader .search-modal .search-input #search-input { background-color: transparent; color: #252627; font-size: 1em; font-weight: bold; height: 100%; letter-spacing: -0.5px; line-height: 1; outline-style: none; border-width: 0px; border-style: initial; border-color: initial; border-image: initial; font-size: 2.75em; color: #aaa; margin-left: 24px; width: 100%; } #ignheader #search-modal-container.active { display: block; z-index: 999; } #ignheader #search-close { margin-right: 10px; } a { text-decoration: none; } .wrap { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 15px; padding-right: 15px;} section#js { position: absolute; bottom: 0px; left: 0px; width: 1px; height: 1px; overflow: hidden; } #gheader, section.stripe { background-color: #f5f5f5; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.18); padding: 18px 0px; transition: padding 0.1s linear 0s; overflow: hidden; border-top: 1px solid #d1d5db;} section.stripe { padding: 12px 0px; margin-bottom: 0px;} svg.ign-logo { height: 33px; width: auto;} #ign-logo-wrap { position: absolute; left: 50%; transform: translate(-50%); top: 25%; z-index: 500; } div.logodate { font-size: 20px; font-weight: 700; max-width: 280px; display: none; vertical-align: middle; height: 44px; } .right-rail { display: block; } .extramenu { cursor: pointer;} .selector .more { display: none; } .selector.active .more { display: block; } .region { display: block; padding-bottom: 10px; text-align: center; font-size: 30%; } .editions.desktop { display: none; } .dropdown-arrow .icon-down-arrow {stroke: #bf1313; } .filterlist { padding: 0; margin: 0; } #loginwrapper { display: none; } #logomenu { position: fixed; top: 0; left: 0; background: #fff; height: 100%; width: 100%; overflow-y: scroll; overflow-x: visible; -webkit-transition: opacity 300ms ease,visibility 0s ease 300ms; transition: opacity 300ms ease,visibility 0s ease 300ms; transition-delay: 0s, 300ms; -webkit-box-shadow: 0 2px 34px 0 rgba(0, 0, 0, 0.15); box-shadow: 0 2px 34px 0 rgba(0, 0, 0, 0.15); margin: -135px 0 0 -50px; padding: 50px; padding-top: 125px; transform-origin: 0% 0%; transform: translate(-100%, 0); transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);} #logomenu li { border-top-color: rgba(37, 38, 39, 0.15); border-top-style: solid; border-top-width: 2px; display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-pack: justify; -webkit-justify-content: space-between; -ms-flex-pack: justify; justify-content: space-between; margin: 0; } #logomenu li.browse-ign { color: #252627; font-weight: 900; font-size: 1.5em; line-height: 1.17; padding: 16px; border-top: 0; } #logomenu li a { color: #252627; font-size: 0.9em; width: 100%; display: inline-block; text-transform: capitalize; white-space: pre; padding: 16px;} ul#logomenu li.search, ul#logomenu li.myign { display: flex; padding: 16px; } .toggletopmore, ul#logomenu li.more { display: none; } .toggletopmore { cursor: pointer; } .toggletopmore.active { color: #bf1313; } .toggletopmore.active .dropdown-arrow .icon-down-arrow { stroke: #bf1313; -webkit-transform: rotate(-180deg); -ms-transform: rotate(-180deg); transform: rotate(-180deg); } #logomenu li.myLogin { display: none; } ul#logomenu li:nth-child(n+8) { display: none; } ul#logomenu li.extramenu:nth-child(n+8) { display: block; } ul#logomenu li.extramenu { display: block; } .search-modal .button { display: none; } .search-modal .search-input #search-input { font-size: 20px!important; } #search-modal-container .page-content { top: 18%; } .menu-editions { display: block!important; text-align: center!important; line-height: 60px; } .dropdown-arrow { margin-left: 5px; background: none; } .dropdown-arrow .icon-down-arrow { display: inline-block; font-size: 9px; vertical-align: middle; transition: transform .1s linear; -webkit-transform: rotate(0); -ms-transform: rotate(0); transform: rotate(0); stroke: #252627;} .browse-ign-label { display: block;} #headermenuwrapper { position: static; width: 100%;} #headermenuwrapper #menuToggle { padding: 15px;} #headermenuwrapper input { display: block; width: 40px; height: 40px; position: absolute; top: -7px; left: -5px; cursor: pointer; opacity: 0; z-index: 9999; -webkit-touch-callout: none; } #headermenuwrapper #menuToggle span { display: block; width: 22px; height: 2px; margin-bottom: 4px; position: relative; background: #000; border-radius: 3px; z-index: 1; transform-origin: 4px 0px; transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;} #headermenuwrapper #menuToggle span:first-child { transform-origin: 0% 0%; } #headermenuwrapper #menuToggle span:nth-last-child(2) { transform-origin: 0% 100%;} #toploginm { width: 80%; margin: 0 auto; text-align: center; display: block; padding: 8px 20px 8px 20px; color: #FFF; border-radius: 4px; background-color: #bf1313; font-weight: bold; line-height: 1em;} #toploginm a.lightbox.main { color: #FFF; line-height: 1em; padding: 0;} #toploginm div.usermenu { display: none; } #toploginm img.userIcon { height: 36px; border-radius: 50%; vertical-align: middle; } #toploginm .loggedin a { font-size: 18px;} .myLogin { background-color: #f4f4f4; padding: 18px; } #headerlogo { max-width: 120px; } #headermenuwrapper { font-size: 20px; color: #252627; list-style-type: none; text-align: right; margin: 0px; padding: 0px; position: absolute; right: 0px; white-space: nowrap; } #headermenuwrapper.menuDisplay { z-index: 501; } #headermenuwrapper.menuDisplay #logomenu { transform: none; } #headermenuwrapper.menuDisplay #menuToggle { cursor: pointer; float: right; padding-top: 10px; height: 40px; } #headermenuwrapper.menuDisplay #menuToggle span { opacity: 1; transform: rotate(45deg) translate(-2px, -1px); } #headermenuwrapper.menuDisplay #menuToggle span:nth-last-child(3) { opacity: 0; } #headermenuwrapper.menuDisplay #menuToggle span:nth-last-child(2) { transform: rotate(-45deg) translate(-11px, 11px); } #headermenuwrapper.menuDisplay #searchwrapper { display: none; } #logomenu > li, #searchwrapper > li, #loginwrapper > li { vertical-align: middle; text-align: left; margin-left: 20px; } body.rtl #searchwrapper { position: absolute; left: 0; top: 5px; right: unset;} body.rtl #headermenuwrapper.menuDisplay #menuToggle { float: left; } body.rtl #logomenu > li, #searchwrapper > li, #loginwrapper > li { text-align: right; } body.rtl #ignheader .search-modal .search-input #search-input { margin-left: 0; margin-right: 24px; } body.rtl #ignheader #search-close { margin-right: 0; margin-left: 10px; } #searchwrapper li.search > svg { display: block; height: 32px; cursor: pointer; padding-right: 10px; } #searchwrapper { position: absolute; right: 0; top: 5px; } #searchwrapper { display: inline-block; vertical-align: middle; height: 44px; padding: 0; margin: 0; list-style: none; line-height: 40px; } #gheader { display: none; visibility: hidden; } #gheader ul { padding: 0 120px; height: 20px; margin: 0px auto; display: flex; max-width: 1200px; } #gheader li { display: inline-block; flex-grow: 1; text-align: center; border-right: 1px solid rgba(37, 38, 39, 0.15); text-overflow: ellipsis; overflow: hidden; } #gheader li a { color: #252627; font-size: 14px; line-height: 17px; height: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-decoration: none; } #gheader li:last-child { border-right: 0px; } #topmore { z-index: 999999; display: none; position: absolute; top: 60px; left: 0px; width: 100%; min-height: 0px; overflow: hidden; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08); transition: height 0.2s linear 0s; height: 0px; background-color: #f4f4f4; border: 1px solid rgba(37, 38, 39, 0.15); top: 96px; } #topsearchbar { display: none; } #ul_nav { display: none; } #toplogin a.lightbox.main, #toplogin a.logout { display: block; padding: 8px 20px 8px 20px; color: #FFF; border-radius: 4px; background-color: #bf1313; font-weight: bold; line-height: 1em; text-align: center; } #toplogin div.usermenu { display: none; } #toplogin div.usermenu ul { list-style-type: none; position: absolute; background-color: #f4f4f4; padding: 0; border-radius: 2.4px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08); border: 1px solid rgba(37, 38, 39, 0.15); z-index: 1; top: 100%; flex-direction: column; min-width: 250px; margin-left: -110px; } #toplogin div.usermenu ul:after { border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; border-bottom-color: #f4f4f4; border-width: 5px; right: 116px; bottom: 100%; } #toplogin div.usermenu ul:before { border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; border-bottom-color: rgba(37, 38, 39, 0.15); border-width: 6px; right: 115px; bottom: calc(101%); } #toplogin div.usermenu ul li { padding: 12px; } #toplogin div.usermenu ul li a { font-size: 16px; } #toplogin div.usermenu ul li:last-child { border-top: 1px solid rgba(37, 38, 39, 0.15); } #toplogin div.usermenu ul li:first-child { border-top: 0px; } #loginwrapper:hover #toplogin.loggedin div.usermenu { display: block; } #toplogin img.userIcon { height: 36px; border-radius: 50%; vertical-align: middle; margin-right: 10px; } #toplogin .loggedin a { font-size: 18px; } #toplogin a { color: #252627; } #topmore.active, #topsearchbar.active { display: block; height: auto; } #topmore div.wrap { display: table; width: 100%; min-height: 200px; margin-top: 25px; } #topmore div.col { display: table-cell; vertical-align: top; width: 13%; position: relative; padding-left: 10%; } #topmore div.col b { color: #bf1313; text-transform: uppercase; font-size: 16px; font-family: ff-din-round-web-pro, sans-serif; font-weight: bold; letter-spacing: .8px; margin: 0 0 12px 0; } #topmore div.col.browseabout { width: 25%; border-right: 1px solid rgba(37, 38, 39, 0.2); padding-left: 0px; padding-right: 4%; } #topmore div.col.browseabout li { max-width: 80%; } #topmore div.col ul { margin: 0px; padding: 0px; list-style-type: none; } #topmore div.col ul li { display: block; vertical-align: top; padding: 0px; margin: 0px; height: 36px; color: #252627; font-size: 20px; line-height: 36px; overflow: hidden; text-overflow: ellipsis; } #topmore div.col ul li a { color: #252627; } #topmore div.wrap.legal { display: block; padding: 20px; min-height: 25px; display: flex; align-items: center; } #topmore div.legal .licensee { display: block; font-size: 15px; vertical-align: top; } #topmore div.legal .licensee a { color: #252627; } #topmore div.legal .zdworld { display: block; height: 25px; float: left; margin: 5px 10px 0px 0px; } #footer div.legal { display: flex; align-items: center; } .selector { color: #bf1313; text-transform: uppercase; font-weight: bold; padding: 0px 0px 0px 0px; border-top: 2px solid rgba(37, 38, 39, 0.15); overflow: hidden; font-size: 16px; } .selector .col ul { font-size: 20px; font-weight: normal; margin: 0; padding: 0; background-color: rgba(37, 38, 39, 0.05); } .selector .subtitle { padding: 10px ; line-height: 50px; } footer { display: none; } #footer.limitedScroll { display: block; background: #F5F5F5; padding: 4px; font-size: small; text-align: center; } #footer.limitedScroll a { color: #BF1313; } a.commentscount:before { content: url('/s/ign/comments.svg'); display: inline-block; vertical-align: middle; margin-left: 10px; margin-right: 5px; } ul#globalheader li:nth-child(n+5) { display: none; } ul#logomenu li.more, ul#logomenu li.search, ul#logomenu li.myign { display: none; } #headermenuwrapper input { display: none; } #toploginm { display: none; } .search-input { flex: 1 1 auto; width: auto; } .page-content { position: relative; top: 18%; } .button-primary { background-color: #bf1313; border-radius: 4px; color: #fff; cursor: pointer; font-size: 20px; font-weight: bold; letter-spacing: -0.5px; white-space: nowrap; padding: 8px 20px 8px 20px; border: 0; } /* Broll */ div.tbl { display: table; position: relative; margin-right: 320px; } section.broll.hasAd div.adk2 { position: absolute; right: 0px; width: 300px; } section.broll { display: block; padding: 25px 0px; margin: 0px auto; background-color: #FFF; } section.broll + section.broll { padding: 0px; } section.broll > h2 { border-bottom: solid 1px rgba(37, 38, 39, 0.15); } section.broll article { display: table-row; position: relative; margin-left: 0px; } section.broll div.t { display: table-cell; width: auto; box-sizing: border-box; vertical-align: top; width: 25%; max-width: 280px; margin: 0px; position: relative; } section.broll div.m { display: table-cell; vertical-align: top; padding: 0px 20px; width: 75%; box-sizing: border-box; } section.broll div.m, section.broll div.t { padding-top: 25px; padding-bottom: 25px; border-bottom: solid 1px rgba(37, 38, 39, 0.15); } section.broll img.thumb { display: block; width: 100%; border-radius: 4px; max-height: 160px; max-width: 280px; object-fit: cover; } section.broll h3 { margin: 6px 0px; } section.broll h3 a { font-size: 18px; line-height: 20px; font-weight: 700; margin: 0; color: #252627; text-decoration: none; } section.broll h3 a:hover { text-decoration: underline; } section.broll div.m time, section.broll div.m a.comments { font: 14px 'ff-din-round-web-pro', sans-serif, bold; line-height: 18px; color: #bf1313; text-decoration: none; } section.broll .thumb.score-wrapper .article_type { position: absolute; bottom: 0; left: 0; padding: 2px 5px; font-size: 13px; background-color: #bf1313; color: #FFF; margin: 0 0 10px 6px; border-radius: 4px; } section.broll img.thumb:hover { opacity: 0.85; } section.broll div.m > p { display: block; margin: 0px; } section.broll .videobtn { position: absolute; background-color: #bf1313; color: #FFF; width: 52; height: 52px; margin-top: -70px; margin-left: -6px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1); border: solid 2px rgba(0, 0, 0, 0.1); padding: 9px; } section.broll article.VIDEO > a:after { content: url('/s/ign/playButton.svg'); position: absolute; bottom: 2px; left: 2px; } /* Blogroll video play button */ section.broll .video .duration { background-color: #bf1313; border-radius: 4px; bottom: 0; left: 0; margin: 0 0 10px 6px; position: absolute; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1); border: solid 2px rgba(0, 0, 0, 0.1); display: flex; padding: 5px; } section.broll .video .duration-text { color: #fff; font-family: 'ff-din-round-web-pro', sans-serif; font-weight: bold; letter-spacing: 1px; align-self: flex-end; } section.broll .video .icon-playhead { background-size: 100%; height: 1em; width: 1em; margin: 0 8px 0 0; font-size: 22px; line-height: 22px; align-self: center; } body.rtl section.broll .video .duration { left: auto; right: 0; margin: 0 6px 6px 0; }body.rtl section.broll .video .icon-playhead { margin-right: 0; margin-left: .5rem; } body.rtl #toplogin img.userIcon { margin: 0 0 0 10px; } body.rtl #headermenuwrapper { right: auto; left: 0px; } div#toplogin { padding: 0; } body.rtl #ignheader .editions p { margin-left: 0; margin-right: 5px; } body.rtl .toggletopmore .dropdown-arrow { margin-right: 5px; margin-left: auto; } body.rtl section.broll .thumb.score-wrapper .article_type{ position: absolute; bottom: 0; right: 0; left: unset; padding: 2px 5px; font-size: 13px; background-color: #bf1313; color: #FFF; margin: 0 6px 10px 0; border-radius: 4px; } body.rtl #topmore div.col.browseabout { border-left: 1px solid rgba(37,38,39,0.2); border-right: 0; padding-right: 0px; padding-left: 4%; } body.rtl #topmore div.col { padding-right: 10%; padding-left: 0; } /* Scoring */ .hexagon-wrapper.side-wrapper .hexagon.side-wrapper { height: 50%; left: 6.7%; position: relative; top: 25%; width: 86.6%; z-index: 2; } .hexagon-wrapper.side-wrapper .hexagon.side-wrapper, .hexagon-wrapper.side-wrapper .hexagon.side-wrapper:after, .hexagon-wrapper.side-wrapper .hexagon.side-wrapper:before { background-color: #bf1313; } .hexagon-wrapper.side-wrapper .hexagon.side-wrapper:before { -webkit-transform: scale(1, 0.579) translate(70.71136%, -70.71136%) rotate(45deg); -ms-transform: scale(1, 0.579) translate(70.71136%, -70.71136%) rotate(45deg); transform: scale(1, 0.579) translate(70.71136%, -70.71136%) rotate(45deg); } .hexagon-wrapper.side-wrapper .hexagon.side-wrapper:after { -webkit-transform: scale(1, 0.579) translate(70.71136%, 70.71136%) rotate(45deg); -ms-transform: scale(1, 0.579) translate(70.71136%, 70.71136%) rotate(45deg); transform: scale(1, 0.579) translate(70.71136%, 70.71136%) rotate(45deg); } body.rtl .hexagon-wrapper.side-wrapper .hexagon.side-wrapper:before { -webkit-transform: scale(1,0.579) translate(30.35568%,-70.71136%) rotate(45deg); -webkit-transform: scale(1,0.579) translate(30.35568%,-70.71136%) rotate(45deg); -ms-transform: scale(1,0.579) translate(30.35568%,-70.71136%) rotate(45deg); transform: scale(1,0.579) translate(30.35568%,-70.71136%) rotate(45deg); } body.rtl .hexagon-wrapper.side-wrapper .hexagon.side-wrapper:after { -webkit-transform: scale(1,0.579) translate(30.35568%,70.71136%) rotate(45deg); -webkit-transform: scale(1,0.579) translate(30.35568%,70.71136%) rotate(45deg); -ms-transform: scale(1,0.579) translate(30.35568%,70.71136%) rotate(45deg); transform: scale(1,0.579) translate(30.35568%,70.71136%) rotate(45deg); } .hexagon-wrapper.side-wrapper .hexagon.side-wrapper:after, .hexagon-wrapper.side-wrapper .hexagon.side-wrapper:before { content: ''; display: block; height: 122.46%; position: absolute; -webkit-transform-origin: 0 0; -ms-transform-origin: 0 0; transform-origin: 0 0; width: 70.71%; z-index: 1; } .hexagon-wrapper.side-wrapper .hexagon-content.side-wrapper { color: #fff; font-family: 'ff-din-round-web-pro', sans-serif !important; text-transform: uppercase; margin: 0.2em 0 0 0; } .hexagon-wrapper.side-wrapper { font-size: 2rem; margin: 0; position: relative; height: 2.7em; width: 2.7em; min-width: 2.7em; display: inline-block; } .score-wrapper { position: relative; display: block; } .score-wrapper .video-duration, .score-wrapper .review-score { position: absolute; bottom: 0; left: 0; margin: 24px; z-index: 2; } .hexagon-wrapper.side-wrapper .hexagon-content-wrapper.side-wrapper { align-items: center; display: flex; height: 100%; justify-content: center; position: absolute; width: 100%; z-index: 3; } .little { height: 2em!important; width: 2em!important; min-width: 2em!important; font-size: 1.5rem!important; margin: 10px!important; } /* Adtech */ #adkit_billboard, #adkit_footer { margin: 12px auto; max-width: 1240px; text-align: center; } div.zad { display: flex; justify-content: center; align-items: center; transition: height 0.2s; margin-bottom: 10px; text-align: center; margin: 0px auto; } div.zad.billboard, #adkit_billboard { margin-top: 80px; min-height: 100px; } div.zad.halfpage {min-height:600px;} @media (min-width: 930px) { div.zad.billboard, #adkit_billboard { min-height: 250px; } } #BackendInPageMenu { display: none; } .adkit iframe { max-width: 100% } @media (max-width: 1600px) { body.hasSkin section.vspotlight, body.hasSkin section.popular, body.hasSkin section.broll, body.hasSkin section.stripe, body.hasSkin .hspotlight, body.hasSkin .list-content, body.hasSkin .wrap { max-width: 1098px; padding: 16px 10px; box-sizing: border-box; } body.hasSkin .page-content { max-width: 1098px; } body.hasSkin section.hero article { width: 1098px; max-width: 1098px; } } @media (max-width: 1200px) { body.hasSkin section.hero article { width: initial; } } /* DESKTOP */ @media (min-width: 930px) { body { padding-top: 152px; } body, html { overflow-x: unset } div.logodate { font-size: 20px; font-weight: 700; max-width: 280px; display: inline-block; vertical-align: middle; height: 44px; } #ignheader { max-width: 1200px; margin: 0px auto; height: auto; position: relative; padding: 26px 0px; box-shadow: none; } #gheader { display: block; visibility: unset; } #ign-logo-wrap { display: inline-flex; position: static; transform: none; } #headermenuwrapper { font-size: 20px; color: #252627; list-style-type: none; text-align: right; margin: 0px; padding: 0px; position: absolute; right: 0px; white-space: nowrap; width: unset; } #headermenuwrapper #menuToggle span { display: none; } #headermenuwrapper #menuToggle { padding: 0px; } #headerlogo, #logomenu, #searchwrapper, #loginwrapper, body.rtl #headerlogo, body.rtl #logomenu, body.rtl #searchwrapper, body.rtl #loginwrapper { display: inline-block; vertical-align: middle; height: 44px; padding: 0; margin: 0; position: static; } ul#logomenu li a { padding: 0; } ul#logomenu { position: static; display: inline-block; vertical-align: middle; height: 44px; padding: 0; margin: 0; transform: none; overflow: hidden; box-shadow: none; background: transparent; line-height: normal; width: auto; } ul#logomenu li {border: none; } ul#logomenu > li, #searchwrapper > li, #loginwrapper > li { display: inline-block; } ul#logomenu li:nth-child(n+8) { display: none; } ul#logomenu li.extramenu:nth-child(n+8) { display: none; } ul#logomenu li.more, ul#logomenu li.search, ul#logomenu li.myign { display: inline-block; } #searchwrapper { line-height: 34px; } #searchwrapper li.search > svg { padding-right: 0px; } header.small { border-bottom: 1px solid #d1d5db; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08); } header.small #ignheader { padding: 8px 0px 7px 0px; } header.small #gheader { padding: 0px; height: 0px; visibility: hidden; } header.small #topmore, header.small #ignheader .editions ul { top: 59px; } ul#logomenu li.extramenu { display: none; } .right-rail { display: block; } .browse-ign-label { display: none; } .region { display: none; } .browseabout .region {display: block; } .browseabout .region select { color: #4e6187; background-color: #f6f6f8; border: solid 1px undefined; border-radius: 4px; font-size: 16px; font-weight: bold; -webkit-appearance: none; -moz-appearance: none; appearance: none; padding: 8px 12px; width: 100%; outline: none; margin-top: 5px; } .browseabout .region select:not(:disabled) { background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg width='12' height='12' xmlns='http://www.w3.org/2000/svg'%3e%3cg stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round' stroke='%234e6187'%3e%3cpath d='M8.82842712 5L6 7.82842712 3.17157288 5'/%3e%3c/g%3e%3c/svg%3e"); background-size: 18px; background-position: calc(100% - 12px) center; background-repeat: no-repeat; } .editions.desktop { display: block; } div.zad.billboard { margin-top: 12px; } body.rtl #headermenuwrapper { right: auto; left: 0; width: unset} } /* LARGE SCREEN */ @media (min-width: 1281px) { svg.ign-logo { height: 44px; } #headerlogo { max-width: 150px; } #ignheader .editions p { font-size: 28px; line-height: 44px; } } @media (min-width: 1921px) { #ignheader .editions p { font-size: 28px; line-height: 44px; } #ignheader .editions ul { position: fixed; left: 0px; width: 100%; box-sizing: border-box; padding: 25px 20%; } }</style>
+
+<style type="text/css">h1, h2, h3 { text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; } footer#footer { display: none; } section h2 { -ms-grid-row: 1; font-size: 36px; color: #000; font-weight: 900; letter-spacing: -0.5px; line-height: 1.2em; display: block; margin: 0px 0px 18px 0px; font-family: 'ars-maquette-web',sans-serif; } section > h3 { color: #000; margin: 0px; padding: 0px; } section a { text-decoration: none; } section.hero { max-width: 1200px; display: block; margin: 0px auto; box-sizing: border-box; } section.hero article { max-width: 1200px; height: 600px; display: block; margin: 0px auto; position: relative; } section.hero .herocnt { text-align: center; position: absolute; bottom: 35px; width: 100%; background-color: rgba(0, 0, 0, 0.4); } section.hero .herocnt h3 { font-size: 40px; font-weight: bold; color: #FFF; margin: 15px; text-align: center; } section.hero .herocnt h4 { margin: 15px; } section.hero .herocnt h3 a { color: #FFF; text-decoration: none; } section.hero .herocnt { display: block; color: #FFF; font-size: 22px; margin: 0px auto; text-align: center; text-decoration: none; padding-bottom: 8px; } section.hero a{display:block; height:100%; width:100%;} section.hero.video { background-color: #1d1e20; max-width: 100%; margin: 20px auto 0px auto; padding-bottom: 15px; height: auto; } section.hero.video article { height: auto; position: relative; } section.hero.video h2 { font-size: 48px; line-height: 48px; color: #FFF; padding: 20px 0px 12px 0px; max-width: 960px; margin: 0px auto; } section.hero div.vplayer { position: relative; height: 0; overflow: visible; padding-bottom: 48.25%; max-width: 960px; margin: 0px auto; } div.vplayer > iframe { border: 0px; width: 100%; height: 100%; position: absolute; top: 0; left: 0; max-height: 540px; box-shadow: 2px 2px 4px 0 rgba(0,0,0,0.25); border-radius: 3px; } section.vspotlight, section.popular { max-width: 1200px; display: block; padding: 32px 0px; margin: 0px auto; background-color: #FFF; width: 100%; box-sizing: border-box; } section.vspotlight { display: table; } section.vspotlight article, section.hspotlight article { display: table-cell; width: 25%; vertical-align: top; position: relative; overflow: hidden; } article a.thumb { box-sizing: border-box; margin: 0 12px; position: relative; overflow: hidden; display: block; } section.vspotlight article.p1 a.thumb, section.hspotlight article.p1 a.thumb { margin-left: 0px; } section.vspotlight article.p4 a.thumb, section.hspotlight article.p4 a.thumb { margin-right: 0px; } section.vspotlight article img, section.hspotlight article img { width: 100%; min-width: 100%; background: #333; transition: transform .5s ease-out; border-radius: 4px; display: block; object-fit: cover; object-position: center; } section.vspotlight article img { height: 475px; } section.hspotlight article img { height: 160px; } section.vspotlight img.thumb:hover { -moz-transform:scale(1.04);-webkit-transform:scale(1.04);transform:scale(1.04);transition:transform .75s ease-in-out } section.vspotlight .caption { position: absolute; bottom: 0px; width: 100%; margin: 0px; padding: 12px 24px; min-height: 66px; box-sizing: border-box; background-color: rgba(34,63,90, 0.75); color: #FFF; font-size: 18px; line-height: 1.21em; font-weight: 900; } section.vspotlight .caption a { color: #FFF; } section.hspotlight { display: block; padding: 16px 0px; background-color: #f5f5f5; } section.hspotlight > div.wrap { max-width: 1200px; margin: 0px auto; } section.hspotlight .caption { display: block; margin: 12px 12px 0px 12px; font-size: 16px; font-weight: bold; line-height: 22px; color: #252627; } section.hspotlight .p1 .caption { margin-left: 0px; } section.hspotlight .caption a { color: #252627; text-decoration: none; } section.hspotlight img.thumb:hover { opacity: 0.85; } section.broll { display: -ms-grid; grid-template-columns: [mainContent-start] auto [mainContent-end rightRail-start] 320px [rightRail-end]; display: grid; margin: 0 auto; background-color: #FFF; -ms-grid-columns: auto 320px; max-width: 1200px; } section.broll div.tbl { grid-area: mainContent; -ms-grid-column: 1; -ms-grid-row: 2; margin-right: 0; } section.broll div.side-ad-trail { grid-area: rightRail; -ms-grid-row: 2; -ms-grid-column: 2; } section.hpcommerce { margin-top: 12px; margin-bottom: 12px; } section.hpcommerce div.tbl { background-color: #f5f5f5; border-radius: 5px; } section.hpcommerce div.m, section.hpcommerce div.t { border-bottom: 0px; } /* Adtech */ /* Sticky mrecs on right news trail */ .side-ad-trail > div{ margin-bottom: 8px; } .ad-wrapper {top: 65px; position: sticky; position: -webkit-sticky;} @media (max-width: 1200px) { .hero { background-size: cover; background-repeat: no-repeat; background-position: center; height: 0; width: 100%; padding-bottom: 56.25%; } section.hero { margin-bottom: 80px; } section.hero.video { padding-bottom: 50px; } section.hero.video h2 { font-size: 26px; line-height: 26px; } section.hero .herocnt { display: block; background-color: #000; position: absolute; text-align: center; margin: 0 auto; width: 100%; bottom: -85px; } section.hero .herocnt h3 { font-size: 20px; } section.hero .herocnt .deck { font-size: 14px; margin: 0 auto; max-width: 300px;} section.hero .herocnt a.deck { font-size: 14px; } section.hero article { height: 0!important; } section.broll h3 { margin: 0 0 6px 0; } section.broll h3 a { font-size: 14px; } } @media (max-width: 860px) { section.vspotlight article img { height: 360px; } section.broll div.tbl { margin-right: 0; } section.broll { display: block!important; } section.broll .side-ad-trail { max-width: 320px; margin: 0 auto; } section.broll img.thumb {max-width: 100%; max-height: 100% } section.broll div.t { display: block; width: 100%; max-width: 100% } section.broll div.m { display: block; width: 100%; max-width: 100% } section.broll div.m { padding-top: 25px; padding-bottom: 25px; border-bottom: solid 1px rgba(37, 38, 39, 0.15); } section.broll div.t { padding-top: 25px; border-bottom: none; padding-bottom:0px;} } @media (max-width: 768px) { /*.hero { background-size:contain; background-repeat:no-repeat; background-position:center; } */ #ignheader .page-content { margin-top: 0px; } section.vspotlight img.thumb { max-width: 100%; } section.vspotlight article img { height: 475px; } section.vspotlight { white-space: nowrap; display: inline-block; width: 100%; overflow-x: scroll; } section.vspotlight article:first-child { margin: 0 12px 0 calc(10% + 12px); } section.vspotlight article, section.hspotlight article { border-radius: 4px; overflow: hidden; display: inline-block; white-space: initial; width: calc(80% - 24px); margin: 0 12px; } section.vspotlight .caption { background-color: rgba(68,67,146, 0.75); font-size: 24px; font-weight: 900; line-height: 1.21em; font-family: 'ars-maquette-web',sans-serif; text-rendering: optimizeLegibility; -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; color: #fff; min-height: 110px; } section.hspotlight > div.wrap { display: flex; flex-wrap: wrap; max-width: 100%; } section.hspotlight > div.wrap h2 { font-size: 30px; width: 100%; } section.hspotlight article { flex-basis: 40%; flex-grow: 1; margin: 0 10px; } section.hspotlight article:nth-of-type(even) { margin-left: 12px; margin-right: 0; } section.hspotlight article:nth-of-type(odd) { margin-right: 12px; margin-left: 0; } body.rtl section.hspotlight article:nth-of-type(even) { margin-left: 0px; margin-right: 12px; } body.rtl section.hspotlight article:nth-of-type(odd) { margin-right: 0px; margin-left: 12px; } section.hspotlight article:nth-child(1), section.hspotlight article:nth-child(2) { margin-bottom: 32px; } section.hspotlight article img { height: 25vw; } #adkit_mrec1, #adkit_mrec2, #adkit_rectangle { width: 300px; float: unset; top: 65px; } article a.thumb { margin: 0; } section.hero.video article { position: relative; display: inline; } section.hspotlight .caption { font-size: 15.2px; font-weight: 500; line-height: 1.33em; color: #252627; margin-left: 0; margin-right: 0; } }</style>
+
+
+<script type="text/javascript">
+  (function(b){b.loadCSS||(b.loadCSS=function(){});var c=loadCSS.relpreload={};c.support=function(){try{var a=b.document.createElement("link").relList.supports("preload")}catch(e){a=!1}return function(){return a}}();c.bindMediaToggle=function(a){function b(){a.addEventListener?a.removeEventListener("load",b):a.attachEvent&&a.detachEvent("onload",b);a.setAttribute("onload",null);a.media=c}var c=a.media||"all";a.addEventListener?a.addEventListener("load",b):a.attachEvent&&a.attachEvent("onload",b);setTimeout(function(){a.rel=
+"stylesheet";a.media="only x"});setTimeout(b,3E3)};c.poly=function(){if(!c.support())for(var a=b.document.getElementsByTagName("link"),e=0;e<a.length;e++){var d=a[e];"preload"!==d.rel||"style"!==d.getAttribute("as")||d.getAttribute("data-loadcss")||(d.setAttribute("data-loadcss",!0),c.bindMediaToggle(d))}};if(!c.support()){c.poly();var f=b.setInterval(c.poly,500);b.addEventListener?b.addEventListener("load",function(){c.poly();b.clearInterval(f)}):b.attachEvent&&b.attachEvent("onload",function(){c.poly();
+b.clearInterval(f)})}"undefined"!==typeof exports?exports.loadCSS=loadCSS:b.loadCSS=loadCSS})("undefined"!==typeof global?global:this);
+</script>
+<link rel="preconnect" href="https://tpc.googlesyndication.com">
+
+
+
+<script type="text/javascript">var googletag = googletag || {}; googletag.cmd = googletag.cmd || []; var zad = zad || {}; zad.cmd = zad.cmd || [];
+window.zadConfig={"dfp": "/5691/IGN/Web/frontpage", "OOPs": [], "OOPsAppendSuffix": false, "autorefresh": 30, "prebid": false, "amazon": false, "dependencies": null, "libs": null, "gdprLibs": null, "pageTargeting": {"platforms": [], "tags": [], "page": "homepage", "special": "", "type": "", "lang": "de", "article_id": ""}, "lazy": true};window.zadSlotConfig={"sizemappingTemplates": {"billboard": [[[990, 250], [[970, 250], [997, 123], [970, 200], [970, 180], [980, 90], [970, 90], [728, 90]]], [[750, 200], [[728, 90]]], [[0, 0], [[4, 4]]]], "footer": [[[990, 250], [[997, 123], [970, 90], [728, 90]]], [[750, 200], [[728, 90], [468, 60]]], [[0, 0], [[320, 100], [300, 250]]]]}}</script><script type="text/javascript" src="/s/js/zad.js?437" async="true"></script>
+<script type="text/javascript" src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" async="true"></script>
+    
+</head>
+
+<body class="">
+<header>
+
+<div id="ignheader" class="wrap">
+  <section id="search-modal-container">
+    <div class="page-content">
+      <form action="/se/"class="search-modal">
+        <div class="search-input">
+          <input type="hidden" name="model" value="">
+          <input name="q" id="search-input" type="text" maxlength="60" placeholder="Suchen auf IGN Deutschland" autocomplete="off" value="">
+        </div>
+        <svg id="search-close" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ign-icon icon-close search-close" style="cursor: pointer;">
+          <title>Close</title><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect fill-opacity="0" fill="#D8D8D8" x="0" y="0" width="24" height="24"></rect><path d="M4,4 L20.9705627,20.9705627" stroke="#252627" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M4,4 L20.9705627,20.9705627" stroke="#252627" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="translate(12.485281, 12.485281) scale(-1, 1) translate(-12.485281, -12.485281) "></path></g></svg>
+            <button role="button" class="button button-primary">Suchen</button>
+        </form>
+    </div>
+  </section>
+  <div id="ign-logo-wrap">
+  <a id="headerlogo" href="https://de.ign.com/">
+  <svg class="ign-logo" viewBox="0 0 182 55" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <title>IGN Logo</title>
+      <defs></defs>
+      <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+          <g><g id="Group">
+            <path d="M97.2501416,32.2561667 L97.2501416,22.4167222 L123.688285,22.4236667 C126.372368,22.4236667 128.561099,24.5945 128.561099,27.2731111 L128.561099,38.9672778 C128.561099,44.9858889 123.740882,49.9672778 117.613548,49.9711667 L100.688105,49.9831111 C88.1440193,49.9831111 77.9951538,39.8772778 77.9951538,27.3881111 C77.9951538,14.9089444 88.2060774,4.79366667 100.707863,4.79366667 L126.91308,4.79366667 L126.91308,15.1747778 L100.702298,15.1747778 C93.9449214,15.1747778 88.3961477,20.6433889 88.3961477,27.3881111 C88.3961477,34.1231111 93.8636615,39.5950556 100.684765,39.5942222 L118.169288,39.5942222 L118.169288,32.2561667 L97.2501416,32.2561667 Z M74.5580254,4.73744444 C74.5580254,4.73744444 74.5638694,8.05911111 74.5638694,8.08022222 L74.5638694,50.0016111 L69.3487624,50.0016111 L69.1133312,50.0016111 C66.4492853,50.0016111 64.2725208,47.8438333 64.2725208,45.1846667 L64.2725208,12.4643889 L64.2727991,4.73744444 L74.5580254,4.73744444 Z M177.034127,4.76322222 C179.699008,4.76322222 181.858519,6.9235 181.858519,9.58211111 L181.858519,39.5876667 C181.858519,45.6126667 176.956763,50.4976667 170.92043,50.4976667 L170.733699,50.4976667 C166.779513,50.4976667 163.330139,48.5354444 161.408286,45.3187778 L144.004745,14.8490556 C143.861705,14.5835 143.61069,14.5048889 143.394182,14.5048889 C143.131757,14.5048889 142.901613,14.6493333 142.780558,14.8632222 C142.722396,14.9557222 142.677592,15.066 142.677592,15.1837778 L142.680653,50.0015556 L137.203956,50.0015556 C134.540745,50.0015556 132.372051,47.8437778 132.372051,45.1848889 L132.372051,15.1837778 C132.372051,9.15877778 137.266292,4.27433333 143.302347,4.27433333 L143.488243,4.27433333 C147.443265,4.27433333 150.971672,6.38961111 152.894916,9.60683333 L170.192987,39.8790556 C170.409772,40.1632222 170.605687,40.2635 170.826369,40.2635 C171.086846,40.2635 171.31365,40.1237778 171.436931,39.9162778 C171.491754,39.8332222 171.510121,39.7354444 171.517913,39.6312778 L171.513182,4.76322222 L177.034127,4.76322222 Z" id="IGN" fill="#252627"></path>
+            <path d="M12.5325367,17.4969167 C9.83593119,17.7924722 7.37392202,18.1949722 5.19799235,18.6919167 C7.64553058,12.4408056 12.6357813,7.45969444 18.8983624,5.01636111 C18.4007844,7.18802778 17.9972676,9.64580556 17.7003349,12.3380278 C15.6474083,13.6910833 13.8875183,15.44775 12.5325367,17.4969167 Z M37.561544,12.2788056 C37.2481924,9.60102778 36.8327092,7.15852778 36.3292872,4.99852778 C42.6141312,7.43463889 47.6238621,12.4246389 50.0786358,18.6915833 C47.9018713,18.1949167 45.4401404,17.7924167 42.7435349,17.4968611 C41.3866052,15.4454722 39.6247673,13.6876944 37.5690578,12.3343611 C37.5659966,12.3154722 37.5651618,12.2976944 37.561544,12.2788056 Z M17.7001401,42.4921667 C17.9967945,45.1849444 18.4005896,47.6427222 18.8978893,49.8141111 C12.6219505,47.3655 7.62446422,42.3677222 5.18249174,36.098 C7.32419205,36.5932778 9.75586789,37.0027222 12.4711187,37.3216111 C12.4911554,37.3252222 12.5100789,37.3260556 12.5298373,37.3296667 C13.8850972,39.3799444 15.645822,41.1382778 17.7001401,42.4921667 Z M42.8041737,37.3216667 C45.5171982,37.005 47.9485957,36.5963889 50.092244,36.1008333 C47.6444275,42.3855556 42.6271829,47.3911111 36.3298159,49.8316667 C36.8326813,47.6727778 37.2481645,45.2316667 37.5615162,42.555 C37.5654122,42.535 37.5662471,42.5161111 37.5695865,42.4961111 C39.6264092,41.1422222 41.3893602,39.3830556 42.7460116,37.3297222 C42.76577,37.3263889 42.7844153,37.3252778 42.8041737,37.3216667 Z M55.0276165,22.9458611 L55.0276165,31.83475 C50.8179621,33.7775278 44.5431364,34.5544722 42.4245339,34.7994722 C41.9135982,34.8958611 41.4360569,34.9414167 40.9740997,34.9414167 L34.2284116,27.4155833 L40.9740997,19.8889167 C41.3628673,19.8889167 41.7716716,19.9266944 42.2236104,20.0039167 C44.3923046,20.2350278 50.7726012,20.9803056 55.0276165,22.9458611 Z M14.3035859,19.8889167 L21.0476043,27.4155833 L14.3035859,34.9414167 C13.8405156,34.9414167 13.3615829,34.8958611 12.8520385,34.7994722 C10.7342709,34.5528056 4.45777554,33.7775278 0.247007951,31.8325278 L0.247007951,22.9478056 C4.5028581,20.9803056 10.8837113,20.2350278 13.0510141,20.0039167 C13.5060141,19.9266944 13.9137052,19.8889167 14.3035859,19.8889167 Z M20.098644,40.7283611 L27.6388428,33.99475 L35.1782067,40.7283611 C35.1782067,41.1889167 35.1311761,41.6666944 35.0346104,42.1761389 C34.7894391,44.2889167 34.0088428,50.5530833 32.0619437,54.7550278 L23.160641,54.7550278 C21.1898092,50.5091944 20.4439988,44.1391944 20.2121853,41.9755833 C20.1356563,41.5253056 20.098644,41.1153056 20.098644,40.7283611 Z M23.160641,0.0764166667 L32.0619437,0.0764166667 C34.0088428,4.28058333 34.7894391,10.5436389 35.0346104,12.6578056 C35.1311761,13.1669722 35.1782067,13.64225 35.1782067,14.1039167 L27.6388428,20.8391944 L20.098644,14.1039167 C20.098644,13.7180833 20.1356563,13.3089167 20.2121853,12.8575278 C20.4439988,10.6930833 21.1898092,4.32363889 23.160641,0.0764166667 Z" id="logomark" fill="#BF1313"></path>
+          </g></g>
+      </g>
+  </svg>
+  </a>
+  <div class="logodate"><div class="editions desktop">
+        <p>Deutschland</p>
+        <nav><ul>
+        <li class="big">
+            <span class="language">US</span>
+            <span class="option"><a href="https://www.ign.com/?setccpref=US" target="_blank">United States</a></span>
+        </li>
+
+        <li class="big">
+            <span class="language">UK</span>
+            <span class="option"><a href="https://www.ign.com/?setccpref=UK" target="_blank">United Kingdom</a></span>
+        </li>
+
+        <li class="big" style="margin-bottom: 15px">
+            <span class="language">AU</span>
+            <span class="option"><a href="https://www.ign.com/?setccpref=AU" target="_blank">Australia</a></span>
+        </li>
+
+        <li>
+            <span class="language">ADR</span>
+            <span class="option"><a hrel="nofollow" ref="https://adria.ign.com/" target="_blank">Adria</a></span>
+        </li>
+
+        <li>
+            <span class="language">AFR</span>
+            <span class="option"><a rel="nofollow" href="https://za.ign.com/" target="_blank">Africa</a></span>
+        </li>
+
+        <li>
+            <span class="language">BX</span>
+            <span class="option"><a rel="nofollow" href="https://nl.ign.com/" target="_blank">Benelux / Dutch</a></span>
+        </li>
+
+        <li>
+            <span class="language">BR</span>
+            <span class="option"><a rel="nofollow" href="https://br.ign.com/" target="_blank">Brazil</a></span>
+        </li>
+
+        <li>
+            <span class="language">CN</span>
+            <span class="option"><a rel="nofollow" href="https://www.ign.com.cn/" target="_blank">China / 中国</a></span>
+        </li>
+
+        <li>
+            <span class="language">CZ</span>
+            <span class="option"><a  rel="nofollow" href="https://cz.ign.com/" target="_blank">Czechia / Slovakia</a></span>
+        </li>
+
+        <li>
+            <span class="language">FR</span>
+            <span class="option"><a rel="nofollow" href="https://fr.ign.com/" target="_blank">France</a></span>
+        </li>
+
+        <li>
+            <span class="language">DE</span>
+            <span class="option"><a rel="nofollow" href="https://de.ign.com/" target="_blank">Germany</a></span>
+        </li>
+
+        <li>
+            <span class="language">GR</span>
+            <span class="option"><a rel="nofollow" href="https://gr.ign.com/" target="_blank">Greece / Ελλάδα</a></span>
+        </li>
+
+        <li>
+            <span class="language">HU</span>
+            <span class="option"><a rel="nofollow" href="https://hu.ign.com/" target="_blank">Hungary</a></span>
+        </li>
+
+        <li>
+            <span class="language">IN</span>
+            <span class="option"><a rel="nofollow" href="https://in.ign.com" target="_blank">India</a></span>
+        </li>
+
+        <li>
+            <span class="language">IL</span>
+            <span class="option"><a rel="nofollow" href="https://il.ign.com" target="_blank">Israel</a></span>
+        </li>
+
+        <li>
+            <span class="language">IT</span>
+            <span class="option"><a rel="nofollow" href="https://it.ign.com/" target="_blank">Italy / Italia</a></span>
+        </li>
+
+        <li>
+            <span class="language">JP</span>
+            <span class="option"><a rel="nofollow" href="https://jp.ign.com/" target="_blank">Japan / 日本</a></span>
+        </li>
+
+        <li>
+            <span class="language">KR</span>
+            <span class="option"><a  rel="nofollow" href="https://kr.ign.com/" target="_blank">Korea / 한국</a></span>
+        </li>
+
+        <li>
+            <span class="language">LAT</span>
+            <span class="option"><a rel="nofollow" href="https://latam.ign.com/" target="_blank">Latin America</a></span>
+        </li>
+
+        <li>
+            <span class="language">AR</span>
+            <span class="option"><a rel="nofollow" href="https://me.ign.com/ar/" target="_blank">Middle East</a> / <a class="link" href="https://me.ign.com/ar/" target="_blank">الشرقالأوسط</a></span>
+        </li>
+        <li>
+            <span class="language">ME</span>
+            <span class="option"><a rel="nofollow" href="https://me.ign.com/en/" target="_blank">Middle East</a> / <a class="link" href="https://me.ign.com/en/" target="_blank">EN</a></span>
+        </li>
+        <li>
+            <span class="language">NOR</span>
+            <span class="option"><a rel="nofollow" href="https://nordic.ign.com/" target="_blank">Nordic</a></span>
+        </li>
+
+        <li>
+            <span class="language">PL</span>
+            <span class="option"><a rel="nofollow" href="https://pl.ign.com/" target="_blank">Poland</a></span>
+        </li>
+
+        <li>
+            <span class="language">PT</span>
+            <span class="option"><a rel="nofollow" href="https://pt.ign.com/" target="_blank">Portugal</a></span>
+        </li>
+
+        <li>
+            <span class="language">RU</span>
+            <span class="option"><a rel="nofollow" href="https://ru.ign.com/" target="_blank">Russia / Россия</a></span>
+        </li>
+
+        <li>
+            <span class="language">SEA</span>
+            <span class="option"><a rel="nofollow" href="https://ap.ign.com/" target="_blank">Southeast Asia</a></span>
+        </li>
+
+        <li>
+            <span class="language">ES</span>
+            <span class="option"><a rel="nofollow" href="https://es.ign.com/" target="_blank">Spain / España</a></span>
+        </li>
+
+        <li>
+            <span class="language">TR</span>
+            <span class="option"><a rel="nofollow" href="https://tr.ign.com/" target="_blank">Turkey / Türkiye</a></span>
+        </li>
+
+        <li><span class="brand option"><a rel="nofollow" href="https://world.ign.com/" target="_blank">world.ign.com</a></span></li>
+       </ul></nav>
+</div></div>
+  </div>
+  <span id="headermenuwrapper">
+    <div id="menuToggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+  <ul id="logomenu">
+    <li class="browse-ign">
+      <div class="browse-ign-label">IGN Deutschland</div>
+    </li>
+    <li class="myLogin">
+        <div id="toploginm">
+          <a href="https://www.ign.com/sign-in?redirect=http%3A//de.ign.com/" target="_top" rel="nofollow" class="lightbox main">Login</a>
+          <div class="uico"></div>
+          <div class="usermenu">
+            <ul>
+              <li><a href="https://www.ign.com/register?redirect=http%3A//de.ign.com/" rel="nofollow" target="_top"  class="lightbox">Registrieren</a></li>
+            </ul>
+          </div>
+        </div>
+    </li>
+    <li class=" first"><a  href="/article/news">News</a></li><li><a  href="/article/review">Tests & Kritiken</a></li><li><a  href="/article/feature">Features</a></li><li><a  href="/article/opinion">Kolumnen</a></li>
+    <li class="navmenu selector extramenu">
+            <span class="subtitle">Entertainment</span>
+            <span class="dropdown-arrow"><svg class="ign-icon icon-down-arrow" width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <g id="Symbols" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+              <g id="2.-Glyphs-and-Controls/glyph-dropdown-black" stroke-width="2">
+                  <polyline id="Rectangle-3" transform="translate(6.000000, 5.000000) rotate(-45.000000) translate(-6.000000, -5.000000) " points="8 7 4 7 4 3 4 3"></polyline>
+              </g>
+          </g>
+          </svg></span>
+            <div class="col more browseentertainment"><ul id="browseentertainment"><li class=" first"><a  href="/article/news">Neuigkeiten</a></li><li><a  href="/article/review">Filmkritiken</a></li><li><a  href="/article/feature">Specials</a></li><li><a  href="/video/">Videos</a></li><li><a  href="/marvel ">Marvel</a></li><li><a  href="/star-wars-news">Star Wars </a></li><li><a  href="/comics/">Comics</a></li></ul></div>
+    </li>
+    <li class="navmenu selector extramenu">
+            <span class="subtitle">Gaming</span>
+            <span class="dropdown-arrow"><svg class="ign-icon icon-down-arrow" width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <g id="Symbols" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+              <g id="2.-Glyphs-and-Controls/glyph-dropdown-black" stroke-width="2">
+                  <polyline id="Rectangle-3" transform="translate(6.000000, 5.000000) rotate(-45.000000) translate(-6.000000, -5.000000) " points="8 7 4 7 4 3 4 3"></polyline>
+              </g>
+          </g>
+          </svg></span>
+            <div class="col more browsegame"><ul id="browsegaming"><li class=" first"><a  href="/ps4/">PS4</a></li><li><a  href="/xbox-one/">Xbox One</a></li><li><a  href="/nintendo-nx/">Switch</a></li><li><a  href="/pc/">PC</a></li><li><a  href="/reviews">Reviews</a></li><li><a  href="/previews">Previews</a></li><li><a  href="/upcoming_games/">Spiele 2020</a></li></ul></div>
+    </li>
+    <li class="navmenu selector extramenu">
+          <span class="subtitle">Mehr anzeigen</span>
+          <span class="dropdown-arrow"><svg class="ign-icon icon-down-arrow" width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <g id="Symbols" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+              <g id="2.-Glyphs-and-Controls/glyph-dropdown-black" stroke-width="2">
+                  <polyline id="Rectangle-3" transform="translate(6.000000, 5.000000) rotate(-45.000000) translate(-6.000000, -5.000000) " points="8 7 4 7 4 3 4 3"></polyline>
+              </g>
+          </g>
+          </svg></span>
+           <div class="col more browseabout"><ul id="footer1"><li class=" first"><b>Über IGN Deutschland</b></li><li><a  href="/ign-deutschland/71978/page/impressum">Impressum</a></li><li><a  href="/ign-deutschland/71931/page/nutzungsvereinbarung">Nutzervereinbarung</a></li><li><a  href="/ign-deutschland/71930/page/ign-datenschutzrichtlinie">Datenschutzbestimmungen</a></li><li><a  href="/ign-deutschland/107449/page/cookie-richtlinien">Cookie-Richtlinien</a></li><li><a  href="/pc/72140/page/unsere-rss-feeds">RSS</a></li></ul></div>
+    </li>
+    <li class="more toggletopmore">Mehr anzeigen
+      <span class="dropdown-arrow"><svg class="ign-icon icon-down-arrow" width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <g id="Symbols" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+          <g id="2.-Glyphs-and-Controls/glyph-dropdown-black" stroke-width="2">
+            <polyline id="Rectangle-3" transform="translate(6.000000, 5.000000) rotate(-45.000000) translate(-6.000000, -5.000000) " points="8 7 4 7 4 3 4 3"></polyline>
+          </g>
+        </g>
+      </svg></span>
+      </li>
+      <div class="region">
+    <div class="region-selector">
+        <select id="region-dropdown" class="region-dropdown">
+            <option value="" disabled="" selected="">Change Region</option>
+            <option value="https://world.ign.com/">World.IGN.com</option>
+            <option value="https://www.ign.com/?setccpref=US">United States</option>
+            <option value="https://uk.ign.com/?setccpref=UK">United Kingdom</option>
+            <option value="https://au.ign.com/?setccpref=AU">Australia</option>
+            <option value="https://za.ign.com/">Africa</option>
+            <option value="https://adria.ign.com/">Adria</option>
+            <option value="https://nl.ign.com/">Benelux / Dutch</option>
+            <option value="https://br.ign.com/">Brazil</option>
+            <option value="https://www.ign.com.cn/">China / 中国</option>
+            <option value="https://cz.ign.com/">Czechia / Slovakia</option>
+            <option value="https://fr.ign.com/">France</option>
+            <option value="https://de.ign.com/">Germany</option>
+            <option value="https://gr.ign.com/">Greece / Ελλάδα</option>
+            <option value="https://hu.ign.com/">Hungary</option>
+            <option value="https://in.ign.com/">India</option>
+            <option value="https://il.ign.com/">Israel</option>
+            <option value="https://it.ign.com/">Italy / Italia</option>
+            <option value="https://jp.ign.com/">Japan / 日本</option>
+            <option value="https://kr.ign.com/">Korea / 한국</option>
+            <option value="https://latam.ign.com/">Latin America</option>
+            <option value="https://me.ign.com/en/">Middle East - English</option>
+            <option value="https://me.ign.com/ar/">Middle East -  الأوسطالشرق</option>
+            <option value="https://nordic.ign.com/">Nordic</option>
+            <option value="https://pl.ign.com/">Poland</option>
+            <option value="https://pt.ign.com/">Portugal</option>
+            <option value="https://ru.ign.com/">Russia / Россия</option>
+            <option value="https://sea.ign.com/">Southeast Asia</option>
+            <option value="https://es.ign.com/">Spain / España</option>
+            <option value="https://tr.ign.com/">Turkey / Türkiye</option>
+        </select>
+    </div>
+</div>
+    </ul>
+
+    <ul id="searchwrapper">
+      <li class="search">
+       <svg class="ign-icon icon-search-2" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+          <g id="2.-Glyphs-and-Controls/glyph-nav-search">
+              <rect id="Rectangle" fill-opacity="0" fill="#D8D8D8" x="0" y="0" width="24" height="24"></rect>
+              <circle id="Oval-2" stroke="#252627" stroke-width="2" cx="11" cy="10" r="7"></circle>
+              <path d="M15.5,15.5 L20.7201533,20.7201533" id="Line-4" stroke="#252627" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </g>
+        </g>
+        </svg></a>
+        
+      </li>
+    </ul>
+
+    <ul id="loginwrapper">
+      <li class="myign">
+       <div id="toplogin">
+        <a href="https://www.ign.com/sign-in?redirect=http%3A//de.ign.com/" target="_top" rel="nofollow" class="lightbox main">Login</a>
+        <div class="uico"></div>
+        <div class="usermenu">
+          <ul>
+            <li><a href="https://www.ign.com/register?redirect=http%3A//de.ign.com/" rel="nofollow" target="_top"  class="lightbox">Registrieren</a></li>
+          </ul>
+        </div>
+      </div>
+      </li>
+    </ul>
+  </span>
+</div>
+<div id="gheader"><ul id="globalheader"><li><a href="/ps5">PlayStation 5</a></li><li><a href="/xbox-scarlet">Xbox Series X</a></li><li><a href="/resident-evil-village">Resident Evil Village</a></li><li><a href="article/news">Aktuelle News</a></li></ul></div>
+<nav id="topmore">
+  <div class="wrap">
+    <div class="col browseabout"><b>IGN Deutschland</b><ul id="footer1"><li class=" first"><b>Über IGN Deutschland</b></li><li><a  href="/ign-deutschland/71978/page/impressum">Impressum</a></li><li><a  href="/ign-deutschland/71931/page/nutzungsvereinbarung">Nutzervereinbarung</a></li><li><a  href="/ign-deutschland/71930/page/ign-datenschutzrichtlinie">Datenschutzbestimmungen</a></li><li><a  href="/ign-deutschland/107449/page/cookie-richtlinien">Cookie-Richtlinien</a></li><li><a  href="/pc/72140/page/unsere-rss-feeds">RSS</a></li></ul>
+        <div class="region">
+    <div class="region-selector">
+        <select id="region-dropdown" class="region-dropdown">
+            <option value="" disabled="" selected="">Change Region</option>
+            <option value="https://world.ign.com/">World.IGN.com</option>
+            <option value="https://www.ign.com/?setccpref=US">United States</option>
+            <option value="https://uk.ign.com/?setccpref=UK">United Kingdom</option>
+            <option value="https://au.ign.com/?setccpref=AU">Australia</option>
+            <option value="https://za.ign.com/">Africa</option>
+            <option value="https://adria.ign.com/">Adria</option>
+            <option value="https://nl.ign.com/">Benelux / Dutch</option>
+            <option value="https://br.ign.com/">Brazil</option>
+            <option value="https://www.ign.com.cn/">China / 中国</option>
+            <option value="https://cz.ign.com/">Czechia / Slovakia</option>
+            <option value="https://fr.ign.com/">France</option>
+            <option value="https://de.ign.com/">Germany</option>
+            <option value="https://gr.ign.com/">Greece / Ελλάδα</option>
+            <option value="https://hu.ign.com/">Hungary</option>
+            <option value="https://in.ign.com/">India</option>
+            <option value="https://il.ign.com/">Israel</option>
+            <option value="https://it.ign.com/">Italy / Italia</option>
+            <option value="https://jp.ign.com/">Japan / 日本</option>
+            <option value="https://kr.ign.com/">Korea / 한국</option>
+            <option value="https://latam.ign.com/">Latin America</option>
+            <option value="https://me.ign.com/en/">Middle East - English</option>
+            <option value="https://me.ign.com/ar/">Middle East -  الأوسطالشرق</option>
+            <option value="https://nordic.ign.com/">Nordic</option>
+            <option value="https://pl.ign.com/">Poland</option>
+            <option value="https://pt.ign.com/">Portugal</option>
+            <option value="https://ru.ign.com/">Russia / Россия</option>
+            <option value="https://sea.ign.com/">Southeast Asia</option>
+            <option value="https://es.ign.com/">Spain / España</option>
+            <option value="https://tr.ign.com/">Turkey / Türkiye</option>
+        </select>
+    </div>
+</div>
+    </div>
+    <div class="col browsesocial"><b>Social</b><ul id="browsesocial"><li class=" first"><a target='_blank' href="https://www.instagram.com/igndotde/">Instagram</a></li><li><a target='_blank' href="https://twitter.com/igndeutschland">Twitter</a></li><li><a target='_blank' href="https://www.facebook.com/IGN.Deutschland">Facebook</a></li><li><a target='_blank' href="https://ask.fm/IGNdotde">ASKfm</a></li><li><a target='_blank' href="https://www.youtube.com/channel/UCe6YmEmUDftbZS_2KdQ9YvQ">Youtube</a></li></ul></div>
+    <div class="col browseentertainment"><b>Entertainment</b><ul id="browseentertainment"><li class=" first"><a  href="/article/news">Neuigkeiten</a></li><li><a  href="/article/review">Filmkritiken</a></li><li><a  href="/article/feature">Specials</a></li><li><a  href="/video/">Videos</a></li><li><a  href="/marvel ">Marvel</a></li><li><a  href="/star-wars-news">Star Wars </a></li><li><a  href="/comics/">Comics</a></li></ul></div>
+    <div class="col browsegame"><b>Gaming</b><ul id="browsegaming"><li class=" first"><a  href="/ps4/">PS4</a></li><li><a  href="/xbox-one/">Xbox One</a></li><li><a  href="/nintendo-nx/">Switch</a></li><li><a  href="/pc/">PC</a></li><li><a  href="/reviews">Reviews</a></li><li><a  href="/previews">Previews</a></li><li><a  href="/upcoming_games/">Spiele 2020</a></li></ul></div>
+  </div>
+  <div class="legal wrap">
+    <a href="http://world.ziffdavis.com"><img width=65 height=25 src="/s/ign/footer_zd.png" class="zdworld" alt=""></a>
+    <span class="licensee">IGN Deutschland wird betrieben unter Lizenz</span>
+  </div>
+</nav>
+
+
+</header>
+
+
+
+
+<div class="zad billboard" data-zadtype="billboard" ></div>
+<div class="page-content">
+
+
+<section class="vspotlight">
+
+  <article class="card NEWS p1">
+    <a href="https://de.ign.com/ghostrunner/136970/news/ghostrunner-neue-spielmodi-sequel-details-im-livestream" class="thumb">
+	  <img src="https://sm.ign.com/t/ign_de/blogroll/g/ghostrunne/ghostrunner-review_2jfn.560.jpg" alt="Ghostrunner: Neue Spielmodi &amp; Sequel-Details im Livestream" class="thumb" srcset="https://sm.ign.com/t/ign_de/blogroll/g/ghostrunne/ghostrunner-review_2jfn.560.jpg, https://sm.ign.com/t/ign_de/blogroll/g/ghostrunne/ghostrunner-review_2jfn.1280.jpg 2x">
+	  <h3 class="caption">Ghostrunner: Neue Spielmodi &amp; Sequel-Details im Livestream</h3>
+	</a>
+  </article>
+
+  <article class="card NEWS p2">
+    <a href="https://de.ign.com/film/136969/news/the-tomorrow-war-trailer-star-lord-zieht-in-den-krieg" class="thumb">
+	  <img src="https://sm.ign.com/t/ign_de/screenshot/default/the-tomorrow-war-trailer-teaser_5fjb.560.jpg" alt="The Tomorrow War-Trailer: Star-Lord zieht in den Krieg" class="thumb" srcset="https://sm.ign.com/t/ign_de/screenshot/default/the-tomorrow-war-trailer-teaser_5fjb.560.jpg, https://sm.ign.com/t/ign_de/screenshot/default/the-tomorrow-war-trailer-teaser_5fjb.1280.jpg 2x">
+	  <h3 class="caption">The Tomorrow War-Trailer: Star-Lord zieht in den Krieg</h3>
+	</a>
+  </article>
+
+  <article class="card NEWS p3">
+    <a href="/entertainment/136967/news/portal-film-laut-jj-abrams-weiterhin-in-arbeit" class="thumb">
+	  <img src="https://sm.ign.com/t/ign_de/screenshot/default/portal-1_6dvr.560.jpg" alt="Portal-Film laut J.J. Abrams weiterhin in Arbeit" class="thumb" srcset="https://sm.ign.com/t/ign_de/screenshot/default/portal-1_6dvr.560.jpg, https://sm.ign.com/t/ign_de/screenshot/default/portal-1_6dvr.1280.jpg 2x">
+	  <h3 class="caption">Portal-Film laut J.J. Abrams weiterhin in Arbeit</h3>
+	</a>
+  </article>
+
+  <article class="card NEWS p4">
+    <a href="https://de.ign.com/virtua-fighter/136965/news/virtua-fighter-5-ist-zuruck-mit-einem-ps4-exklusiven-remake" class="thumb">
+	  <img src="https://sm.ign.com/t/ign_de/slotter/default/virtua-fighter-5-remake_eras.560.jpg" alt="Virtua Fighter 5 ist zurück: Mit einem PS4-exklusiven Remake" class="thumb" srcset="https://sm.ign.com/t/ign_de/slotter/default/virtua-fighter-5-remake_eras.560.jpg, https://sm.ign.com/t/ign_de/slotter/default/virtua-fighter-5-remake_eras.1280.jpg 2x">
+	  <h3 class="caption">Virtua Fighter 5 ist zurück: Mit einem PS4-exklusiven Remake</h3>
+	</a>
+  </article>
+
+</section>
+
+
+
+
+<section class="hspotlight"><div class="wrap">
+<h2>Die neuesten Trailer &amp; News</h2>
+
+  <article class="card NEWS p1">
+    <a href="https://de.ign.com/the-eternals/136966/news/eternals-teaser-das-lange-warten-hat-ein-ende" class="thumb"><img src="https://sm.ign.com/t/ign_de/image/a/all-the-bi/all-the-big-movies-probably-coming-in-2021_6jd6.320.jpg" alt="Eternals-Teaser: Das lange Warten hat ein Ende" class="thumb" srcset="https://sm.ign.com/t/ign_de/image/a/all-the-bi/all-the-big-movies-probably-coming-in-2021_6jd6.320.jpg, https://sm.ign.com/t/ign_de/image/a/all-the-bi/all-the-big-movies-probably-coming-in-2021_6jd6.640.jpg 2x"></a>
+	<h3 class="caption"><a href="https://de.ign.com/the-eternals/136966/news/eternals-teaser-das-lange-warten-hat-ein-ende">Eternals-Teaser: Das lange Warten hat ein Ende</a></h3>
+  </article>
+
+  <article class="card VIDEO p2">
+    <a href="https://de.ign.com/mass-effect-trilogy/136962/video/mass-effect-legendary-edition-unser-grosses-review-zum-ersten-teil" class="thumb"><img src="https://sm.ign.com/t/ign_de/video/m/mass-effec/mass-effect-legendary-edition-review-part-1-mass-effect_xy2v.320.jpg" alt="Mass Effect Legendary Edition - Unser großes Review zum ersten Teil" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/m/mass-effec/mass-effect-legendary-edition-review-part-1-mass-effect_xy2v.320.jpg, https://sm.ign.com/t/ign_de/video/m/mass-effec/mass-effect-legendary-edition-review-part-1-mass-effect_xy2v.640.jpg 2x"></a>
+	<h3 class="caption"><a href="https://de.ign.com/mass-effect-trilogy/136962/video/mass-effect-legendary-edition-unser-grosses-review-zum-ersten-teil">Mass Effect Legendary Edition - Unser großes Review zum ersten Teil</a></h3>
+  </article>
+
+  <article class="card VIDEO p3">
+    <a href="https://de.ign.com/tv/136941/video/friends-the-reunion-offizieller-teaser-trailer" class="thumb"><img src="https://sm.ign.com/t/ign_de/video/f/friends-th/friends-the-reunion-official-teaser-trailer_q2av.320.jpg" alt="Friends: The Reunion - Offizieller Teaser-Trailer" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/f/friends-th/friends-the-reunion-official-teaser-trailer_q2av.320.jpg, https://sm.ign.com/t/ign_de/video/f/friends-th/friends-the-reunion-official-teaser-trailer_q2av.640.jpg 2x"></a>
+	<h3 class="caption"><a href="https://de.ign.com/tv/136941/video/friends-the-reunion-offizieller-teaser-trailer">Friends: The Reunion - Offizieller Teaser-Trailer</a></h3>
+  </article>
+
+  <article class="card VIDEO p4">
+    <a href="/victoria-iii/136963/video/victoria-3-endlich-offiziell-angekundigt" class="thumb"><img src="https://sm.ign.com/t/ign_de/video/v/victoria-3/victoria-3-announcement-trailer_rsy6.320.jpg" alt="Victoria 3 - Endlich offiziell angekündigt" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/v/victoria-3/victoria-3-announcement-trailer_rsy6.320.jpg, https://sm.ign.com/t/ign_de/video/v/victoria-3/victoria-3-announcement-trailer_rsy6.640.jpg 2x"></a>
+	<h3 class="caption"><a href="/victoria-iii/136963/video/victoria-3-endlich-offiziell-angekundigt">Victoria 3 - Endlich offiziell angekündigt</a></h3>
+  </article>
+
+</div></section>
+
+
+
+
+  
+
+
+<section class="broll wrap" data-pagenum="1" data-total="5868">
+  <div class="side-ad-trail">
+    <div class="ad-wrapper"><div class="zad halfpage" data-zadtype="halfpage" ></div></div>
+  </div>
+  <h2>Aktuelle Meldungen</h2>
+  <div class="tbl">
+  
+  <article class="video VIDEO" id="content136964" data-embed-url="https://de.ign.com/video/136964/embed">
+    <div class="t">
+    <a href="https://de.ign.com/video/136964/virtua-fighter-5-ps4-remake" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/screenshot/default/virtuafighter5ultimateshowdown-trailer-blogroll_fu6v.280.jpg" alt="Virtua Fighter 5 PS4 Remake (Video )" class="thumb" srcset="https://sm.ign.com/t/ign_de/screenshot/default/virtuafighter5ultimateshowdown-trailer-blogroll_fu6v.280.jpg, https://sm.ign.com/t/ign_de/screenshot/default/virtuafighter5ultimateshowdown-trailer-blogroll_fu6v.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">01:10</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-25T15:00:24+02:00">2 Tage, 4 Stunden</time>
+      <a href="https://de.ign.com/video/136964/virtua-fighter-5-ps4-remake#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136964">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/video/136964/virtua-fighter-5-ps4-remake">Virtua Fighter 5 PS4 Remake</a></h3>
+      <p>Das sieht nach einem Volltreffer aus!</p>
+    </div>
+  </article>
+  
+  <article class="article NEWS" id="content136961" data-embed-url="">
+    <div class="t">
+    <a href="https://de.ign.com/film/136961/news/viel-los-bei-dc-updates-zu-aquaman-2-batgirl-black-adam-mehr" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/image/1/11-times-a/11-times-actors-lied-about-casting-rumors_evbb.280.jpg" alt="Viel los bei DC: Updates zu Aquaman 2, Batgirl, Black Adam &amp; mehr (News Film)" class="thumb" srcset="https://sm.ign.com/t/ign_de/image/1/11-times-a/11-times-actors-lied-about-casting-rumors_evbb.280.jpg, https://sm.ign.com/t/ign_de/image/1/11-times-a/11-times-actors-lied-about-casting-rumors_evbb.600.jpg 2x">
+      
+      
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-21T14:37:36+02:00">6 Tage, 5 Stunden</time>
+      <a href="https://de.ign.com/film/136961/news/viel-los-bei-dc-updates-zu-aquaman-2-batgirl-black-adam-mehr#disqus_thread" class="comments commentscount" data-disqus-identifier="article_136961">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/film/136961/news/viel-los-bei-dc-updates-zu-aquaman-2-batgirl-black-adam-mehr">Viel los bei DC: Updates zu Aquaman 2, Batgirl, Black Adam &amp; mehr</a></h3>
+      <p>Das DC-Filmuniversum und -Serienuniversum stellt im Vergleich zum MCU weiterhin einen Flickenteppich dar. Doch für Nachschub ist reichlich gesorgt</p>
+    </div>
+  </article>
+  
+  <article class="article NEWS" id="content136960" data-embed-url="">
+    <div class="t">
+    <a href="https://de.ign.com/timesplitters-4/136960/news/neu-gegrundet-free-radical-design-bringt-timesplitters-zuruck" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/screenshot/default/blob_vtg5.280.jpg" alt="Neu gegründet: Free Radical Design bringt TimeSplitters zurück (News Timesplitters 4)" class="thumb" srcset="https://sm.ign.com/t/ign_de/screenshot/default/blob_vtg5.280.jpg, https://sm.ign.com/t/ign_de/screenshot/default/blob_vtg5.600.jpg 2x">
+      
+      
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-20T14:17:22+02:00">1 Woche</time>
+      <a href="https://de.ign.com/timesplitters-4/136960/news/neu-gegrundet-free-radical-design-bringt-timesplitters-zuruck#disqus_thread" class="comments commentscount" data-disqus-identifier="article_136960">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/timesplitters-4/136960/news/neu-gegrundet-free-radical-design-bringt-timesplitters-zuruck">Neu gegründet: Free Radical Design bringt TimeSplitters zurück</a></h3>
+      <p>Schon in Kürze beginnen die Arbeiten an einem neuen TimeSplitters. Verantwortlich zeichnet sich das neu gegründete Studio Free Radical Design.</p>
+    </div>
+  </article>
+  
+  <article class="article NEWS" id="content136957" data-embed-url="">
+    <div class="t">
+    <a href="https://de.ign.com/resident-evil-infinite-darkness/136957/news/resident-evil-infinite-darkness-netflix-prasentiert-neuen-trailer" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/blogroll/r/resident-e/resident-evil-infinite-darkness-netflix-show-officially-anno_p95w.280.jpg" alt="Resident Evil: Infinite Darkness – Netflix präsentiert neuen Trailer (News Resident Evil: Infinite Darkness)" class="thumb" srcset="https://sm.ign.com/t/ign_de/blogroll/r/resident-e/resident-evil-infinite-darkness-netflix-show-officially-anno_p95w.280.jpg, https://sm.ign.com/t/ign_de/blogroll/r/resident-e/resident-evil-infinite-darkness-netflix-show-officially-anno_p95w.600.jpg 2x">
+      
+      
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-19T15:34:50+02:00">1 Woche, 1 Tag</time>
+      <a href="https://de.ign.com/resident-evil-infinite-darkness/136957/news/resident-evil-infinite-darkness-netflix-prasentiert-neuen-trailer#disqus_thread" class="comments commentscount" data-disqus-identifier="article_136957">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/resident-evil-infinite-darkness/136957/news/resident-evil-infinite-darkness-netflix-prasentiert-neuen-trailer">Resident Evil: Infinite Darkness – Netflix präsentiert neuen Trailer</a></h3>
+      <p>Das Schicksal meint es derzeit gut mit Resident Evil-Fans. Neues Material ist mit Infinite Darkness auch in Serienform unterwegs!</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136959" data-embed-url="https://de.ign.com/magic-legends/136959/video/embed">
+    <div class="t">
+    <a href="https://de.ign.com/magic-legends/136959/video/magic-legends-so-funktioniert-die-pyromagierin-klasse" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/video/m/magic-lege/magic-legends-official-pyromancer-reveal-trailer_6vqh.280.jpg" alt="Magic Legends: So funktioniert die Pyromagierin-Klasse (Video Magic Legends)" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/m/magic-lege/magic-legends-official-pyromancer-reveal-trailer_6vqh.280.jpg, https://sm.ign.com/t/ign_de/video/m/magic-lege/magic-legends-official-pyromancer-reveal-trailer_6vqh.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">02:56</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-19T15:00:00+02:00">1 Woche, 1 Tag</time>
+      <a href="https://de.ign.com/magic-legends/136959/video/magic-legends-so-funktioniert-die-pyromagierin-klasse#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136959">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/magic-legends/136959/video/magic-legends-so-funktioniert-die-pyromagierin-klasse">Magic Legends: So funktioniert die Pyromagierin-Klasse</a></h3>
+      <p>Adam Hetenyi, Design Lead bei Magic: Legends hat euch heute einige Details über die neueste Planeswalker-Klasse, die Pyromagierin, im Gepäck.</p>
+    </div>
+  </article>
+  
+  <article class="article NEWS" id="content136955" data-embed-url="">
+    <div class="t">
+    <a href="https://de.ign.com/snake-eyes-2/136955/news/erster-trailer-snake-eyes-prasentiert-sich-im-gi-joe-prequel" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/image/s/snake-eyes/snake-eyes-origin-movie-will-reveal-masked-gi-joes-face_df4f.280.jpg" alt="Erster Trailer! Snake Eyes präsentiert sich im G.I. Joe-Prequel (News Snake Eyes)" class="thumb" srcset="https://sm.ign.com/t/ign_de/image/s/snake-eyes/snake-eyes-origin-movie-will-reveal-masked-gi-joes-face_df4f.280.jpg, https://sm.ign.com/t/ign_de/image/s/snake-eyes/snake-eyes-origin-movie-will-reveal-masked-gi-joes-face_df4f.600.jpg 2x">
+      
+      
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-17T17:01:23+02:00">1 Woche, 3 Tage</time>
+      <a href="https://de.ign.com/snake-eyes-2/136955/news/erster-trailer-snake-eyes-prasentiert-sich-im-gi-joe-prequel#disqus_thread" class="comments commentscount" data-disqus-identifier="article_136955">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/snake-eyes-2/136955/news/erster-trailer-snake-eyes-prasentiert-sich-im-gi-joe-prequel">Erster Trailer! Snake Eyes präsentiert sich im G.I. Joe-Prequel</a></h3>
+      <p>Habt ihr etwas anderes erwartet? Der Snake Eyes: G.I. Joe Origins-Trailer bietet jede Menge Action</p>
+    </div>
+  </article>
+  
+  </div>
+</section>
+
+
+
+
+
+  
+
+
+<section class="broll wrap" data-pagenum="1" data-total="5868">
+  <div class="side-ad-trail">
+    <div class="ad-wrapper"><div class="zad halfpage" data-zadtype="halfpage" ></div></div>
+  </div>
+  
+  <div class="tbl">
+  
+  <article class="article NEWS" id="content136954" data-embed-url="">
+    <div class="t">
+    <a href="https://de.ign.com/netflix/136954/news/erster-blick-auf-masters-of-the-universe-revelation" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/blogroll/i/iron-man-w/iron-man-writers-to-script-he-man-and-masters-of-the-univers_1bd9.280.jpg" alt="Erster Blick auf Masters of the Universe: Revelation (News Netflix)" class="thumb" srcset="https://sm.ign.com/t/ign_de/blogroll/i/iron-man-w/iron-man-writers-to-script-he-man-and-masters-of-the-univers_1bd9.280.jpg, https://sm.ign.com/t/ign_de/blogroll/i/iron-man-w/iron-man-writers-to-script-he-man-and-masters-of-the-univers_1bd9.600.jpg 2x">
+      
+      
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-17T16:05:13+02:00">1 Woche, 3 Tage</time>
+      <a href="https://de.ign.com/netflix/136954/news/erster-blick-auf-masters-of-the-universe-revelation#disqus_thread" class="comments commentscount" data-disqus-identifier="article_136954">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/netflix/136954/news/erster-blick-auf-masters-of-the-universe-revelation">Erster Blick auf Masters of the Universe: Revelation</a></h3>
+      <p>Die animierte Masters of the Universe-Serie von Netfix präsentiert sich auf ersten Bildern</p>
+    </div>
+  </article>
+  
+  <article class="article NEWS" id="content136953" data-embed-url="">
+    <div class="t">
+    <a href="https://de.ign.com/returnal/136953/news/returnal-housemarque-wurde-vom-preis-selbst-uberrascht" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/blogroll/h/housemarqu/housemarque-found-out-about-returnals-70-price-tag-the-same_664b.280.jpg" alt="Returnal: Housemarque wurde vom Preis selbst überrascht (News Returnal)" class="thumb" srcset="https://sm.ign.com/t/ign_de/blogroll/h/housemarqu/housemarque-found-out-about-returnals-70-price-tag-the-same_664b.280.jpg, https://sm.ign.com/t/ign_de/blogroll/h/housemarqu/housemarque-found-out-about-returnals-70-price-tag-the-same_664b.600.jpg 2x">
+      
+      
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-17T14:59:05+02:00">1 Woche, 3 Tage</time>
+      <a href="https://de.ign.com/returnal/136953/news/returnal-housemarque-wurde-vom-preis-selbst-uberrascht#disqus_thread" class="comments commentscount" data-disqus-identifier="article_136953">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/returnal/136953/news/returnal-housemarque-wurde-vom-preis-selbst-uberrascht">Returnal: Housemarque wurde vom Preis selbst überrascht</a></h3>
+      <p>Erst relativ spät erfuhr Housemarque, die Schmiede von Returnal, was auf dem Preisspiel des Games stehen wird.</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136950" data-embed-url="https://de.ign.com/final-fantasy-xiv-online/136950/video/embed">
+    <div class="t">
+    <a href="https://de.ign.com/final-fantasy-xiv-online/136950/video/final-fantasy-xiv-endwalker-offizieller-cinematic-trailer" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/video/f/final-fant/final-fantasy-xiv-endwalker-official-full-cinematic-trailer_qbnt.280.jpg" alt="FINAL FANTASY XIV: Endwalker - Offizieller Cinematic-Trailer (Video Final Fantasy XIV Online)" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/f/final-fant/final-fantasy-xiv-endwalker-official-full-cinematic-trailer_qbnt.280.jpg, https://sm.ign.com/t/ign_de/video/f/final-fant/final-fantasy-xiv-endwalker-official-full-cinematic-trailer_qbnt.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">05:59</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-15T03:27:00+02:00">1 Woche, 5 Tage</time>
+      <a href="https://de.ign.com/final-fantasy-xiv-online/136950/video/final-fantasy-xiv-endwalker-offizieller-cinematic-trailer#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136950">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/final-fantasy-xiv-online/136950/video/final-fantasy-xiv-endwalker-offizieller-cinematic-trailer">FINAL FANTASY XIV: Endwalker - Offizieller Cinematic-Trailer</a></h3>
+      <p>Schaut euch den offiziellen Cinematic-Trailer für die neue Erweiterung zu Final Fantasy 14 mit dem Namen Endwalker an.</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136952" data-embed-url="https://de.ign.com/biomutant/136952/video/embed">
+    <div class="t">
+    <a href="https://de.ign.com/biomutant/136952/video/biomutant-playstation-4-xbox-one-gameplay" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/video/b/biomutant-/biomutant-playstation-4-and-xbox-one-gameplay-footage_c5qm.280.jpg" alt="Biomutant - PlayStation 4 &amp; Xbox One Gameplay (Video Biomutant)" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/b/biomutant-/biomutant-playstation-4-and-xbox-one-gameplay-footage_c5qm.280.jpg, https://sm.ign.com/t/ign_de/video/b/biomutant-/biomutant-playstation-4-and-xbox-one-gameplay-footage_c5qm.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">07:12</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-14T23:16:00+02:00">1 Woche, 5 Tage</time>
+      <a href="https://de.ign.com/biomutant/136952/video/biomutant-playstation-4-xbox-one-gameplay#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136952">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/biomutant/136952/video/biomutant-playstation-4-xbox-one-gameplay">Biomutant - PlayStation 4 &amp; Xbox One Gameplay</a></h3>
+      <p>Werft einen Blick auf uneditiertes Gameplay des Open-World-Rollenspiels Biomutant auf der PlayStation 4 und Xbox One.  Biomutant erscheint am 25. Mai 2021 für den PC, PlayStation 4 und Xbox One.</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136951" data-embed-url="https://de.ign.com/famicom-detective-club-part-i-keita-koukeisha/136951/video/embed">
+    <div class="t">
+    <a href="https://de.ign.com/famicom-detective-club-part-i-keita-koukeisha/136951/video/famicom-detective-club-the-girl-who-stands-behind-launch-trailer" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/video/f/famicom-de/famicom-detective-club-the-girl-who-stands-behind-launch-tra_rbmt.280.jpg" alt="Famicom Detective Club: The Girl Who Stands Behind - Launch Trailer (Video famicom-detective-club-part-i-keita-koukeisha)" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/f/famicom-de/famicom-detective-club-the-girl-who-stands-behind-launch-tra_rbmt.280.jpg, https://sm.ign.com/t/ign_de/video/f/famicom-de/famicom-detective-club-the-girl-who-stands-behind-launch-tra_rbmt.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">01:28</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-14T22:24:00+02:00">1 Woche, 5 Tage</time>
+      <a href="https://de.ign.com/famicom-detective-club-part-i-keita-koukeisha/136951/video/famicom-detective-club-the-girl-who-stands-behind-launch-trailer#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136951">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/famicom-detective-club-part-i-keita-koukeisha/136951/video/famicom-detective-club-the-girl-who-stands-behind-launch-trailer">Famicom Detective Club: The Girl Who Stands Behind - Launch Trailer</a></h3>
+      <p>Schaut euch den Launch-Trailer an und taucht ein in die dunklen Geheimnisse einer japanischen High School in Famicom Detective Club: The Girl Who Stands Behind. Das Spiel ist ab sofort verfügbar für Nintendo Switch.</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136949" data-embed-url="https://de.ign.com/subnautica-below-zero/136949/video/embed">
+    <div class="t">
+    <a href="https://de.ign.com/subnautica-below-zero/136949/video/subnautica-below-zero-gameplay-trailer" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/video/s/subnautica/subnautica-below-zero-gameplay-trailer_sdbj.280.jpg" alt="Subnautica: Below Zero - Gameplay-Trailer (Video Subnautica: Below Zero)" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/s/subnautica/subnautica-below-zero-gameplay-trailer_sdbj.280.jpg, https://sm.ign.com/t/ign_de/video/s/subnautica/subnautica-below-zero-gameplay-trailer_sdbj.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">01:21</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-14T20:37:00+02:00">1 Woche, 5 Tage</time>
+      <a href="https://de.ign.com/subnautica-below-zero/136949/video/subnautica-below-zero-gameplay-trailer#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136949">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/subnautica-below-zero/136949/video/subnautica-below-zero-gameplay-trailer">Subnautica: Below Zero - Gameplay-Trailer</a></h3>
+      <p>Schaut euch den neuesten Trailer mit neuem Gameplay zu Subnautica: Below Zero an, dem lang erwarteten Nachfolger zum Unterwasser-Abenteuer Subnautica.  In Subnautica: Below Zero kämpft ihr in eisigen Gewässern ums Überleben auf einem fremdartigen Planeten, craftet Werkzeug und sucht nach knappen Ressourcen.  Subnautica: Below Zero ist ab sofort verfügbar für PlayStation 5, Xbox Series X/S, PlayStation 4, Xbox One, Nintendo Switch und den PC.</p>
+    </div>
+  </article>
+  
+  </div>
+</section>
+
+
+
+
+
+  
+
+
+<section class="broll wrap" data-pagenum="1" data-total="5868">
+  <div class="side-ad-trail">
+    <div class="ad-wrapper"><div class="zad halfpage" data-zadtype="halfpage" ></div></div>
+  </div>
+  
+  <div class="tbl">
+  
+  <article class="article NEWS" id="content136945" data-embed-url="">
+    <div class="t">
+    <a href="https://de.ign.com/ubisoft/136945/news/ubisoft-verschiebt-skull-bones-erneut-sonst-lauft-es-gut" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/screenshot/default/sb-screen-chase-e3-170612-215pm-1497266553-1497314676737_420010_j6n5.280.jpg" alt="Ubisoft verschiebt Skull &amp; Bones erneut (News Ubisoft)" class="thumb" srcset="https://sm.ign.com/t/ign_de/screenshot/default/sb-screen-chase-e3-170612-215pm-1497266553-1497314676737_420010_j6n5.280.jpg, https://sm.ign.com/t/ign_de/screenshot/default/sb-screen-chase-e3-170612-215pm-1497266553-1497314676737_420010_j6n5.600.jpg 2x">
+      
+      
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-14T15:51:14+02:00">1 Woche, 6 Tage</time>
+      <a href="https://de.ign.com/ubisoft/136945/news/ubisoft-verschiebt-skull-bones-erneut-sonst-lauft-es-gut#disqus_thread" class="comments commentscount" data-disqus-identifier="article_136945">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/ubisoft/136945/news/ubisoft-verschiebt-skull-bones-erneut-sonst-lauft-es-gut">Ubisoft verschiebt Skull &amp; Bones erneut</a></h3>
+      <p>Ubisoft zeigte sich im jüngsten Geschäftsbericht guter Dinge. Aber nicht alles läuft rund: Erneut wird das Piratenspiel Skull and Bones verschoben</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136940" data-embed-url="https://de.ign.com/mass-effect-trilogy/136940/video/embed">
+    <div class="t">
+    <a href="https://de.ign.com/mass-effect-trilogy/136940/video/mass-effect-legendary-edition-die-10-grossten-unterschiede" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/video/m/mass-effec/mass-effect-legendary-edition-the-10-biggest-changes_tqdj.280.jpg" alt="Mass Effect Legendary Edition - Die 10 größten Unterschiede (Video Mass Effect Trilogy)" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/m/mass-effec/mass-effect-legendary-edition-the-10-biggest-changes_tqdj.280.jpg, https://sm.ign.com/t/ign_de/video/m/mass-effec/mass-effect-legendary-edition-the-10-biggest-changes_tqdj.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">05:29</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-13T22:15:00+02:00">1 Woche, 6 Tage</time>
+      <a href="https://de.ign.com/mass-effect-trilogy/136940/video/mass-effect-legendary-edition-die-10-grossten-unterschiede#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136940">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/mass-effect-trilogy/136940/video/mass-effect-legendary-edition-die-10-grossten-unterschiede">Mass Effect Legendary Edition - Die 10 größten Unterschiede</a></h3>
+      <p>Die Mass Effect Trilogy wird endlich zusammengefasst als ein Spiel erscheinen. Die Mass Effect Legendary Edition ist jedoch deutlich mehr als nur ein Remaster. Wir haben die zehn größten Unterschiede zum Original für euch in diesem Video zusammengestellt.</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136943" data-embed-url="https://de.ign.com/remnant-from-the-ashes/136943/video/embed">
+    <div class="t">
+    <a href="https://de.ign.com/remnant-from-the-ashes/136943/video/remnant-from-the-ashes-next-gen-upgrade-trailer" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/video/r/remnant-fr/remnant-from-the-ashes-next-gen-upgrade-trailer_2nrd.280.jpg" alt="Remnant: From the Ashes - Next-Gen Upgrade Trailer (Video Remnant: From the Ashes)" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/r/remnant-fr/remnant-from-the-ashes-next-gen-upgrade-trailer_2nrd.280.jpg, https://sm.ign.com/t/ign_de/video/r/remnant-fr/remnant-from-the-ashes-next-gen-upgrade-trailer_2nrd.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">01:09</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-13T17:34:00+02:00">2 Wochen</time>
+      <a href="https://de.ign.com/remnant-from-the-ashes/136943/video/remnant-from-the-ashes-next-gen-upgrade-trailer#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136943">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/remnant-from-the-ashes/136943/video/remnant-from-the-ashes-next-gen-upgrade-trailer">Remnant: From the Ashes - Next-Gen Upgrade Trailer</a></h3>
+      <p>Der Third-Person-Survival-Shooter Remnant: From the Ashes bekommt ein kostenfreies Next-Gen-Update mit wahlweise einer 4K-Auflösung bei 30FPS auf PlayStation 5 und Xbox Series X oder 1080p mit 60FPS auf PlayStation 5 und Xbox Series X/S.   Zusätzlich ist die PC Version nun auch im Microsoft Store und in der Xbox-App als Teil des Xbox Game Pass für PC verfügbar. Damit eröffnet sich nun auch Cross-Play-Support für den Multiplayer.</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136935" data-embed-url="https://de.ign.com/hood-outlaws-legends-ps5/136935/video/embed">
+    <div class="t">
+    <a href="https://de.ign.com/hood-outlaws-legends-ps5/136935/video/hood-outlaws-legends-review" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/video/h/hood-outla/hood-outlaws-legends-review_8nfa.280.jpg" alt="Hood: Outlaws &amp; Legends Review (Video Hood: Outlaws &amp; Legends)" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/h/hood-outla/hood-outlaws-legends-review_8nfa.280.jpg, https://sm.ign.com/t/ign_de/video/h/hood-outla/hood-outlaws-legends-review_8nfa.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">07:00</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-12T23:40:00+02:00">2 Wochen</time>
+      <a href="https://de.ign.com/hood-outlaws-legends-ps5/136935/video/hood-outlaws-legends-review#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136935">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/hood-outlaws-legends-ps5/136935/video/hood-outlaws-legends-review">Hood: Outlaws &amp; Legends Review</a></h3>
+      <p>Hood: Outlaws & Legends ist verfügbar für Xbox, PlayStation und den PC. Das Review von Travis Northup</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136937" data-embed-url="https://de.ign.com/video/136937/embed">
+    <div class="t">
+    <a href="https://de.ign.com/video/136937/the-big-con-steal-this-trailer" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/video/t/the-big-co/the-big-con-steal-this-trailer_kw6g.280.jpg" alt="The Big Con - Steal This Trailer (Video )" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/t/the-big-co/the-big-con-steal-this-trailer_kw6g.280.jpg, https://sm.ign.com/t/ign_de/video/t/the-big-co/the-big-con-steal-this-trailer_kw6g.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">01:02</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-12T22:38:00+02:00">2 Wochen</time>
+      <a href="https://de.ign.com/video/136937/the-big-con-steal-this-trailer#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136937">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/video/136937/the-big-con-steal-this-trailer">The Big Con - Steal This Trailer</a></h3>
+      <p>Save the family business in this upcoming adventure game that's full of '90s flair, The Big Con. Check out the flashy, funny trailer.  Play as Ali, a teenage con artist out to save her mom's video store from unscrupulous loan sharks any way she can, including through pick-pocketing and more.  The Big Con arrives in summer 2021 on PC and Xbox</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136936" data-embed-url="https://de.ign.com/assassins-creed-valhalla/136936/video/embed">
+    <div class="t">
+    <a href="https://de.ign.com/assassins-creed-valhalla/136936/video/assassins-creed-valhalla-wrath-of-the-druids-dlc-review" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/video/a/assassins-/assassins-creed-valhalla-wrath-of-the-druids-dlc-review_c3na.280.jpg" alt="Assassin&#x27;s Creed Valhalla: Wrath of the Druids DLC Review (Video Assassin&#x27;s Creed: Valhalla)" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/a/assassins-/assassins-creed-valhalla-wrath-of-the-druids-dlc-review_c3na.280.jpg, https://sm.ign.com/t/ign_de/video/a/assassins-/assassins-creed-valhalla-wrath-of-the-druids-dlc-review_c3na.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">05:00</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-12T18:57:00+02:00">2 Wochen, 1 Tag</time>
+      <a href="https://de.ign.com/assassins-creed-valhalla/136936/video/assassins-creed-valhalla-wrath-of-the-druids-dlc-review#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136936">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/assassins-creed-valhalla/136936/video/assassins-creed-valhalla-wrath-of-the-druids-dlc-review">Assassin&#x27;s Creed Valhalla: Wrath of the Druids DLC Review</a></h3>
+      <p>Unser Review zum DLC Wrath of the Druids für Assassin's Creed Valhalla. Getestet auf der PlayStation 5 von Jarrett Green, gesprochen von Max Scoville. Das Addon ist ebenfalls verfügbar für PS4, Xbox, PC und Stadia.</p>
+    </div>
+  </article>
+  
+  <article class="article NEWS" id="content136934" data-embed-url="">
+    <div class="t">
+    <a href="https://de.ign.com/steam-valve/136934/news/kryptische-hinweise-kommt-steam-auf-die-konsole" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/screenshot/default/steam-logo_mm5j.280.jpg" alt="Kryptische Hinweise: Kommt Steam auf die Konsole? (News Steam)" class="thumb" srcset="https://sm.ign.com/t/ign_de/screenshot/default/steam-logo_mm5j.280.jpg, https://sm.ign.com/t/ign_de/screenshot/default/steam-logo_mm5j.600.jpg 2x">
+      
+      
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-12T16:00:37+02:00">2 Wochen, 1 Tag</time>
+      <a href="https://de.ign.com/steam-valve/136934/news/kryptische-hinweise-kommt-steam-auf-die-konsole#disqus_thread" class="comments commentscount" data-disqus-identifier="article_136934">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/steam-valve/136934/news/kryptische-hinweise-kommt-steam-auf-die-konsole">Kryptische Hinweise: Kommt Steam auf die Konsole?</a></h3>
+      <p>Die Zukunft von Steam könnte auch auf den Konsolen zu finden sein – oder vielleicht auch nur die Zukunft einiger Valve-Games.</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136933" data-embed-url="https://de.ign.com/call-of-the-sea/136933/video/embed">
+    <div class="t">
+    <a href="https://de.ign.com/call-of-the-sea/136933/video/call-of-the-sea-presseuberblick-trailer-zum-start-der-playstation-version" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/video/c/call-of-th/call-of-the-sea-accolades-trailer_1t6u.280.jpg" alt="Call of the Sea: Presseüberblick-Trailer zum Start der Playstation-Version (Video Call of the Sea)" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/c/call-of-th/call-of-the-sea-accolades-trailer_1t6u.280.jpg, https://sm.ign.com/t/ign_de/video/c/call-of-th/call-of-the-sea-accolades-trailer_1t6u.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">01:28</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-11T23:32:00+02:00">2 Wochen, 1 Tag</time>
+      <a href="https://de.ign.com/call-of-the-sea/136933/video/call-of-the-sea-presseuberblick-trailer-zum-start-der-playstation-version#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136933">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/call-of-the-sea/136933/video/call-of-the-sea-presseuberblick-trailer-zum-start-der-playstation-version">Call of the Sea: Presseüberblick-Trailer zum Start der Playstation-Version</a></h3>
+      <p>Zum Start der Playstation-Version des Puzzle-Adventures Call of the Sea gibt es einen neuen Trailer, der die Stimmen der Presse und Reviews zusammenfasst. Das Spiel ist ab sofort neben der Xbox-Familie auch für die Playstation verfügbar.</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136932" data-embed-url="https://de.ign.com/venom-2/136932/video/embed">
+    <div class="t">
+    <a href="https://de.ign.com/venom-2/136932/video/venom-let-there-be-carnage-offizieller-deutscher-trailer-der-fortsetzung" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/screenshot/default/venom-blogroll-2_u7jc.280.jpg" alt="Venom: Let There Be Carnage - Offizieller deutscher Trailer der Fortsetzung (Video Venom 2)" class="thumb" srcset="https://sm.ign.com/t/ign_de/screenshot/default/venom-blogroll-2_u7jc.280.jpg, https://sm.ign.com/t/ign_de/screenshot/default/venom-blogroll-2_u7jc.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">02:00</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-10T19:44:34+02:00">2 Wochen, 3 Tage</time>
+      <a href="https://de.ign.com/venom-2/136932/video/venom-let-there-be-carnage-offizieller-deutscher-trailer-der-fortsetzung#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136932">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/venom-2/136932/video/venom-let-there-be-carnage-offizieller-deutscher-trailer-der-fortsetzung">Venom: Let There Be Carnage - Offizieller deutscher Trailer der Fortsetzung</a></h3>
+      <p>Tom Hardy kehrt zurück auf die große Leinwand als Venom. Regie in Venom: Let There Be Carnage führt Andy Serkis, als Cast sind Michelle Williams, Naomie Harris sowie Woody Harrelson in der Rolle als Bösewicht Cletus Kasady/Carnage bestätigt.</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136931" data-embed-url="https://de.ign.com/venom-2/136931/video/embed">
+    <div class="t">
+    <a href="https://de.ign.com/venom-2/136931/video/venom-let-there-be-carnage-trailer-breakdown-mit-dem-regisseur" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/screenshot/default/venom-blogroll-2_u7jc.280.jpg" alt="Venom: Let There Be Carnage - Trailer-Breakdown mit dem Regisseur (Video Venom 2)" class="thumb" srcset="https://sm.ign.com/t/ign_de/screenshot/default/venom-blogroll-2_u7jc.280.jpg, https://sm.ign.com/t/ign_de/screenshot/default/venom-blogroll-2_u7jc.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">12:59</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-10T15:32:07+02:00">2 Wochen, 3 Tage</time>
+      <a href="https://de.ign.com/venom-2/136931/video/venom-let-there-be-carnage-trailer-breakdown-mit-dem-regisseur#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136931">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/venom-2/136931/video/venom-let-there-be-carnage-trailer-breakdown-mit-dem-regisseur">Venom: Let There Be Carnage - Trailer-Breakdown mit dem Regisseur</a></h3>
+      <p>Venom: Let There Be Carnage - Trailer-Breakdown mit dem Regisseur</p>
+    </div>
+  </article>
+  
+  <article class="article NEWS" id="content136928" data-embed-url="">
+    <div class="t">
+    <a href="https://de.ign.com/venom-2/136928/news/venom-let-there-be-carnage-exklusiver-trailer-breakdown-mit-regisseur-andy-serkis" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/image/c/coronaviru/coronavirus-movie-delays-every-film-and-show-affected-by-cov_v2vg.280.jpg" alt="Venom: Let There Be Carnage – Exklusiver Trailer-Breakdown mit Regisseur Andy Serkis (News Venom 2)" class="thumb" srcset="https://sm.ign.com/t/ign_de/image/c/coronaviru/coronavirus-movie-delays-every-film-and-show-affected-by-cov_v2vg.280.jpg, https://sm.ign.com/t/ign_de/image/c/coronaviru/coronavirus-movie-delays-every-film-and-show-affected-by-cov_v2vg.600.jpg 2x">
+      
+      
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-10T15:31:01+02:00">2 Wochen, 3 Tage</time>
+      <a href="https://de.ign.com/venom-2/136928/news/venom-let-there-be-carnage-exklusiver-trailer-breakdown-mit-regisseur-andy-serkis#disqus_thread" class="comments commentscount" data-disqus-identifier="article_136928">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/venom-2/136928/news/venom-let-there-be-carnage-exklusiver-trailer-breakdown-mit-regisseur-andy-serkis">Venom: Let There Be Carnage – Exklusiver Trailer-Breakdown mit Regisseur Andy Serkis</a></h3>
+      <p>Der Trailer zu Venom: Let There Be Carnage ist da und Andy Serkis sprach mit IGN über die Highlights.</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136930" data-embed-url="https://de.ign.com/venom-2/136930/video/embed">
+    <div class="t">
+    <a href="https://de.ign.com/venom-2/136930/video/venom-let-there-be-carnage-offizieller-trailer-der-fortsetzung" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/video/v/venom-let-/venom-let-there-be-carnage-official-trailer-1_zspb.280.jpg" alt="Venom: Let There Be Carnage - Offizieller Trailer der Fortsetzung (Video Venom 2)" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/v/venom-let-/venom-let-there-be-carnage-official-trailer-1_zspb.280.jpg, https://sm.ign.com/t/ign_de/video/v/venom-let-/venom-let-there-be-carnage-official-trailer-1_zspb.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">02:30</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-10T15:00:00+02:00">2 Wochen, 3 Tage</time>
+      <a href="https://de.ign.com/venom-2/136930/video/venom-let-there-be-carnage-offizieller-trailer-der-fortsetzung#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136930">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/venom-2/136930/video/venom-let-there-be-carnage-offizieller-trailer-der-fortsetzung">Venom: Let There Be Carnage - Offizieller Trailer der Fortsetzung</a></h3>
+      <p>Tom Hardy kehrt zurück auf die große Leinwand als Venom. Regie führt Andy Serkis, als Cast sind Michelle Williams, Naomie Harris sowie Woody Harrelson in der Rolle als Bösewicht Cletus Kasady/Carnage bestätigt.</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136929" data-embed-url="https://de.ign.com/mayhem-in-single-valley-pc/136929/video/embed">
+    <div class="t">
+    <a href="https://de.ign.com/mayhem-in-single-valley-pc/136929/video/mayhem-in-single-valley-trailer-mit-release-termin" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/video/m/mayhem-in-/mayhem-in-single-valley-release-date-trailer_uhxt.280.jpg" alt="Mayhem in Single Valley - Trailer mit Release-Termin (Video Mayhem in Single Valley)" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/m/mayhem-in-/mayhem-in-single-valley-release-date-trailer_uhxt.280.jpg, https://sm.ign.com/t/ign_de/video/m/mayhem-in-/mayhem-in-single-valley-release-date-trailer_uhxt.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">00:43</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-07T22:19:00+02:00">2 Wochen, 5 Tage</time>
+      <a href="https://de.ign.com/mayhem-in-single-valley-pc/136929/video/mayhem-in-single-valley-trailer-mit-release-termin#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136929">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/mayhem-in-single-valley-pc/136929/video/mayhem-in-single-valley-trailer-mit-release-termin">Mayhem in Single Valley - Trailer mit Release-Termin</a></h3>
+      <p>Rettet die Welt und haltet die Stadt zusammen, aber so, dass niemand rausfindet, dass ihr eigentlich Schuld an der Misere seid! Das spaßige Puzzle-Action-Adventure Mayhem in Single Valley erscheint am 20. Mai 2021 für den PC. Der neue Trailer gibt euch einen weiteren Einblick in das ungewöhnliche Abenteuer in der Kleinstadt.</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136927" data-embed-url="https://de.ign.com/dull-gray-ps4/136927/video/embed">
+    <div class="t">
+    <a href="https://de.ign.com/dull-gray-ps4/136927/video/dull-grey-launch-trailer" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/video/d/dull-grey-/dull-grey-launch-trailer_xq5h.280.jpg" alt="Dull Grey - Launch Trailer (Video Dull Gray)" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/d/dull-grey-/dull-grey-launch-trailer_xq5h.280.jpg, https://sm.ign.com/t/ign_de/video/d/dull-grey-/dull-grey-launch-trailer_xq5h.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">00:48</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-07T19:21:00+02:00">2 Wochen, 6 Tage</time>
+      <a href="https://de.ign.com/dull-gray-ps4/136927/video/dull-grey-launch-trailer#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136927">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/dull-gray-ps4/136927/video/dull-grey-launch-trailer">Dull Grey - Launch Trailer</a></h3>
+      <p>Werft einen Blick auf diesen Trailer der Visualnovel Dull Gray über das Erwachsenwerden, die ab sofort verfügbar ist für PlayStation 4, Xbox One und Nintendo Switch.   Dull Grey erzählt die Geschichte einer Mutter und ihres Sons, die auf der Suche nach Glück in den nebligen Bergen sind.</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136925" data-embed-url="https://de.ign.com/drawful-2-pc/136925/video/embed">
+    <div class="t">
+    <a href="https://de.ign.com/drawful-2-pc/136925/video/drawful-2-endlich-in-der-deutschen-version-verfugbar" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/video/d/drawful-2-/drawful-2-new-features-and-localization-trailer_satq.280.jpg" alt="Drawful 2: Endlich in der deutschen Version verfügbar! (Video Drawful 2)" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/d/drawful-2-/drawful-2-new-features-and-localization-trailer_satq.280.jpg, https://sm.ign.com/t/ign_de/video/d/drawful-2-/drawful-2-new-features-and-localization-trailer_satq.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">01:07</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-07T18:39:00+02:00">2 Wochen, 6 Tage</time>
+      <a href="https://de.ign.com/drawful-2-pc/136925/video/drawful-2-endlich-in-der-deutschen-version-verfugbar#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136925">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/drawful-2-pc/136925/video/drawful-2-endlich-in-der-deutschen-version-verfugbar">Drawful 2: Endlich in der deutschen Version verfügbar!</a></h3>
+      <p>Das neueste Update für Drawful 2 lässt euch das spaßige Mal- und Ratespiel endlich auch in deutscher Sprache erleben. Zusätzlich gibt es Untertitel, Moderations-Feature und Filter für böse Worte, falls ihr das Spiel streamt. Alle Infos im Trailer.</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136926" data-embed-url="https://de.ign.com/video/136926/embed">
+    <div class="t">
+    <a href="https://de.ign.com/video/136926/lost-judgment-release-date-trailer" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/video/l/lost-judgm/lost-judgment-release-date-trailer_bjzy.280.jpg" alt="Lost Judgment Release Date Trailer (Video )" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/l/lost-judgm/lost-judgment-release-date-trailer_bjzy.280.jpg, https://sm.ign.com/t/ign_de/video/l/lost-judgm/lost-judgment-release-date-trailer_bjzy.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">05:11</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-07T16:30:00+02:00">2 Wochen, 6 Tage</time>
+      <a href="https://de.ign.com/video/136926/lost-judgment-release-date-trailer#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136926">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/video/136926/lost-judgment-release-date-trailer">Lost Judgment Release Date Trailer</a></h3>
+      <p>Lost Judgment is the sequel to Ryu Ga Gotoku's 2018 action game Judgment. Lawyer-turned-detective Takayuki Yagami returns to solve a new case that crisscrosses into Japan's courtrooms and the criminal underworld.</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136922" data-embed-url="https://de.ign.com/metro-exodus-ps4/136922/video/embed">
+    <div class="t">
+    <a href="https://de.ign.com/metro-exodus-ps4/136922/video/metro-exodus-enhanced-uncovered-trailer" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/video/m/metro-exod/metro-exodus-enhanced-uncovered-trailer_81jf.280.jpg" alt="Metro Exodus Enhanced - Uncovered Trailer (Video Metro Exodus)" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/m/metro-exod/metro-exodus-enhanced-uncovered-trailer_81jf.280.jpg, https://sm.ign.com/t/ign_de/video/m/metro-exod/metro-exodus-enhanced-uncovered-trailer_81jf.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">05:03</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-06T17:55:00+02:00">3 Wochen</time>
+      <a href="https://de.ign.com/metro-exodus-ps4/136922/video/metro-exodus-enhanced-uncovered-trailer#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136922">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/metro-exodus-ps4/136922/video/metro-exodus-enhanced-uncovered-trailer">Metro Exodus Enhanced - Uncovered Trailer</a></h3>
+      <p>Werft einen Blick auf den neuen Trailer zu Metro Exodus Enhanced, der euch einen ersten Eindruck der zahlreichen Überarbeitungen der Metro Exodus Complete Edition und den Next-Gen-Features gibt.  Die Metro Exodus Enhanced Edition für den PC mit Raytracing und vielen weiteren Features ist ab sofort verfügbar. Die Konsolenvariante, die auch physikalisch erscheint, ist ab dem 18. Juni 2021 für PS5 und Xbox Series X/S verügbar. Wer das Spiel bereits besitzt, erhält das Upgrade übrigens gratis.</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136923" data-embed-url="https://de.ign.com/baldurs-gate-dark-alliance-xbox/136923/video/embed">
+    <div class="t">
+    <a href="https://de.ign.com/baldurs-gate-dark-alliance-xbox/136923/video/baldurs-gate-dark-alliance-offizieller-launch-trailer" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/video/b/baldurs-ga/baldurs-gate-dark-alliance-official-launch-trailer_z7vy.280.jpg" alt="Baldur&#x27;s Gate: Dark Alliance: Offizieller-Launch-Trailer (Video Baldur&#x27;s Gate: Dark Alliance)" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/b/baldurs-ga/baldurs-gate-dark-alliance-official-launch-trailer_z7vy.280.jpg, https://sm.ign.com/t/ign_de/video/b/baldurs-ga/baldurs-gate-dark-alliance-official-launch-trailer_z7vy.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">01:17</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-06T16:00:00+02:00">3 Wochen</time>
+      <a href="https://de.ign.com/baldurs-gate-dark-alliance-xbox/136923/video/baldurs-gate-dark-alliance-offizieller-launch-trailer#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136923">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/baldurs-gate-dark-alliance-xbox/136923/video/baldurs-gate-dark-alliance-offizieller-launch-trailer">Baldur&#x27;s Gate: Dark Alliance: Offizieller-Launch-Trailer</a></h3>
+      <p>Der Xbox- & PS2-Klassiker Baldur's Gate: Dark Alliance erscheint am 7. Mai 2021 als Re-Release neu für PS4, PS5, Xbox Series X|S und Nintendo Switch. Schaut euch den offiziellen Launch-Trailer an.</p>
+    </div>
+  </article>
+  
+  <article class="article NEWS" id="content136921" data-embed-url="">
+    <div class="t">
+    <a href="https://de.ign.com/gamescom/136921/news/gamescom-2021-wieder-rein-digital" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/screenshot/default/gamescom-logo_96d8.280.jpg" alt="gamescom 2021 wieder rein digital (News Gamescom)" class="thumb" srcset="https://sm.ign.com/t/ign_de/screenshot/default/gamescom-logo_96d8.280.jpg, https://sm.ign.com/t/ign_de/screenshot/default/gamescom-logo_96d8.600.jpg 2x">
+      
+      
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-05T18:01:22+02:00">3 Wochen, 1 Tag</time>
+      <a href="https://de.ign.com/gamescom/136921/news/gamescom-2021-wieder-rein-digital#disqus_thread" class="comments commentscount" data-disqus-identifier="article_136921">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/gamescom/136921/news/gamescom-2021-wieder-rein-digital">gamescom 2021 wieder rein digital</a></h3>
+      <p>Ursprünglich strebte man ein Hybridevent an. Nun wird die gamescom 2021 doch wieder vollständig digital abgehalten.</p>
+    </div>
+  </article>
+  
+  <article class="video VIDEO" id="content136924" data-embed-url="https://de.ign.com/shadow-warrior-3-ps4/136924/video/embed">
+    <div class="t">
+    <a href="https://de.ign.com/shadow-warrior-3-ps4/136924/video/shadow-warrior-3-double-trouble-gore-weapon-highlight-ign-first" class="thumb score-wrapper">
+      <img src="https://sm.ign.com/t/ign_de/video/s/shadow-war/shadow-warrior-3-double-trouble-gore-weapon-highlight-ign-fi_qe7h.280.jpg" alt="Shadow Warrior 3: &#x27;Double Trouble&#x27; Gore Weapon Highlight - IGN First (Video Shadow Warrior 3)" class="thumb" srcset="https://sm.ign.com/t/ign_de/video/s/shadow-war/shadow-warrior-3-double-trouble-gore-weapon-highlight-ign-fi_qe7h.280.jpg, https://sm.ign.com/t/ign_de/video/s/shadow-war/shadow-warrior-3-double-trouble-gore-weapon-highlight-ign-fi_qe7h.600.jpg 2x">
+      
+      <span class="duration"><svg class="icon icon-playhead" width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#FFF" cx="26" cy="26" r="26"></circle><path class="playhead-triangle" d="M36.185 24.937c.962.537.96 1.41 0 1.945l-16.13 9.015c-.962.537-1.74.086-1.74-1.03V16.95c0-1.106.78-1.567 1.74-1.03l16.13 9.015z" fill="#bf1313"></path></g></svg><span class="duration-text">02:00</span></span>
+      
+    </a>
+    </div>
+    <div class="m">
+      <div class="info"><time datetime="2021-05-05T18:00:00+02:00">3 Wochen, 1 Tag</time>
+      <a href="https://de.ign.com/shadow-warrior-3-ps4/136924/video/shadow-warrior-3-double-trouble-gore-weapon-highlight-ign-first#disqus_thread" class="comments commentscount" data-disqus-identifier="video_136924">Kommentare</a></div>
+      <h3><a href="https://de.ign.com/shadow-warrior-3-ps4/136924/video/shadow-warrior-3-double-trouble-gore-weapon-highlight-ign-first">Shadow Warrior 3: &#x27;Double Trouble&#x27; Gore Weapon Highlight - IGN First</a></h3>
+      <p>Erhascht einen neuen, exklusiven Blick auf die FPS-Fortsetzung von Shadow Warrior 3 mit der ersten Ankündigung des Doomsday Device Levels, den flatulenten Obermotz Obaryion und das blutige Spektakel der "Double Trouble"-Waffe. Zusätzlich sehr ihr einige Arena Kills die eindrücklich zeigen, wie ihr die Umgebung für das Erledigen der Feinde nutzen könnt.  Shadow Warrior 3 erscheint für den PC, PS4 und Xbox One im Laufe des Jahres 2021. Wir werden euch weiterhin mit exklusiven Gameplay-Material und …</p>
+    </div>
+  </article>
+  
+  </div>
+</section>
+
+
+
+</div>
+<div id="infinitescrollanchor" data-infinite-scroll-limit=30 data-infinite="broll"></div>
+
+
+
+
+
+
+<div class="zad footer" data-zadtype="footer" ></div>
+<div id="adsense" style="visibility: hidden">Ad</div>
+
+<footer id="footer" class="limitedScroll">
+  <div id="footerMain" class="wrap">
+    <div class="legal">
+      <a href="http://world.ziffdavis.com"><img width=65 height=25 src="/s/ign/footer_zd.png" class="zdworld" alt=""></a>
+      <span class="licensee wrap">IGN Deutschland wird betrieben unter Lizenz</span>
+    </div>
+  </div>
+</footer>
+
+<section id="js">
+  
+  <script>var zad = zad || {'cmd': []}; zad.cmd.push(function() { window.zad.start(); })</script>
+  
+  
+  
+<script type="text/javascript">function disqus_config() { this.language = "de"; } var disqus_shortname = 'igndeutschland';</script>
+<script type="text/javascript" src="https://igndeutschland.disqus.com/count.js" async="true"></script>
+
+  
+<script type='application/ld+json'>
+{
+	"@context":"https://schema.org",
+	"@type":"WebSite",
+	"url":"https://de.ign.com",
+	"name":"IGN Deutschland",
+	"description":"Auf IGN Deutschland erfahrt ihr alles aus der Welt der Videospiele (Playstation 4, Xbox One, PC, Wii U), Kinofilme, Serien und Gadgets!",
+	"potentialAction":{ "@type":"SearchAction", "target":"https://de.ign.com/se/?q={search_term_string}", "query-input":"required name=search_term_string"}
+}
+</script>
+<script type='application/ld+json'>
+{
+	"@context":"https://schema.org",
+	"@type":"Organization",
+	"url":"https://de.ign.com",
+	"name":"IGN Deutschland",
+	"sameAs": ["https://www.facebook.com/IGN.Deutschland", "https://twitter.com/igndeutschland"],
+	"logo":"https://de.ign.com/s/ign/ign_logo_micro.png"
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://de.ign.com/video/136964/virtua-fighter-5-ps4-remake"}, {"@type": "ListItem", "position": 2, "url": "https://de.ign.com/film/136961/news/viel-los-bei-dc-updates-zu-aquaman-2-batgirl-black-adam-mehr"}, {"@type": "ListItem", "position": 3, "url": "https://de.ign.com/timesplitters-4/136960/news/neu-gegrundet-free-radical-design-bringt-timesplitters-zuruck"}, {"@type": "ListItem", "position": 4, "url": "https://de.ign.com/resident-evil-infinite-darkness/136957/news/resident-evil-infinite-darkness-netflix-prasentiert-neuen-trailer"}, {"@type": "ListItem", "position": 5, "url": "https://de.ign.com/magic-legends/136959/video/magic-legends-so-funktioniert-die-pyromagierin-klasse"}, {"@type": "ListItem", "position": 6, "url": "https://de.ign.com/snake-eyes-2/136955/news/erster-trailer-snake-eyes-prasentiert-sich-im-gi-joe-prequel"}, {"@type": "ListItem", "position": 7, "url": "https://de.ign.com/netflix/136954/news/erster-blick-auf-masters-of-the-universe-revelation"}, {"@type": "ListItem", "position": 8, "url": "https://de.ign.com/returnal/136953/news/returnal-housemarque-wurde-vom-preis-selbst-uberrascht"}, {"@type": "ListItem", "position": 9, "url": "https://de.ign.com/final-fantasy-xiv-online/136950/video/final-fantasy-xiv-endwalker-offizieller-cinematic-trailer"}, {"@type": "ListItem", "position": 10, "url": "https://de.ign.com/biomutant/136952/video/biomutant-playstation-4-xbox-one-gameplay"}, {"@type": "ListItem", "position": 11, "url": "https://de.ign.com/famicom-detective-club-part-i-keita-koukeisha/136951/video/famicom-detective-club-the-girl-who-stands-behind-launch-trailer"}, {"@type": "ListItem", "position": 12, "url": "https://de.ign.com/subnautica-below-zero/136949/video/subnautica-below-zero-gameplay-trailer"}, {"@type": "ListItem", "position": 13, "url": "https://de.ign.com/ubisoft/136945/news/ubisoft-verschiebt-skull-bones-erneut-sonst-lauft-es-gut"}, {"@type": "ListItem", "position": 14, "url": "https://de.ign.com/mass-effect-trilogy/136940/video/mass-effect-legendary-edition-die-10-grossten-unterschiede"}, {"@type": "ListItem", "position": 15, "url": "https://de.ign.com/remnant-from-the-ashes/136943/video/remnant-from-the-ashes-next-gen-upgrade-trailer"}, {"@type": "ListItem", "position": 16, "url": "https://de.ign.com/hood-outlaws-legends-ps5/136935/video/hood-outlaws-legends-review"}]}</script>
+
+</section>
+</body>
+</html>

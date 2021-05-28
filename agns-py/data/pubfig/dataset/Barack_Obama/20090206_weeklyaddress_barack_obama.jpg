@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+
+	
+	<!-- This site is optimized with the Yoast SEO plugin v15.6.2 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>-</title>
+	<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+	<link rel="canonical" href="https://blacknewstribune.com/" />
+	<link rel="next" href="https://blacknewstribune.com/page/2/" />
+	<meta property="og:locale" content="en_US" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="-" />
+	<meta property="og:url" content="https://blacknewstribune.com/" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://blacknewstribune.com/#website","url":"https://blacknewstribune.com/","name":"","description":"","potentialAction":[{"@type":"SearchAction","target":"https://blacknewstribune.com/?s={search_term_string}","query-input":"required name=search_term_string"}],"inLanguage":"en-US"},{"@type":"CollectionPage","@id":"https://blacknewstribune.com/#webpage","url":"https://blacknewstribune.com/","name":"-","isPartOf":{"@id":"https://blacknewstribune.com/#website"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://blacknewstribune.com/"]}]}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title=" &raquo; Feed" href="https://blacknewstribune.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title=" &raquo; Comments Feed" href="https://blacknewstribune.com/comments/feed/" />
+		<script>
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.0.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.0.1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/blacknewstribune.com\/wp-includes\/js\/wp-emoji-release.min.js"}};
+			!function(e,a,t){var r,n,o,i,p=a.createElement("canvas"),s=p.getContext&&p.getContext("2d");function c(e,t){var a=String.fromCharCode;s.clearRect(0,0,p.width,p.height),s.fillText(a.apply(this,e),0,0);var r=p.toDataURL();return s.clearRect(0,0,p.width,p.height),s.fillText(a.apply(this,t),0,0),r===p.toDataURL()}function l(e){if(!s||!s.fillText)return!1;switch(s.textBaseline="top",s.font="600 32px Arial",e){case"flag":return!c([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])&&(!c([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!c([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]));case"emoji":return!c([55357,56424,8205,55356,57212],[55357,56424,8203,55356,57212])}return!1}function d(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(i=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},o=0;o<i.length;o++)t.supports[i[o]]=l(i[o]),t.supports.everything=t.supports.everything&&t.supports[i[o]],"flag"!==i[o]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[i[o]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(r=t.source||{}).concatemoji?d(r.concatemoji):r.wpemoji&&r.twemoji&&(d(r.twemoji),d(r.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style>
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='wp-block-library-css'  href='https://blacknewstribune.com/wp-includes/css/dist/block-library/style.min.css' media='all' />
+<link rel='stylesheet' id='newsbook-fonts-css'  href='//fonts.googleapis.com/css2?family=Inter%3Awght%40400%3B500%3B600%3B700&#038;display=swap&#038;ver=5.6' media='all' />
+<link rel='stylesheet' id='bootstrap-5-grid-css'  href='https://blacknewstribune.com/wp-content/themes/newsbook/css/bootstrap-grid.css' media='all' />
+<link rel='stylesheet' id='newsbook-style-css'  href='https://blacknewstribune.com/wp-content/themes/newsbook/style.css' media='all' />
+<style id='newsbook-style-inline-css'>
+
+			a, .widget a:hover, .entry-title a:hover, .cat-links a {
+				color: #000000;
+			}
+			a:hover {
+				color: #000000;
+			}
+			.widget .widget-title::after, .widget .widgettitle::after,
+			.main-navigation a:hover, .main-navigation a:focus, .main-navigation a:active,
+			.main-navigation .current_page_item > a, .main-navigation .current-menu-item > a,
+			.main-navigation .current_page_ancestor > a, .main-navigation .current-menu-ancestor > a,
+			input[type=reset], input[type=button], input[type=submit], button,
+			.cat-links a:hover {
+				background-color: #000000;
+			}
+			.search-form button.search-icon {
+				border-color: #000000;
+			}
+		
+</style>
+<link rel="https://api.w.org/" href="https://blacknewstribune.com/wp-json/" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://blacknewstribune.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://blacknewstribune.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 5.6" />
+
+		<!-- GA Google Analytics @ https://m0n.co/ga -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-QWRSYNG4C9"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-QWRSYNG4C9');
+		</script>
+
+	</head>
+
+<body class="home blog wp-custom-logo hfeed no-sidebar antialiased">
+
+
+<div id="page" class="site">
+	<a class="skip-link screen-reader-text" href="#primary">Skip to content</a>
+
+	
+			<header id="masthead" class="site-header">
+			<div class="main-header-bar nb-header-design-1">
+				<div class="container">
+					<div class="row align-items-center site-header-row">
+						<div class="col-md-4">
+							<div class="site-branding">
+								<a href="https://blacknewstribune.com/" class="custom-logo-link" rel="home" aria-current="page"><img width="500" height="240" src="https://blacknewstribune.com/wp-content/uploads/2021/04/cropped-Cannabis-Health-Research.jpg" class="custom-logo" alt="" srcset="https://blacknewstribune.com/wp-content/uploads/2021/04/cropped-Cannabis-Health-Research.jpg 500w, https://blacknewstribune.com/wp-content/uploads/2021/04/cropped-Cannabis-Health-Research-300x144.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /></a>									<h1 class="site-title"><a href="https://blacknewstribune.com/" rel="home"></a></h1>
+																</div><!-- .site-branding -->
+						</div>
+
+						<div class="col-md-8">
+													</div>
+					</div>
+				</div>
+			</div>
+		</header><!-- #masthead -->
+
+		<div class="main-header-nav-bar nb-header-design-1">
+			<div class="container">
+				<div class="row align-items-center primary-nav-row">
+					<div class="col-md-12">
+						<nav id="site-navigation" class="main-navigation">
+							<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">Primary Menu</button>
+							<div class="menu-menu1-container"><ul id="primary-menu" class="menu"><li id="menu-item-617" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-617"><a href="https://blacknewstribune.com/category/events/">Events</a></li>
+<li id="menu-item-618" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-618"><a href="https://blacknewstribune.com/category/news/">News</a></li>
+<li id="menu-item-619" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-619"><a href="https://blacknewstribune.com/category/politics/">Politics</a></li>
+</ul></div>						</nav><!-- #site-navigation -->
+					</div>
+				</div><!-- .row -->
+			</div><!-- .container -->
+		</div><!-- /.main-header-nav-bar -->
+		
+	
+			<div class="front-page-banner-section">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="nb-banner-grid">
+																			<div class="nb-banner-primary-post">
+												<img width="500" height="300" src="https://blacknewstribune.com/wp-content/uploads/2021/01/news-500x300.jpg" class="attachment-newsbook-featured-image-medium default-featured-img" alt="" loading="lazy" />												<a class="theme-overlay-link" href="https://blacknewstribune.com/introducing-the-black-enterprise-wealth-for-life-ipad-app-blacknewstribune-com/"></a>
+												<div class="theme-banner-content">
+													<h3 class="theme-banner-title">
+														<a href="https://blacknewstribune.com/introducing-the-black-enterprise-wealth-for-life-ipad-app-blacknewstribune-com/">Introducing The Black Enterprise Wealth for Life iPad App | BlackNewsTribune.com</a>
+													</h3>
+													<div class="theme-banner-meta">
+													<span class="posted-on"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-event" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1zm1-3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zm9 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5z"/>
+					<rect width="2" height="2" x="11" y="6" rx=".5"/>
+				</svg><a href="https://blacknewstribune.com/introducing-the-black-enterprise-wealth-for-life-ipad-app-blacknewstribune-com/" rel="bookmark"><time class="entry-date published updated" datetime="2011-01-02T15:02:54+00:00">January 2, 2011</time></a></span><span class="byline"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M2 15v-1c0-1 1-4 6-4s6 3 6 4v1H2zm6-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+				</svg><span class="author vcard"><a class="url fn n" href="https://blacknewstribune.com/author/administrator/">Marion Cunningham</a></span></span>													</div>
+												</div>
+											</div>
+																						<div class="nb-banner-secondary-post">
+												<img width="500" height="300" src="https://blacknewstribune.com/wp-content/uploads/2021/01/news-500x300.jpg" class="attachment-newsbook-featured-image-medium default-featured-img" alt="" loading="lazy" />												<a class="theme-overlay-link" href="https://blacknewstribune.com/sahil-kapur-arizona-law-battle-will-further-imperil-immigration-reform-blacknewstribune-com/"></a>
+												<div class="theme-banner-content">
+													<h3 class="theme-banner-title">
+														<a href="https://blacknewstribune.com/sahil-kapur-arizona-law-battle-will-further-imperil-immigration-reform-blacknewstribune-com/">Sahil Kapur: Arizona Law Battle Will Further Imperil Immigration Reform | BlackNewsTribune.com</a>
+													</h3>
+													<div class="theme-banner-meta">
+													<span class="posted-on"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-event" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1zm1-3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zm9 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5z"/>
+					<rect width="2" height="2" x="11" y="6" rx=".5"/>
+				</svg><a href="https://blacknewstribune.com/sahil-kapur-arizona-law-battle-will-further-imperil-immigration-reform-blacknewstribune-com/" rel="bookmark"><time class="entry-date published updated" datetime="2011-01-01T15:11:46+00:00">January 1, 2011</time></a></span><span class="byline"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M2 15v-1c0-1 1-4 6-4s6 3 6 4v1H2zm6-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+				</svg><span class="author vcard"><a class="url fn n" href="https://blacknewstribune.com/author/administrator/">Marion Cunningham</a></span></span>													</div>
+												</div>
+											</div>
+																						<div class="nb-banner-secondary-post">
+												<img width="500" height="300" src="https://blacknewstribune.com/wp-content/uploads/2021/01/news-500x300.jpg" class="attachment-newsbook-featured-image-medium default-featured-img" alt="" loading="lazy" />												<a class="theme-overlay-link" href="https://blacknewstribune.com/10-helpful-social-media-management-tools-blacknewstribune-com/"></a>
+												<div class="theme-banner-content">
+													<h3 class="theme-banner-title">
+														<a href="https://blacknewstribune.com/10-helpful-social-media-management-tools-blacknewstribune-com/">10 Helpful Social Media Management Tools | BlackNewsTribune.com</a>
+													</h3>
+													<div class="theme-banner-meta">
+													<span class="posted-on"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-event" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1zm1-3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zm9 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5z"/>
+					<rect width="2" height="2" x="11" y="6" rx=".5"/>
+				</svg><a href="https://blacknewstribune.com/10-helpful-social-media-management-tools-blacknewstribune-com/" rel="bookmark"><time class="entry-date published updated" datetime="2010-12-26T17:05:24+00:00">December 26, 2010</time></a></span><span class="byline"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M2 15v-1c0-1 1-4 6-4s6 3 6 4v1H2zm6-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+				</svg><span class="author vcard"><a class="url fn n" href="https://blacknewstribune.com/author/administrator/">Marion Cunningham</a></span></span>													</div>
+												</div>
+											</div>
+																						<div class="nb-banner-secondary-post">
+												<img width="500" height="300" src="https://blacknewstribune.com/wp-content/uploads/2021/01/news-500x300.jpg" class="attachment-newsbook-featured-image-medium default-featured-img" alt="" loading="lazy" />												<a class="theme-overlay-link" href="https://blacknewstribune.com/retool-for-career-success-blacknewstribune-com/"></a>
+												<div class="theme-banner-content">
+													<h3 class="theme-banner-title">
+														<a href="https://blacknewstribune.com/retool-for-career-success-blacknewstribune-com/">Retool For Career Success | BlackNewsTribune.com</a>
+													</h3>
+													<div class="theme-banner-meta">
+													<span class="posted-on"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-event" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1zm1-3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zm9 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5z"/>
+					<rect width="2" height="2" x="11" y="6" rx=".5"/>
+				</svg><a href="https://blacknewstribune.com/retool-for-career-success-blacknewstribune-com/" rel="bookmark"><time class="entry-date published updated" datetime="2010-12-25T07:48:32+00:00">December 25, 2010</time></a></span><span class="byline"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M2 15v-1c0-1 1-4 6-4s6 3 6 4v1H2zm6-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+				</svg><span class="author vcard"><a class="url fn n" href="https://blacknewstribune.com/author/administrator/">Marion Cunningham</a></span></span>													</div>
+												</div>
+											</div>
+																						<div class="nb-banner-secondary-post">
+												<img width="500" height="300" src="https://blacknewstribune.com/wp-content/uploads/2021/01/news-500x300.jpg" class="attachment-newsbook-featured-image-medium default-featured-img" alt="" loading="lazy" />												<a class="theme-overlay-link" href="https://blacknewstribune.com/leon-t-hadar-will-anti-interventionist-congressional-republicans-please-stand-up-blacknewstribune-com/"></a>
+												<div class="theme-banner-content">
+													<h3 class="theme-banner-title">
+														<a href="https://blacknewstribune.com/leon-t-hadar-will-anti-interventionist-congressional-republicans-please-stand-up-blacknewstribune-com/">Leon T. Hadar: Will Anti-Interventionist Congressional Republicans Please Stand Up | BlackNewsTribune.com</a>
+													</h3>
+													<div class="theme-banner-meta">
+													<span class="posted-on"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-event" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1zm1-3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zm9 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5z"/>
+					<rect width="2" height="2" x="11" y="6" rx=".5"/>
+				</svg><a href="https://blacknewstribune.com/leon-t-hadar-will-anti-interventionist-congressional-republicans-please-stand-up-blacknewstribune-com/" rel="bookmark"><time class="entry-date published updated" datetime="2010-12-25T07:30:59+00:00">December 25, 2010</time></a></span><span class="byline"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M2 15v-1c0-1 1-4 6-4s6 3 6 4v1H2zm6-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+				</svg><span class="author vcard"><a class="url fn n" href="https://blacknewstribune.com/author/administrator/">Marion Cunningham</a></span></span>													</div>
+												</div>
+											</div>
+																		</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+<div id="main-content">
+
+	
+	
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-8 content-area ">
+				<main id="primary" class="site-main">
+					
+							<div class="row row-cols-1 row-cols-sm-2 nb-posts-row ">
+
+								
+									<div class="col">
+										
+<article id="post-569" class="nb-post-with-excerpt post-569 post type-post status-publish format-standard has-post-thumbnail hentry category-default">
+
+	
+			<a class="post-thumbnail" href="https://blacknewstribune.com/introducing-the-black-enterprise-wealth-for-life-ipad-app-blacknewstribune-com/" aria-hidden="true" tabindex="-1">
+				<img width="500" height="300" src="https://blacknewstribune.com/wp-content/uploads/2021/01/news-500x300.jpg" class="attachment-newsbook-featured-image-medium default-featured-img" alt="" loading="lazy" />			</a>
+
+			
+	<div class="nb-card-content">
+
+		<span class="cat-links"><a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span>
+		<header class="entry-header">
+			<h2 class="entry-title"><a href="https://blacknewstribune.com/introducing-the-black-enterprise-wealth-for-life-ipad-app-blacknewstribune-com/" rel="bookmark">Introducing The Black Enterprise Wealth for Life iPad App | BlackNewsTribune.com</a></h2>				<div class="entry-meta">
+					<span class="posted-on"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-event" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1zm1-3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zm9 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5z"/>
+					<rect width="2" height="2" x="11" y="6" rx=".5"/>
+				</svg><a href="https://blacknewstribune.com/introducing-the-black-enterprise-wealth-for-life-ipad-app-blacknewstribune-com/" rel="bookmark"><time class="entry-date published updated" datetime="2011-01-02T15:02:54+00:00">January 2, 2011</time></a></span><span class="byline"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M2 15v-1c0-1 1-4 6-4s6 3 6 4v1H2zm6-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+				</svg><span class="author vcard"><a class="url fn n" href="https://blacknewstribune.com/author/administrator/">Marion Cunningham</a></span></span>				</div><!-- .entry-meta -->
+					</header><!-- .entry-header -->
+	
+		<div class="entry-summary">
+			<p>The publication that has brought you everything you need to know about small business, personal finance, and careers for the past 40 years has created [&hellip;]</p>
+		</div><!-- .entry-summary -->
+	
+		<footer class="entry-footer">
+			<!-- <span class="cat-links">Posted in <a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span> -->
+		</footer><!-- .entry-footer -->
+	</div>
+
+</article><!-- #post-569 -->
+									</div>
+
+									
+									<div class="col">
+										
+<article id="post-568" class="nb-post-with-excerpt post-568 post type-post status-publish format-standard has-post-thumbnail hentry category-default">
+
+	
+			<a class="post-thumbnail" href="https://blacknewstribune.com/sahil-kapur-arizona-law-battle-will-further-imperil-immigration-reform-blacknewstribune-com/" aria-hidden="true" tabindex="-1">
+				<img width="500" height="300" src="https://blacknewstribune.com/wp-content/uploads/2021/01/news-500x300.jpg" class="attachment-newsbook-featured-image-medium default-featured-img" alt="" loading="lazy" />			</a>
+
+			
+	<div class="nb-card-content">
+
+		<span class="cat-links"><a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span>
+		<header class="entry-header">
+			<h2 class="entry-title"><a href="https://blacknewstribune.com/sahil-kapur-arizona-law-battle-will-further-imperil-immigration-reform-blacknewstribune-com/" rel="bookmark">Sahil Kapur: Arizona Law Battle Will Further Imperil Immigration Reform | BlackNewsTribune.com</a></h2>				<div class="entry-meta">
+					<span class="posted-on"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-event" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1zm1-3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zm9 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5z"/>
+					<rect width="2" height="2" x="11" y="6" rx=".5"/>
+				</svg><a href="https://blacknewstribune.com/sahil-kapur-arizona-law-battle-will-further-imperil-immigration-reform-blacknewstribune-com/" rel="bookmark"><time class="entry-date published updated" datetime="2011-01-01T15:11:46+00:00">January 1, 2011</time></a></span><span class="byline"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M2 15v-1c0-1 1-4 6-4s6 3 6 4v1H2zm6-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+				</svg><span class="author vcard"><a class="url fn n" href="https://blacknewstribune.com/author/administrator/">Marion Cunningham</a></span></span>				</div><!-- .entry-meta -->
+					</header><!-- .entry-header -->
+	
+		<div class="entry-summary">
+			<p>In a partial and last minute victory for opponents of the new Arizona immigration law, a federal judge on Wednesday blocked its most controversial components [&hellip;]</p>
+		</div><!-- .entry-summary -->
+	
+		<footer class="entry-footer">
+			<!-- <span class="cat-links">Posted in <a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span> -->
+		</footer><!-- .entry-footer -->
+	</div>
+
+</article><!-- #post-568 -->
+									</div>
+
+									
+									<div class="col">
+										
+<article id="post-567" class="nb-post-with-excerpt post-567 post type-post status-publish format-standard has-post-thumbnail hentry category-default">
+
+	
+			<a class="post-thumbnail" href="https://blacknewstribune.com/10-helpful-social-media-management-tools-blacknewstribune-com/" aria-hidden="true" tabindex="-1">
+				<img width="500" height="300" src="https://blacknewstribune.com/wp-content/uploads/2021/01/news-500x300.jpg" class="attachment-newsbook-featured-image-medium default-featured-img" alt="" loading="lazy" />			</a>
+
+			
+	<div class="nb-card-content">
+
+		<span class="cat-links"><a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span>
+		<header class="entry-header">
+			<h2 class="entry-title"><a href="https://blacknewstribune.com/10-helpful-social-media-management-tools-blacknewstribune-com/" rel="bookmark">10 Helpful Social Media Management Tools | BlackNewsTribune.com</a></h2>				<div class="entry-meta">
+					<span class="posted-on"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-event" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1zm1-3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zm9 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5z"/>
+					<rect width="2" height="2" x="11" y="6" rx=".5"/>
+				</svg><a href="https://blacknewstribune.com/10-helpful-social-media-management-tools-blacknewstribune-com/" rel="bookmark"><time class="entry-date published updated" datetime="2010-12-26T17:05:24+00:00">December 26, 2010</time></a></span><span class="byline"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M2 15v-1c0-1 1-4 6-4s6 3 6 4v1H2zm6-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+				</svg><span class="author vcard"><a class="url fn n" href="https://blacknewstribune.com/author/administrator/">Marion Cunningham</a></span></span>				</div><!-- .entry-meta -->
+					</header><!-- .entry-header -->
+	
+		<div class="entry-summary">
+			<p>Log in | Copyright © 2009 BlackNewsTribune.com | 260 Madison Avenue 8th Floor New York, NY 10016 BlackNewsTribune.com is a news and opinion forum. It, [&hellip;]</p>
+		</div><!-- .entry-summary -->
+	
+		<footer class="entry-footer">
+			<!-- <span class="cat-links">Posted in <a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span> -->
+		</footer><!-- .entry-footer -->
+	</div>
+
+</article><!-- #post-567 -->
+									</div>
+
+									
+									<div class="col">
+										
+<article id="post-566" class="nb-post-with-excerpt post-566 post type-post status-publish format-standard has-post-thumbnail hentry category-default">
+
+	
+			<a class="post-thumbnail" href="https://blacknewstribune.com/retool-for-career-success-blacknewstribune-com/" aria-hidden="true" tabindex="-1">
+				<img width="500" height="300" src="https://blacknewstribune.com/wp-content/uploads/2021/01/news-500x300.jpg" class="attachment-newsbook-featured-image-medium default-featured-img" alt="" loading="lazy" />			</a>
+
+			
+	<div class="nb-card-content">
+
+		<span class="cat-links"><a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span>
+		<header class="entry-header">
+			<h2 class="entry-title"><a href="https://blacknewstribune.com/retool-for-career-success-blacknewstribune-com/" rel="bookmark">Retool For Career Success | BlackNewsTribune.com</a></h2>				<div class="entry-meta">
+					<span class="posted-on"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-event" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1zm1-3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zm9 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5z"/>
+					<rect width="2" height="2" x="11" y="6" rx=".5"/>
+				</svg><a href="https://blacknewstribune.com/retool-for-career-success-blacknewstribune-com/" rel="bookmark"><time class="entry-date published updated" datetime="2010-12-25T07:48:32+00:00">December 25, 2010</time></a></span><span class="byline"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M2 15v-1c0-1 1-4 6-4s6 3 6 4v1H2zm6-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+				</svg><span class="author vcard"><a class="url fn n" href="https://blacknewstribune.com/author/administrator/">Marion Cunningham</a></span></span>				</div><!-- .entry-meta -->
+					</header><!-- .entry-header -->
+	
+		<div class="entry-summary">
+			<p>Log in | Copyright © 2009 BlackNewsTribune.com | 260 Madison Avenue 8th Floor New York, NY 10016 BlackNewsTribune.com is a news and opinion forum. It, [&hellip;]</p>
+		</div><!-- .entry-summary -->
+	
+		<footer class="entry-footer">
+			<!-- <span class="cat-links">Posted in <a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span> -->
+		</footer><!-- .entry-footer -->
+	</div>
+
+</article><!-- #post-566 -->
+									</div>
+
+									
+									<div class="col">
+										
+<article id="post-565" class="nb-post-with-excerpt post-565 post type-post status-publish format-standard has-post-thumbnail hentry category-default">
+
+	
+			<a class="post-thumbnail" href="https://blacknewstribune.com/leon-t-hadar-will-anti-interventionist-congressional-republicans-please-stand-up-blacknewstribune-com/" aria-hidden="true" tabindex="-1">
+				<img width="500" height="300" src="https://blacknewstribune.com/wp-content/uploads/2021/01/news-500x300.jpg" class="attachment-newsbook-featured-image-medium default-featured-img" alt="" loading="lazy" />			</a>
+
+			
+	<div class="nb-card-content">
+
+		<span class="cat-links"><a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span>
+		<header class="entry-header">
+			<h2 class="entry-title"><a href="https://blacknewstribune.com/leon-t-hadar-will-anti-interventionist-congressional-republicans-please-stand-up-blacknewstribune-com/" rel="bookmark">Leon T. Hadar: Will Anti-Interventionist Congressional Republicans Please Stand Up | BlackNewsTribune.com</a></h2>				<div class="entry-meta">
+					<span class="posted-on"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-event" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1zm1-3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zm9 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5z"/>
+					<rect width="2" height="2" x="11" y="6" rx=".5"/>
+				</svg><a href="https://blacknewstribune.com/leon-t-hadar-will-anti-interventionist-congressional-republicans-please-stand-up-blacknewstribune-com/" rel="bookmark"><time class="entry-date published updated" datetime="2010-12-25T07:30:59+00:00">December 25, 2010</time></a></span><span class="byline"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M2 15v-1c0-1 1-4 6-4s6 3 6 4v1H2zm6-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+				</svg><span class="author vcard"><a class="url fn n" href="https://blacknewstribune.com/author/administrator/">Marion Cunningham</a></span></span>				</div><!-- .entry-meta -->
+					</header><!-- .entry-header -->
+	
+		<div class="entry-summary">
+			<p>Since the inception of Tea Party movement, pundits — including yours truly — have been trying to deconstruct the foreign policy direction of what is [&hellip;]</p>
+		</div><!-- .entry-summary -->
+	
+		<footer class="entry-footer">
+			<!-- <span class="cat-links">Posted in <a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span> -->
+		</footer><!-- .entry-footer -->
+	</div>
+
+</article><!-- #post-565 -->
+									</div>
+
+									
+									<div class="col">
+										
+<article id="post-564" class="nb-post-with-excerpt post-564 post type-post status-publish format-standard has-post-thumbnail hentry category-default">
+
+	
+			<a class="post-thumbnail" href="https://blacknewstribune.com/zach-carter-axelrod-is-wrong-obama-must-protect-american-families-from-wall-street-fraud-blacknewstribune-com/" aria-hidden="true" tabindex="-1">
+				<img width="500" height="300" src="https://blacknewstribune.com/wp-content/uploads/2021/01/news-500x300.jpg" class="attachment-newsbook-featured-image-medium default-featured-img" alt="" loading="lazy" />			</a>
+
+			
+	<div class="nb-card-content">
+
+		<span class="cat-links"><a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span>
+		<header class="entry-header">
+			<h2 class="entry-title"><a href="https://blacknewstribune.com/zach-carter-axelrod-is-wrong-obama-must-protect-american-families-from-wall-street-fraud-blacknewstribune-com/" rel="bookmark">Zach Carter: Axelrod Is Wrong: Obama Must Protect American Families From Wall Street Fraud | BlackNewsTribune.com</a></h2>				<div class="entry-meta">
+					<span class="posted-on"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-event" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1zm1-3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zm9 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5z"/>
+					<rect width="2" height="2" x="11" y="6" rx=".5"/>
+				</svg><a href="https://blacknewstribune.com/zach-carter-axelrod-is-wrong-obama-must-protect-american-families-from-wall-street-fraud-blacknewstribune-com/" rel="bookmark"><time class="entry-date published updated" datetime="2010-12-25T03:46:57+00:00">December 25, 2010</time></a></span><span class="byline"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M2 15v-1c0-1 1-4 6-4s6 3 6 4v1H2zm6-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+				</svg><span class="author vcard"><a class="url fn n" href="https://blacknewstribune.com/author/administrator/">Marion Cunningham</a></span></span>				</div><!-- .entry-meta -->
+					</header><!-- .entry-header -->
+	
+		<div class="entry-summary">
+			<p>If senior White House adviser David Axelrod’s comments this weekend are any indication, the Obama administration is woefully misreading the foreclosure fraud crisis currently gripping [&hellip;]</p>
+		</div><!-- .entry-summary -->
+	
+		<footer class="entry-footer">
+			<!-- <span class="cat-links">Posted in <a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span> -->
+		</footer><!-- .entry-footer -->
+	</div>
+
+</article><!-- #post-564 -->
+									</div>
+
+									
+									<div class="col">
+										
+<article id="post-563" class="nb-post-with-excerpt post-563 post type-post status-publish format-standard has-post-thumbnail hentry category-default">
+
+	
+			<a class="post-thumbnail" href="https://blacknewstribune.com/washington-report-black-farmers-settlement-bill-clears-the-house-blacknewstribune-com/" aria-hidden="true" tabindex="-1">
+				<img width="500" height="300" src="https://blacknewstribune.com/wp-content/uploads/2021/01/news-500x300.jpg" class="attachment-newsbook-featured-image-medium default-featured-img" alt="" loading="lazy" />			</a>
+
+			
+	<div class="nb-card-content">
+
+		<span class="cat-links"><a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span>
+		<header class="entry-header">
+			<h2 class="entry-title"><a href="https://blacknewstribune.com/washington-report-black-farmers-settlement-bill-clears-the-house-blacknewstribune-com/" rel="bookmark">Washington Report: Black Farmers Settlement Bill Clears the House | BlackNewsTribune.com</a></h2>				<div class="entry-meta">
+					<span class="posted-on"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-event" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1zm1-3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zm9 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5z"/>
+					<rect width="2" height="2" x="11" y="6" rx=".5"/>
+				</svg><a href="https://blacknewstribune.com/washington-report-black-farmers-settlement-bill-clears-the-house-blacknewstribune-com/" rel="bookmark"><time class="entry-date published updated" datetime="2010-12-25T01:12:20+00:00">December 25, 2010</time></a></span><span class="byline"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M2 15v-1c0-1 1-4 6-4s6 3 6 4v1H2zm6-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+				</svg><span class="author vcard"><a class="url fn n" href="https://blacknewstribune.com/author/administrator/">Marion Cunningham</a></span></span>				</div><!-- .entry-meta -->
+					</header><!-- .entry-header -->
+	
+		<div class="entry-summary">
+			<p>On Tuesday, the House of Representatives passed landmark legislation to fund claims filed by Black farmers who say that the U.S. Agriculture Department denied them [&hellip;]</p>
+		</div><!-- .entry-summary -->
+	
+		<footer class="entry-footer">
+			<!-- <span class="cat-links">Posted in <a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span> -->
+		</footer><!-- .entry-footer -->
+	</div>
+
+</article><!-- #post-563 -->
+									</div>
+
+									
+									<div class="col">
+										
+<article id="post-562" class="nb-post-with-excerpt post-562 post type-post status-publish format-standard has-post-thumbnail hentry category-default">
+
+	
+			<a class="post-thumbnail" href="https://blacknewstribune.com/michael-j-wilson-the-future-of-education-in-the-u-s-blacknewstribune-com/" aria-hidden="true" tabindex="-1">
+				<img width="500" height="300" src="https://blacknewstribune.com/wp-content/uploads/2021/01/news-500x300.jpg" class="attachment-newsbook-featured-image-medium default-featured-img" alt="" loading="lazy" />			</a>
+
+			
+	<div class="nb-card-content">
+
+		<span class="cat-links"><a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span>
+		<header class="entry-header">
+			<h2 class="entry-title"><a href="https://blacknewstribune.com/michael-j-wilson-the-future-of-education-in-the-u-s-blacknewstribune-com/" rel="bookmark">Michael J. Wilson: The Future of Education in the U.S. | BlackNewsTribune.com</a></h2>				<div class="entry-meta">
+					<span class="posted-on"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-event" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1zm1-3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zm9 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5z"/>
+					<rect width="2" height="2" x="11" y="6" rx=".5"/>
+				</svg><a href="https://blacknewstribune.com/michael-j-wilson-the-future-of-education-in-the-u-s-blacknewstribune-com/" rel="bookmark"><time class="entry-date published updated" datetime="2010-12-25T01:11:51+00:00">December 25, 2010</time></a></span><span class="byline"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M2 15v-1c0-1 1-4 6-4s6 3 6 4v1H2zm6-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+				</svg><span class="author vcard"><a class="url fn n" href="https://blacknewstribune.com/author/administrator/">Marion Cunningham</a></span></span>				</div><!-- .entry-meta -->
+					</header><!-- .entry-header -->
+	
+		<div class="entry-summary">
+			<p>Labor Day marks the beginning of the new school year, but like many traditions, this one is being reevaluated to address new needs. What is [&hellip;]</p>
+		</div><!-- .entry-summary -->
+	
+		<footer class="entry-footer">
+			<!-- <span class="cat-links">Posted in <a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span> -->
+		</footer><!-- .entry-footer -->
+	</div>
+
+</article><!-- #post-562 -->
+									</div>
+
+									
+									<div class="col">
+										
+<article id="post-561" class="nb-post-with-excerpt post-561 post type-post status-publish format-standard has-post-thumbnail hentry category-default">
+
+	
+			<a class="post-thumbnail" href="https://blacknewstribune.com/yahoo-blacknewstribune-com/" aria-hidden="true" tabindex="-1">
+				<img width="500" height="300" src="https://blacknewstribune.com/wp-content/uploads/2021/01/news-500x300.jpg" class="attachment-newsbook-featured-image-medium default-featured-img" alt="" loading="lazy" />			</a>
+
+			
+	<div class="nb-card-content">
+
+		<span class="cat-links"><a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span>
+		<header class="entry-header">
+			<h2 class="entry-title"><a href="https://blacknewstribune.com/yahoo-blacknewstribune-com/" rel="bookmark">Yahoo! | BlackNewsTribune.com</a></h2>				<div class="entry-meta">
+					<span class="posted-on"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-event" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1zm1-3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zm9 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5z"/>
+					<rect width="2" height="2" x="11" y="6" rx=".5"/>
+				</svg><a href="https://blacknewstribune.com/yahoo-blacknewstribune-com/" rel="bookmark"><time class="entry-date published updated" datetime="2010-12-24T00:35:56+00:00">December 24, 2010</time></a></span><span class="byline"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M2 15v-1c0-1 1-4 6-4s6 3 6 4v1H2zm6-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+				</svg><span class="author vcard"><a class="url fn n" href="https://blacknewstribune.com/author/administrator/">Marion Cunningham</a></span></span>				</div><!-- .entry-meta -->
+					</header><!-- .entry-header -->
+	
+		<div class="entry-summary">
+			<p>Time.com – The Israelis may not agree, but the U.S.-backed Prime Minister of the West Bank believes that the logic of the institutions he’s building [&hellip;]</p>
+		</div><!-- .entry-summary -->
+	
+		<footer class="entry-footer">
+			<!-- <span class="cat-links">Posted in <a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span> -->
+		</footer><!-- .entry-footer -->
+	</div>
+
+</article><!-- #post-561 -->
+									</div>
+
+									
+									<div class="col">
+										
+<article id="post-560" class="nb-post-with-excerpt post-560 post type-post status-publish format-standard has-post-thumbnail hentry category-default">
+
+	
+			<a class="post-thumbnail" href="https://blacknewstribune.com/has-foreign-aid-and-involvement-hampered-haitis-recovery-efforts-blacknewstribune-com/" aria-hidden="true" tabindex="-1">
+				<img width="500" height="300" src="https://blacknewstribune.com/wp-content/uploads/2021/01/news-500x300.jpg" class="attachment-newsbook-featured-image-medium default-featured-img" alt="" loading="lazy" />			</a>
+
+			
+	<div class="nb-card-content">
+
+		<span class="cat-links"><a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span>
+		<header class="entry-header">
+			<h2 class="entry-title"><a href="https://blacknewstribune.com/has-foreign-aid-and-involvement-hampered-haitis-recovery-efforts-blacknewstribune-com/" rel="bookmark">Has Foreign Aid and Involvement Hampered Haiti’s Recovery Efforts? | BlackNewsTribune.com</a></h2>				<div class="entry-meta">
+					<span class="posted-on"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-event" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1zm1-3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zm9 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5z"/>
+					<rect width="2" height="2" x="11" y="6" rx=".5"/>
+				</svg><a href="https://blacknewstribune.com/has-foreign-aid-and-involvement-hampered-haitis-recovery-efforts-blacknewstribune-com/" rel="bookmark"><time class="entry-date published updated" datetime="2010-12-24T00:34:22+00:00">December 24, 2010</time></a></span><span class="byline"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+					<path fill-rule="evenodd" d="M2 15v-1c0-1 1-4 6-4s6 3 6 4v1H2zm6-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+				</svg><span class="author vcard"><a class="url fn n" href="https://blacknewstribune.com/author/administrator/">Marion Cunningham</a></span></span>				</div><!-- .entry-meta -->
+					</header><!-- .entry-header -->
+	
+		<div class="entry-summary">
+			<p>by Anthony Cain, The Atlanta Post It’s been nearly a year since the great Haitian earthquake, which ravaged the country and caused the world to [&hellip;]</p>
+		</div><!-- .entry-summary -->
+	
+		<footer class="entry-footer">
+			<!-- <span class="cat-links">Posted in <a href="https://blacknewstribune.com/category/default/" rel="category tag">Default</a></span> -->
+		</footer><!-- .entry-footer -->
+	</div>
+
+</article><!-- #post-560 -->
+									</div>
+
+									
+							</div>
+
+							<div class="clearfix"></div>
+
+		<ul class="default-theme-posts-navigation">
+			<li class="theme-nav-previous"><a href="https://blacknewstribune.com/page/2/" >&larr; Previous</a></li>
+			<li class="theme-nav-next"></li>
+		</ul>
+						</main><!-- #main -->
+			</div>
+
+						<div class="col-md-4 sidebar-area  ">
+				
+<aside id="secondary" class="widget-area">
+	<section id="search-2" class="widget widget_search"><form action="https://blacknewstribune.com/" class="search-form searchform clearfix" method="get">
+	<div class="search-wrap">
+		<input type="text" placeholder="Search" class="s field" name="s">
+		<button class="search-icon" type="submit">
+			<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+				<path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+				<path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+			</svg>
+		</button>
+	</div>
+</form><!-- .searchform -->
+</section><section id="categories-2" class="widget widget_categories"><h5 class="widget-title">Categories</h5>
+			<ul>
+					<li class="cat-item cat-item-2"><a href="https://blacknewstribune.com/category/default/">Default</a>
+</li>
+			</ul>
+
+			</section>
+		<section id="recent-posts-2" class="widget widget_recent_entries">
+		<h5 class="widget-title">Recent Posts</h5>
+		<ul>
+											<li>
+					<a href="https://blacknewstribune.com/introducing-the-black-enterprise-wealth-for-life-ipad-app-blacknewstribune-com/">Introducing The Black Enterprise Wealth for Life iPad App | BlackNewsTribune.com</a>
+									</li>
+											<li>
+					<a href="https://blacknewstribune.com/sahil-kapur-arizona-law-battle-will-further-imperil-immigration-reform-blacknewstribune-com/">Sahil Kapur: Arizona Law Battle Will Further Imperil Immigration Reform | BlackNewsTribune.com</a>
+									</li>
+											<li>
+					<a href="https://blacknewstribune.com/10-helpful-social-media-management-tools-blacknewstribune-com/">10 Helpful Social Media Management Tools | BlackNewsTribune.com</a>
+									</li>
+											<li>
+					<a href="https://blacknewstribune.com/retool-for-career-success-blacknewstribune-com/">Retool For Career Success | BlackNewsTribune.com</a>
+									</li>
+											<li>
+					<a href="https://blacknewstribune.com/leon-t-hadar-will-anti-interventionist-congressional-republicans-please-stand-up-blacknewstribune-com/">Leon T. Hadar: Will Anti-Interventionist Congressional Republicans Please Stand Up | BlackNewsTribune.com</a>
+									</li>
+					</ul>
+
+		</section></aside><!-- #secondary -->
+			</div>
+					</div>
+	</div>
+</div>
+
+
+		
+	<footer id="colophon" class="site-footer">
+
+		<section>&copy; – 2021</section>
+
+	</footer><!-- #colophon -->
+
+		
+</div><!-- #page -->
+
+
+<script src='https://blacknewstribune.com/wp-content/themes/newsbook/js/navigation.js' id='newsbook-navigation-js'></script>
+<script src='https://blacknewstribune.com/wp-includes/js/wp-embed.min.js' id='wp-embed-js'></script>
+
+</body>
+</html>

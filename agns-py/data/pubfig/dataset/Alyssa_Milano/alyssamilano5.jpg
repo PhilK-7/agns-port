@@ -1,0 +1,416 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en">
+<head>
+<meta name="p:domain_verify" content="23ad2139f3e3b4ca775cf5d3c2a84f64"/>
+<meta name=viewport content="width=device-width, initial-scale=1">
+<script
+    type="text/javascript"
+    async defer
+    src="//assets.pinterest.com/js/pinit.js"
+></script>
+<style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+<style>
+/*---- CROSS BROWSER DROPDOWN MENU ----*/
+ul#nav {margin: 0 0 0 0;}
+ul.drop a { display:block; color: #fff; text-decoration: none;}
+ul.drop, ul.drop li, ul.drop ul { list-style: none; margin: 0; padding: 0; border: 1px solid #fff; background: #0000B9; color: #fff;}
+ul.drop { position: relative; z-index: 597; float: left; }
+ul.drop li { float: left; line-height: 1.3em; vertical-align: middle; zoom: 1; padding: 5px 10px; }
+ul.drop li.hover, ul.drop li:hover { position: relative; z-index: 599; cursor: default; background: #1e7c9a; }
+ul.drop ul { visibility: hidden; position: absolute; top: 100%; left: 0; z-index: 598; width: 195px; background: #555; border: 1px solid #fff; }
+ul.drop ul li { float: none; }
+ul.drop ul ul { top: -2px; left: 100%; }
+ul.drop li:hover > ul { visibility: visible }
+</style>
+<script async src="https://epnt.ebay.com/static/epn-smart-tools.js"></script>
+<meta name="description" content="Test your TV and Movie trivia knowledge with on-line scored quizzes. Site includes celebrity pictures and sound clips for you to enjoy.">
+<meta name="keywords" content="trivia, movie, tv, quizzes, celebrity, actress, actor, photos, images, sound clips">
+<META name="y_key" content="eb8125816c4e781b" >
+<meta property="fb:admins" content="100000681520583" />
+<title>TV and Movie Trivia Tribute</title>
+<STYLE>A {text-decoration: underline;}A:hover {text-decoration: underline;}TD {font: Trebuchet MS,Arial Narrow,Arial,Arial MT,Helv,Helvetica,Monaco,MS Sans Serif; font-size: 12.5pt;}.BIGNUMBERS {font-size: 18pt}.SMALLCAPS {font-size: 16pt}</STYLE>
+<style>
+body
+{
+background-image:url('https://www.triviatribute.com/marble.jpg');
+background-repeat:repeat;
+}
+</style>
+<!-- Pastel Plaid Template - Copyright © 2000 - KMK Enterprises - www.kmkenterprises.com  This template and associated image(s) may be freely distributed provided this Copyright info remain intact. -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-203906-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<link rel="stylesheet" type="text/css" href="//wpcc.io/lib/1.0.2/cookieconsent.min.css"/><script src="//wpcc.io/lib/1.0.2/cookieconsent.min.js"></script><script>window.addEventListener("load", function(){window.wpcc.init({"border":"thin","colors":{"popup":{"background":"#1c1f4b","text":"#ffffff","border":"#afb3e4"},"button":{"background":"#afb3e4","text":"#000000"}},"content":{"href":"https://www.triviatribute.com/privacypolicy.html","message":"This website utilizes a standard technology called \"cookies\" and web server logs to collect information about how the website is used. Information gathered through cookies and web server logs may include the time and date of visits, the pages viewed, time spent at this website and the websites visited just before and just after this website.","button":"I Accept"},"position":"bottom"})});</script>
+
+</head>
+
+<body topmargin=0 leftmargin=0 rightmargin=0 marginheight=0 marginwidth=0 link=#0000B9 vlink=#0000B9>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=396278716348";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<!--Start of Header Table-->
+<TABLE width=100% bgcolor=#0000B9 cellpadding=5 cellspacing=0 border=0>
+<tr align=center>
+<td><FONT FACE="Verdana" SIZE="6" color='white'><B>TV and Movie Trivia Tribute</B></FONT></td>
+</tr>
+<tr align=center>
+<td>
+<!--Date Script-->
+<SCRIPT LANGUAGE="Javascript"><!--
+
+// ***********************************************
+// AUTHOR: WWW.CGISCRIPT.NET, LLC
+// URL: http://www.cgiscript.net
+// Use the script, just leave this message intact.
+// Download your FREE CGI/Perl Scripts today!
+// ( http://www.cgiscript.net/scripts.htm )
+// ***********************************************
+
+// Get today's current date.
+var now = new Date();
+
+// Array list of days.
+var days = new Array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
+
+// Array list of months.
+var months = new Array('January','February','March','April','May','June','July','August','September','October','November','December');
+
+// Calculate the number of the current day in the week.
+var date = ((now.getDate()<10) ? "0" : "")+ now.getDate();
+
+// Calculate four digit year.
+function fourdigits(number)	{
+	return (number < 1000) ? number + 1900 : number;
+								}
+// Join it all together
+today =  days[now.getDay()] + ", " +
+              months[now.getMonth()] + " " +
+               date + ", " +
+                (fourdigits(now.getYear())) ;
+
+// Print out the data.
+document.write("<FONT FACE='verdana' COLOR='#C4E1FF' SIZE='2'><b>Today\'s date is " +today+  "</b>" +"");
+  
+//--></SCRIPT>
+</td></tr>
+</table>
+<!--End of Header Table-->
+
+<center>
+
+<!--Start of separate table for dropdown menus.-->
+<table border=0 cellspacing=0><tr><td align=center valign=middle>
+<ul id="nav" class="drop">
+  <li><a href="index.html">Home</a></li>
+  <li>Quizzes
+    <ul>
+      <li>Scored Quizzes
+         <ul>
+          <li><a href="scoredquiz1.html">Scored Quiz #1</a></li>
+          <li><a href="scoredquiz2.html">Scored Quiz #2</a></li>
+          <li><a href="scoredquiz3.html">Scored Quiz #3</a></li>
+          <li><a href="scoredquiz4.html">Scored Quiz #4</a></li>
+        </ul>
+      </li>
+      <li>Quote Quizzes
+         <ul>
+          <li><a href="quotequiz1.html">Quote Quiz #1</a></li>
+          <li><a href="quotequiz2.html">Quote Quiz #2</a></li>
+          <li><a href="quotequiz3.html">Quote Quiz #3</a></li>
+          <li><a href="quotequiz4.html">Quore Quiz #4</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Database Fun
+    <ul>
+      <li><a href="index.html#triviatogo">Trivia to Go</a></li>
+      <li><a href="index.html#whoistaller">Who is Taller?</a></li>
+      <li><a href="index.html#birthplacesearch">Celebrity Birthplace Search</a></li>
+      <li><a href="index.html#birthdates">Celebrity Birthday Search</a></li>
+    </ul>
+  </li>
+  <li>Name the Celebrity
+    <ul>
+      <li>Television
+         <ul>
+          <li><a href="tvtrivia1.html">TV Name the Celebrity #1</a></li>
+          <li><a href="tvtrivia2.html">TV Name the Celebrity #2</a></li>
+          <li><a href="tvtrivia3.html">TV Name the Celebrity #3</a></li>
+          <li><a href="tvtrivia4.html">TV Name the Celebrity #4</a></li>
+        </ul>
+      </li>
+      <li>Movies
+         <ul>
+          <li><a href="movietrivia1.html">Movie Name the Celebrity #1</a></li>
+          <li><a href="movietrivia2.html">Movie Name the Celebrity #2</a></li>
+          <li><a href="movietrivia3.html">Movie Name the Celebrity #3</a></li>
+          <li><a href="movietrivia4.html">Movie Name the Celebrity #4</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Support this Site
+    <ul>
+      <li><a href="http://contactanycelebrity.com/cac/134.htm">Contact Any Celebrity</a></li>
+      <li><a href="https://rover.ebay.com/rover/1/711-53200-19255-0/1?mpre=https%3A%2F%2Fwww.ebay.com&campid=5338745063&toolid=10001&customid=">eBay</a></li>
+      <li><A HREF="http://www.amazon.com/exec/obidos/redirect?tag=tvmovitriv&path=subst/home/gateway.html" rel="nofollow">Amazon</a></li>
+      <li><a href="https://tracking.opienetwork.com/aff_c?offer_id=437&aff_id=16565" rel="nofollow" target="_blank">HostPapa</a></li>
+    </ul>
+  </li>
+  <li>More to Explore
+    <ul>
+      <li><a href="index.html#search">Site Search</a></li>
+      <li><a href="celebritylist.html">Celebrity List</a></li>
+      <li><a href="classicscenes.html">Classic Movie Scenes</a></li>
+      <li><a href="doppelgangers.html">Celebrity Doppelgangers</a></li>
+      <li><a href="links.html">Links</a></li>
+    </ul>
+  </li>
+  <li><a href="feedbackform.html">Contact</a></li>
+</ul></td></tr>
+</table>
+<!--End of dropdown menus.-->
+<p>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 728x90, created 5/11/11 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6043149429377906"
+     data-ad-slot="1901833104"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<p>
+<!--Start of Main Gray Table-->
+<table width=80% background="https://www.triviatribute.com/mainbg.jpg" cellpadding=0 cellspacing=0 border=0>
+<tr align=center valign=middle><td height=20 colspan=5></td></tr>
+<tr align=center valign=middle>
+
+<!--<td width=20%>
+<a target="_blank"  href="https://www.amazon.com/gp/product/1604870176/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1604870176&linkCode=as2&tag=tvmovitriv&linkId=613592e9d41247ae83dae12f20c1cb35"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&MarketPlace=US&ASIN=1604870176&ServiceVersion=20070822&ID=AsinImage&WS=1&Format=_SL160_&tag=tvmovitriv" ><img src="//ir-na.amazon-adsystem.com/e/ir?t=tvmovitriv&l=am2&o=1&a=1604870176" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /><FONT FACE="Verdana,arial" SIZE="2" color=#0000B9><b>
+<br>The Celebrity Black Book<br>2019 Deluxe Edition</b></font></a>
+</td>-->
+
+<td width=20%>
+<a href="https://everytown.org/" rel="nofollow"><img src="https://www.triviatribute.com/images4/everytown.jpg" width=154 height=80 border=0 alt="Everytown for Gun Safety | The Movement to End Gun Violence"><br><FONT FACE="Verdana,arial" SIZE="2" color=#0000B9><b>End Gun Violence</b></font></a>
+</td>
+
+<td width=20%>
+<a href="https://www.redcross.org" rel="nofollow"><img src="https://www.triviatribute.com/images4/redcross.jpg" width=125 height=50 border=0 alt="American Red Cross"><br><FONT FACE="Verdana,arial" SIZE="2" color=#0000B9><b>You Can Help</b></font></a>
+</td>
+
+<!--<td width=20%>
+<a href="https://www.marchofdimes.org" rel="nofollow"><img src="https://www.triviatribute.com/images4/marchofdimes.jpg" width=125 height=82 border=0 alt="March of Dimes"><br><FONT FACE="Verdana,arial" SIZE="2" color=#0000B9><b>You Can Help</b></font></a>
+</td>-->
+
+<td width=20%>
+<FONT FACE="Verdana,arial" SIZE="2" color=#0000B9><b>
+<a href="alisonsweeney.html"><img src="images4/alisonsweeney3.jpg" width=154 height=200 border=0 alt="Click on this picture to go to the Alison Sweeney page."></a>
+<br>Spotlight On:<br><a href="alisonsweeney.html">Alison Sweeney</b></font></a>
+</td>
+
+<td width=20%><a target="_blank" href="https://rover.ebay.com/rover/1/711-53200-19255-0/1?icep_ff3=1&pub=5574634540&toolid=10001&campid=5336196592&customid=&ipn=psmain&icep_vectorid=229466&kwid=902099&mtid=824&kw=lg"><img src="160x90_4color.png" width=160 height=91 border=0><br><FONT FACE="Verdana,arial" SIZE="2" color=#0000B9><b>Shopping</b></font></a><img style="text-decoration:none;border:0;padding:0;margin:0;" src="https://rover.ebay.com/roverimp/1/711-53200-19255-0/1?ff3=1&pub=5574634540&toolid=10001&campid=5336196592&customid=&mpt=[CACHEBUSTER]">
+</td>
+
+<td width=20%>
+<a href="joeyking.html"><img src="images4/joeyking8.jpg" width=128 height=160 border=0></a>
+<br><FONT FACE="Verdana,arial" SIZE="2" color=#0000B9><b>Latest Celebrity Added:
+<br><a href="joeyking.html">Joey King</b></a></font></td>
+</tr>
+
+<tr align=center valign=middle><td height=20 colspan=5></td></tr>
+
+<tr align=center valign=middle>
+
+<td colspan=5><FONT FACE="Verdana,arial" SIZE="2" color=#0000B9>
+
+<center><font size=5>Welcome!</font></center>
+<blockquote>
+<FONT FACE="Verdana,arial" SIZE="2" color=#0000B9>
+<!--Main Body Elements Go Here-->
+Ready to test your trivia skill?  Ok, dive in! This site is a place to challenge your knowledge of TV Shows and Movies.  Be prepared though, you'll have to go back in time.
+<p>
+You start out with eight twenty-part scored quizzes.  Each part has four possible answers.  The first four quizzes contain a variety of trivia testing along with some celebrity picture and voice recognitions thrown in.  The next four are celebrity quotes only.
+<p>
+Next, you can play the TV and Movie Name the Celebrity challenges.  You'll be given clues and you guess the correct celebrity.  Also, check out the <a href="classicscenes.html">Classic Movie Scenes</a> page to see if you think like the Webmaster!
+<p>
+Not interested in the trivia stuff?  No problem.  This site has numerous celebrity pages with <a href="images4/marinasirtis2a.jpg" width=311 height=468> pictures</a>, <a href="sounds/adamwest1.wav">sounds</a>, trivia, links and merchandise. You can look for your favorite celebs by visiting the <a href="celebritylist.html">Celebrity List</a> page.
+<p>
+<a name="triviatogo"></a>
+<font size=5>Trivia to Go!</font>
+<p>Heading to a party with your mobile device?  Here's a 25 trivia question generator so you can run your own trivia contest! Just click on the button below and you'll get 25 random trivia questions with the answers.<br>
+<form method="post" action="https://www.triviatribute.com/triviatogo.php">
+<button type="submit">Trivia to Go</button>
+</form>
+<p>
+<a href="doppelgangers.html"><font size=5>Celebrity Dopplegangers</font></a>
+<p>Ever spot two celebrities that look alike? I've put together a <a href="doppelgangers.html">page here</a> with pairs of celebrities who seem similar in appearance.  You can vote on each pair to see if you agree or disagree!
+<p>
+<font size=5>Six Degrees of Kevin Bacon</font>
+<p>Ever hear of Six Degrees of Kevin Bacon?  From Wikipedia: "Six Degrees of Kevin Bacon is a parlor game based on the "six degrees of separation" concept, which posits that any two people on Earth are six or fewer acquaintance links apart. Movie buffs challenge each other to find the shortest path between an arbitrary actor and prolific actor Kevin Bacon. It rests on the assumption that anyone involved in the Hollywood film industry can be linked through their film roles to Bacon within six steps."
+This site has added a search feature you can play as a game. The idea is to guess the movie connection tree from a celebrity on this site to Kevin Bacon. Just look for the search block on an individual celebrity page!
+<p>
+
+<!--<font size=5>2019 Calendars For Sale</font>
+<p>Looking for an upcoming holiday gift or just want a new calendar for yourself?  Just <a href="calendars.html">Click Here</a> to browse through the selection of 2019 calendars arranged alphabetically.  Click on a picture to see the item, make sure it's right for you and then purchase.  All calendars are for sale through Calendars.com.
+<p>-->
+
+<a name="whoistaller"></a>
+<font size=5>Who is taller?</font>
+<p>Time to challenge your height guessing skill.  You will be shown two randomly selected celebrities and you need to guess who is the taller one.  Then, just click on a checkbox to see if you guessed correctly!  Choose the "Who is Taller?" button for living celebs or "Who was Taller?" for those who have passed.
+<p>
+<table><tr align=center valign=middle>
+<td><form action="https://www.triviatribute.com/whoistaller.php" method="post">
+<button type="submit">Who is Taller?</button></form></td>
+<td><form action="https://www.triviatribute.com/whoistallerpast.php" method="post">
+<button type="submit">Who was Taller?</button></form></td>
+</tr></table>
+<br>
+<table><tr align=center valign=middle>
+<td width=50%><a name="birthplacesearch"></a>
+<font size=5>Celebrity Birthplace Search</font>
+<p><font size=2>Wondering if any of the celebs featured on this site were born near you?  Just run the Search below to see!  (Partial words will work.)
+<p>
+<!--Separate section/table for Birthplace search-->
+<form method="post" action="https://www.triviatribute.com/birthplaces.php">
+<table border=0 cellpadding=2>
+<tr>
+<td align=right>
+<FONT FACE="Verdana,arial" SIZE="2" color=#0000B9><b>City: </b></font>
+<input type="text" name="vcity"></td></tr>
+<tr>
+<td align=right>
+<FONT FACE="Verdana,arial" SIZE="2" color=#0000B9><b>*State: </b></font>
+<input type="text" name="vstate"></td></tr>
+<tr>
+<td align=right>
+<FONT FACE="Verdana,arial" SIZE="2" color=#0000B9><b>Country: </b></font>
+<input type="text" name="vcountry"></td>
+<td align=left><input type="submit" value="Search"></td>
+</tr></table>
+</form>
+*Note: The term "State" could cover any region type.
+<!--End of separate section for Birthplace search--></td>
+<td width=50% valign=top>
+<a name="birthdates"></a>
+<font size=5>Celebrity Birthday Search</font>
+<p><font size=2>Here you can query the database based on birthdays.
+<form method="post" action="https://www.triviatribute.com/birthdates.php">
+<br><input type="date" name="vbirthday">
+<br><input type="submit" value="Search">
+</form>
+</td></tr></table>
+<br>
+<a name="search"></a>
+<font size=5>Site Search</font>
+<p>Google search your way through this site:
+<p>
+<!--Separate table for Google search.-->
+<center>
+<table border=5 bordercolor="#0000B8" cellpadding=5 bgcolor=white>
+<tr><td align=center valign=middle>
+<div>
+<script>
+  (function() {
+    var cx = 'partner-pub-6043149429377906:1552535657';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:searchbox-only></gcse:searchbox-only>
+</div>
+</td></tr></table>
+</center>
+<br>
+<a HREF="startrekconnections.html"><font size=5>Star Trek Connections</font></a>
+<p>For fans of the original Star Trek TV series.  Check out my connections table to other TV appearances by <a HREF="startrekconnections.html">clicking here!</a></font>
+<p>
+<a HREF="privacypolicy.html"><font size=5>Privacy Policy</font></a>
+<p>This <a href="privacypolicy.html">Policy</a> is provided for website users to view.  By continuing to use this site, you are giving consent to the use of cookies. This site WILL NOT give or sell any site user information provided.
+<p>
+<a name="support"></a>    
+<font size=5>Support</font>
+<p>
+TriviaTribute.com is supported by <a href="https://www.dotcom-tools.com/">Dotcom-Tools</a>, <a href="https://www.dotcom-monitor.com/">Dotcom-Monitor</a>, <a href="https://www.loadview-testing.com/">LoadView-Testing</a>, <a href="https://webhostingbuddy.com/">WebHostingBuddy</a>, <a href="https://www.drivencoffee.com/">DrivenCoffee</a> and <a href="https://www.findmyelectric.com/sell-my-tesla/">Find My Electric</a>.
+<p>
+Others can support this site by purchasing from the site affiliates via clicking on a graphic/link.  This is a completely free site with no intention of changing. Thanks to the visitors who have come through with support!
+<p>
+</b></font>
+
+</blockquote>
+
+<center>
+<table>
+<tr><td align=center valign=middle>
+<td><div class="fb-like" data-href="https://www.triviatribute.com" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div></td>
+<td><a href="https://www.pinterest.com/eagle543/" data-pin-do="buttonFollow">TV and Movie Trivia Tribute</a></td>
+</tr></table>
+<p>
+</td>
+<!--End of main content section.-->
+
+</tr>
+
+<!--Begin permissions section.-->
+<tr>
+<td colspan=5 bgcolor="#0000B8" height=25 align=center><font size=2 color=white>Webmasters and Message Board Posters:  Feel free to link to any of this site's pages;<br> however, hotlinking to images is not allowed. <br>Original content is the property of the site owner, Paul Rosso.</font></center>
+</td>
+<!--End of permissions section.-->
+</tr>
+
+<!--End of Main Gray Table-->
+</table>
+<br>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=10510436; 
+var sc_invisible=1; 
+var sc_security="e6e0bdcc"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="shopify stats"
+href="http://statcounter.com/shopify/" target="_blank"><img
+class="statcounter"
+src="http://c.statcounter.com/10510436/0/e6e0bdcc/1/"
+alt="shopify stats"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+<!-- Amazon One Tag -->
+<div id="amzn-assoc-ad-60face6f-c3d0-4f9e-a296-c15865f8ef52"></div><script async src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=60face6f-c3d0-4f9e-a296-c15865f8ef52"></script>
+
+</body>
+</html>

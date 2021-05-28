@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import tensorflow.keras.applications.vgg16 as vgg
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
 def get_original_vgg_model():
@@ -11,7 +12,7 @@ def get_original_vgg_model():
     """
     base_model = vgg.VGG16(include_top=True)
     model = tf.keras.models.Model(base_model.input, base_model.layers[-2].output, name='VGG_Descriptor')
-    model.summary()
+    #model.summary()
 
     return model
 
@@ -42,8 +43,8 @@ def build_vgg_custom_part(bigger_class_n=False):
         inp,
         dense
     ],
-        name='VGG143' if bigger_class_n else 'VGG10')
-    model.summary()
+        name='VGG143_head' if bigger_class_n else 'VGG10_head')
+    #model.summary()
 
     return model
 
@@ -64,11 +65,39 @@ def build_of_custom_part(bigger_class_n=False):
         dense_1,
         dense_2
     ],
-        name='OF143' if bigger_class_n else 'OF10')
+        name='OF143_head' if bigger_class_n else 'OF10_head')
     model.summary()
 
     return model
 
 
+def train_vgg_dnn(bigger_class_n=True):
+
+    # compose complete model
+    vgg_base = get_original_vgg_model()
+    for layer in vgg_base.layers:  # freeze VGG base layers (transfer learning)
+        layer.trainable = False
+    top_part = build_vgg_custom_part(bigger_class_n)
+    model = tf.keras.Sequential([vgg_base, top_part], name='VGG_complete')
+    model.summary()
+
+    # load dataset
+    ds_path = '../data/pubfig/dataset_'
+    # load dataset and resize
+    datagen = ImageDataGenerator(rescale=1./255)
+    datagen = datagen.flow_from_directory(ds_path, (224, 224))
+    ds = tf.keras.preprocessing.image_dataset_from_directory(ds_path,
+                                                        image_size=(224, 224), label_mode='categorical')
+
+    '''X, Y = tuple(zip(*ds))
+    X, Y = np.array(X), np.array(Y)  # X is nested numpy array: size n_batches, and every batch is (32, 224, 224, 3)
+    #X = vgg.preprocess_input(X)
+    print(np.shape(X[0]))'''
+
+    # do training
+    model.compile('adam', 'categorical_crossentropy', ['accuracy'])
+    model.fit(datagen, steps_per_epoch=len(datagen)//32)
+
+
 if __name__ == '__main__':
-    build_openface_model()
+    train_vgg_dnn()
