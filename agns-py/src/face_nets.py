@@ -72,13 +72,19 @@ def build_of_custom_part(bigger_class_n=False):
 
 
 def train_vgg_dnn(bigger_class_n=True):
+    """
+
+    """
 
     # compose complete model
     vgg_base = get_original_vgg_model()
     for layer in vgg_base.layers:  # freeze VGG base layers (transfer learning)
         layer.trainable = False
     top_part = build_vgg_custom_part(bigger_class_n)
-    model = tf.keras.Sequential([vgg_base, top_part], name='VGG_complete')
+    class_suffix = '_143' if bigger_class_n else '_10'
+    save_path = '../saved-models/vgg' + class_suffix + '.h5'
+    #tf.keras.models.load_model(save_path)
+    model = tf.keras.Sequential([vgg_base, top_part], name='VGG' + class_suffix + '_complete')
     model.summary()
 
     # load dataset
@@ -97,6 +103,9 @@ def train_vgg_dnn(bigger_class_n=True):
     # do training
     model.compile('adam', 'categorical_crossentropy', ['accuracy'])
     model.fit(datagen, steps_per_epoch=len(datagen)//32)
+
+    # save model state
+    model.save(save_path)
 
 
 if __name__ == '__main__':
