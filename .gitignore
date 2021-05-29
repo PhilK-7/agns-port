@@ -3,3 +3,5 @@ agns-py/venv/*
 venv/*
 agns-py/matlab-models/*
 agns-py/data/*
+.idea/*
+agns-py/src/__pycache__/*
