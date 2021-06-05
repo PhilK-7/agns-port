@@ -5,3 +5,5 @@ agns-py/matlab-models/*
 agns-py/data/*
 .idea/*
 agns-py/src/__pycache__/*
+*.h5
+agns-py/saved-models/*

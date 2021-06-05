@@ -71,7 +71,7 @@ def build_of_custom_part(bigger_class_n=False):
     return model
 
 
-def train_vgg_dnn(bigger_class_n=True):
+def train_vgg_dnn(epochs=1, bigger_class_n=True):
     """
 
     """
@@ -83,30 +83,34 @@ def train_vgg_dnn(bigger_class_n=True):
     top_part = build_vgg_custom_part(bigger_class_n)
     class_suffix = '_143' if bigger_class_n else '_10'
     save_path = '../saved-models/vgg' + class_suffix + '.h5'
-    #tf.keras.models.load_model(save_path)
-    model = tf.keras.Sequential([vgg_base, top_part], name='VGG' + class_suffix + '_complete')
+    try:
+        model = tf.keras.models.load_model(save_path)
+        print('Model state loaded. Continue training...')
+    except OSError:
+        model = tf.keras.Sequential([vgg_base, top_part], name='VGG' + class_suffix + '_complete')
+        print('No saved weights found. Start training new model...')
+
     model.summary()
 
-    # load dataset
-    ds_path = '../data/pubfig/dataset_'
-    # load dataset and resize
+    # load dataset, rescale + resize images
+    ds_path = '../data/pubfig/dataset_/'
+
     datagen = ImageDataGenerator(rescale=1./255)
     datagen = datagen.flow_from_directory(ds_path, (224, 224))
-    ds = tf.keras.preprocessing.image_dataset_from_directory(ds_path,
-                                                        image_size=(224, 224), label_mode='categorical')
-
-    '''X, Y = tuple(zip(*ds))
-    X, Y = np.array(X), np.array(Y)  # X is nested numpy array: size n_batches, and every batch is (32, 224, 224, 3)
-    #X = vgg.preprocess_input(X)
-    print(np.shape(X[0]))'''
+    '''
+    WARNING: If there are mysterious duplicate files starting with '._' in the subclass directories, the program
+    will crash.
+    To remove the files, go to 'dataset_' and execute this command:
+    find . -type f -name ._\* -exec rm {} \;
+    '''
 
     # do training
     model.compile('adam', 'categorical_crossentropy', ['accuracy'])
-    model.fit(datagen, steps_per_epoch=len(datagen)//32)
+    losses = model.fit(datagen, epochs=epochs).history
 
     # save model state
     model.save(save_path)
 
 
 if __name__ == '__main__':
-    train_vgg_dnn()
+    train_vgg_dnn(40)
