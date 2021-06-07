@@ -4,6 +4,24 @@ import tensorflow.keras.applications.vgg16 as vgg
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
+def get_10_class_model_dict():
+    """
+    Returns the dictionary for the classes used in the 10 class face recognition models.
+    """
+    return {
+        0: 'Alyssa Milano',
+        1: 'Barack Obama',
+        2: 'Clive Owen',
+        3: 'Drew Barrymore',
+        4: 'Eva Mendes',
+        5: 'Faith Hill',
+        6: 'George Clooney',
+        7: 'Halle Berry',
+        8: 'Gisele Bundchen',
+        9: 'Jack Nicholson'
+    }
+
+
 def get_original_vgg_model():
     """
     Loads the original VGG model (VGG16, type D), and cuts of the final layer (1000-class output).
@@ -75,7 +93,6 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
     """
 
     """
-
     # compose complete model
     vgg_base = get_original_vgg_model()
     for layer in vgg_base.layers:  # freeze VGG base layers (transfer learning)
@@ -83,6 +100,8 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
     top_part = build_vgg_custom_part(bigger_class_n)
     class_suffix = '_143' if bigger_class_n else '_10'
     save_path = '../saved-models/vgg' + class_suffix + '.h5'
+
+    # get saved weights, or start with new transfer learning
     try:
         model = tf.keras.models.load_model(save_path)
         print('Model state loaded. Continue training...')
@@ -93,7 +112,11 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
     model.summary()
 
     # load dataset, rescale + resize images
-    ds_path = '../data/pubfig/dataset_/'
+    ds_path = '../data/pubfig/dataset_'
+    if not bigger_class_n:
+        ds_path += '10/'
+    else:
+        ds_path += '/'
 
     datagen = ImageDataGenerator(rescale=1./255)
     datagen = datagen.flow_from_directory(ds_path, (224, 224))
@@ -113,4 +136,5 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
 
 
 if __name__ == '__main__':
-    train_vgg_dnn(40)
+    #train_vgg_dnn(40)
+    build_openface_model()
