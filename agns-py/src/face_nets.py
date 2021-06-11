@@ -2,6 +2,7 @@ import tensorflow as tf
 import numpy as np
 import tensorflow.keras.applications.vgg16 as vgg
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import os
 
 
 def get_10_class_model_dict():
@@ -113,6 +114,8 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
 
     # load dataset, rescale + resize images
     ds_path = '../data/pubfig/dataset_'
+    remote_ds_path = '../../../../data-private/dataset_'
+    ds_path = remote_ds_path
     if not bigger_class_n:
         ds_path += '10/'
     else:
@@ -136,5 +139,7 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
 
 
 if __name__ == '__main__':
-    #train_vgg_dnn(40)
-    build_openface_model()
+    os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
+    os.environ["CUDA_VISIBLE_DEVICES"]='1'
+    train_vgg_dnn(10, False)
+    #build_openface_model()
