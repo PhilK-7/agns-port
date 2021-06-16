@@ -1,8 +1,14 @@
+# pasted from Latex suggestion
+import os
+import sys
+from os import path
+#for usage from command line
+sys.path.append(path.dirname(path.dirname(path.abspath('face_nets.py'))))
+
 import tensorflow as tf
 import numpy as np
 import tensorflow.keras.applications.vgg16 as vgg
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-import os
 
 
 def get_10_class_model_dict():
@@ -140,6 +146,6 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
 
 if __name__ == '__main__':
     os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
-    os.environ["CUDA_VISIBLE_DEVICES"]='1'
-    train_vgg_dnn(10, False)
+    os.environ["CUDA_VISIBLE_DEVICES"]='4,5,6'
+    train_vgg_dnn(30, True)
     #build_openface_model()
