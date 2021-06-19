@@ -44,14 +44,61 @@ def get_original_vgg_model():
 
 def build_openface_model():
     """
-    Builds the nn4.small2 OpenFace model, with about 3.74M parameters
+    Builds the nn4.small2 OpenFace model, with about 3.74M parameters (3733968)
     (exact model type was inferred from paper's parameter count).
     The model's output is a 128-sphere.
     """
-    with tf.keras.utils.CustomObjectScope({'tf': tf}):
+    '''with tf.keras.utils.CustomObjectScope({'tf': tf}):
         model = tf.keras.models.load_model('../nn4.small2.v1.h5')
         model.summary()
-        return model
+        return model'''
+
+    # input part
+    inp = tf.keras.layers.Input((96, 96, 3))  # input is (aligned) RBG image pf 96x96
+    x = tf.keras.layers.Conv2D(64, 7, 2, 'same', dilation_rate=1, name='First_Conv2D')(inp)  # 48x48
+    x = tf.keras.layers.BatchNormalization()(x)
+    x = tf.keras.layers.ReLU()(x)
+
+    #x = tf.keras.layers.Lambda(tf.nn.dilation2d(x, 64, 1, 1))(x)
+    x = tf.keras.layers.MaxPool2D((3, 3), (2, 2), padding='same')(x)  # 24x24
+    #x = tf.keras.layers.Lambda(tf.nn.local_response_normalization(x, 5, alpha=1e-4, beta=0.75))(x)
+
+    # Inception 2 (output size 24x24)
+    x = tf.keras.layers.Conv2D(64, 1, 1, 'same', name='Inception_2_Conv2D')(x)  # 24x24
+    x = tf.keras.layers.BatchNormalization()(x)
+    x = tf.keras.layers.ReLU()(x)
+    x = tf.keras.layers.Conv2D(192, 3, padding='same')(x)  # 24x24
+    x = tf.keras.layers.BatchNormalization()(x)
+    x = tf.keras.layers.ReLU()(x)
+
+    #x = tf.keras.layers.Lambda(tf.nn.local_response_normalization())(x)
+    #x = tf.keras.layers.Lambda(tf.nn.dilation2d())(x)
+    x = tf.keras.layers.MaxPool2D((3, 3), (2, 2), padding='same')(x)  # 12x12
+
+    # Inception 3a (output size 12x12)
+
+    # Inception 3b (output size 12x12)
+
+    # Inception 3c (output size 6x6)
+
+    # Inception 4a (output size 6x6)
+
+    # Inception 4e (output size 3x3)
+
+    # Inception 5a (output size 3x3)
+
+    # Inception 5b (output size 3x3)
+
+    # final layers
+    x = tf.keras.layers.AvgPool2D((3, 3))(x)
+    x = tf.keras.layers.Flatten()(x)
+    x = tf.keras.layers.Dense(128)(x)
+    #x = tf.keras.layers.Lambda(tf.math.l2_normalize())(x)
+
+    model = tf.keras.Model(inputs=[inp], outputs=[x], name='Openface NN4.Small2.v1')
+    model.summary()
+
+    return model
 
 
 def build_vgg_custom_part(bigger_class_n=False):
@@ -146,7 +193,7 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
 
 
 if __name__ == '__main__':
-    os.environ["CUDA_DEVICE_ORDER"]='PCI_BUS_ID'
+    '''os.environ["CUDA_DEVICE_ORDER"]='PCI_BUS_ID'
     os.environ["CUDA_VISIBLE_DEVICES"]='4,5'
-    train_vgg_dnn(50, True)
-    #build_openface_model()
+    train_vgg_dnn(50, True)'''
+    build_openface_model()
