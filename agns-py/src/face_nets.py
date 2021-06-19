@@ -137,15 +137,16 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
     '''
 
     # do training
-    model.compile('adam', 'categorical_crossentropy', ['accuracy'])
-    losses = model.fit(datagen, epochs=epochs).history
+    opt = tf.keras.optimizers.Adam(learning_rate=5e-4)
+    model.compile(opt, 'categorical_crossentropy', ['accuracy'])
+    losses = model.fit(datagen, epochs=epochs, ).history
 
     # save model state
     model.save(save_path)
 
 
 if __name__ == '__main__':
-    os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
-    os.environ["CUDA_VISIBLE_DEVICES"]='4,5,6'
-    train_vgg_dnn(30, True)
+    os.environ["CUDA_DEVICE_ORDER"]='PCI_BUS_ID'
+    os.environ["CUDA_VISIBLE_DEVICES"]='4,5'
+    train_vgg_dnn(50, True)
     #build_openface_model()
