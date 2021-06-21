@@ -2,7 +2,8 @@
 import os
 import sys
 from os import path
-#for usage from command line
+
+# for usage from command line
 sys.path.append(path.dirname(path.dirname(path.abspath('face_nets.py'))))
 
 import tensorflow as tf
@@ -37,9 +38,87 @@ def get_original_vgg_model():
     """
     base_model = vgg.VGG16(include_top=True)
     model = tf.keras.models.Model(base_model.input, base_model.layers[-2].output, name='VGG_Descriptor')
-    #model.summary()
+    # model.summary()
 
     return model
+
+
+class InceptionModule(tf.keras.layers.Layer):
+    # TODO doc
+    # TODO L2 pooling?
+    def __init__(self, conv_output_sizes, reduce_sizes, name):
+        super(InceptionModule, self).__init__(name=name)
+
+        assert len(conv_output_sizes) >= 1
+        assert len(reduce_sizes) >= 3
+        assert len(reduce_sizes) == len(conv_output_sizes) + 2
+        self.cos = conv_output_sizes
+        self.rs = reduce_sizes
+
+        # two variants: one with both 3x3 and 5x5 convolutions, one with only 3x3 convolution
+        self.shift = 0
+        if len(conv_output_sizes) == 1:
+            self.shift = 1  # adjust reduce + pool indices if necessary
+        self.reduce_conv_out = tf.keras.layers.Conv2D(self.rs[3 - self.shift], (1, 1), padding='same')
+        self.reduce_3 = tf.keras.layers.Conv2D(self.rs[0], (1, 1), padding='same')
+        self.out_3 = tf.keras.layers.Conv2D(self.cos[0], (3, 3), padding='same')
+        if self.shift == 0:  # only add these layers for one variant
+            self.reduce_5 = tf.keras.layers.Conv2D(self.rs[1], (1, 1), padding='same')
+            self.out_5 = tf.keras.layers.Conv2D(self.cos[1], (5, 5), padding='same')
+        self.pool = tf.keras.layers.MaxPool2D((3, 3), (1, 1), 'same')
+        self.pool_out = tf.keras.layers.Conv2D(self.rs[2 - self.shift], (1, 1), padding='same')
+
+    def call(self, inputs, **kwargs):
+        # only reduction part
+        p1 = self.reduce_conv_out(inputs)
+        # 3x3 convolution part
+        p2 = self.reduce_3(inputs)
+        p2 = self.out_3(p2)
+        # 5x5 convolution part (one of two variants)
+        if self.shift == 0:
+            p3 = self.reduce_5(inputs)
+            p3 = self.out_5(p3)
+        else:
+            p3 = None
+        # pooling part
+        p4 = self.pool(inputs)  # pooling without reducing filters
+        p4 = self.pool_out(p4)
+
+        concat = tf.keras.layers.Concatenate()
+
+        return concat([p1, p2, p3, p4]) if p3 is not None else concat([p1, p2, p4])
+
+
+class InceptionModuleShrink(tf.keras.layers.Layer):
+    def __init__(self, conv_output_sizes, reduce_sizes, name):
+        super(InceptionModuleShrink, self).__init__(name=name)
+
+        assert len(conv_output_sizes) == 2 == len(reduce_sizes)
+        self.cos = conv_output_sizes
+        self.rs = reduce_sizes
+
+    def call(self, inputs, **kwargs):
+        # 3x3 convolution part
+        p1 = tf.keras.layers.Conv2D(self.rs[0], (1, 1), padding='same')(inputs)
+        p1 = tf.keras.layers.Conv2D(self.cos[0], (3, 3), (2, 2), 'same')(p1)
+        # 5x5 convolution part
+        p2 = tf.keras.layers.Conv2D(self.rs[1], (1, 1), padding='same')(inputs)
+        p2 = tf.keras.layers.Conv2D(self.cos[1], (5, 5), (2, 2), 'same')(p2)
+        # pooling part
+        convs_out = tf.keras.layers.Concatenate()([p1, p2])
+        pool = tf.keras.layers.MaxPool2D((3, 3), padding='same')(convs_out)
+
+        return pool
+
+
+def get_inception_module_output(inp, conv_output_sizes, reduce_sizes):
+    """
+    Builds an Inception module with given properties.
+    A 4D tensor input is given, and the result is the concatenation of all inception module pathway outputs.
+
+    :param inp: the Inception module´s input, a 4D tensor (batch_size, , , )
+
+    """
 
 
 def build_openface_model():
@@ -55,45 +134,51 @@ def build_openface_model():
 
     # input part
     inp = tf.keras.layers.Input((96, 96, 3))  # input is (aligned) RBG image pf 96x96
-    x = tf.keras.layers.Conv2D(64, 7, 2, 'same', dilation_rate=1, name='First_Conv2D')(inp)  # 48x48
+    x = tf.keras.layers.Conv2D(64, 7, 2, 'same', dilation_rate=1, name='First_Conv2D')(inp)  # 48x48 x 64
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.ReLU()(x)
 
-    #x = tf.keras.layers.Lambda(tf.nn.dilation2d(x, 64, 1, 1))(x)
-    x = tf.keras.layers.MaxPool2D((3, 3), (2, 2), padding='same')(x)  # 24x24
-    #x = tf.keras.layers.Lambda(tf.nn.local_response_normalization(x, 5, alpha=1e-4, beta=0.75))(x)
+    # x = tf.keras.layers.Lambda(tf.nn.dilation2d(x, 64, 1, 1))(x)
+    x = tf.keras.layers.MaxPool2D((3, 3), (2, 2), padding='same')(x)  # 24x24  x 64
+    # x = tf.keras.layers.Lambda(tf.nn.local_response_normalization(x, 5, alpha=1e-4, beta=0.75))(x)
 
     # Inception 2 (output size 24x24)
-    x = tf.keras.layers.Conv2D(64, 1, 1, 'same', name='Inception_2_Conv2D')(x)  # 24x24
+    x = tf.keras.layers.Conv2D(64, 1, 1, 'same', name='Inception_2_Conv2D')(x)  # 24x24 x 64
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.ReLU()(x)
-    x = tf.keras.layers.Conv2D(192, 3, padding='same')(x)  # 24x24
+    x = tf.keras.layers.Conv2D(192, 3, padding='same')(x)  # 24x24 x 192
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.ReLU()(x)
 
-    #x = tf.keras.layers.Lambda(tf.nn.local_response_normalization())(x)
-    #x = tf.keras.layers.Lambda(tf.nn.dilation2d())(x)
-    x = tf.keras.layers.MaxPool2D((3, 3), (2, 2), padding='same')(x)  # 12x12
+    # x = tf.keras.layers.Lambda(tf.nn.local_response_normalization())(x)
+    # x = tf.keras.layers.Lambda(tf.nn.dilation2d())(x)
+    x = tf.keras.layers.MaxPool2D((3, 3), (2, 2), padding='same')(x)  # 12x12 x 192
 
-    # Inception 3a (output size 12x12)
+    # Inception 3a (output size 12x12 x 256)
+    x = InceptionModule([128, 32], [96, 16, 32, 64], 'Inception_3a')(x)
 
-    # Inception 3b (output size 12x12)
+    # Inception 3b (output size 12x12 x 320)
+    x = InceptionModule([128, 64], [96, 32, 64, 64], 'Inception_3b')(x)
 
-    # Inception 3c (output size 6x6)
+    # Inception 3c (output size 6x6 x 640)
+    #x = InceptionModuleShrink([256, 64], [128, 32], 'Inception_3c')(x)
 
-    # Inception 4a (output size 6x6)
+    # Inception 4a (output size 6x6 x 640)
+    x = InceptionModule([192, 64], [96, 32, 128, 256], 'Inception_4a')(x)
 
-    # Inception 4e (output size 3x3)
+    # Inception 4e (output size 3x3 x 1024)
 
-    # Inception 5a (output size 3x3)
+    # Inception 5a (output size 3x3 x 736)
+    x = InceptionModule([384], [96, 96, 256], 'Inception_5a')(x)
 
-    # Inception 5b (output size 3x3)
+    # Inception 5b (output size 3x3 x 736)
+    x = InceptionModule([384], [96, 96, 256], 'Inception_5b')(x)
 
     # final layers
     x = tf.keras.layers.AvgPool2D((3, 3))(x)
-    x = tf.keras.layers.Flatten()(x)
+    x = tf.keras.layers.Flatten()(x)  # 736
     x = tf.keras.layers.Dense(128)(x)
-    #x = tf.keras.layers.Lambda(tf.math.l2_normalize())(x)
+    # x = tf.keras.layers.Lambda(tf.math.l2_normalize())(x)
 
     model = tf.keras.Model(inputs=[inp], outputs=[x], name='Openface NN4.Small2.v1')
     model.summary()
@@ -116,7 +201,7 @@ def build_vgg_custom_part(bigger_class_n=False):
         dense
     ],
         name='VGG143_head' if bigger_class_n else 'VGG10_head')
-    #model.summary()
+    # model.summary()
 
     return model
 
@@ -174,7 +259,7 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
     else:
         ds_path += '/'
 
-    datagen = ImageDataGenerator(rescale=1./255)
+    datagen = ImageDataGenerator(rescale=1. / 255)
     datagen = datagen.flow_from_directory(ds_path, (224, 224))
     '''
     WARNING: If there are mysterious duplicate files starting with '._' in the subclass directories, the program
