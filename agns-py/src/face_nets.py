@@ -43,6 +43,44 @@ def get_original_vgg_model():
     return model
 
 
+class LocalResponseNormalization(tf.keras.layers.Layer):
+    def __init__(self):
+        super(LocalResponseNormalization, self).__init__()
+
+    def call(self, inputs, **kwargs):
+        return tf.nn.local_response_normalization(inputs, alpha=1e-4, beta=0.75)
+
+
+class DilatedMaxPooling2D(tf.keras.layers.Layer):
+    def __init__(self, filters, kernel_size, dilation):
+        super(DilatedMaxPooling2D, self).__init__()
+        self.fs = filters
+        self.ks = kernel_size
+        self.dil = dilation
+
+    def call(self, inputs, **kwargs):
+        x = tf.nn.dilation2d(inputs, [1, 1, self.fs], 4 * [1], 'SAME', 'NHWC', [1, self.dil, self.dil, 1])
+        x = tf.keras.layers.MaxPool2D(self.ks, padding='same')(x)
+
+        return x
+
+
+class LPPooling(tf.keras.layers.Layer):
+    def __init__(self):
+        super(LPPooling, self).__init__()
+
+    def call(self, inputs, **kwargs):
+        pass
+
+
+class L2Normalization(tf.keras.layers.Layer):
+    def __init__(self):
+        super(L2Normalization, self).__init__()
+
+    def call(self, inputs, **kwargs):
+        pass
+
+
 class InceptionModule(tf.keras.layers.Layer):
     # TODO doc
     # TODO L2 pooling?
@@ -100,13 +138,15 @@ class InceptionModuleShrink(tf.keras.layers.Layer):
     def call(self, inputs, **kwargs):
         # 3x3 convolution part
         p1 = tf.keras.layers.Conv2D(self.rs[0], (1, 1), padding='same')(inputs)
-        p1 = tf.keras.layers.Conv2D(self.cos[0], (3, 3), (2, 2), 'same')(p1)
+        p1_a = tf.keras.layers.Conv2D(self.cos[0], (3, 3), (2, 2), 'same')(p1)
+        p1_b = tf.keras.layers.Conv2D(self.cos[0], (3, 3), (2, 2), 'same')(p1)
         # 5x5 convolution part
         p2 = tf.keras.layers.Conv2D(self.rs[1], (1, 1), padding='same')(inputs)
-        p2 = tf.keras.layers.Conv2D(self.cos[1], (5, 5), (2, 2), 'same')(p2)
+        p2_a = tf.keras.layers.Conv2D(self.cos[1], (5, 5), (2, 2), 'same')(p2)
+        p2_b = tf.keras.layers.Conv2D(self.cos[1], (5, 5), (2, 2), 'same')(p2)
         # pooling part
-        convs_out = tf.keras.layers.Concatenate()([p1, p2])
-        pool = tf.keras.layers.MaxPool2D((3, 3), padding='same')(convs_out)
+        convs_out = tf.keras.layers.Concatenate()([p1_a, p1_b, p2_a, p2_b])
+        pool = tf.keras.layers.MaxPool2D((3, 3), (2, 2))(convs_out)
 
         return pool
 
@@ -138,9 +178,8 @@ def build_openface_model():
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.ReLU()(x)
 
-    # x = tf.keras.layers.Lambda(tf.nn.dilation2d(x, 64, 1, 1))(x)
-    x = tf.keras.layers.MaxPool2D((3, 3), (2, 2), padding='same')(x)  # 24x24  x 64
-    # x = tf.keras.layers.Lambda(tf.nn.local_response_normalization(x, 5, alpha=1e-4, beta=0.75))(x)
+    x = DilatedMaxPooling2D(64, 3, 2)(x)  # 24x24  x 64
+    '''x = LocalResponseNormalization()(x)
 
     # Inception 2 (output size 24x24)
     x = tf.keras.layers.Conv2D(64, 1, 1, 'same', name='Inception_2_Conv2D')(x)  # 24x24 x 64
@@ -150,9 +189,8 @@ def build_openface_model():
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.ReLU()(x)
 
-    # x = tf.keras.layers.Lambda(tf.nn.local_response_normalization())(x)
-    # x = tf.keras.layers.Lambda(tf.nn.dilation2d())(x)
-    x = tf.keras.layers.MaxPool2D((3, 3), (2, 2), padding='same')(x)  # 12x12 x 192
+    x = LocalResponseNormalization()(x)
+    x = DilatedMaxPooling2D(192, 3, 2)(x)  # 12x12 x 192
 
     # Inception 3a (output size 12x12 x 256)
     x = InceptionModule([128, 32], [96, 16, 32, 64], 'Inception_3a')(x)
@@ -161,7 +199,7 @@ def build_openface_model():
     x = InceptionModule([128, 64], [96, 32, 64, 64], 'Inception_3b')(x)
 
     # Inception 3c (output size 6x6 x 640)
-    #x = InceptionModuleShrink([256, 64], [128, 32], 'Inception_3c')(x)
+    x = InceptionModuleShrink([256, 64], [128, 32], 'Inception_3c')(x)
 
     # Inception 4a (output size 6x6 x 640)
     x = InceptionModule([192, 64], [96, 32, 128, 256], 'Inception_4a')(x)
@@ -178,7 +216,7 @@ def build_openface_model():
     x = tf.keras.layers.AvgPool2D((3, 3))(x)
     x = tf.keras.layers.Flatten()(x)  # 736
     x = tf.keras.layers.Dense(128)(x)
-    # x = tf.keras.layers.Lambda(tf.math.l2_normalize())(x)
+    # x = tf.keras.layers.Lambda(tf.math.l2_normalize())(x)'''
 
     model = tf.keras.Model(inputs=[inp], outputs=[x], name='Openface NN4.Small2.v1')
     model.summary()
