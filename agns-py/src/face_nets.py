@@ -51,19 +51,6 @@ class LocalResponseNormalization(tf.keras.layers.Layer):
         return tf.nn.local_response_normalization(inputs, alpha=1e-4, beta=0.75)
 
 
-class DilatedMaxPooling2D(tf.keras.layers.Layer):
-    def __init__(self, filters, kernel_size, dilation):
-        super(DilatedMaxPooling2D, self).__init__()
-        self.fs = filters
-        self.ks = kernel_size
-        self.dil = dilation
-
-    def call(self, inputs, **kwargs):
-        x = tf.nn.pool(inputs, [self.ks, self.ks], 'MAX', dilations=[self.dil, self.dil])
-
-        return x
-
-
 class LPPooling(tf.keras.layers.Layer):
     def __init__(self):
         super(LPPooling, self).__init__()
@@ -174,46 +161,46 @@ def build_openface_model():
 
     # input part
     inp = tf.keras.layers.Input((96, 96, 3))  # input is (aligned) RBG image pf 96x96
-    x = tf.keras.layers.Conv2D(64, 7, dilation_rate=2, padding='same', name='First_Conv2D')(inp)  # ?x? x 64
+    x = tf.keras.layers.Conv2D(64, 7, 2, padding='same', name='First_Conv2D')(inp)  # 48x48 x 64
     x = tf.keras.layers.BatchNormalization(axis=3)(x)
     x = tf.keras.layers.ReLU()(x)
 
-    x = DilatedMaxPooling2D(64, 3, 2)(x)  # ?x?  x 64
+    x = tf.keras.layers.MaxPool2D(3, 2, padding='same')(x)  # 24x24  x 64
     x = LocalResponseNormalization()(x)
 
     # Inception 2 (output size 24x24)
-    x = tf.keras.layers.Conv2D(64, 1, 1, 'same', name='Inception_2_Conv2D')(x)  # ?x? x 64
+    x = tf.keras.layers.Conv2D(64, 1, 1, 'same', name='Inception_2_Conv2D')(x)  # 24x24 x 64
     x = tf.keras.layers.BatchNormalization(axis=3)(x)
     x = tf.keras.layers.ReLU()(x)
-    x = tf.keras.layers.Conv2D(192, 3, padding='same')(x)  # ?x? x 192
+    x = tf.keras.layers.Conv2D(192, 3, padding='same')(x)  # 24x24 x 192
     x = tf.keras.layers.BatchNormalization(axis=3)(x)
     x = tf.keras.layers.ReLU()(x)
 
     x = LocalResponseNormalization()(x)
-    x = DilatedMaxPooling2D(192, 3, 2)(x)  # ?x? x 192
+    x = tf.keras.layers.MaxPool2D(3, 2, padding='same')(x)  # 12x12 x 192
 
-    # Inception 3a (output size ?x? x 256)
+    # Inception 3a (output size 12x12 x 256)
     x = InceptionModule([128, 32], [96, 16, 32, 64], 'Inception_3a')(x)
 
-    # Inception 3b (output size ?x? x 320)
+    # Inception 3b (output size 12x12 x 320)
     x = InceptionModule([128, 64], [96, 32, 64, 64], 'Inception_3b')(x)
 
-    # Inception 3c (output size ?x? x 640)
+    # Inception 3c (output size 6x6 x 640)
     #x = InceptionModuleShrink([256, 64], [128, 32], 'Inception_3c')(x)
 
-    # Inception 4a (output size ?x? x 640)
+    # Inception 4a (output size 6x6 x 640)
     x = InceptionModule([192, 64], [96, 32, 128, 256], 'Inception_4a')(x)
 
-    # Inception 4e (output size ?x? x 1024)
+    # Inception 4e (output size 3x3 x 1024)
 
-    # Inception 5a (output size ?x? x 736)
+    # Inception 5a (output size 3x3 x 736)
     x = InceptionModule([384], [96, 96, 256], 'Inception_5a')(x)
 
-    # Inception 5b (output size ?x? x 736)
+    # Inception 5b (output size 3x3 x 736)
     x = InceptionModule([384], [96, 96, 256], 'Inception_5b')(x)
 
     # final layers
-    x = tf.keras.layers.AvgPool2D((3, 3))(x)
+    x = tf.keras.layers.AvgPool2D((3, 3))(x)  # 1x1 x 736
     x = tf.keras.layers.Flatten(name='reshape')(x)  # 736
     x = tf.keras.layers.Dense(128)(x)
     x = L2Normalization()(x)
