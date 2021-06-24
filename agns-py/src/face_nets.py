@@ -50,6 +50,7 @@ class LocalResponseNormalization(tf.keras.layers.Layer):
     The Local Response Normalization layer. Normalizes high frequency features with radial masks.
     Applies the parameters needed in OpenFace NN4.small2.v1.
     """
+
     def __init__(self):
         super(LocalResponseNormalization, self).__init__()
 
@@ -62,6 +63,7 @@ class L2Pooling(tf.keras.layers.Layer):
     The L2 Pooling layer. Computes a kind of Euclidean norm using average pooling.
     Uses pooling size 3, as needed in OpenFace NN4.small2.v1.
     """
+
     def __init__(self):
         super(L2Pooling, self).__init__()
 
@@ -78,11 +80,11 @@ class L2Normalization(tf.keras.layers.Layer):
     """
     The L2 Normalization layer. Just computes the L2 norm of its input.
     """
+
     def __init__(self):
         super(L2Normalization, self).__init__()
 
     def call(self, inputs, **kwargs):
-
         return tf.nn.l2_normalize(inputs)
 
 
@@ -93,6 +95,7 @@ class InceptionModule(tf.keras.layers.Layer):
     The four parts outputs are concatenated to get feature maps of different kinds.
     An alternate version is also supported that has no 5x5 convolution part.
     """
+
     def __init__(self, conv_output_sizes, reduce_sizes, name, use_l2_pooling=False):
         """
         :param conv_output_sizes: the output sizes (filter counts) for 3x3 and 5x5 convolution;
@@ -178,6 +181,7 @@ class InceptionModuleShrink(tf.keras.layers.Layer):
     Contains one 3x3 and 5x5 convolution path each, and also a pooling path.
     Like in the normal inception module, the paths´ output feature maps are combined to one single output.
     """
+
     def __init__(self, conv_output_sizes, reduce_sizes, name):
         """
         :param conv_output_sizes: the output sizes (filter counts) for the 3x3 and 5x5 convolution paths,
@@ -330,7 +334,7 @@ def build_of_custom_part(bigger_class_n=False):
         dense_2
     ],
         name='OF143_head' if bigger_class_n else 'OF10_head')
-    #model.summary()
+    # model.summary()
 
     return model
 
@@ -391,8 +395,58 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
     model.save(save_path)
 
 
+def align_dataset_for_openface():
+    """
+    Uses Dlib (with Python bindings) to align the images of the PubFig dataset.
+    This creates aligned outputs with transformed and cropped face images.
+    """
+    pass
+
+
+def pretrain_openface_model():
+    """
+    Trains the OpenFace NN4.small2.v1 model, as preparation for the custom OF 143/10 models.
+
+    """
+    #pretain_loss = tfa.losses.TripletSemiHardLoss()
+
+
+def train_of_dnn(epochs=1, bigger_class_n=True):
+    """
+    Trains the custom OF 143/10 model on the given dataset, based on a pretrained OpenFace model.
+    Either starts training / fine-tuning from scratch, or continues with a found saved model state.
+
+    :param epochs: how many training epochs long to train for this function call
+    :param bigger_class_n: whether to train the OF 143 model, instead of the OF 10 model
+        (also deciding which subset of the PubFig data is used)
+    """
+
+
+def build_detector_model():
+
+    model = tf.keras.Sequential()
+    model.add(tf.keras.Input((14, 14, 512)))
+    model.add(tf.keras.layers.Conv2D(196, (3, 3), padding='same'))
+    model.add(tf.keras.layers.BatchNormalization(axis=3))
+    model.add(tf.keras.layers.ReLU())
+    model.add(tf.keras.layers.MaxPool2D((2, 2)))
+    model.add(tf.keras.layers.Conv2D(196, (3, 3), padding='same'))
+    model.add(tf.keras.layers.BatchNormalization(axis=3))
+    model.add(tf.keras.layers.ReLU())
+    model.add(tf.keras.layers.Conv2D(196, (3, 3), padding='same'))
+    model.add(tf.keras.layers.BatchNormalization(axis=3))
+    model.add(tf.keras.layers.ReLU())
+    model.add(tf.keras.layers.Flatten())  # 196
+    model.add(tf.keras.layers.Dense(2, activation='softmax'))  # binary simplex
+
+    model.summary()
+
+    return model
+
+
 if __name__ == '__main__':
     ''' UNCOMMENT IF USING ON WORKSTATION
     os.environ["CUDA_DEVICE_ORDER"]='PCI_BUS_ID'
     os.environ["CUDA_VISIBLE_DEVICES"]='4,5' '''
-    build_openface_model()
+    #build_openface_model()
+    build_detector_model()
