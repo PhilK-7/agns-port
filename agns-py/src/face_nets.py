@@ -10,6 +10,7 @@ import tensorflow as tf
 import numpy as np
 import tensorflow.keras.applications.vgg16 as vgg
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import tensorflow_addons as tfa
 
 
 def get_10_class_model_dict():
@@ -403,12 +404,33 @@ def align_dataset_for_openface():
     pass
 
 
-def pretrain_openface_model():
+def pretrain_openface_model(epochs=1):
     """
     Trains the OpenFace NN4.small2.v1 model, as preparation for the custom OF 143/10 models.
+    Uses aligned images from the PubFig dataset.
 
+    :param epochs: the amount of epochs to train the model this function call
     """
-    #pretain_loss = tfa.losses.TripletSemiHardLoss()
+
+    try:
+        model = tf.keras.models.load_model('../saved-models/openface.h5')
+        print('Model loaded. Continue training:')
+    except (ImportError, IOError):
+        print('No model save found. Start training:')
+        model = build_openface_model()
+
+    # load aligned face images
+    # TODO
+    x, y = 0, 0
+
+    # train model
+    opt = tf.keras.optimizers.Adam(learning_rate=1e-3)
+    pretain_loss = tfa.losses.TripletSemiHardLoss()
+    model.compile(opt, pretain_loss, ['accuracy'])
+    model.fit(x, y, epochs=epochs)
+
+    # save after (continued) training
+    model.save('../saved-models/openface.h5')
 
 
 def train_of_dnn(epochs=1, bigger_class_n=True):
@@ -421,8 +443,39 @@ def train_of_dnn(epochs=1, bigger_class_n=True):
         (also deciding which subset of the PubFig data is used)
     """
 
+    # setup model
+    save_path = '../saved-models/of' + '143' if bigger_class_n else '10' + '.h5'
+    try:  # continue training
+        model = tf.keras.models.load_model(save_path)
+        print('Saved model state found. Continue training:')
+    except (ImportError, IOError):
+        print('No saved state for the complete OF' + '143' if bigger_class_n else '10' + 'model found.')
+        try:  # OpenFace pretrained, start training OF 143/10
+            base_model: tf.keras.Model = tf.keras.models.load_model('../saved-models/openface.h5')
+            print('Pretrained OpenFace model loaded.')
+            top_model = build_of_custom_part(bigger_class_n)
+            for layer in base_model.layers:  # freeze base part layers?
+                layer.trainable = False
+            model = tf.keras.Model([base_model.input], [top_model.layers[-1]])
+        except (ImportError, IOError):  # OpenFace not pretrained yet
+            print('No pretrained OpenFace model found. Pretrain the OpenFace model first.')
+            return
+
+    # get data
+    # TODO
+
+    # train model
+    opt = tf.keras.optimizers.Adam(learning_rate=5e-4)
+    model.compile(opt, 'categorical_crossentropy', ['accuracy'])
+
+    # save model after training
+    model.save(save_path)
+
 
 def build_detector_model():
+    """
+
+    """
 
     model = tf.keras.Sequential()
     model.add(tf.keras.Input((14, 14, 512)))
@@ -449,4 +502,3 @@ if __name__ == '__main__':
     os.environ["CUDA_DEVICE_ORDER"]='PCI_BUS_ID'
     os.environ["CUDA_VISIBLE_DEVICES"]='4,5' '''
     #build_openface_model()
-    build_detector_model()
