@@ -24,7 +24,7 @@
 # adjusted for own use
 
 import sys
-
+import os
 import dlib
 
 if len(sys.argv) != 3:
@@ -69,11 +69,16 @@ for detection in dets:
 images = dlib.get_face_chips(img, faces, size=320)
 for image in images:
     #window.set_image(image)
-    aligned_img_path = face_file_path.split('.jpg')[0] + '_a.jpg'
-    print(aligned_img_path)
+    # get necessary parts of the path
+    path = face_file_path.split('.jpg')[0]
+    pre_path = '/'.join(path.split('/')[:-1])
+    img_name = path.split('/')[-1]
+    align_path = pre_path + '/aligned'
+    if not os.path.exists(align_path):  # create subfolder for dlib alignments
+        os.makedirs(align_path)
+    aligned_img_path = align_path + '/' + img_name + '_a.jpg'
     dlib.save_image(image, aligned_img_path)
-    print('Saved image?')
-    dlib.hit_enter_to_continue()
+    #dlib.hit_enter_to_continue()
 
 '''# It is also possible to get a single chip
 image = dlib.get_face_chip(img, faces[0])
