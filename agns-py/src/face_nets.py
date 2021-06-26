@@ -29,6 +29,7 @@ def get_10_class_model_dict():
         8: 'Gisele Bundchen',
         9: 'Jack Nicholson'
     }
+    # TODO is order correct? with which class indices was VGG10 trained?
 
 
 def get_original_vgg_model():
