@@ -11,6 +11,7 @@ import numpy as np
 import tensorflow.keras.applications.vgg16 as vgg
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import tensorflow_addons as tfa
+from os.path import expanduser
 
 
 def get_10_class_model_dict():
@@ -291,7 +292,7 @@ def build_openface_model():
     x = L2Normalization()(x)
 
     # assemble model
-    model = tf.keras.Model(inputs=[inp], outputs=[x], name='Openface NN4.Small2.v1')
+    model = tf.keras.Model(inputs=[inp], outputs=[x], name='Openface_NN4.Small2.v1')
     model.summary()
 
     return model
@@ -416,8 +417,12 @@ def pretrain_openface_model(epochs=1):
         model = build_openface_model()
 
     # load aligned face images and transform
+    if USE_REMOTE:
+        ds_path = expanduser('~') + '/data-private/dataset_aligned'
+    else:
+        ds_path = '../data/pubfig/dataset_aligned'
     datagen = ImageDataGenerator(rescale=1. / 127.5, preprocessing_function=lambda t: t - 1)
-    datagen = datagen.flow_from_directory('../data/pubfig/dataset_aligned', target_size=(96, 96))
+    datagen = datagen.flow_from_directory(ds_path, target_size=(96, 96))
 
     # train model
     opt = tf.keras.optimizers.Adam(learning_rate=1e-3)
@@ -495,7 +500,8 @@ def build_detector_model():
 
 
 if __name__ == '__main__':
-    ''' UNCOMMENT IF USING ON WORKSTATION
-    os.environ["CUDA_DEVICE_ORDER"]='PCI_BUS_ID'
-    os.environ["CUDA_VISIBLE_DEVICES"]='4,5' '''
+    USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
+    if USE_REMOTE:
+        os.environ["CUDA_DEVICE_ORDER"]='PCI_BUS_ID'
+        os.environ["CUDA_VISIBLE_DEVICES"]='4,5' 
     pretrain_openface_model(10)
