@@ -397,12 +397,7 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
     model.save(save_path)
 
 
-def align_dataset_for_openface():
-    """
-    Uses Dlib (with Python bindings) to align the images of the PubFig dataset.
-    This creates aligned outputs with transformed and cropped face images.
-    """
-    pass
+# go to agns-port and execute align_all.sh with pubfig/dataset_ in data to get dataset_aligned
 
 
 def pretrain_openface_model(epochs=1):
@@ -420,15 +415,15 @@ def pretrain_openface_model(epochs=1):
         print('No model save found. Start training:')
         model = build_openface_model()
 
-    # load aligned face images
-    # TODO
-    x, y = 0, 0
+    # load aligned face images and transform
+    datagen = ImageDataGenerator(rescale=1. / 127.5, preprocessing_function=lambda t: t - 1)
+    datagen = datagen.flow_from_directory('../data/pubfig/dataset_aligned', target_size=(96, 96))
 
     # train model
     opt = tf.keras.optimizers.Adam(learning_rate=1e-3)
     pretain_loss = tfa.losses.TripletSemiHardLoss()
     model.compile(opt, pretain_loss, ['accuracy'])
-    model.fit(x, y, epochs=epochs)
+    model.fit(datagen, epochs=epochs)
 
     # save after (continued) training
     model.save('../saved-models/openface.h5')
@@ -463,11 +458,12 @@ def train_of_dnn(epochs=1, bigger_class_n=True):
             return
 
     # get data
-    # TODO
+
 
     # train model
     opt = tf.keras.optimizers.Adam(learning_rate=5e-4)
     model.compile(opt, 'categorical_crossentropy', ['accuracy'])
+    #model.fit(datagen, epochs=epochs)
 
     # save model after training
     model.save(save_path)
@@ -502,4 +498,4 @@ if __name__ == '__main__':
     ''' UNCOMMENT IF USING ON WORKSTATION
     os.environ["CUDA_DEVICE_ORDER"]='PCI_BUS_ID'
     os.environ["CUDA_VISIBLE_DEVICES"]='4,5' '''
-    #build_openface_model()
+    pretrain_openface_model(10)
