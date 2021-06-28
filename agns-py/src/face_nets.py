@@ -421,8 +421,8 @@ def pretrain_openface_model(epochs=1):
         ds_path = expanduser('~') + '/data-private/dataset_aligned'
     else:
         ds_path = '../data/pubfig/dataset_aligned'
-    datagen = ImageDataGenerator(rescale=1. / 127.5, preprocessing_function=lambda t: t - 1)
-    datagen = datagen.flow_from_directory(ds_path, target_size=(96, 96))
+    datagen = ImageDataGenerator(rescale=1. / 127.5)
+    datagen = datagen.flow_from_directory(ds_path, target_size=(96, 96), class_mode='sparse')
 
     # train model
     opt = tf.keras.optimizers.Adam(learning_rate=1e-3)
@@ -503,5 +503,10 @@ if __name__ == '__main__':
     USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
     if USE_REMOTE:
         os.environ["CUDA_DEVICE_ORDER"]='PCI_BUS_ID'
-        os.environ["CUDA_VISIBLE_DEVICES"]='4,5' 
+        os.environ["CUDA_VISIBLE_DEVICES"]='4'
+    # try solving OOM problem?
+    config = tf.compat.v1.ConfigProto()
+    config.gpu_options.per_process_gpu_memory_fraction = 0.9
+    tf.compat.v1.keras.backend.set_session(tf.compat.v1.Session(config=config))
+
     pretrain_openface_model(10)
