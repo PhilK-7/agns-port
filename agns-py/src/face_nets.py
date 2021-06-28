@@ -373,7 +373,8 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
     # load dataset, rescale + resize images
     ds_path = '../data/pubfig/dataset_'  # local machine path
     remote_ds_path = '../../../../data-private/dataset_'  # use this one on remote workstation
-    ds_path = remote_ds_path  # comment out when using on local machine
+    if USE_REMOTE:
+        ds_path = remote_ds_path
     if not bigger_class_n:
         ds_path += '10/'
     else:
@@ -427,7 +428,7 @@ def pretrain_openface_model(epochs=1):
     # train model
     opt = tf.keras.optimizers.Adam(learning_rate=1e-3)
     pretain_loss = tfa.losses.TripletSemiHardLoss()
-    model.compile(opt, pretain_loss, ['accuracy'])
+    model.compile(opt, pretain_loss)
     model.fit(datagen, epochs=epochs)
 
     # save after (continued) training
@@ -457,18 +458,17 @@ def train_of_dnn(epochs=1, bigger_class_n=True):
             top_model = build_of_custom_part(bigger_class_n)
             for layer in base_model.layers:  # freeze base part layers?
                 layer.trainable = False
-            model = tf.keras.Model([base_model.input], [top_model.layers[-1]])
+            model = tf.keras.Sequential([base_model, top_model])
         except (ImportError, IOError):  # OpenFace not pretrained yet
             print('No pretrained OpenFace model found. Pretrain the OpenFace model first.')
             return
 
     # get data
 
-
     # train model
     opt = tf.keras.optimizers.Adam(learning_rate=5e-4)
     model.compile(opt, 'categorical_crossentropy', ['accuracy'])
-    #model.fit(datagen, epochs=epochs)
+    # model.fit(datagen, epochs=epochs)
 
     # save model after training
     model.save(save_path)
@@ -500,13 +500,13 @@ def build_detector_model():
 
 
 if __name__ == '__main__':
-    USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
+    USE_REMOTE = False  # set depending whether code is executed on remote workstation or not
     if USE_REMOTE:
-        os.environ["CUDA_DEVICE_ORDER"]='PCI_BUS_ID'
-        os.environ["CUDA_VISIBLE_DEVICES"]='4'
+        os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
+        os.environ["CUDA_VISIBLE_DEVICES"] = '4'
     # try solving OOM problem?
     config = tf.compat.v1.ConfigProto()
     config.gpu_options.per_process_gpu_memory_fraction = 0.9
     tf.compat.v1.keras.backend.set_session(tf.compat.v1.Session(config=config))
 
-    pretrain_openface_model(10)
+    pretrain_openface_model(1)
