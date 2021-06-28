@@ -54,8 +54,12 @@ class LocalResponseNormalization(tf.keras.layers.Layer):
     Applies the parameters needed in OpenFace NN4.small2.v1.
     """
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         super(LocalResponseNormalization, self).__init__()
+
+    def get_config(self):
+        conf = super().get_config().copy()
+        return conf
 
     def call(self, inputs, **kwargs):
         return tf.nn.local_response_normalization(inputs, alpha=1e-4, beta=0.75)
@@ -67,8 +71,12 @@ class L2Pooling(tf.keras.layers.Layer):
     Uses pooling size 3, as needed in OpenFace NN4.small2.v1.
     """
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         super(L2Pooling, self).__init__()
+
+    def get_config(self):
+        conf = super().get_config().copy()
+        return conf
 
     def call(self, inputs, **kwargs):
         x = tf.math.square(inputs)
@@ -84,8 +92,12 @@ class L2Normalization(tf.keras.layers.Layer):
     The L2 Normalization layer. Just computes the L2 norm of its input.
     """
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         super(L2Normalization, self).__init__()
+
+    def get_config(self):
+        conf = super().get_config().copy()
+        return conf
 
     def call(self, inputs, **kwargs):
         return tf.nn.l2_normalize(inputs)
@@ -99,7 +111,7 @@ class InceptionModule(tf.keras.layers.Layer):
     An alternate version is also supported that has no 5x5 convolution part.
     """
 
-    def __init__(self, conv_output_sizes, reduce_sizes, name, use_l2_pooling=False):
+    def __init__(self, conv_output_sizes, reduce_sizes, name, use_l2_pooling=False, **kwargs):
         """
         :param conv_output_sizes: the output sizes (filter counts) for 3x3 and 5x5 convolution;
             a list of length 2, or length 1, then the 5x5 convolution pathway is omitted
@@ -117,6 +129,7 @@ class InceptionModule(tf.keras.layers.Layer):
         assert len(reduce_sizes) == len(conv_output_sizes) + 2
         self.cos = conv_output_sizes
         self.rs = reduce_sizes
+        self.ul2p = use_l2_pooling
 
         # two variants: one with both 3x3 and 5x5 convolutions, one with only 3x3 convolution
         self.shift = 0
@@ -143,6 +156,16 @@ class InceptionModule(tf.keras.layers.Layer):
             self.pool = tf.keras.layers.MaxPool2D((3, 3), (1, 1), 'same')
         self.pool_out = tf.keras.layers.Conv2D(self.rs[2 - self.shift], (1, 1), padding='same')
         self.po_bn = tf.keras.layers.BatchNormalization(axis=3)
+
+    def get_config(self):
+        conf = super().get_config().copy()
+        conf.update({
+            'conv_output_sizes': self.cos,
+            'reduce_sizes': self.rs,
+            'use_l2_pooling': self.ul2p
+        })
+
+        return conf
 
     def call(self, inputs, **kwargs):
         # reduction path
@@ -185,7 +208,7 @@ class InceptionModuleShrink(tf.keras.layers.Layer):
     Like in the normal inception module, the paths´ output feature maps are combined to one single output.
     """
 
-    def __init__(self, conv_output_sizes, reduce_sizes, name):
+    def __init__(self, conv_output_sizes, reduce_sizes, name, **kwargs):
         """
         :param conv_output_sizes: the output sizes (filter counts) for the 3x3 and 5x5 convolution paths,
             meaning their second convolution output channel count each
@@ -212,6 +235,15 @@ class InceptionModuleShrink(tf.keras.layers.Layer):
         self.c5_bn = tf.keras.layers.BatchNormalization(axis=3)
         # pooling path
         self.pool = tf.keras.layers.MaxPool2D((3, 3), (2, 2), padding='same')
+
+    def get_config(self):
+        conf = super().get_config().copy()
+        conf.update({
+            'conv_output_sizes': self.cos,
+            'reduce_sizes': self.rs,
+        })
+
+        return conf
 
     def call(self, inputs, **kwargs):
         # 3x3 convolution path
@@ -405,24 +437,30 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
 def pretrain_openface_model(epochs=1):
     """
     Trains the OpenFace NN4.small2.v1 model, as preparation for the custom OF 143/10 models.
-    Uses aligned images from the PubFig dataset.
+    Uses aligned images from the PubFig dataset, from all 143 classes.
 
     :param epochs: the amount of epochs to train the model this function call
     """
 
+    # get trained model
+    model_path = '../saved-models/openface.h5'
+    custom_objects = {'LocalResponseNormalization': LocalResponseNormalization,
+                      'InceptionModule': InceptionModule,
+                      'InceptionModuleShrink': InceptionModuleShrink,
+                      'L2Normalization': L2Normalization}
     try:
-        model = tf.keras.models.load_model('../saved-models/openface.h5')
-        print('Model loaded. Continue training:')
-    except (ImportError, IOError):
-        print('No model save found. Start training:')
+        model = tf.keras.models.load_model(model_path, custom_objects=custom_objects)
+        print('Model save state loaded. Continue training:')
+    except OSError:
         model = build_openface_model()
+        print('No model save state found. Start training:')
 
     # load aligned face images and transform
     if USE_REMOTE:
         ds_path = expanduser('~') + '/data-private/dataset_aligned'
     else:
         ds_path = '../data/pubfig/dataset_aligned'
-    datagen = ImageDataGenerator(rescale=1. / 127.5)
+    datagen = ImageDataGenerator(rescale=1. / 127.5, preprocessing_function=lambda t: t-1)
     datagen = datagen.flow_from_directory(ds_path, target_size=(96, 96), class_mode='sparse')
 
     # train model
@@ -432,7 +470,8 @@ def pretrain_openface_model(epochs=1):
     model.fit(datagen, epochs=epochs)
 
     # save after (continued) training
-    model.save('../saved-models/openface.h5')
+    model.save(model_path)
+    print('Model state saved.')
 
 
 def train_of_dnn(epochs=1, bigger_class_n=True):
@@ -505,8 +544,6 @@ if __name__ == '__main__':
         os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
         os.environ["CUDA_VISIBLE_DEVICES"] = '4'
     # try solving OOM problem?
-    config = tf.compat.v1.ConfigProto()
-    config.gpu_options.per_process_gpu_memory_fraction = 0.9
-    tf.compat.v1.keras.backend.set_session(tf.compat.v1.Session(config=config))
 
-    pretrain_openface_model(1)
+    pretrain_openface_model(4)
+

@@ -1,2 +1,2 @@
-model_checkpoint_path: "dweights"
-all_model_checkpoint_paths: "dweights"
+model_checkpoint_path: "openface_weights"
+all_model_checkpoint_paths: "openface_weights"

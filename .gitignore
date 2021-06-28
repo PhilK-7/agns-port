@@ -7,3 +7,4 @@ agns-py/data/*
 agns-py/src/__pycache__/*
 *.h5
 agns-py/saved-models/*
+*idea*
