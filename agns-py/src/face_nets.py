@@ -434,6 +434,7 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
 # go to agns-port and execute align_all.sh with pubfig/dataset_ in data to get dataset_aligned
 
 
+@DeprecationWarning
 def pretrain_openface_model(epochs=1):
     """
     Trains the OpenFace NN4.small2.v1 model, as preparation for the custom OF 143/10 models.
@@ -476,8 +477,8 @@ def pretrain_openface_model(epochs=1):
 
 def train_of_dnn(epochs=1, bigger_class_n=True):
     """
-    Trains the custom OF 143/10 model on the given dataset, based on a pretrained OpenFace model.
-    Either starts training / fine-tuning from scratch, or continues with a found saved model state.
+    Trains the custom OF 143/10 model on the given dataset, based on the OpenFace model.
+    Either starts training from scratch, or continues with a found saved model state.
 
     :param epochs: how many training epochs long to train for this function call
     :param bigger_class_n: whether to train the OF 143 model, instead of the OF 10 model
@@ -491,26 +492,28 @@ def train_of_dnn(epochs=1, bigger_class_n=True):
         print('Saved model state found. Continue training:')
     except (ImportError, IOError):
         print('No saved state for the complete OF' + '143' if bigger_class_n else '10' + 'model found.')
-        try:  # OpenFace pretrained, start training OF 143/10
-            base_model: tf.keras.Model = tf.keras.models.load_model('../saved-models/openface.h5')
-            print('Pretrained OpenFace model loaded.')
-            top_model = build_of_custom_part(bigger_class_n)
-            for layer in base_model.layers:  # freeze base part layers?
-                layer.trainable = False
-            model = tf.keras.Sequential([base_model, top_model])
-        except (ImportError, IOError):  # OpenFace not pretrained yet
-            print('No pretrained OpenFace model found. Pretrain the OpenFace model first.')
-            return
+        base_model = build_openface_model()
+        top_model = build_of_custom_part(bigger_class_n)
+        model = tf.keras.Sequential([base_model, top_model])
 
     # get data
+    if USE_REMOTE:
+        ds_path = expanduser('~') + '/data-private/dataset_aligned'
+    else:
+        ds_path = '../data/pubfig/dataset_aligned'
+
+    # load aligned face images and transform
+    datagen = ImageDataGenerator(rescale=1. / 127.5, preprocessing_function=lambda t: t - 1)
+    datagen = datagen.flow_from_directory(ds_path, target_size=(96, 96))
 
     # train model
-    opt = tf.keras.optimizers.Adam(learning_rate=5e-4)
+    opt = tf.keras.optimizers.Adam(learning_rate=2e-3)
     model.compile(opt, 'categorical_crossentropy', ['accuracy'])
-    # model.fit(datagen, epochs=epochs)
+    model.fit(datagen, epochs=epochs)
 
     # save model after training
     model.save(save_path)
+    print('Model saved.')
 
 
 def build_detector_model():
@@ -545,5 +548,5 @@ if __name__ == '__main__':
         os.environ["CUDA_VISIBLE_DEVICES"] = '4'
     # try solving OOM problem?
 
-    pretrain_openface_model(4)
+    train_of_dnn(1, True)
 
