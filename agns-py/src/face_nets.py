@@ -486,7 +486,8 @@ def train_of_dnn(epochs=1, bigger_class_n=True):
     """
 
     # setup model
-    save_path = '../saved-models/of' + '143' if bigger_class_n else '10' + '.h5'
+    save_path = '../saved-models/of' + '143' if bigger_class_n else '10'
+    save_path += '.h5'
     try:  # continue training
         model = tf.keras.models.load_model(save_path)
         print('Saved model state found. Continue training:')
@@ -507,7 +508,7 @@ def train_of_dnn(epochs=1, bigger_class_n=True):
     datagen = datagen.flow_from_directory(ds_path, target_size=(96, 96))
 
     # train model
-    opt = tf.keras.optimizers.Adam(learning_rate=2e-3)
+    opt = tf.keras.optimizers.Adam(learning_rate=5e-3)
     model.compile(opt, 'categorical_crossentropy', ['accuracy'])
     model.fit(datagen, epochs=epochs)
 
@@ -542,11 +543,11 @@ def build_detector_model():
 
 
 if __name__ == '__main__':
-    USE_REMOTE = False  # set depending whether code is executed on remote workstation or not
+    USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
     if USE_REMOTE:
         os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
         os.environ["CUDA_VISIBLE_DEVICES"] = '4'
     # try solving OOM problem?
 
-    train_of_dnn(1, True)
+    train_of_dnn(3, True)
 
