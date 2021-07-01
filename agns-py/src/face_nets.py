@@ -369,7 +369,7 @@ def build_of_custom_part(bigger_class_n=False):
         dense_2
     ],
         name='OF143_head' if bigger_class_n else 'OF10_head')
-    # model.summary()
+    model.summary()
 
     return model
 
@@ -432,11 +432,13 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
 
 
 # go to agns-port and execute align_all.sh with pubfig/dataset_ in data to get dataset_aligned
+# do the same for dataset_10 instead to get only the 10 classes, when training OF10 model
 
 
 @DeprecationWarning
 def pretrain_openface_model(epochs=1):
     """
+    NOTE: Working on local (CPU), not tested on server (GPU). Pretraining not necessary for training OF models.
     Trains the OpenFace NN4.small2.v1 model, as preparation for the custom OF 143/10 models.
     Uses aligned images from the PubFig dataset, from all 143 classes.
 
@@ -488,8 +490,12 @@ def train_of_dnn(epochs=1, bigger_class_n=True):
     # setup model
     save_path = '../saved-models/of' + '143' if bigger_class_n else '10'
     save_path += '.h5'
+    custom_objects = {'LocalResponseNormalization': LocalResponseNormalization,
+                      'InceptionModule': InceptionModule,
+                      'InceptionModuleShrink': InceptionModuleShrink,
+                      'L2Normalization': L2Normalization}
     try:  # continue training
-        model = tf.keras.models.load_model(save_path)
+        model = tf.keras.models.load_model(save_path, custom_objects=custom_objects)
         print('Saved model state found. Continue training:')
     except (ImportError, IOError):
         print('No saved state for the complete OF' + '143' if bigger_class_n else '10' + 'model found.')
