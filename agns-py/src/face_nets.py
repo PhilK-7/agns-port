@@ -467,7 +467,7 @@ def pretrain_openface_model(epochs=1):
     datagen = datagen.flow_from_directory(ds_path, target_size=(96, 96), class_mode='sparse')
 
     # train model
-    opt = tf.keras.optimizers.Adam(learning_rate=1e-3)
+    opt = tf.keras.optimizers.Adam(learning_rate=2e-3)
     pretain_loss = tfa.losses.TripletSemiHardLoss()
     model.compile(opt, pretain_loss)
     model.fit(datagen, epochs=epochs)
@@ -488,8 +488,7 @@ def train_of_dnn(epochs=1, bigger_class_n=True):
     """
 
     # setup model
-    save_path = '../saved-models/of' + '143' if bigger_class_n else '10'
-    save_path += '.h5'
+    save_path = '../saved-models/of' + ('143' if bigger_class_n else '10') + '.h5'
     custom_objects = {'LocalResponseNormalization': LocalResponseNormalization,
                       'InceptionModule': InceptionModule,
                       'InceptionModuleShrink': InceptionModuleShrink,
@@ -498,7 +497,7 @@ def train_of_dnn(epochs=1, bigger_class_n=True):
         model = tf.keras.models.load_model(save_path, custom_objects=custom_objects)
         print('Saved model state found. Continue training:')
     except (ImportError, IOError):
-        print('No saved state for the complete OF' + '143' if bigger_class_n else '10' + 'model found.')
+        print('No saved state for the complete OF' + ('143' if bigger_class_n else '10') + ' model found.')
         base_model = build_openface_model()
         top_model = build_of_custom_part(bigger_class_n)
         model = tf.keras.Sequential([base_model, top_model])
@@ -514,7 +513,7 @@ def train_of_dnn(epochs=1, bigger_class_n=True):
     datagen = datagen.flow_from_directory(ds_path, target_size=(96, 96))
 
     # train model
-    opt = tf.keras.optimizers.Adam(learning_rate=5e-3)
+    opt = tf.keras.optimizers.Adam(learning_rate=1e-5)  # adjust according to training progress
     model.compile(opt, 'categorical_crossentropy', ['accuracy'])
     model.fit(datagen, epochs=epochs)
 
@@ -553,7 +552,11 @@ if __name__ == '__main__':
     if USE_REMOTE:
         os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
         os.environ["CUDA_VISIBLE_DEVICES"] = '4'
-    # try solving OOM problem?
 
-    train_of_dnn(3, True)
+    if len(sys.argv) < 2:
+        ep = 1
+    else:
+        ep = int(sys.argv[1])
+
+    train_of_dnn(ep, False)
 
