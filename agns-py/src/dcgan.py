@@ -25,7 +25,7 @@ https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html
 BATCH_SIZE = 65
 
 
-def load_real_images(limit_to_first=1000):
+def load_real_images(limit_to_first=-1):
     """
     Loads the training images for the DCGAN from path 'data/eyeglasses' at the same level.
     This transforms them into the needed numpy matrix shape.
@@ -75,7 +75,7 @@ def load_real_images(limit_to_first=1000):
     return (matrix / 127.5) - 1  # transformation to range (-1, 1)
 
 
-def generate_samples(generator, epoch):
+def generate_samples(generator, epoch, rseed=42):
     """
     Generates a set of generator output samples from a set of (fixed) random vector inputs.
     For every epoch, nine outputs each are generated, and plotted into a single image.
@@ -83,10 +83,11 @@ def generate_samples(generator, epoch):
 
     :param generator: the DCGAN's generator model
     :param epoch: which total epoch this is called at, for visualization purposes
+    :param rseed: a random seed, used for generating random vectors
     """
 
     # get the random vectors and their current predictions
-    np.random.seed(42)
+    np.random.seed(rseed)
     fix_vector = np.random.standard_normal((9, 25))  # get the 9 random generator input vectors
     preds = (generator(fix_vector, training=False) + 1) / 2  # generator inference to generate samples, out range [0, 1]
     fig = plt.figure(figsize=(3, 3))
@@ -184,15 +185,10 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
     :param epochs_save_period: after how many epochs each the model should be checkpointed (also saved at session end)
     """
 
-    # definitions
-
     # get models
 
     g_model = eyeglass_generator.build_model()
-    # g_model = eyeglass_generator.load_gen_weights(g_model)
     d_model = eyeglass_discriminator.build_model()
-    # TODO only load mat weights if first training?
-    # d_model = eyeglass_discriminator.load_discrim_weights(d_model)
 
     if not start_fresh:  # load parameters from previous training
         try:
@@ -219,9 +215,6 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
     # custom training procedure function (see Tensorflow DCGAN tutorial)
     @tf.function
     def training_step(images, bs=BATCH_SIZE):
-        """
-
-        """
         noise = np.random.standard_normal((bs, 25))  # random input vector for generator
 
         with tf.GradientTape() as gen_tape, tf.GradientTape() as discrim_tape:
@@ -289,7 +282,7 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
         update_loss_dataframe(avg_g_loss, avg_d_loss)  # add losses to losses.csv
         print(f'Epoch lasted for {epoch_time} seconds.')
 
-    # TODO final stuff?
+    # save weights, generate samples, and plot loss history
     g_model.save_weights('../saved-models/gweights')
     d_model.save_weights('../saved-models/dweights')
     generate_samples_gif()
@@ -297,4 +290,4 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
 
 
 if __name__ == '__main__':
-    train_dcgan(150)
+    train_dcgan(150, start_fresh=True)

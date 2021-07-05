@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
-cd agns-py/data/pubfig/dataset_
+# just add a '10' in next line to align 10-class dataset instead
+cd agns-py/data/pubfig/dataset_10
+
+# WARNING: this also deletes an existing aligned directory
+echo Deleting aligned images, if exist...
+rm -r ../dataset_aligned
 LOCATION=$(pwd)
 DLIBPATH=../../../../src/dependencies
 

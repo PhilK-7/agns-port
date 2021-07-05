@@ -1,8 +1,7 @@
 import numpy as np
 import tensorflow as tf
-import model_importer
 import net_utils
-
+import os
 
 from PIL import Image
 
@@ -10,7 +9,8 @@ from PIL import Image
 def build_model():
     """
     Builds the generator part of the eye-glass generating DCGAN model.
-    :return: the built generator model (not compiled yet)
+
+    :return: the built generator model as tf.keras Sequential object (not compiled yet)
     """
     inp = tf.keras.layers.InputLayer((25,))  # input layer
     fc = tf.keras.layers.Dense(7040)  # fully connected layer
@@ -47,6 +47,8 @@ def build_model():
     return model
 
 
+# NOTE: start fresh training instead
+@DeprecationWarning
 def load_gen_weights(gmodel):
     npas = model_importer.load_dcgan_mat_model_weights('../matlab-models/gen.mat')
     gmodel.layers[0].set_weights([npas[0], net_utils.get_xavier_initialization((7040,))])
@@ -69,11 +71,16 @@ def scale_gen_output(prediction):
 def save_gen_output_to_file(matrix):
     print(f'Saving image matrix of size {np.shape(matrix)}')
     img = Image.fromarray(matrix, 'RGB')
+
     #img.show()
+    if not os.path.exists('../out'):
+        os.makedirs('../out')
     img.save('../out/generated.png', 'PNG')
 
 
 if __name__ == '__main__':
+    import model_importer
+
     model = build_model()
     model = load_gen_weights(model)
     vector = np.random.uniform(-1, 1, 25)

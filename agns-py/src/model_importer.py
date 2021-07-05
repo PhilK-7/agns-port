@@ -21,14 +21,10 @@ def load_dcgan_mat_model_weights(mat_file_path):
 
 
 def load_fr_mat_model_weights(mat_file_path):
-    """
-
-    """
 
     mat_file = io.loadmat(mat_file_path)
     print(mat_file)
 
-# TODO Note unsure about (1, n) matrices?
 
 '''
 The meaning of the saved matrices was inferred from the original MATLAB code.

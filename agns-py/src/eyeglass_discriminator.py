@@ -7,8 +7,9 @@ import net_utils
 
 def build_model():
     """
+    Builds the discriminator model for the eyeglass-generating DCGAN.
 
-    :return:
+    :return: a tf.keras Sequential model object
     """
 
     inp = tf.keras.layers.InputLayer((64, 176, 3))
@@ -45,6 +46,8 @@ def build_model():
     return model
 
 
+# NOTE: start fresh training instead
+@DeprecationWarning
 def load_discrim_weights(dmodel):
     npas = model_importer.load_dcgan_mat_model_weights('../matlab-models/discrim.mat')
     dmodel.layers[0].set_weights([np.reshape(npas[0], (5, 5, 3, 20)), net_utils.get_xavier_initialization((20,))])
@@ -59,6 +62,7 @@ def load_discrim_weights(dmodel):
 def convert_image_to_matrix(impath):
     """
     Converts an image to a numpy matrix of the correct form to provide as input to the discriminator model.
+
     :param impath: the path to the input image
     :return: a numpy array of shape (1, 64, 176, 3) with values in range [-1, 1] computed from the given image
     """

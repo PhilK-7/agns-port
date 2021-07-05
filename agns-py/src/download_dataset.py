@@ -7,6 +7,8 @@ from http.client import RemoteDisconnected, InvalidURL
 prefix = '../data/pubfig/'
 
 
+# NOTE: many links are down; use pre-downloaded 3rd party copy of the dataset instead
+@DeprecationWarning
 def download_images(filename):
     og_path = prefix + 'original_files/' + filename
     ds_path = prefix + 'dataset/'
@@ -33,7 +35,6 @@ def download_images(filename):
             print(f'File @ {dl_url} could not be downloaded.')
 
     print(f'In total {success_counter} out of {len(df)} images could be downloaded.')
-
 
 
 if __name__ == '__main__':
