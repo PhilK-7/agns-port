@@ -61,13 +61,15 @@ def load_gen_weights(gmodel):
 
 
 def scale_gen_output(prediction):
-    prediction += 1
-    prediction *= 127.5
+    prediction += 1  # shift to range [0, 2]
+    prediction *= 127.5  # scale to range [0, 255]
     prediction = np.round(prediction, 0)
+    prediction = prediction.astype(int)
 
     return prediction
 
 
+# TODO fix?
 def save_gen_output_to_file(matrix):
     print(f'Saving image matrix of size {np.shape(matrix)}')
     img = Image.fromarray(matrix, 'RGB')
