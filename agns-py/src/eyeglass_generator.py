@@ -69,15 +69,15 @@ def scale_gen_output(prediction):
     return prediction
 
 
-# TODO fix?
 def save_gen_output_to_file(matrix):
     print(f'Saving image matrix of size {np.shape(matrix)}')
+    matrix = np.asarray(matrix, dtype=np.uint8)
     img = Image.fromarray(matrix, 'RGB')
 
     #img.show()
     if not os.path.exists('../out'):
         os.makedirs('../out')
-    img.save('../out/generated.png', 'PNG')
+    img.save('../out/generated_glass.png', 'PNG')
 
 
 if __name__ == '__main__':

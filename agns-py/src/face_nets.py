@@ -447,10 +447,6 @@ def pretrain_openface_model(epochs=1):
 
     # get trained model
     model_path = '../saved-models/openface.h5'
-    custom_objects = {'LocalResponseNormalization': LocalResponseNormalization,
-                      'InceptionModule': InceptionModule,
-                      'InceptionModuleShrink': InceptionModuleShrink,
-                      'L2Normalization': L2Normalization}
     try:
         model = tf.keras.models.load_model(model_path, custom_objects=custom_objects)
         print('Model save state loaded. Continue training:')
@@ -489,10 +485,6 @@ def train_of_dnn(epochs=1, bigger_class_n=True):
 
     # setup model
     save_path = '../saved-models/of' + ('143' if bigger_class_n else '10') + '.h5'
-    custom_objects = {'LocalResponseNormalization': LocalResponseNormalization,
-                      'InceptionModule': InceptionModule,
-                      'InceptionModuleShrink': InceptionModuleShrink,
-                      'L2Normalization': L2Normalization}
     try:  # continue training
         model = tf.keras.models.load_model(save_path, custom_objects=custom_objects)
         print('Saved model state found. Continue training:')
@@ -507,6 +499,8 @@ def train_of_dnn(epochs=1, bigger_class_n=True):
         ds_path = expanduser('~') + '/data-private/dataset_aligned'
     else:
         ds_path = '../data/pubfig/dataset_aligned'
+    if bigger_class_n:
+        ds_path += '_10'
 
     # load aligned face images and transform
     datagen = ImageDataGenerator(rescale=1. / 127.5, preprocessing_function=lambda t: t - 1)
@@ -548,7 +542,15 @@ def build_detector_model():
 
 
 if __name__ == '__main__':
-    USE_REMOTE = False  # set depending whether code is executed on remote workstation or not
+
+    # custom layer objects
+    custom_objects = {'LocalResponseNormalization': LocalResponseNormalization,
+                      'InceptionModule': InceptionModule,
+                      'InceptionModuleShrink': InceptionModuleShrink,
+                      'L2Normalization': L2Normalization}
+
+    # set parameters
+    USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
     if USE_REMOTE:
         os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
         os.environ["CUDA_VISIBLE_DEVICES"] = '4'
