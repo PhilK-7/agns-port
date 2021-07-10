@@ -14,23 +14,34 @@ import tensorflow_addons as tfa
 from os.path import expanduser
 
 
-def get_10_class_model_dict():
+def write_class_mapping(imgen_dict):
     """
-    Returns the dictionary for the classes used in the 10 class face recognition models.
+    Writes the dictionary for the classes used in the face recognition models, if it doesn´t exist yet.
+
+    :param imgen_dict: the dictionary returned from a tf.keras ImageDataGenerator
     """
-    return {
-        0: 'Alyssa Milano',
-        1: 'Barack Obama',
-        2: 'Clive Owen',
-        3: 'Drew Barrymore',
-        4: 'Eva Mendes',
-        5: 'Faith Hill',
-        6: 'George Clooney',
-        7: 'Halle Berry',
-        8: 'Gisele Bundchen',
-        9: 'Jack Nicholson'
-    }
-    # TODO is order correct? with which class indices was VGG10 trained?
+
+    # determine path
+    save_path = '../data/pubfig'
+    if len(imgen_dict) == 10:
+        save_path += '/class-mapping_10.txt'
+    else:
+        save_path += '/class-mapping_143.txt'
+
+    if os.path.exists(save_path):
+        return  # cancel if already created
+
+    # create text from given dictionary
+    textstr = '=== Class Mapping === \n\n'
+    for mapping in imgen_dict.items():
+        textstr += mapping[0]
+        textstr += ' : '
+        textstr += str(mapping[1])
+        textstr += '\n'
+
+    # make file
+    with open(save_path, 'w') as file:
+        file.write(textstr)
 
 
 def get_original_vgg_model():
@@ -505,7 +516,7 @@ def train_of_dnn(epochs=1, bigger_class_n=True):
     # load aligned face images and transform
     datagen = ImageDataGenerator(rescale=1. / 127.5, preprocessing_function=lambda t: t - 1)
     datagen = datagen.flow_from_directory(ds_path, target_size=(96, 96))
-    print(datagen.class_indices)
+    write_class_mapping(datagen.class_indices)
 
     # train model
     opt = tf.keras.optimizers.Adam(learning_rate=1e-5)  # adjust according to training progress
@@ -551,7 +562,7 @@ if __name__ == '__main__':
                       'L2Normalization': L2Normalization}
 
     # set parameters
-    USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
+    USE_REMOTE = False  # set depending whether code is executed on remote workstation or not
     if USE_REMOTE:
         os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
         os.environ["CUDA_VISIBLE_DEVICES"] = '4'
