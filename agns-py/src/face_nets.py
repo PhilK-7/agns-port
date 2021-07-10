@@ -499,12 +499,13 @@ def train_of_dnn(epochs=1, bigger_class_n=True):
         ds_path = expanduser('~') + '/data-private/dataset_aligned'
     else:
         ds_path = '../data/pubfig/dataset_aligned'
-    if bigger_class_n:
+    if not bigger_class_n:
         ds_path += '_10'
 
     # load aligned face images and transform
     datagen = ImageDataGenerator(rescale=1. / 127.5, preprocessing_function=lambda t: t - 1)
     datagen = datagen.flow_from_directory(ds_path, target_size=(96, 96))
+    print(datagen.class_indices)
 
     # train model
     opt = tf.keras.optimizers.Adam(learning_rate=1e-5)  # adjust according to training progress
@@ -560,5 +561,5 @@ if __name__ == '__main__':
     else:
         ep = int(sys.argv[1])
 
-    train_of_dnn(ep, False)
+    train_of_dnn(ep, True)
 
