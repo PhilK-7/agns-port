@@ -414,10 +414,7 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
     model.summary()
 
     # load dataset, rescale + resize images
-    ds_path = '../data/pubfig/dataset_'  # local machine path
-    remote_ds_path = '../../../../data-private/dataset_'  # use this one on remote workstation
-    if USE_REMOTE:
-        ds_path = remote_ds_path
+    ds_path = data_path + 'pubfig/dataset_'
     if not bigger_class_n:
         ds_path += '10/'
     else:
@@ -466,10 +463,7 @@ def pretrain_openface_model(epochs=1):
         print('No model save state found. Start training:')
 
     # load aligned face images and transform
-    if USE_REMOTE:
-        ds_path = expanduser('~') + '/data-private/dataset_aligned'
-    else:
-        ds_path = '../data/pubfig/dataset_aligned'
+    ds_path = data_path + 'pubfig/dataset_aligned'
     datagen = ImageDataGenerator(rescale=1. / 127.5, preprocessing_function=lambda t: t-1)
     datagen = datagen.flow_from_directory(ds_path, target_size=(96, 96), class_mode='sparse')
 
@@ -506,10 +500,7 @@ def train_of_dnn(epochs=1, bigger_class_n=True):
         model = tf.keras.Sequential([base_model, top_model])
 
     # get data
-    if USE_REMOTE:
-        ds_path = expanduser('~') + '/data-private/dataset_aligned'
-    else:
-        ds_path = '../data/pubfig/dataset_aligned'
+    ds_path = data_path + 'pubfig/dataset_aligned'
     if not bigger_class_n:
         ds_path += '_10'
 
@@ -566,6 +557,9 @@ if __name__ == '__main__':
     if USE_REMOTE:
         os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
         os.environ["CUDA_VISIBLE_DEVICES"] = '4'
+        data_path = expanduser('~') + '/data-private/'
+    else:
+        data_path = '../data/'
 
     if len(sys.argv) < 2:
         ep = 1

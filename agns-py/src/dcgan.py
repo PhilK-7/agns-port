@@ -1,6 +1,7 @@
 import math
 import os
 import time
+from os.path import expanduser
 
 import imageio
 import shutil
@@ -289,4 +290,14 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
 
 if __name__ == '__main__':
     custom_objects = {'MiniBatchDiscrimination': eyeglass_discriminator.MiniBatchDiscrimination}
+
+    # set parameters
+    USE_REMOTE = False  # set depending whether code is executed on remote workstation or not
+    if USE_REMOTE:
+        os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
+        os.environ["CUDA_VISIBLE_DEVICES"] = '4'
+        data_path = expanduser('~') + '/data-private/'
+    else:
+        data_path = '../data/'
+
     train_dcgan(150, start_fresh=True)
