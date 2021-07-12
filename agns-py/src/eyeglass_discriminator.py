@@ -34,9 +34,9 @@ def build_model():
             conv4,
             tf.keras.layers.BatchNormalization(),
             tf.keras.layers.LeakyReLU(),
-            MiniBatchDiscrimination(),
             reshape,
             tf.keras.layers.Flatten(),
+            MiniBatchDiscrimination(),
             dense
         ],
         name='Discriminator'
@@ -53,7 +53,7 @@ class MiniBatchDiscrimination(tf.keras.layers.Layer):
     """
     def __init__(self, **kwargs):
         super(MiniBatchDiscrimination, self).__init__()
-        self.dense_help = tf.keras.layers.Dense(160 * 5)
+        self.dense_help = tf.keras.layers.Dense(160 * 3)
 
     def get_config(self):
         conf = super().get_config().copy()
@@ -62,7 +62,7 @@ class MiniBatchDiscrimination(tf.keras.layers.Layer):
     def call(self, inputs, **kwargs):
         # as taken similarly from https://github.com/AYLIEN/gan-intro
         x = self.dense_help(inputs)
-        activation = tf.reshape(x, (-1, 160, 5))
+        activation = tf.reshape(x, (-1, 160, 3))
         diffs = tf.expand_dims(activation, 3) - tf.expand_dims(tf.transpose(activation, [1, 2, 0]), 0)
         abs_diffs = tf.reduce_sum(tf.abs(diffs), 2)
         minibatch_features = tf.reduce_sum(tf.exp(-abs_diffs), 2)

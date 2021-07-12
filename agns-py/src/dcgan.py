@@ -35,7 +35,7 @@ def load_real_images(limit_to_first=-1):
     """
 
     # get image paths and info
-    path = '../data/eyeglasses/'
+    path = data_path + 'eyeglasses/'
     img_files = os.listdir(path)
     max_index = len(img_files)
     matrix = None
@@ -203,8 +203,9 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
         if os.path.exists(loss_hist_path):
             os.remove(loss_hist_path)
         gend_samples_path = '../saved-plots/samples/'
-        shutil.rmtree(gend_samples_path)
-        os.makedirs(gend_samples_path)
+        if os.path.exists(gend_samples_path):
+                shutil.rmtree(gend_samples_path)
+                os.makedirs(gend_samples_path)
 
     # define optimizer, same as described in paper
     gen_optimizer = tf.keras.optimizers.Adam(2e-4)
@@ -292,12 +293,12 @@ if __name__ == '__main__':
     custom_objects = {'MiniBatchDiscrimination': eyeglass_discriminator.MiniBatchDiscrimination}
 
     # set parameters
-    USE_REMOTE = False  # set depending whether code is executed on remote workstation or not
+    USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
     if USE_REMOTE:
         os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
         os.environ["CUDA_VISIBLE_DEVICES"] = '4'
-        data_path = expanduser('~') + '/data-private/'
+        data_path = expanduser('~') + '/data-private/data/'
     else:
         data_path = '../data/'
 
-    train_dcgan(150, start_fresh=True)
+    train_dcgan(200, start_fresh=True)
