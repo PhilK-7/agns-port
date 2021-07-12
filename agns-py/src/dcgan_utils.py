@@ -35,7 +35,7 @@ def get_discrim_loss(fake_image_out, real_image_out):
     return fake_loss + real_loss
 
 
-def produce_training_batches(data, bs=260):
+def produce_training_batches(data, bs=32):
     """
     Produces random, equi-sized mini-batches of training data from a given dataset.
 

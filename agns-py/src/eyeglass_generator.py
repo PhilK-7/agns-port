@@ -1,6 +1,6 @@
 import numpy as np
 import tensorflow as tf
-import net_utils
+import dcgan_utils
 import os
 
 from PIL import Image
@@ -51,11 +51,11 @@ def build_model():
 @DeprecationWarning
 def load_gen_weights(gmodel):
     npas = model_importer.load_dcgan_mat_model_weights('../matlab-models/gen.mat')
-    gmodel.layers[0].set_weights([npas[0], net_utils.get_xavier_initialization((7040,))])
-    gmodel.layers[4].set_weights([np.reshape(npas[3], (5, 5, 80, 160)), net_utils.get_xavier_initialization((80,))])
-    gmodel.layers[7].set_weights([np.reshape(npas[6], (5, 5, 40, 80)), net_utils.get_xavier_initialization((40,))])
-    gmodel.layers[10].set_weights([np.reshape(npas[9], (5, 5, 20, 40)), net_utils.get_xavier_initialization((20,))])
-    gmodel.layers[13].set_weights([np.reshape(npas[12], (5, 5, 3, 20)), net_utils.get_xavier_initialization((3,))])
+    gmodel.layers[0].set_weights([npas[0], dcgan_utils.get_xavier_initialization((7040,))])
+    gmodel.layers[4].set_weights([np.reshape(npas[3], (5, 5, 80, 160)), dcgan_utils.get_xavier_initialization((80,))])
+    gmodel.layers[7].set_weights([np.reshape(npas[6], (5, 5, 40, 80)), dcgan_utils.get_xavier_initialization((40,))])
+    gmodel.layers[10].set_weights([np.reshape(npas[9], (5, 5, 20, 40)), dcgan_utils.get_xavier_initialization((20,))])
+    gmodel.layers[13].set_weights([np.reshape(npas[12], (5, 5, 3, 20)), dcgan_utils.get_xavier_initialization((3,))])
 
     return gmodel
 

@@ -2,7 +2,7 @@ import tensorflow as tf
 import model_importer
 import numpy as np
 from PIL import Image
-import net_utils
+import dcgan_utils
 
 
 def build_model():
@@ -20,7 +20,7 @@ def build_model():
     reshape = tf.keras.layers.Reshape((7040, 1))
     dense = tf.keras.layers.Dense(1, activation='sigmoid')
 
-    model = tf.keras.models.Sequential(
+    dmodel = tf.keras.models.Sequential(
         [
             inp,
             conv1,
@@ -34,6 +34,7 @@ def build_model():
             conv4,
             tf.keras.layers.BatchNormalization(),
             tf.keras.layers.LeakyReLU(),
+            MiniBatchDiscrimination(),
             reshape,
             tf.keras.layers.Flatten(),
             dense
@@ -41,20 +42,42 @@ def build_model():
         name='Discriminator'
     )
 
-    model.summary()
+    dmodel.summary()
 
-    return model
+    return dmodel
+
+
+class MiniBatchDiscrimination(tf.keras.layers.Layer):
+    """
+    A mini-batch discrimination layer, which helps in DCGAN training to generate more diverse samples.
+    """
+    def __init__(self, **kwargs):
+        super(MiniBatchDiscrimination, self).__init__()
+        self.dense_help = tf.keras.layers.Dense(160 * 5)
+
+    def get_config(self):
+        conf = super().get_config().copy()
+        return conf
+
+    def call(self, inputs, **kwargs):
+        # as taken similarly from https://github.com/AYLIEN/gan-intro
+        x = self.dense_help(inputs)
+        activation = tf.reshape(x, (-1, 160, 5))
+        diffs = tf.expand_dims(activation, 3) - tf.expand_dims(tf.transpose(activation, [1, 2, 0]), 0)
+        abs_diffs = tf.reduce_sum(tf.abs(diffs), 2)
+        minibatch_features = tf.reduce_sum(tf.exp(-abs_diffs), 2)
+        return tf.concat([inputs, minibatch_features], 1)
 
 
 # NOTE: start fresh training instead
 @DeprecationWarning
 def load_discrim_weights(dmodel):
     npas = model_importer.load_dcgan_mat_model_weights('../matlab-models/discrim.mat')
-    dmodel.layers[0].set_weights([np.reshape(npas[0], (5, 5, 3, 20)), net_utils.get_xavier_initialization((20,))])
-    dmodel.layers[2].set_weights([np.reshape(npas[1], (5, 5, 20, 40)), net_utils.get_xavier_initialization((40,))])
-    dmodel.layers[5].set_weights([np.reshape(npas[4], (5, 5, 40, 80)), net_utils.get_xavier_initialization((80,))])
-    dmodel.layers[8].set_weights([np.reshape(npas[7], (5, 5, 80, 160)), net_utils.get_xavier_initialization((160,))])
-    dmodel.layers[13].set_weights([npas[10], net_utils.get_xavier_initialization((1,))])
+    dmodel.layers[0].set_weights([np.reshape(npas[0], (5, 5, 3, 20)), dcgan_utils.get_xavier_initialization((20,))])
+    dmodel.layers[2].set_weights([np.reshape(npas[1], (5, 5, 20, 40)), dcgan_utils.get_xavier_initialization((40,))])
+    dmodel.layers[5].set_weights([np.reshape(npas[4], (5, 5, 40, 80)), dcgan_utils.get_xavier_initialization((80,))])
+    dmodel.layers[8].set_weights([np.reshape(npas[7], (5, 5, 80, 160)), dcgan_utils.get_xavier_initialization((160,))])
+    dmodel.layers[13].set_weights([npas[10], dcgan_utils.get_xavier_initialization((1,))])
 
     return dmodel
 
@@ -89,4 +112,3 @@ if __name__ == '__main__':
         print('Real!')
     else:
         print('Fake!')
-

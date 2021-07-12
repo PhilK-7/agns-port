@@ -13,7 +13,7 @@ from tensorflow.python.framework.errors_impl import NotFoundError
 
 import eyeglass_discriminator
 import eyeglass_generator
-import net_utils
+import dcgan_utils
 
 '''
 Some parts were taken from official tutorials:
@@ -22,7 +22,7 @@ https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html
 '''
 
 
-BATCH_SIZE = 65
+BATCH_SIZE = 32
 
 
 def load_real_images(limit_to_first=-1):
@@ -51,8 +51,8 @@ def load_real_images(limit_to_first=-1):
             file_path = os.path.join(path, img_file)
 
             # show progress bar
-            prog_str = net_utils.display_custom_loading_bar('Loading', current_index,
-                                                            max_index if limit_to_first == -1 else limit_to_first)
+            prog_str = dcgan_utils.display_custom_loading_bar('Loading', current_index,
+                                                              max_index if limit_to_first == -1 else limit_to_first)
             if prog_str != current_prog_str:
                 current_prog_str = prog_str
                 print(current_prog_str)
@@ -186,20 +186,18 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
     """
 
     # get models
-
     g_model = eyeglass_generator.build_model()
     d_model = eyeglass_discriminator.build_model()
-
     if not start_fresh:  # load parameters from previous training
         try:
-            g_model.load_weights('../saved-models/gweights')
-            d_model.load_weights('../saved-models/dweights')
+            g_model = tf.keras.models.load_model('../saved-models/generator.h5')
+            d_model = tf.keras.models.load_model('../saved-models/discriminator.h5', custom_objects=custom_objects)
             print('>>>>>>> DCGAN weights loaded.')
         except NotFoundError:
             print('>>>>>>> No weights found, using fresh initialized weights!')
-
-    else:  # new weights; remove outdated files
-        print('>>>>>>> Initialized new DCGAN weights.')
+    else:
+        print('>>>>>>> Starting training anew!')
+        # new weights; remove outdated files
         loss_hist_path = '../saved-plots/losses.csv'
         if os.path.exists(loss_hist_path):
             os.remove(loss_hist_path)
@@ -212,7 +210,7 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
     discrim_optimizer = tf.keras.optimizers.Adam(2e-4)
     g_losses, d_losses = [], []
 
-    # custom training procedure function (see Tensorflow DCGAN tutorial)
+    # custom training procedure function
     @tf.function
     def training_step(images, bs=BATCH_SIZE):
         noise = np.random.standard_normal((bs, 25))  # random input vector for generator
@@ -224,8 +222,8 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
             real_output = d_model(images, training=True)
             fake_output = d_model(generated_images, training=True)
 
-            gen_loss = net_utils.get_gen_loss(fake_output)
-            discrim_loss = net_utils.get_discrim_loss(real_output, fake_output)
+            gen_loss = dcgan_utils.get_gen_loss(fake_output)
+            discrim_loss = dcgan_utils.get_discrim_loss(real_output, fake_output)
 
         # compute and apply gradients
         gen_gradients = gen_tape.gradient(gen_loss, g_model.trainable_variables)
@@ -254,8 +252,8 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
         batch_index = 0
         ep_g_loss_sum, ep_d_loss_sum = 0, 0
 
-        for batch in net_utils.produce_training_batches(real_images, BATCH_SIZE):  # mini-batch training
-            print(net_utils.display_custom_loading_bar('Training', batch_index, num_batches))
+        for batch in dcgan_utils.produce_training_batches(real_images, BATCH_SIZE):  # mini-batch training
+            print(dcgan_utils.display_custom_loading_bar('Training', batch_index, num_batches))
             g_loss, d_loss = training_step(batch)  # one training iteration for this batch
 
             # observe error on that batch
@@ -263,10 +261,10 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
             ep_d_loss_sum += d_loss
             batch_index += 1
 
-        # checkpoints both parts of the model
+        # checkpoint both parts of the model
         if epoch % epochs_save_period == 0:
-            g_model.save_weights('../saved-models/gweights')
-            d_model.save_weights('../saved-models/dweights')
+            g_model.save('../saved-models/generator.h5')
+            d_model.save('../saved-models/discriminator.h5')
             print('Model state saved.')
 
         # evaluate epoch
@@ -283,11 +281,12 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
         print(f'Epoch lasted for {epoch_time} seconds.')
 
     # save weights, generate samples, and plot loss history
-    g_model.save_weights('../saved-models/gweights')
-    d_model.save_weights('../saved-models/dweights')
+    g_model.save('../saved-models/generator.h5')
+    d_model.save('../saved-models/discriminator.h5')
     generate_samples_gif()
     plot_losses()
 
 
 if __name__ == '__main__':
+    custom_objects = {'MiniBatchDiscrimination': eyeglass_discriminator.MiniBatchDiscrimination}
     train_dcgan(150, start_fresh=True)
