@@ -22,58 +22,85 @@ https://www.tensorflow.org/tutorials/generative/dcgan, and
 https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html
 '''
 
-
 BATCH_SIZE = 32
 
 
-def load_real_images(limit_to_first=-1):
+def preprocess_real_images():
     """
-    Loads the training images for the DCGAN from path 'data/eyeglasses' at the same level.
-    This transforms them into the needed numpy matrix shape.
-
-    :param limit_to_first: use n first images from directory for training; all if value is -1
+    Preprocesses the dataset of eyeglasses.
+    This enables faster loading of this dataset.
     """
 
     # get image paths and info
     path = data_path + 'eyeglasses/'
+    new_path = path + 'cropped/'
+    if not os.path.exists(new_path):
+        os.mkdir(new_path)
     img_files = os.listdir(path)
+
+    # info for showing progress bar
     max_index = len(img_files)
-    matrix = None
     current_prog_str = ''
     current_index = 0
-    print('Loading images...')
     start_time = time.time()
 
-    for img_file in img_files:  # load images
+    print('Preprocessing images...')
 
-        if limit_to_first != -1 and current_index >= limit_to_first:  # when limit is used
-            break
-        if img_file.endswith('.png'):
-            file_path = os.path.join(path, img_file)
+    for file_path in img_files:
+        if file_path.endswith('.png'):
+            file_path = os.path.join(path, file_path)
 
             # show progress bar
-            prog_str = dcgan_utils.display_custom_loading_bar('Loading', current_index,
-                                                              max_index if limit_to_first == -1 else limit_to_first)
+            prog_str = dcgan_utils.display_custom_loading_bar('Processing', current_index, max_index)
             if prog_str != current_prog_str:
                 current_prog_str = prog_str
                 print(current_prog_str)
 
+            # crop image
             img = Image.open(file_path)
             img = img.crop((25, 53, 201, 117))  # crop to correct size
             img_matrix = np.asarray(img)
-            img_matrix = np.reshape(img_matrix, (1, 64, 176, 3))  # to correct numpy size
-            if matrix is None:
-                matrix = img_matrix
-            else:
-                matrix = np.concatenate((matrix, img_matrix))
+
+            # save in new file
+            img = Image.fromarray(img_matrix)
+            filename = file_path.split('/')[-1]
+            img.save(new_path + filename)
+
             current_index += 1
 
     # needed time
     end_time = time.time()
     total_time = round(end_time - start_time) + 1
-    print(f'Loading all images took {total_time} seconds.')
+    print(f'Preprocessing all images took {total_time} seconds.')
 
-    return (matrix / 127.5) - 1  # transformation to range (-1, 1)
+
+def load_real_images():
+    """
+    Loads the training images for the DCGAN from path 'data/eyeglasses/cropped' at the same level.
+    This transforms them into an efficient Tensorflow Dataset.
+
+    """
+
+    # get paths
+    ds_path = data_path + 'eyeglasses/cropped/'
+    img_files = os.listdir(ds_path)
+    data_tensors = []
+
+    # load images and transform to needed range
+    for img_name in img_files:
+        img = tf.image.decode_png(tf.io.read_file(ds_path + img_name), channels=3)
+        img = (tf.image.convert_image_dtype(img, tf.float32) / 127.5) - 1
+        data_tensors.append(img)
+
+    # make Tensorflow dataset
+    ds = tf.data.Dataset.from_tensor_slices(data_tensors)
+
+    ds = ds.repeat()
+    ds = ds.shuffle(2000)
+    ds = ds.batch(BATCH_SIZE)
+    ds = ds.prefetch(tf.data.experimental.AUTOTUNE)
+
+    return ds
 
 
 def generate_samples(generator, epoch, rseed=42):
@@ -147,7 +174,6 @@ def update_loss_dataframe(g_loss, d_loss):
 
     df.to_csv('../saved-plots/losses.csv')  # write back
 
-
 def plot_losses():
     """
     Plots the DCGAN's losses and saves the plot to 'saved-plots/dcgan_loss_history.png'.
@@ -207,8 +233,8 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
             os.remove(loss_hist_path)
         gend_samples_path = '../saved-plots/samples/'
         if os.path.exists(gend_samples_path):
-                shutil.rmtree(gend_samples_path)
-                os.makedirs(gend_samples_path)
+            shutil.rmtree(gend_samples_path)
+            os.makedirs(gend_samples_path)
 
     # define optimizer, same as described in paper
     gen_optimizer = tf.keras.optimizers.Adam(2e-4)
@@ -239,9 +265,9 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
         return gen_loss, discrim_loss
 
     # get data
-    real_images = load_real_images(-1)  # load all real images
-    print(np.shape(real_images))
-    num_samples = real_images.shape[0]
+    print('Fetching dataset...')
+    real_image_dataset = load_real_images()  # load all real images
+    num_samples = 16680  # TODO alternative to hardcoding?
     num_batches = math.ceil(num_samples / BATCH_SIZE)  # number of training data batches
 
     # determine total epoch number
@@ -251,13 +277,14 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
         epochs_so_far = 0
 
     # training loop
+    print('')
     for epoch in range(epochs_so_far, epochs_so_far + n_epochs):
         print(f'Epoch {epoch + 1}:')
         epoch_start_time = time.time()
         batch_index = 0
         ep_g_loss_sum, ep_d_loss_sum = 0, 0
 
-        for batch in dcgan_utils.produce_training_batches(real_images, BATCH_SIZE):  # mini-batch training
+        for batch in real_image_dataset:  # mini-batch training
             print(dcgan_utils.display_custom_loading_bar('Training', batch_index, num_batches))
             g_loss, d_loss = training_step(batch)  # one training iteration for this batch
 
@@ -279,7 +306,7 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
         d_losses.append(avg_d_loss)
         epoch_end_time = time.time()
         epoch_time = round(epoch_end_time - epoch_start_time) + 1
-        generate_samples(g_model, epoch+1)  # also create new samples image
+        generate_samples(g_model, epoch + 1)  # also create new samples image
         print(f'Avg. generator loss: {avg_g_loss}, '
               f'avg. discriminator loss: {avg_d_loss}')
         update_loss_dataframe(avg_g_loss, avg_d_loss)  # add losses to losses.csv
@@ -296,7 +323,7 @@ if __name__ == '__main__':
     custom_objects = {'MiniBatchDiscrimination': eyeglass_discriminator.MiniBatchDiscrimination}
 
     # set parameters
-    USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
+    USE_REMOTE = False  # set depending whether code is executed on remote workstation or not
     if USE_REMOTE:
         os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
         os.environ["CUDA_VISIBLE_DEVICES"] = '4'
@@ -304,4 +331,4 @@ if __name__ == '__main__':
     else:
         data_path = '../data/'
 
-    train_dcgan(200, start_fresh=True)
+    train_dcgan(20, start_fresh=True)
