@@ -103,7 +103,10 @@ def generate_samples(generator, epoch, rseed=42):
             plt.title(f'Generator @ E{epoch}')
 
     # save plot
-    n = len(os.listdir('../saved-plots/samples')) + 1  # the n-th samples image
+    if os.path.exists('../saved-plots/samples'):
+        n = len(os.listdir('../saved-plots/samples')) + 1  # the n-th samples image
+    else:
+        n = 1
     plt.savefig(f'../saved-plots/samples/samples_{round(time.time())}_epoch{n}.png')
     # do not draw later
     plt.clf()
