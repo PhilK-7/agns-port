@@ -77,8 +77,9 @@ def preprocess_real_images():
 def load_real_images():
     """
     Loads the training images for the DCGAN from path 'data/eyeglasses/cropped' at the same level.
-    This transforms them into an efficient Tensorflow Dataset.
+    This transforms them into an efficient Tensorflow Dataset, with image values ranging in [-1, 1].
 
+    :return the images as Tensorflow PrefetchDataset
     """
 
     # get paths
@@ -89,7 +90,8 @@ def load_real_images():
     # load images and transform to needed range
     for img_name in img_files:
         img = tf.image.decode_png(tf.io.read_file(ds_path + img_name), channels=3)
-        img = (tf.image.convert_image_dtype(img, tf.float32) / 127.5) - 1
+        img = tf.image.convert_image_dtype(img, tf.float32)  # ATTENTION: this also scales to range [0, 1]
+        img = img * 2 - 1
         data_tensors.append(img)
 
     # make Tensorflow dataset
@@ -174,6 +176,7 @@ def update_loss_dataframe(g_loss, d_loss):
 
     df.to_csv('../saved-plots/losses.csv')  # write back
 
+
 def plot_losses():
     """
     Plots the DCGAN's losses and saves the plot to 'saved-plots/dcgan_loss_history.png'.
@@ -220,8 +223,8 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
     d_model = eyeglass_discriminator.build_model()
     if not start_fresh:  # load parameters from previous training
         try:
-            g_model = tf.keras.models.load_model('../saved-models/generator.h5')
-            d_model = tf.keras.models.load_model('../saved-models/discriminator.h5', custom_objects=custom_objects)
+            g_model.load_weights('../saved-models/gweights')
+            d_model.load_weights('../saved-models/dweights')
             print('>>>>>>> DCGAN weights loaded.')
         except NotFoundError:
             print('>>>>>>> No weights found, using fresh initialized weights!')
@@ -298,8 +301,8 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
 
         # checkpoint both parts of the model
         if epoch % epochs_save_period == 0:
-            g_model.save('../saved-models/generator.h5')
-            d_model.save('../saved-models/discriminator.h5')
+            g_model.save_weights('../saved-models/gweights')
+            d_model.save('../saved-models/dweights')
             print('Model state saved.')
 
         # evaluate epoch
@@ -316,8 +319,8 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
         print(f'Epoch lasted for {epoch_time} seconds.')
 
     # save weights, generate samples, and plot loss history
-    g_model.save('../saved-models/generator.h5')
-    d_model.save('../saved-models/discriminator.h5')
+    g_model.save_weights('../saved-models/gweights')
+    d_model.save('../saved-models/dweights')
     generate_samples_gif()
     plot_losses()
 
@@ -334,5 +337,4 @@ if __name__ == '__main__':
     else:
         data_path = '../data/'
 
-
-    train_dcgan(200, start_fresh=True)
+    train_dcgan(5, start_fresh=True)

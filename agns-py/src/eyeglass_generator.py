@@ -81,6 +81,8 @@ def save_gen_output_to_file(matrix):
 
 
 if __name__ == '__main__':
+    # outdated, go to eyeglasses_example.py instead
+
     import model_importer
 
     model = build_model()
