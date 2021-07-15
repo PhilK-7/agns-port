@@ -95,7 +95,6 @@ def load_real_images():
     # make Tensorflow dataset
     ds = tf.data.Dataset.from_tensor_slices(data_tensors)
 
-    ds = ds.repeat()
     ds = ds.shuffle(2000)
     ds = ds.batch(BATCH_SIZE)
     ds = ds.prefetch(tf.data.experimental.AUTOTUNE)
@@ -134,6 +133,7 @@ def generate_samples(generator, epoch, rseed=42):
         n = len(os.listdir('../saved-plots/samples')) + 1  # the n-th samples image
     else:
         n = 1
+        os.mkdir('../saved-plots/samples')
     plt.savefig(f'../saved-plots/samples/samples_{round(time.time())}_epoch{n}.png')
     # do not draw later
     plt.clf()
@@ -277,7 +277,7 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
         epochs_so_far = 0
 
     # training loop
-    print('')
+    loading_bar = ''
     for epoch in range(epochs_so_far, epochs_so_far + n_epochs):
         print(f'Epoch {epoch + 1}:')
         epoch_start_time = time.time()
@@ -285,7 +285,10 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
         ep_g_loss_sum, ep_d_loss_sum = 0, 0
 
         for batch in real_image_dataset:  # mini-batch training
-            print(dcgan_utils.display_custom_loading_bar('Training', batch_index, num_batches))
+            nlb = dcgan_utils.display_custom_loading_bar('Training', batch_index, num_batches)
+            if nlb != loading_bar:
+                loading_bar = nlb
+                print(nlb)
             g_loss, d_loss = training_step(batch)  # one training iteration for this batch
 
             # observe error on that batch
@@ -323,12 +326,13 @@ if __name__ == '__main__':
     custom_objects = {'MiniBatchDiscrimination': eyeglass_discriminator.MiniBatchDiscrimination}
 
     # set parameters
-    USE_REMOTE = False  # set depending whether code is executed on remote workstation or not
+    USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
     if USE_REMOTE:
         os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
         os.environ["CUDA_VISIBLE_DEVICES"] = '4'
-        data_path = expanduser('~') + '/data-private/data/'
+        data_path = expanduser('~') + '/storage-private/data/'
     else:
         data_path = '../data/'
 
-    train_dcgan(20, start_fresh=True)
+
+    train_dcgan(200, start_fresh=True)

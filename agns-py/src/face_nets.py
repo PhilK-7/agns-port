@@ -557,7 +557,7 @@ if __name__ == '__main__':
     if USE_REMOTE:
         os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
         os.environ["CUDA_VISIBLE_DEVICES"] = '4'
-        data_path = expanduser('~') + '/data-private/'
+        data_path = expanduser('~') + '/storage-private/'
     else:
         data_path = '../data/'
 

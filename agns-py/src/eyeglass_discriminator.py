@@ -36,7 +36,6 @@ def build_model():
             tf.keras.layers.LeakyReLU(),
             reshape,
             tf.keras.layers.Flatten(),
-            MiniBatchDiscrimination(),
             dense
         ],
         name='Discriminator'
