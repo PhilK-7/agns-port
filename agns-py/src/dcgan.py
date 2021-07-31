@@ -329,7 +329,7 @@ if __name__ == '__main__':
     custom_objects = {'MiniBatchDiscrimination': eyeglass_discriminator.MiniBatchDiscrimination}
 
     # set parameters
-    USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
+    USE_REMOTE = False  # set depending whether code is executed on remote workstation or not
     if USE_REMOTE:
         os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
         os.environ["CUDA_VISIBLE_DEVICES"] = '4'
