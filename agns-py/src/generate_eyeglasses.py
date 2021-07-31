@@ -38,4 +38,4 @@ if __name__ == '__main__':
         plt.imshow(gl)
         plt.axis('off')
     plt.show()
-    gen.save_gen_output_to_file(glasses[np.random.randint(0, 15)])
+    gen.save_gen_output_to_file(glasses[np.random.randint(0, 15)])  # save one example to 'out'

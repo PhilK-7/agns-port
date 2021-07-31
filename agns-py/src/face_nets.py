@@ -1,4 +1,3 @@
-# pasted from Latex suggestion
 import os
 import sys
 from os import path
@@ -7,7 +6,6 @@ from os import path
 sys.path.append(path.dirname(path.dirname(path.abspath('face_nets.py'))))
 
 import tensorflow as tf
-import numpy as np
 import tensorflow.keras.applications.vgg16 as vgg
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import tensorflow_addons as tfa

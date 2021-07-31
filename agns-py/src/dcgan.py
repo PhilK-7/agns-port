@@ -25,7 +25,7 @@ https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html
 BATCH_SIZE = 32
 
 
-def preprocess_real_images():
+def preprocess_real_glasses_images():
     """
     Preprocesses the dataset of eyeglasses.
     This enables faster loading of this dataset.
@@ -270,7 +270,7 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
     # get data
     print('Fetching dataset...')
     real_image_dataset = load_real_images()  # load all real images
-    num_samples = 16680  # TODO alternative to hardcoding?
+    num_samples = len(os.listdir(data_path + '../eyeglasses/cropped/'))
     num_batches = math.ceil(num_samples / BATCH_SIZE)  # number of training data batches
 
     # determine total epoch number

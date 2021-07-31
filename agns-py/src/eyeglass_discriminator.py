@@ -1,5 +1,5 @@
 import tensorflow as tf
-#import model_importer
+import model_importer
 import numpy as np
 from PIL import Image
 import dcgan_utils
@@ -36,6 +36,7 @@ def build_model():
             tf.keras.layers.LeakyReLU(),
             reshape,
             tf.keras.layers.Flatten(),
+            MiniBatchDiscrimination(),
             dense
         ],
         name='Discriminator'
@@ -81,6 +82,7 @@ def load_discrim_weights(dmodel):
     return dmodel
 
 
+@DeprecationWarning
 def convert_image_to_matrix(impath):
     """
     Converts an image to a numpy matrix of the correct form to provide as input to the discriminator model.

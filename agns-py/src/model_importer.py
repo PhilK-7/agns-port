@@ -1,12 +1,8 @@
 from scipy import io
 import numpy as np
 
-'''
-The purpose of this module is to import saved model weights from .mat files,
-and to transform them so that Tensorflow / Keras can load those model weights.
-'''
 
-
+@DeprecationWarning
 def load_dcgan_mat_model_weights(mat_file_path):
     """
     Loads model weights from a DCGAN .mat file that contains a dictionary.
@@ -21,7 +17,6 @@ def load_dcgan_mat_model_weights(mat_file_path):
 
 
 def load_fr_mat_model_weights(mat_file_path):
-
     mat_file = io.loadmat(mat_file_path)
     print(mat_file)
 
@@ -59,9 +54,8 @@ discrim.mat weight parameters:
     
 '''
 
-
 if __name__ == '__main__':
-    #load_fr_mat_model_weights('../matlab-models/openface10-recognition-nn.mat')
+    # load_fr_mat_model_weights('../matlab-models/openface10-recognition-nn.mat')
     data = io.loadmat('../matlab-models/openface10-recognition-nn.mat')
     print(data)
     print(data.keys())
@@ -72,4 +66,3 @@ if __name__ == '__main__':
     print(len(data))
     for a in data:
         print(a.shape)'''
-

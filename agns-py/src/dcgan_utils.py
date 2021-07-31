@@ -35,6 +35,7 @@ def get_discrim_loss(fake_image_out, real_image_out):
     return fake_loss + real_loss
 
 
+@DeprecationWarning
 def produce_training_batches(data, bs=32):
     """
     Produces random, equi-sized mini-batches of training data from a given dataset.
@@ -55,6 +56,7 @@ def produce_training_batches(data, bs=32):
         current_batch_index += 1
 
 
+@DeprecationWarning
 def display_custom_loading_bar(msg, current_prog, max):
     """
     A help function to generate a loading bar when loading and processing the training data.
