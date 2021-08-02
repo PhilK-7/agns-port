@@ -27,7 +27,7 @@ BATCH_SIZE = 32
 
 def preprocess_real_glasses_images():
     """
-    Preprocesses the dataset of eyeglasses.
+    Preprocesses the dataset of eyeglasses (cropping).
     This enables faster loading of this dataset.
     """
 
