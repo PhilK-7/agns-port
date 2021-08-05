@@ -61,6 +61,12 @@ def load_gen_weights(gmodel):
 
 
 def scale_gen_output(prediction):
+    """
+    Scales the values of a NumPy array with original range [-1, 1] to range [0, 255].
+
+    :param prediction: a numpy array with values ranging between -1 and 1
+    :return: a numpy array with integer values between 0 and 255
+    """
     prediction += 1  # shift to range [0, 2]
     prediction *= 127.5  # scale to range [0, 255]
     prediction = np.round(prediction, 0)

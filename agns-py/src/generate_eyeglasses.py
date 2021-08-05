@@ -21,7 +21,7 @@ if __name__ == '__main__':
 
     # generate random input vectors
     print('Using pseudo randomness to generate a random vector.')
-    vectors = np.random.uniform(-1, 1, (16, 25))
+    vectors = np.random.standard_normal((16, 25))
     vectors = np.reshape(vectors, (16, 25))
 
     # generate glasses
