@@ -2,6 +2,7 @@ import eyeglass_generator as gen
 import eyeglass_discriminator as dis
 import face_nets as fns
 import dcgan
+import dcgan_utils
 import os
 import random
 from PIL import Image
@@ -55,15 +56,33 @@ def merge_images_using_mask(img_a: tf.Tensor, img_b: tf.Tensor, mask_path):
     """
     Merges two images A and B, using a provided filter mask.
 
-    :param img_a: the first image (face), that a part of the other image should be overlayed on
-    :param img_b: the second image (glasses), that should (in part) be overlayed on the other one
+    :param img_a: the first image (face), that a part of the other image should be overlayed on (range [0, 255])
+    :param img_b: the second image (glasses), that should (in part) be overlayed on the other one (range [-1, 1])
     :param mask_path: the relative path (from data) to a filter mask that determines which pixels of image B
         should be put onto image A - the mask has only black and white pixels that are interpreted in a boolean manner
+    :return: a tensor where the pixels of image B are put over those in image A
+        as specified by the mask (range [0, 255])
     """
 
     # load mask and convert it to boolean mask tensor
+    mask_path = data_path + mask_path
+    mask_img = Image.open(mask_path)
+    mask_img = np.asarray(mask_img)
+    mask_img = tf.convert_to_tensor(mask_img)
+    mask_img = tf.cast(mask_img, tf.float32)
+    mask_img = mask_img / 255  # scale to [0, 1]
+
+    glasses_image = (img_b + 1) * 127.5  # scale glasses image to have same range as face image
+    face_image = tf.cast(img_a, tf.float32)
 
     # merge images
+    masked_glasses_img = tf.math.multiply(glasses_image, mask_img)  # cancel out pixels that are outside of mask area
+    invert_mask_img = -(mask_img - 1)  # flip 0 and 1 in mask
+    masked_face_img = tf.math.multiply(face_image, invert_mask_img)  # remove pixels that will be replaced
+    merged_img = masked_face_img + masked_glasses_img
+    merged_img = tf.cast(merged_img, tf.uint8)
+
+    return merged_img
 
 
 def merge_face_images_with_fake_glasses(rel_path, generator: tf.keras.Model, n_samples):
@@ -74,7 +93,7 @@ def merge_face_images_with_fake_glasses(rel_path, generator: tf.keras.Model, n_s
     :param rel_path: the relative path of the face image directory (from 'data')
     :param generator: the generator model used for generating fake eyeglasses
     :param n_samples: how many samples overall to output
-    :return: a specified amount of faces with generated eyeglasses on them, with size 224x224
+    :return: a specified amount of faces with generated eyeglasses on them, with size 224x224 (as one tensor)
     """
 
     # sample n face images
@@ -84,18 +103,47 @@ def merge_face_images_with_fake_glasses(rel_path, generator: tf.keras.Model, n_s
     # generate n fake glasses
     random_vectors = tf.random.normal([n_samples, 25])
     generated_eyeglasses = generator.predict(random_vectors)
-    print(random_vectors[0])
-    show_img_from_tensor(pad_glasses_image(generated_eyeglasses[0]), [-1, 1])
+    mask_path = 'eyeglasses/eyeglasses_mask_6percent.png'
+    merged_images = []
 
-    for face_img in face_samples_paths:
-        # open image and process it
+    for i, face_img in enumerate(face_samples_paths):
+        # open face image and process it
         img = Image.open(data_path + rel_path + face_img)
         img = img.resize((224, 224))
         img = np.asarray(img)
         img = tf.convert_to_tensor(img)
 
-    # TODO mask out pixels to replace with help of mask, generate fake glasses, and merge them ...
+        merged_img = merge_images_using_mask(img, pad_glasses_image(generated_eyeglasses[i]), mask_path)
+        merged_images.append(merged_img)
 
+    return tf.stack(merged_images)
+
+
+def do_attack_training_step(gen, dis, real_glasses, target_path, g_opt, d_opt, bs):
+
+    # update discriminator
+    with tf.GradientTape() as d_tape:
+        random_vectors = tf.random.normal([bs/2, 25])
+        fake_glasses = gen.predict(random_vectors)
+
+        # train discriminator on real and fake glasses
+        real_output = dis(real_glasses, training=True)
+        fake_output = dis(fake_glasses, training=True)
+        dis_loss = dcgan_utils.get_discrim_loss(real_output, fake_output)
+    dis_gradients = d_tape.gradient(dis_loss, dis.trainable_variables)
+    d_opt.apply_gradients(zip(dis_gradients, dis.trainable_variables))
+
+    # update generator
+    with tf.GradientTape() as g_tape:
+
+        # pass another half-batch of fake glasses to compute gradients for generator
+        random_vectors = tf.random.normal([bs / 2, 25])
+        other_fake_glasses = gen.predict(random_vectors)
+        fake_output = dis(other_fake_glasses, training=False)  # get discriminator output for generator
+
+        # switch to face recognition net
+        attack_images = merge_face_images_with_fake_glasses(target_path, gen, bs / 2)
+        # TODO ???
 
 # TODO implement dodging attack
 
@@ -103,9 +151,7 @@ def merge_face_images_with_fake_glasses(rel_path, generator: tf.keras.Model, n_s
 # TODO implement impersonation attack
 
 
-# TODO implement custom DCGAN training step (see AGN in Matlab Code)
-
 if __name__ == '__main__':
     gen = gen.build_model()
     gen.load_weights('../saved-models/gweights')
-    merge_face_images_with_fake_glasses('/pubfig/dataset_aligned/Danny_Devito/aligned/', gen, 10)
+    examples = merge_face_images_with_fake_glasses('/pubfig/dataset_aligned/Danny_Devito/aligned/', gen, 10)

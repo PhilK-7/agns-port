@@ -74,10 +74,9 @@ def preprocess_real_glasses_images():
     print(f'Preprocessing all images took {total_time} seconds.')
 
 
-def load_real_images(custom_path=None):
+def load_real_images():
     """
     Loads the training images for the DCGAN from path 'data/eyeglasses/cropped' at the same level.
-    Alternatively also loads another image dataset.
     This transforms them into an efficient Tensorflow Dataset, with image values ranging in [-1, 1].
 
     :param custom_path: another data path, in the case other images should be loaded (relative to data)
@@ -85,7 +84,7 @@ def load_real_images(custom_path=None):
     """
 
     # get paths
-    ds_path = data_path + ('eyeglasses/cropped/' if custom_path is not None else custom_path)
+    ds_path = data_path + 'eyeglasses/cropped/'
     img_files = os.listdir(ds_path)
     data_tensors = []
 
@@ -248,7 +247,7 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
 
     # custom training procedure function
     @tf.function
-    def training_step(images, bs=BATCH_SIZE, include_face_images=False):
+    def training_step(images, bs=BATCH_SIZE):
         noise = np.random.standard_normal((bs, 25))  # random input vector for generator
 
         with tf.GradientTape() as gen_tape, tf.GradientTape() as discrim_tape:
