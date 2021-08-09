@@ -119,7 +119,15 @@ def merge_face_images_with_fake_glasses(rel_path, generator: tf.keras.Model, n_s
     return tf.stack(merged_images)
 
 
-def do_attack_training_step(gen, dis, real_glasses, target_path, g_opt, d_opt, bs):
+def compute_custom_loss(target, predictions):
+    """
+    Computes a custom loss that is used instead of cross-entropy for the face recognition networks.
+    This optimizes the gradients to focus on one specific target class.
+    """
+    pass
+
+
+def do_attack_training_step(gen, dis, facenet, real_glasses_a, real_glasses_b, target_path, g_opt, d_opt, bs, target):
 
     # update discriminator
     with tf.GradientTape() as d_tape:
@@ -127,10 +135,10 @@ def do_attack_training_step(gen, dis, real_glasses, target_path, g_opt, d_opt, b
         fake_glasses = gen.predict(random_vectors)
 
         # train discriminator on real and fake glasses
-        real_output = dis(real_glasses, training=True)
+        real_output = dis(real_glasses_a, training=True)
         fake_output = dis(fake_glasses, training=True)
-        dis_loss = dcgan_utils.get_discrim_loss(real_output, fake_output)
-    dis_gradients = d_tape.gradient(dis_loss, dis.trainable_variables)
+        dis_loss_a = dcgan_utils.get_discrim_loss(fake_output, real_output)
+    dis_gradients = d_tape.gradient(dis_loss_a, dis.trainable_variables)
     d_opt.apply_gradients(zip(dis_gradients, dis.trainable_variables))
 
     # update generator
@@ -140,10 +148,22 @@ def do_attack_training_step(gen, dis, real_glasses, target_path, g_opt, d_opt, b
         random_vectors = tf.random.normal([bs / 2, 25])
         other_fake_glasses = gen.predict(random_vectors)
         fake_output = dis(other_fake_glasses, training=False)  # get discriminator output for generator
+        real_output = dis(real_glasses_b, training=False)
+        dis_loss_b = dcgan_utils.get_discrim_loss(fake_output, real_output)
 
         # switch to face recognition net
         attack_images = merge_face_images_with_fake_glasses(target_path, gen, bs / 2)
-        # TODO ???
+        facenet_output = facenet.predict(attack_images)
+        custom_facenet_loss = compute_custom_loss(target, facenet_output)
+
+    gen_gradients_glasses = g_tape.gradient(dis_loss_b, gen.trainable_variables)
+    gen_gradients_attack = g_tape.gradient(custom_facenet_loss, gen.trainable_variables)
+    gen_gradients_attack = - gen_gradients_attack  # for dodging attack
+    g_opt.apply_gradients(zip(gen_gradients_glasses, gen.trainable_variables))
+    g_opt.apply_gradients(zip(gen_gradients_attack, gen.trainable_variables))
+
+    return g_opt, d_opt
+
 
 # TODO implement dodging attack
 
