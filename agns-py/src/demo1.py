@@ -30,6 +30,10 @@ if __name__ == '__main__':
 
     # perform special training
     current_ep = 0
+    done = False
     g_opt, d_opt = tf.keras.optimizers.Adam(learning_rate=lr), tf.keras.optimizers.Adam(learning_rate=lr)
-    while current_ep <= ep:
+    while current_ep <= ep and not done:
+        pass  # todo
+        # TODO stopping criterion
 
+        current_ep += 1

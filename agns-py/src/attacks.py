@@ -123,11 +123,45 @@ def compute_custom_loss(target, predictions):
     """
     Computes a custom loss that is used instead of cross-entropy for the face recognition networks.
     This optimizes the gradients to focus on one specific target class.
+    Minimizing the loss is the objective for dodging attacks, while it should be maximized for impersonation attacks.
+
+    :param target: the target index, so n for target with index n / the n+1-th person of a set of target classes
+    :param predictions: the logits that are output of the layer before the softmax (output) layer
+        in a classification model, a tensor
     """
+    target_logit = predictions[target]
+    other_logits_sum = tf.reduce_sum(predictions) - target_logit
+
+    return target_logit - other_logits_sum
+
+
+def join_gradients(gradients_a, gradients_b):
     pass
 
 
-def do_attack_training_step(gen, dis, facenet, real_glasses_a, real_glasses_b, target_path, g_opt, d_opt, bs, target):
+def do_attack_training_step(gen, dis, facenet, target_path, target, real_glasses_a, real_glasses_b, g_opt, d_opt, bs, kappa):
+    """
+    Performs one special training step to adjust the GAN for performing a dodging / impersonation attack.
+    This requires the current optimizers, a given target, real glasses image, and of course the DCGAN model.
+    Trains the DCGAN with glasses as well as attacker images.
+
+    :param gen: the generator model
+    :param dis: the discriminator model
+    :param facenet: the face recognition model
+    :param target_path: the path to the target´s image directory, relative to 'data'
+    :param target: the target´s index
+    :param real_glasses_a: a batch of real glasses images, sized according to bs
+    :param real_glasses_b: another batch of real glasses images, sized according to bs
+    :param g_opt: the generator´s optimizer object
+    :param d_opt: the discriminator´s optimizer object
+    :param bs: the training batch size
+    :param kappa: a weighting factor to balance generator gradients gained from glasses and attacker images
+
+    :return g_opt: the updated generator optimizer
+    :return d_opt: the updated discriminator optimizer
+    :return objective_d: the discriminator´s objective
+    :return objective_f: the face recognition net´s objective
+    """
 
     # update discriminator
     with tf.GradientTape() as d_tape:
@@ -149,20 +183,29 @@ def do_attack_training_step(gen, dis, facenet, real_glasses_a, real_glasses_b, t
         other_fake_glasses = gen.predict(random_vectors)
         fake_output = dis(other_fake_glasses, training=False)  # get discriminator output for generator
         real_output = dis(real_glasses_b, training=False)
+        dis_output = tf.concat([fake_output, real_output])
         dis_loss_b = dcgan_utils.get_discrim_loss(fake_output, real_output)
 
         # switch to face recognition net
         attack_images = merge_face_images_with_fake_glasses(target_path, gen, bs / 2)
+        facenet_cut = tf.keras.models.Sequential(facenet.layers[:-1])  # TODO also works with non-linear models?
+        facenet_logits_output = facenet_cut.predict(attack_images)  # the logits as output
+        custom_facenet_loss = compute_custom_loss(target, facenet_logits_output)
         facenet_output = facenet.predict(attack_images)
-        custom_facenet_loss = compute_custom_loss(target, facenet_output)
 
+    # apply gradients from discriminator and face net to generator
+    # TODO rework to match 'join_gradients'
     gen_gradients_glasses = g_tape.gradient(dis_loss_b, gen.trainable_variables)
     gen_gradients_attack = g_tape.gradient(custom_facenet_loss, gen.trainable_variables)
     gen_gradients_attack = - gen_gradients_attack  # for dodging attack
     g_opt.apply_gradients(zip(gen_gradients_glasses, gen.trainable_variables))
     g_opt.apply_gradients(zip(gen_gradients_attack, gen.trainable_variables))
 
-    return g_opt, d_opt
+    # compute objectives
+    objective_d = tf.reduce_mean(dis_output)  # average confidence of the discriminator in fake images
+    objective_f = facenet_output[target]  # face net´s confidence that images originate from target
+
+    return g_opt, d_opt, objective_d, objective_f
 
 
 # TODO implement dodging attack
