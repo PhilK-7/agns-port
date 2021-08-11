@@ -80,7 +80,7 @@ def load_real_images():
     This transforms them into an efficient Tensorflow Dataset, with image values ranging in [-1, 1].
 
     :param custom_path: another data path, in the case other images should be loaded (relative to data)
-    :return the images as Tensorflow PrefetchDataset
+    :return: the images as Tensorflow PrefetchDataset
     """
 
     # get paths

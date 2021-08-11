@@ -33,7 +33,8 @@ if __name__ == '__main__':
     done = False
     g_opt, d_opt = tf.keras.optimizers.Adam(learning_rate=lr), tf.keras.optimizers.Adam(learning_rate=lr)
     while current_ep <= ep and not done:
-        pass  # todo
+        g_opt, d_opt, obj_d, obj_f = attacks.do_attack_training_step(gen_model, dis_model, face_model, img_path, target,
+                                                                     0, 0, g_opt, d_opt, bs, kappa)
         # TODO stopping criterion
 
         current_ep += 1

@@ -34,7 +34,7 @@ def show_img_from_tensor(img: tf.Tensor, vrange):
     plt.show()
 
 
-def pad_glasses_image(glass):
+def pad_glasses_image(glass: tf.Tensor):
     """
     Pads a generated glasses image as reverse transformation to the cropping that was applied to the original data.
 
@@ -52,7 +52,7 @@ def pad_glasses_image(glass):
     return img
 
 
-def merge_images_using_mask(img_a: tf.Tensor, img_b: tf.Tensor, mask_path):
+def merge_images_using_mask(img_a: tf.Tensor, img_b: tf.Tensor, mask_path: str):
     """
     Merges two images A and B, using a provided filter mask.
 
@@ -85,7 +85,7 @@ def merge_images_using_mask(img_a: tf.Tensor, img_b: tf.Tensor, mask_path):
     return merged_img
 
 
-def merge_face_images_with_fake_glasses(rel_path, generator: tf.keras.Model, n_samples):
+def merge_face_images_with_fake_glasses(rel_path, generator: tf.keras.Model, n_samples: int):
     """
     Draws some random samples from the given face image directory (relative to data path),
     and puts them together with generated fake eyeglasses.
@@ -119,7 +119,7 @@ def merge_face_images_with_fake_glasses(rel_path, generator: tf.keras.Model, n_s
     return tf.stack(merged_images)
 
 
-def compute_custom_loss(target, predictions):
+def compute_custom_loss(target: int, predictions: tf.Tensor):
     """
     Computes a custom loss that is used instead of cross-entropy for the face recognition networks.
     This optimizes the gradients to focus on one specific target class.
@@ -136,6 +136,14 @@ def compute_custom_loss(target, predictions):
 
 
 def join_gradients(gradients_a: tf.Tensor, gradients_b: tf.Tensor, kappa: float) -> tf.Tensor:
+    """
+    Joins two sets of computed gradients using a weighting factor and returns one set of gradients of the same size.
+
+    :param gradients_a: a tensor of gradients
+    :param gradients_b: another tensor of gradients, has the same shape as gradients_a
+    :param kappa: a number between 0 and 1, weighs the two different gradient sets
+    :return: a tensor of joined gradients, with the same shape as the original sets
+    """
     assert 0 <= kappa <= 1  # check that kappa in correct range
     gradients = tf.Variable(gradients_a)  # copy gradients shape
 
@@ -179,7 +187,6 @@ def do_attack_training_step(gen, dis, facenet, target_path, target, real_glasses
     :param bs: the training batch size
     :param kappa: a weighting factor to balance generator gradients gained from glasses and attacker images
     :param dodging: whether to train for a dodging attack, if false instead train for impersonation attack
-
     :return g_opt: the updated generator optimizer
     :return d_opt: the updated discriminator optimizer
     :return objective_d: the discriminator´s objective
@@ -211,6 +218,7 @@ def do_attack_training_step(gen, dis, facenet, target_path, target, real_glasses
         # switch to face recognition net
         attack_images = merge_face_images_with_fake_glasses(target_path, gen, bs / 2)
         facenet_cut = tf.keras.models.Sequential(facenet.layers[:-1])  # TODO also works with non-linear models?
+        # TODO whatif image sizes are 96
         facenet_logits_output = facenet_cut.predict(attack_images)  # the logits as output
         custom_facenet_loss = compute_custom_loss(target, facenet_logits_output)
         facenet_output = facenet.predict(attack_images)
@@ -228,6 +236,18 @@ def do_attack_training_step(gen, dis, facenet, target_path, target, real_glasses
     objective_f = facenet_output[target]  # face net´s confidence that images originate from target
 
     return g_opt, d_opt, objective_d, objective_f
+
+
+def check_objective_met(gen, facenet, target_path: str, bs) -> bool:
+    """
+
+    """
+
+    # generate fake eyeglasses
+    random_vectors = tf.random.normal([bs / 2, 25])
+    glasses = gen.predict(random_vectors)
+
+
 
 
 # TODO implement dodging attack
