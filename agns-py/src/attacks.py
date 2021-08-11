@@ -135,11 +135,33 @@ def compute_custom_loss(target, predictions):
     return target_logit - other_logits_sum
 
 
-def join_gradients(gradients_a, gradients_b):
-    pass
+def join_gradients(gradients_a: tf.Tensor, gradients_b: tf.Tensor, kappa: float) -> tf.Tensor:
+    assert 0 <= kappa <= 1  # check that kappa in correct range
+    gradients = tf.Variable(gradients_a)  # copy gradients shape
+
+    # compute joined gradients
+    for i in range(gradients.shape[0]):
+        d1 = tf.Variable(gradients_a[i])
+        d2 = tf.Variable(gradients_b[1])
+        norm_1 = tf.norm(tf.reshape(d1, np.prod(d1.shape)))
+        norm_2 = tf.norm(tf.reshape(d2, np.prod(d2.shape)))
+
+        if norm_1 > norm_2:
+            d1 = d1 * (norm_2 / norm_1)
+        else:
+            d2 = d2 * (norm_1 / norm_2)
+        gradients[i] = kappa * d1 + (1 - kappa) * d2
+
+    # convert and check
+    gradients = tf.convert_to_tensor(gradients)
+    assert gradients.shape == gradients_a.shape
+
+    return gradients
 
 
-def do_attack_training_step(gen, dis, facenet, target_path, target, real_glasses_a, real_glasses_b, g_opt, d_opt, bs, kappa):
+def do_attack_training_step(gen, dis, facenet, target_path, target, real_glasses_a, real_glasses_b, g_opt, d_opt, bs,
+                            kappa, dodging=True) \
+        -> (tf.keras.optimizers.Adam, tf.keras.optimizers.Adam, tf.Tensor, tf.Tensor):
     """
     Performs one special training step to adjust the GAN for performing a dodging / impersonation attack.
     This requires the current optimizers, a given target, real glasses image, and of course the DCGAN model.
@@ -156,6 +178,7 @@ def do_attack_training_step(gen, dis, facenet, target_path, target, real_glasses
     :param d_opt: the discriminator´s optimizer object
     :param bs: the training batch size
     :param kappa: a weighting factor to balance generator gradients gained from glasses and attacker images
+    :param dodging: whether to train for a dodging attack, if false instead train for impersonation attack
 
     :return g_opt: the updated generator optimizer
     :return d_opt: the updated discriminator optimizer
@@ -165,7 +188,7 @@ def do_attack_training_step(gen, dis, facenet, target_path, target, real_glasses
 
     # update discriminator
     with tf.GradientTape() as d_tape:
-        random_vectors = tf.random.normal([bs/2, 25])
+        random_vectors = tf.random.normal([bs / 2, 25])
         fake_glasses = gen.predict(random_vectors)
 
         # train discriminator on real and fake glasses
@@ -177,7 +200,6 @@ def do_attack_training_step(gen, dis, facenet, target_path, target, real_glasses
 
     # update generator
     with tf.GradientTape() as g_tape:
-
         # pass another half-batch of fake glasses to compute gradients for generator
         random_vectors = tf.random.normal([bs / 2, 25])
         other_fake_glasses = gen.predict(random_vectors)
@@ -194,12 +216,12 @@ def do_attack_training_step(gen, dis, facenet, target_path, target, real_glasses
         facenet_output = facenet.predict(attack_images)
 
     # apply gradients from discriminator and face net to generator
-    # TODO rework to match 'join_gradients'
     gen_gradients_glasses = g_tape.gradient(dis_loss_b, gen.trainable_variables)
     gen_gradients_attack = g_tape.gradient(custom_facenet_loss, gen.trainable_variables)
-    gen_gradients_attack = - gen_gradients_attack  # for dodging attack
-    g_opt.apply_gradients(zip(gen_gradients_glasses, gen.trainable_variables))
-    g_opt.apply_gradients(zip(gen_gradients_attack, gen.trainable_variables))
+    if dodging:
+        gen_gradients_attack = - gen_gradients_attack  # reverse attack gradients for dodging attack
+    gen_gradients = join_gradients(gen_gradients_glasses, gen_gradients_attack, kappa)
+    g_opt.apply_gradients(zip(gen_gradients, gen.trainable_variables))
 
     # compute objectives
     objective_d = tf.reduce_mean(dis_output)  # average confidence of the discriminator in fake images
