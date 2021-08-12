@@ -98,8 +98,8 @@ def load_real_images():
     # make Tensorflow dataset
     ds = tf.data.Dataset.from_tensor_slices(data_tensors)
 
-    ds = ds.shuffle(2000)
-    ds = ds.batch(BATCH_SIZE)
+    ds = ds.shuffle(2000).repeat(-1)  # shuffle and repeat infinitely
+    ds = ds.batch(BATCH_SIZE)  # make batches
     ds = ds.prefetch(tf.data.experimental.AUTOTUNE)
 
     return ds

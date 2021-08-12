@@ -238,16 +238,63 @@ def do_attack_training_step(gen, dis, facenet, target_path, target, real_glasses
     return g_opt, d_opt, objective_d, objective_f
 
 
-def check_objective_met(gen, facenet, target_path: str, bs) -> bool:
+def check_objective_met(gen, facenet, target: int, target_path: str, stop_prob: float, bs: int, dodge=True) -> bool:
+    """
+    Checks whether the attack objective has been yet met. It tries generated fake glasses with a face image dataset
+    and checks whether the face recognition network can be fooled successfully.
+
+    :param gen: the generator model (of the DCGAN)
+    :param facenet: the face recognition model
+    :param target: the target´s index
+    :param target_path: relative path to target dataset (from 'data')
+    :param stop_prob: a stopping probability, related to the face net´s output target probabilities (a value in [0, 1])
+    :param bs: the training batch size, must be an even number
+    :param dodge: whether to check for a successful dodging attack (check for impersonation attack instead if false)
+    :return: whether an attack could be performed successfully
     """
 
-    """
+    # sanity check assumptions
+    assert bs % 2 == 0
+    assert 0 <= stop_prob <= 1
 
     # generate fake eyeglasses
-    random_vectors = tf.random.normal([bs / 2, 25])
+    random_vectors = tf.random.normal([bs // 2, 25])
     glasses = gen.predict(random_vectors)
 
+    # get full target dataset (scaled to range [-1, 1])
+    img_files = os.listdir(target_path)
+    data_tensors = []
+    for img_file in img_files:
+        img = tf.image.decode_png(tf.io.read_file(data_path + target_path + img_file), channels=3)
+        img = tf.image.convert_image_dtype(img, tf.float32)  # ATTENTION: this also scales to range [0, 1]
+        img = img * 2 - 1
+        data_tensors.append(img)
 
+    for i_g in range(bs // 2):  # iterate over generated glasses
+        # generate new dataset instance for iteration
+        face_ds = tf.data.Dataset.from_tensor_slices(data_tensors)
+        face_ds = face_ds.shuffle(1000)
+        # classify faces with eyeglasses
+        n = tf.data.experimental.cardinality(face_ds)
+        probs = tf.Variable(tf.zeros((n, 1)))  # variable tensor that holds predicted probabilities
+
+        for i_f in range(0, n, bs // 2):
+            n_iter = np.min([bs//2, n-i_f])
+            g = tf.tile(glasses[i_g], tf.constant([n_iter, 1, 1, 1]))  # tile same glass for all faces of iteration
+            g = (g + 1) * 127.5  # scale  # TODO need to also resize?!
+            face_ims_iter = face_ds.take(n_iter)  # take next subset of faces for inner iteration
+            # TODO da masks?
+            # classify the faces
+            faces_preds = facenet.predict(face_ims_iter)
+
+            # check mean target probability in desired range
+            for i_t in range(n_iter):
+                probs[i_f + i_t] = faces_preds[i_t, target]  # get target prediction probability
+            mean_prob = tf.reduce_mean(probs)
+            if (mean_prob <= stop_prob and dodge) or (mean_prob >= stop_prob and not dodge):
+                return True  # attack successful
+
+    return False  # no single successful attack
 
 
 # TODO implement dodging attack
