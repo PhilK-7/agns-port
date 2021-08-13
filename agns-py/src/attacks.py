@@ -52,7 +52,24 @@ def pad_glasses_image(glass: tf.Tensor):
     return img
 
 
-def merge_images_using_mask(img_a: tf.Tensor, img_b: tf.Tensor, mask_path: str):
+def load_mask(mask_path: str) -> tf.Tensor:
+    """
+    Loads the mask for glasses images.
+
+    :param mask_path: the relative path to the mask image (from 'data')
+    :return: the mask as tensor, with float values in [0, 1]
+    """
+    mask_path = data_path + mask_path  # full path
+    mask_img = Image.open(mask_path)
+    mask_img = np.asarray(mask_img)
+    mask_img = tf.convert_to_tensor(mask_img)
+    mask_img = tf.cast(mask_img, tf.float32)
+    mask_img = mask_img / 255  # scale to [0, 1]
+
+    return mask_img
+
+
+def merge_images_using_mask(img_a: tf.Tensor, img_b: tf.Tensor, mask_path: str, mask: tf.Tensor = None) -> tf.Tensor:
     """
     Merges two images A and B, using a provided filter mask.
 
@@ -60,17 +77,17 @@ def merge_images_using_mask(img_a: tf.Tensor, img_b: tf.Tensor, mask_path: str):
     :param img_b: the second image (glasses), that should (in part) be overlayed on the other one (range [-1, 1])
     :param mask_path: the relative path (from data) to a filter mask that determines which pixels of image B
         should be put onto image A - the mask has only black and white pixels that are interpreted in a boolean manner
+    :param mask: alternatively, the mask is already loaded and can be supplied as tensor here
+        (use this when needing the same mask repeatedly for efficiency)
     :return: a tensor where the pixels of image B are put over those in image A
         as specified by the mask (range [0, 255])
     """
 
     # load mask and convert it to boolean mask tensor
-    mask_path = data_path + mask_path
-    mask_img = Image.open(mask_path)
-    mask_img = np.asarray(mask_img)
-    mask_img = tf.convert_to_tensor(mask_img)
-    mask_img = tf.cast(mask_img, tf.float32)
-    mask_img = mask_img / 255  # scale to [0, 1]
+    if mask is None:
+        mask_img = load_mask(mask_path)
+    else:
+        mask_img = mask
 
     glasses_image = (img_b + 1) * 127.5  # scale glasses image to have same range as face image
     face_image = tf.cast(img_a, tf.float32)
@@ -238,7 +255,8 @@ def do_attack_training_step(gen, dis, facenet, target_path, target, real_glasses
     return g_opt, d_opt, objective_d, objective_f
 
 
-def check_objective_met(gen, facenet, target: int, target_path: str, stop_prob: float, bs: int, dodge=True) -> bool:
+def check_objective_met(gen, facenet, target: int, target_path: str, mask_path: str,
+                        stop_prob: float, bs: int, dodge=True) -> bool:
     """
     Checks whether the attack objective has been yet met. It tries generated fake glasses with a face image dataset
     and checks whether the face recognition network can be fooled successfully.
@@ -247,6 +265,7 @@ def check_objective_met(gen, facenet, target: int, target_path: str, stop_prob: 
     :param facenet: the face recognition model
     :param target: the target´s index
     :param target_path: relative path to target dataset (from 'data')
+    :param mask_path: relative path to mask image (from 'data')
     :param stop_prob: a stopping probability, related to the face net´s output target probabilities (a value in [0, 1])
     :param bs: the training batch size, must be an even number
     :param dodge: whether to check for a successful dodging attack (check for impersonation attack instead if false)
@@ -260,6 +279,7 @@ def check_objective_met(gen, facenet, target: int, target_path: str, stop_prob: 
     # generate fake eyeglasses
     random_vectors = tf.random.normal([bs // 2, 25])
     glasses = gen.predict(random_vectors)
+    mask = load_mask(mask_path)  # get mask tensor
 
     # get full target dataset (scaled to range [-1, 1])
     img_files = os.listdir(target_path)
@@ -283,7 +303,8 @@ def check_objective_met(gen, facenet, target: int, target_path: str, stop_prob: 
             g = tf.tile(glasses[i_g], tf.constant([n_iter, 1, 1, 1]))  # tile same glass for all faces of iteration
             g = (g + 1) * 127.5  # scale  # TODO need to also resize?!
             face_ims_iter = face_ds.take(n_iter)  # take next subset of faces for inner iteration
-            # TODO da masks?
+            # merge faces images and current glasses
+
             # classify the faces
             faces_preds = facenet.predict(face_ims_iter)
 
