@@ -24,6 +24,7 @@ if __name__ == '__main__':
     target = 19
     img_path = 'pubfig/dataset_aligned/Danny_Devito/aligned'  # relative to 'data'
     img_size = (224, 224)  # input size for VGG
+    mask_path = 'eyeglasses/eyeglasses_mask_6percent.png'
 
     # get glasses dataset to draw two half-batches from each training epoch
     glasses_ds = dcgan.load_real_images()
@@ -35,8 +36,8 @@ if __name__ == '__main__':
         glasses_a = glasses_ds.take(bs / 2)
         glasses_b = glasses_ds.take(bs / 2)
         g_opt, d_opt, obj_d, obj_f = attacks.do_attack_training_step(gen_model, dis_model, face_model, img_path, target,
-                                                                     gl, 0, g_opt, d_opt, bs, kappa)
-        if attacks.check_objective_met(gen_model, face_model, target, img_path, stop_prob, bs, True):
+                                                                     glasses_a, glasses_b, g_opt, d_opt, bs, kappa)
+        if attacks.check_objective_met(gen_model, face_model, target, img_path, mask_path, stop_prob, bs, True):
             print('<<<<<< Dodging attack successful! >>>>>>')
             break
 

@@ -1,14 +1,13 @@
-import eyeglass_generator as gen
-import eyeglass_discriminator as dis
-import face_nets as fns
-import dcgan
-import dcgan_utils
 import os
 import random
-from PIL import Image
+
+import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
-import matplotlib.pyplot as plt
+from PIL import Image
+
+import dcgan_utils
+import eyeglass_generator as gen
 
 data_path = '../data/'
 crop_coordinates = [53, 25, 53 + 64, 25 + 176]
@@ -69,14 +68,16 @@ def load_mask(mask_path: str) -> tf.Tensor:
     return mask_img
 
 
-def merge_images_using_mask(img_a: tf.Tensor, img_b: tf.Tensor, mask_path: str, mask: tf.Tensor = None) -> tf.Tensor:
+def merge_images_using_mask(img_a: tf.Tensor, img_b: tf.Tensor,
+                            mask_path: str = '', mask: tf.Tensor = None) -> tf.Tensor:
     """
     Merges two images A and B, using a provided filter mask.
 
     :param img_a: the first image (face), that a part of the other image should be overlayed on (range [0, 255])
     :param img_b: the second image (glasses), that should (in part) be overlayed on the other one (range [-1, 1])
     :param mask_path: the relative path (from data) to a filter mask that determines which pixels of image B
-        should be put onto image A - the mask has only black and white pixels that are interpreted in a boolean manner
+        should be put onto image A - the mask has only black and white pixels that are interpreted in a boolean manner;
+        can be left empty if mask is already supplied as tensor
     :param mask: alternatively, the mask is already loaded and can be supplied as tensor here
         (use this when needing the same mask repeatedly for efficiency)
     :return: a tensor where the pixels of image B are put over those in image A
@@ -89,12 +90,12 @@ def merge_images_using_mask(img_a: tf.Tensor, img_b: tf.Tensor, mask_path: str, 
     else:
         mask_img = mask
 
-    glasses_image = (img_b + 1) * 127.5  # scale glasses image to have same range as face image
+    glasses_image = tf.add(img_b, tf.ones(img_b.shape)) * 127.5  # scale glasses image to have same range as face image
     face_image = tf.cast(img_a, tf.float32)
 
     # merge images
     masked_glasses_img = tf.math.multiply(glasses_image, mask_img)  # cancel out pixels that are outside of mask area
-    invert_mask_img = -(mask_img - 1)  # flip 0 and 1 in mask
+    invert_mask_img = -(mask_img - tf.ones(mask_img.shape))  # flip 0 and 1 in mask
     masked_face_img = tf.math.multiply(face_image, invert_mask_img)  # remove pixels that will be replaced
     merged_img = masked_face_img + masked_glasses_img
     merged_img = tf.cast(merged_img, tf.uint8)
@@ -102,13 +103,13 @@ def merge_images_using_mask(img_a: tf.Tensor, img_b: tf.Tensor, mask_path: str, 
     return merged_img
 
 
-def merge_face_images_with_fake_glasses(rel_path, generator: tf.keras.Model, n_samples: int):
+def merge_face_images_with_fake_glasses(rel_path, gen: tf.keras.Model, n_samples: int):
     """
     Draws some random samples from the given face image directory (relative to data path),
     and puts them together with generated fake eyeglasses.
 
     :param rel_path: the relative path of the face image directory (from 'data')
-    :param generator: the generator model used for generating fake eyeglasses
+    :param gen: the generator model used for generating fake eyeglasses
     :param n_samples: how many samples overall to output
     :return: a specified amount of faces with generated eyeglasses on them, with size 224x224 (as one tensor)
     """
@@ -119,9 +120,12 @@ def merge_face_images_with_fake_glasses(rel_path, generator: tf.keras.Model, n_s
 
     # generate n fake glasses
     random_vectors = tf.random.normal([n_samples, 25])
-    generated_eyeglasses = generator.predict(random_vectors)
-    mask_path = 'eyeglasses/eyeglasses_mask_6percent.png'
+    generated_eyeglasses = gen.predict(random_vectors)
     merged_images = []
+
+    # preload mask
+    mask_path = 'eyeglasses/eyeglasses_mask_6percent.png'
+    mask_img = load_mask(mask_path)
 
     for i, face_img in enumerate(face_samples_paths):
         # open face image and process it
@@ -130,7 +134,7 @@ def merge_face_images_with_fake_glasses(rel_path, generator: tf.keras.Model, n_s
         img = np.asarray(img)
         img = tf.convert_to_tensor(img)
 
-        merged_img = merge_images_using_mask(img, pad_glasses_image(generated_eyeglasses[i]), mask_path)
+        merged_img = merge_images_using_mask(img, pad_glasses_image(generated_eyeglasses[i]), mask=mask_img)
         merged_images.append(merged_img)
 
     return tf.stack(merged_images)
@@ -145,6 +149,7 @@ def compute_custom_loss(target: int, predictions: tf.Tensor):
     :param target: the target index, so n for target with index n / the n+1-th person of a set of target classes
     :param predictions: the logits that are output of the layer before the softmax (output) layer
         in a classification model, a tensor
+    :return: the custom loss weighing target and non-target predictions
     """
     target_logit = predictions[target]
     other_logits_sum = tf.reduce_sum(predictions) - target_logit
@@ -286,8 +291,6 @@ def check_objective_met(gen, facenet, target: int, target_path: str, mask_path: 
     data_tensors = []
     for img_file in img_files:
         img = tf.image.decode_png(tf.io.read_file(data_path + target_path + img_file), channels=3)
-        img = tf.image.convert_image_dtype(img, tf.float32)  # ATTENTION: this also scales to range [0, 1]
-        img = img * 2 - 1
         data_tensors.append(img)
 
     for i_g in range(bs // 2):  # iterate over generated glasses
@@ -297,18 +300,21 @@ def check_objective_met(gen, facenet, target: int, target_path: str, mask_path: 
         # classify faces with eyeglasses
         n = tf.data.experimental.cardinality(face_ds)
         probs = tf.Variable(tf.zeros((n, 1)))  # variable tensor that holds predicted probabilities
+        # get current fake glasses
+        g = glasses[i_g]  # TODO need to also resize?!
 
         for i_f in range(0, n, bs // 2):
             n_iter = np.min([bs//2, n-i_f])
-            g = tf.tile(glasses[i_g], tf.constant([n_iter, 1, 1, 1]))  # tile same glass for all faces of iteration
-            g = (g + 1) * 127.5  # scale  # TODO need to also resize?!
             face_ims_iter = face_ds.take(n_iter)  # take next subset of faces for inner iteration
             # merge faces images and current glasses
-
+            merged_ims = []
+            for face_img in face_ims_iter:
+                merged_ims.append(merge_images_using_mask(face_img, g, mask=mask))
+            face_ims_iter = tf.stack(merged_ims)
             # classify the faces
             faces_preds = facenet.predict(face_ims_iter)
 
-            # check mean target probability in desired range
+            # check if mean target probability in desired range
             for i_t in range(n_iter):
                 probs[i_f + i_t] = faces_preds[i_t, target]  # get target prediction probability
             mean_prob = tf.reduce_mean(probs)
@@ -325,6 +331,6 @@ def check_objective_met(gen, facenet, target: int, target_path: str, mask_path: 
 
 
 if __name__ == '__main__':
-    gen = gen.build_model()
-    gen.load_weights('../saved-models/gweights')
-    examples = merge_face_images_with_fake_glasses('/pubfig/dataset_aligned/Danny_Devito/aligned/', gen, 10)
+    generator = gen.build_model()
+    generator.load_weights('../saved-models/gweights')
+    examples = merge_face_images_with_fake_glasses('/pubfig/dataset_aligned/Danny_Devito/aligned/', generator, 10)
