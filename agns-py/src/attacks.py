@@ -329,6 +329,10 @@ def check_objective_met(gen, facenet, target: int, target_path: str, mask_path: 
 
 # TODO implement impersonation attack
 
+# TODO show attack results
+def show_attack_results():
+    pass
+
 
 if __name__ == '__main__':
     generator = gen.build_model()

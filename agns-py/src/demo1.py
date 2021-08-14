@@ -10,9 +10,9 @@ import tensorflow as tf
 if __name__ == '__main__':
     ep = 100
     lr = 5e-5
-    weight_decay = 1e-5
-    kappa = 0.8
-    stop_prob = 0.02
+    weight_decay = 1e-5  # TODO also?
+    kappa = 0.25
+    stop_prob = 0.01
     bs = 32
 
     # load models and set more values
@@ -30,15 +30,17 @@ if __name__ == '__main__':
     glasses_ds = dcgan.load_real_images()
 
     # perform special training
-    current_ep = 0
+    current_ep = 1
     g_opt, d_opt = tf.keras.optimizers.Adam(learning_rate=lr), tf.keras.optimizers.Adam(learning_rate=lr)
     while current_ep <= ep:
         glasses_a = glasses_ds.take(bs / 2)
         glasses_b = glasses_ds.take(bs / 2)
         g_opt, d_opt, obj_d, obj_f = attacks.do_attack_training_step(gen_model, dis_model, face_model, img_path, target,
                                                                      glasses_a, glasses_b, g_opt, d_opt, bs, kappa)
+        # TODO what to do with obj values?
         if attacks.check_objective_met(gen_model, face_model, target, img_path, mask_path, stop_prob, bs, True):
             print('<<<<<< Dodging attack successful! >>>>>>')
             break
 
         current_ep += 1
+
