@@ -40,7 +40,7 @@ if __name__ == '__main__':
     img_size = (224, 224)  # input size for VGG
     mask_path = 'eyeglasses/eyeglasses_mask_6percent.png'
 
-    # get glasses dataset to draw two half-batches from each training epoch
+    # get glasses dataset to draw two half-batches from each training epoch (already shuffled and batched)
     glasses_ds = dcgan.load_real_images(dap)
     print('Glasses dataset ready.')
 
@@ -50,8 +50,8 @@ if __name__ == '__main__':
     g_opt, d_opt = tf.keras.optimizers.Adam(learning_rate=lr), tf.keras.optimizers.Adam(learning_rate=lr)
     while current_ep <= ep:
         print(f'Attack training epoch {current_ep}.')
-        glasses_a = tf.convert_to_tensor(glasses_ds.take(bs // 2))
-        glasses_b = tf.convert_to_tensor(glasses_ds.take(bs // 2))
+        glasses_a = tf.convert_to_tensor(glasses_ds.take(bs // 2).as_numpy_iterator())
+        glasses_b = tf.convert_to_tensor(glasses_ds.take(bs // 2).as_numpy_iterator())
         g_opt, d_opt, obj_d, obj_f = attacks.do_attack_training_step(dap, gen_model, dis_model, face_model, img_path,
                                                                      target, glasses_a, glasses_b,
                                                                      g_opt, d_opt, bs, kappa)
