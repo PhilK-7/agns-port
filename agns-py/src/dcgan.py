@@ -25,10 +25,12 @@ https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html
 BATCH_SIZE = 32
 
 
-def preprocess_real_glasses_images():
+def preprocess_real_glasses_images(data_path: str):
     """
     Preprocesses the dataset of eyeglasses (cropping).
     This enables faster loading of this dataset.
+
+    :param data_path: the path to the data directory
     """
 
     # get image paths and info
@@ -74,12 +76,12 @@ def preprocess_real_glasses_images():
     print(f'Preprocessing all images took {total_time} seconds.')
 
 
-def load_real_images():
+def load_real_images(data_path: str):
     """
     Loads the training images for the DCGAN from path 'data/eyeglasses/cropped' at the same level.
     This transforms them into an efficient Tensorflow Dataset, with image values ranging in [-1, 1].
 
-    :param custom_path: another data path, in the case other images should be loaded (relative to data)
+    :param data_path: the path to the data directory
     :return: the images as Tensorflow PrefetchDataset
     """
 
@@ -208,12 +210,13 @@ def plot_losses():
         print('No losses computed yet.')
 
 
-def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
+def train_dcgan(data_path, n_epochs, start_fresh=False, epochs_save_period=3):
     """
     Trains the DCGAN that should learn to generate / discriminate glasses.
     It assumes there is a directory 'saved-models' at the same level, where model weights are loaded and saved to.
     Also, the losses and the current progress are tracked, and visualized with other functions.
 
+    :param data_path: the path to the data directory
     :param n_epochs: for how many epochs to train (this session)
     :param start_fresh: whether the DCGAN training process should be started anew
     :param epochs_save_period: after how many epochs each the model should be checkpointed (also saved at session end)
@@ -271,7 +274,7 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
 
     # get data
     print('Fetching dataset...')
-    real_image_dataset = load_real_images()  # load all real images
+    real_image_dataset = load_real_images(data_path)  # load all real images
     num_samples = len(os.listdir(data_path + '../eyeglasses/cropped/'))
     num_batches = math.ceil(num_samples / BATCH_SIZE)  # number of training data batches
 
@@ -328,6 +331,7 @@ def train_dcgan(n_epochs, start_fresh=False, epochs_save_period=3):
 
 
 if __name__ == '__main__':
+    # run to train NEW (will overwrite old!) DCGAN on glasses images
     custom_objects = {'MiniBatchDiscrimination': eyeglass_discriminator.MiniBatchDiscrimination}
 
     # set parameters
@@ -335,8 +339,8 @@ if __name__ == '__main__':
     if USE_REMOTE:
         os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
         os.environ["CUDA_VISIBLE_DEVICES"] = '4'
-        data_path = expanduser('~') + '/storage-private/data/'
+        dap = expanduser('~') + '/storage-private/data/'
     else:
-        data_path = '../data/'
+        dap = '../data/'
 
-    train_dcgan(5, start_fresh=True)
+    train_dcgan(dap, 5, start_fresh=True)

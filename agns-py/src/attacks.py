@@ -7,9 +7,8 @@ import tensorflow as tf
 from PIL import Image
 
 import dcgan_utils
-import eyeglass_generator as gen
+import eyeglass_generator as gen_module
 
-data_path = '../data/'
 crop_coordinates = [53, 25, 53 + 64, 25 + 176]
 
 
@@ -51,10 +50,11 @@ def pad_glasses_image(glass: tf.Tensor):
     return img
 
 
-def load_mask(mask_path: str) -> tf.Tensor:
+def load_mask(data_path: str, mask_path: str) -> tf.Tensor:
     """
     Loads the mask for glasses images.
 
+    :param data_path: the path to the data directory
     :param mask_path: the relative path to the mask image (from 'data')
     :return: the mask as tensor, with float values in [0, 1]
     """
@@ -68,11 +68,12 @@ def load_mask(mask_path: str) -> tf.Tensor:
     return mask_img
 
 
-def merge_images_using_mask(img_a: tf.Tensor, img_b: tf.Tensor,
+def merge_images_using_mask(data_path: str, img_a: tf.Tensor, img_b: tf.Tensor,
                             mask_path: str = '', mask: tf.Tensor = None) -> tf.Tensor:
     """
     Merges two images A and B, using a provided filter mask.
 
+    :param data_path: the path to the data directory
     :param img_a: the first image (face), that a part of the other image should be overlayed on (range [0, 255])
     :param img_b: the second image (glasses), that should (in part) be overlayed on the other one (range [-1, 1])
     :param mask_path: the relative path (from data) to a filter mask that determines which pixels of image B
@@ -86,7 +87,7 @@ def merge_images_using_mask(img_a: tf.Tensor, img_b: tf.Tensor,
 
     # load mask and convert it to boolean mask tensor
     if mask is None:
-        mask_img = load_mask(mask_path)
+        mask_img = load_mask(data_path, mask_path)
     else:
         mask_img = mask
 
@@ -103,11 +104,12 @@ def merge_images_using_mask(img_a: tf.Tensor, img_b: tf.Tensor,
     return merged_img
 
 
-def merge_face_images_with_fake_glasses(rel_path, gen: tf.keras.Model, n_samples: int):
+def merge_face_images_with_fake_glasses(data_path: str, rel_path, gen: tf.keras.Model, n_samples: int) -> tf.Tensor:
     """
     Draws some random samples from the given face image directory (relative to data path),
     and puts them together with generated fake eyeglasses.
 
+    :param data_path: the path to the data directory
     :param rel_path: the relative path of the face image directory (from 'data')
     :param gen: the generator model used for generating fake eyeglasses
     :param n_samples: how many samples overall to output
@@ -125,7 +127,7 @@ def merge_face_images_with_fake_glasses(rel_path, gen: tf.keras.Model, n_samples
 
     # preload mask
     mask_path = 'eyeglasses/eyeglasses_mask_6percent.png'
-    mask_img = load_mask(mask_path)
+    mask_img = load_mask(data_path, mask_path)
 
     for i, face_img in enumerate(face_samples_paths):
         # open face image and process it
@@ -134,7 +136,7 @@ def merge_face_images_with_fake_glasses(rel_path, gen: tf.keras.Model, n_samples
         img = np.asarray(img)
         img = tf.convert_to_tensor(img)
 
-        merged_img = merge_images_using_mask(img, pad_glasses_image(generated_eyeglasses[i]), mask=mask_img)
+        merged_img = merge_images_using_mask(data_path, img, pad_glasses_image(generated_eyeglasses[i]), mask=mask_img)
         merged_images.append(merged_img)
 
     return tf.stack(merged_images)
@@ -189,14 +191,15 @@ def join_gradients(gradients_a: tf.Tensor, gradients_b: tf.Tensor, kappa: float)
     return gradients
 
 
-def do_attack_training_step(gen, dis, facenet, target_path, target, real_glasses_a, real_glasses_b, g_opt, d_opt, bs,
-                            kappa, dodging=True) \
+def do_attack_training_step(data_path, gen, dis, facenet, target_path, target, real_glasses_a, real_glasses_b,
+                            g_opt, d_opt, bs, kappa, dodging=True) \
         -> (tf.keras.optimizers.Adam, tf.keras.optimizers.Adam, tf.Tensor, tf.Tensor):
     """
     Performs one special training step to adjust the GAN for performing a dodging / impersonation attack.
     This requires the current optimizers, a given target, real glasses image, and of course the DCGAN model.
     Trains the DCGAN with glasses as well as attacker images.
 
+    :param data_path: the path to the data directory
     :param gen: the generator model
     :param dis: the discriminator model
     :param facenet: the face recognition model
@@ -215,10 +218,14 @@ def do_attack_training_step(gen, dis, facenet, target_path, target, real_glasses
     :return objective_f: the face recognition net´s objective
     """
 
+    # assert batch size assumptions
+    assert bs % 2 == 0
+    half_batch_size = bs // 2
+
     # update discriminator
     with tf.GradientTape() as d_tape:
-        random_vectors = tf.random.normal([bs / 2, 25])
-        fake_glasses = gen.predict(random_vectors)
+        random_vectors = tf.random.normal([half_batch_size, 25])
+        fake_glasses = gen(random_vectors)
 
         # train discriminator on real and fake glasses
         real_output = dis(real_glasses_a, training=True)
@@ -230,18 +237,18 @@ def do_attack_training_step(gen, dis, facenet, target_path, target, real_glasses
     # update generator
     with tf.GradientTape() as g_tape:
         # pass another half-batch of fake glasses to compute gradients for generator
-        random_vectors = tf.random.normal([bs / 2, 25])
-        other_fake_glasses = gen.predict(random_vectors)
+        random_vectors = tf.random.normal([half_batch_size, 25])
+        other_fake_glasses = gen(random_vectors)
         fake_output = dis(other_fake_glasses, training=False)  # get discriminator output for generator
         real_output = dis(real_glasses_b, training=False)
         dis_output = tf.concat([fake_output, real_output])
         dis_loss_b = dcgan_utils.get_discrim_loss(fake_output, real_output)
 
         # switch to face recognition net
-        attack_images = merge_face_images_with_fake_glasses(target_path, gen, bs / 2)
+        attack_images = merge_face_images_with_fake_glasses(data_path, target_path, gen, half_batch_size)
         facenet_cut = tf.keras.models.Sequential(facenet.layers[:-1])  # TODO also works with non-linear models?
         # TODO whatif image sizes are 96
-        facenet_logits_output = facenet_cut.predict(attack_images)  # the logits as output
+        facenet_logits_output = facenet_cut(attack_images)  # the logits as output
         custom_facenet_loss = compute_custom_loss(target, facenet_logits_output)
         facenet_output = facenet.predict(attack_images)
 
@@ -260,12 +267,13 @@ def do_attack_training_step(gen, dis, facenet, target_path, target, real_glasses
     return g_opt, d_opt, objective_d, objective_f
 
 
-def check_objective_met(gen, facenet, target: int, target_path: str, mask_path: str,
+def check_objective_met(data_path: str, gen, facenet, target: int, target_path: str, mask_path: str,
                         stop_prob: float, bs: int, dodge=True) -> bool:
     """
     Checks whether the attack objective has been yet met. It tries generated fake glasses with a face image dataset
     and checks whether the face recognition network can be fooled successfully.
 
+    :param data_path: the path to the data directory
     :param gen: the generator model (of the DCGAN)
     :param facenet: the face recognition model
     :param target: the target´s index
@@ -284,7 +292,7 @@ def check_objective_met(gen, facenet, target: int, target_path: str, mask_path: 
     # generate fake eyeglasses
     random_vectors = tf.random.normal([bs // 2, 25])
     glasses = gen.predict(random_vectors)
-    mask = load_mask(mask_path)  # get mask tensor
+    mask = load_mask(data_path, mask_path)  # get mask tensor
 
     # get full target dataset (scaled to range [-1, 1])
     img_files = os.listdir(target_path)
@@ -309,7 +317,7 @@ def check_objective_met(gen, facenet, target: int, target_path: str, mask_path: 
             # merge faces images and current glasses
             merged_ims = []
             for face_img in face_ims_iter:
-                merged_ims.append(merge_images_using_mask(face_img, g, mask=mask))
+                merged_ims.append(merge_images_using_mask(data_path, face_img, g, mask=mask))
             face_ims_iter = tf.stack(merged_ims)
             # classify the faces
             faces_preds = facenet.predict(face_ims_iter)
@@ -335,6 +343,11 @@ def show_attack_results():
 
 
 if __name__ == '__main__':
-    generator = gen.build_model()
+    # run to see example of merged attack images
+    generator = gen_module.build_model()
     generator.load_weights('../saved-models/gweights')
-    examples = merge_face_images_with_fake_glasses('/pubfig/dataset_aligned/Danny_Devito/aligned/', generator, 10)
+    examples = merge_face_images_with_fake_glasses('../data/', '/pubfig/dataset_aligned/Danny_Devito/aligned/',
+                                                   generator, 10)
+    show_img_from_tensor(examples[0], [0, 255])
+    show_img_from_tensor(examples[1], [0, 255])
+    show_img_from_tensor(examples[2], [0, 255])
