@@ -36,11 +36,12 @@ if __name__ == '__main__':
     dis_model.load_weights('../saved-models/dweights')
     print('All models loaded.')
     target = 19
-    img_path = 'pubfig/dataset_aligned/Danny_Devito/aligned'  # relative to 'data'
+    img_path = 'pubfig/dataset_aligned/Danny_Devito/aligned/'  # relative to 'data'
     img_size = (224, 224)  # input size for VGG
     mask_path = 'eyeglasses/eyeglasses_mask_6percent.png'
 
     # get glasses dataset to draw two half-batches from each training epoch (already shuffled and batched)
+    print('Loading glasses dataset...')
     glasses_ds = dcgan.load_real_images(dap)
     print('Glasses dataset ready.')
 
@@ -50,12 +51,17 @@ if __name__ == '__main__':
     g_opt, d_opt = tf.keras.optimizers.Adam(learning_rate=lr), tf.keras.optimizers.Adam(learning_rate=lr)
     while current_ep <= ep:
         print(f'Attack training epoch {current_ep}.')
-        glasses_a = tf.convert_to_tensor(glasses_ds.take(bs // 2).as_numpy_iterator())
-        glasses_b = tf.convert_to_tensor(glasses_ds.take(bs // 2).as_numpy_iterator())
+        glasses = glasses_ds.take(1)  # take one batch
+        glasses = [p for p in glasses]  # unravel
+        glasses = tf.stack(glasses)
+        glasses = tf.reshape(glasses, glasses.shape[1:])
+        glasses_a, glasses_b = glasses[:bs // 2], glasses[bs // 2:]
+        print(glasses_a.shape)
         g_opt, d_opt, obj_d, obj_f = attacks.do_attack_training_step(dap, gen_model, dis_model, face_model, img_path,
                                                                      target, glasses_a, glasses_b,
                                                                      g_opt, d_opt, bs, kappa)
         # TODO what to do with obj values?
+        print(obj_d, obj_f)
         if attacks.check_objective_met(dap, gen_model, face_model, target, img_path, mask_path, stop_prob, bs, True):
             print('<<<<<< Dodging attack successful! >>>>>>')
             break

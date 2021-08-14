@@ -122,7 +122,7 @@ def merge_face_images_with_fake_glasses(data_path: str, rel_path, gen: tf.keras.
 
     # generate n fake glasses
     random_vectors = tf.random.normal([n_samples, 25])
-    generated_eyeglasses = gen.predict(random_vectors)
+    generated_eyeglasses = gen(random_vectors)
     merged_images = []
 
     # preload mask
@@ -153,6 +153,7 @@ def compute_custom_loss(target: int, predictions: tf.Tensor):
         in a classification model, a tensor
     :return: the custom loss weighing target and non-target predictions
     """
+    print(predictions.shape)  # TODO how take batch into considereation?
     target_logit = predictions[target]
     other_logits_sum = tf.reduce_sum(predictions) - target_logit
 
@@ -242,16 +243,19 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
         other_fake_glasses = gen(random_vectors)
         fake_output = dis(other_fake_glasses, training=False)  # get discriminator output for generator
         real_output = dis(real_glasses_b, training=False)
-        dis_output = tf.concat([fake_output, real_output])
+        dis_output = tf.concat([fake_output, real_output], 0)
         dis_loss_b = dcgan_utils.get_discrim_loss(fake_output, real_output)
 
-        # switch to face recognition net
+        # switch to face recognition net, but remove softmax
         attack_images = merge_face_images_with_fake_glasses(data_path, target_path, gen, half_batch_size)
         facenet_cut = tf.keras.models.Sequential(facenet.layers[:-1])  # TODO also works with non-linear models?
+        logits_layer = tf.keras.layers.Dense(143)  # TODO dehardcode
+        facenet_cut.add(logits_layer)
+        facenet_cut.layers[-1].set_weights(facenet.layers[-1].get_weights())  # copy trained weights to classification layer
         # TODO whatif image sizes are 96
         facenet_logits_output = facenet_cut(attack_images)  # the logits as output
         custom_facenet_loss = compute_custom_loss(target, facenet_logits_output)
-        facenet_output = facenet.predict(attack_images)
+        facenet_output = facenet(attack_images)
 
     # apply gradients from discriminator and face net to generator
     gen_gradients_glasses = g_tape.gradient(dis_loss_b, gen.trainable_variables)
