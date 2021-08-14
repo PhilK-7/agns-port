@@ -191,8 +191,9 @@ def join_gradients(gradients_a: tf.Tensor, gradients_b: tf.Tensor, kappa: float)
     return gradients
 
 
-def do_attack_training_step(data_path, gen, dis, facenet, target_path, target, real_glasses_a, real_glasses_b,
-                            g_opt, d_opt, bs, kappa, dodging=True) \
+def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str, target: int,
+                            real_glasses_a: tf.Tensor, real_glasses_b: tf.Tensor,
+                            g_opt, d_opt, bs: int, kappa: float, dodging=True) \
         -> (tf.keras.optimizers.Adam, tf.keras.optimizers.Adam, tf.Tensor, tf.Tensor):
     """
     Performs one special training step to adjust the GAN for performing a dodging / impersonation attack.

@@ -12,10 +12,10 @@ import tensorflow as tf
 if __name__ == '__main__':
     # LE BOILERPLATE SHIAT
     # set parameters
-    USE_REMOTE = False  # set depending whether code is executed on remote workstation or not
+    USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
     if USE_REMOTE:
         os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
-        os.environ["CUDA_VISIBLE_DEVICES"] = '4'
+        os.environ["CUDA_VISIBLE_DEVICES"] = '2'
         dap = os.path.expanduser('~') + '/storage-private/data/'
     else:
         dap = '../data/'
@@ -50,8 +50,8 @@ if __name__ == '__main__':
     g_opt, d_opt = tf.keras.optimizers.Adam(learning_rate=lr), tf.keras.optimizers.Adam(learning_rate=lr)
     while current_ep <= ep:
         print(f'Attack training epoch {current_ep}.')
-        glasses_a = glasses_ds.take(bs // 2)
-        glasses_b = glasses_ds.take(bs // 2)
+        glasses_a = tf.convert_to_tensor(glasses_ds.take(bs // 2))
+        glasses_b = tf.convert_to_tensor(glasses_ds.take(bs // 2))
         g_opt, d_opt, obj_d, obj_f = attacks.do_attack_training_step(dap, gen_model, dis_model, face_model, img_path,
                                                                      target, glasses_a, glasses_b,
                                                                      g_opt, d_opt, bs, kappa)
