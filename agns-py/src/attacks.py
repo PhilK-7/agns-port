@@ -153,7 +153,7 @@ def compute_custom_loss(target: int, predictions: tf.Tensor):
         in a classification model, a tensor
     :return: the custom loss weighing target and non-target predictions
     """
-    print(predictions.shape)  # TODO how take batch into considereation?
+    predictions = tf.reduce_mean(predictions, 0)  # average over half-batch
     target_logit = predictions[target]
     other_logits_sum = tf.reduce_sum(predictions) - target_logit
 
@@ -194,7 +194,7 @@ def join_gradients(gradients_a: tf.Tensor, gradients_b: tf.Tensor, kappa: float)
 
 def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str, target: int,
                             real_glasses_a: tf.Tensor, real_glasses_b: tf.Tensor,
-                            g_opt, d_opt, bs: int, kappa: float, dodging=True) \
+                            g_opt, d_opt, bs: int, kappa: float, dodging=True, verbose=True) \
         -> (tf.keras.optimizers.Adam, tf.keras.optimizers.Adam, tf.Tensor, tf.Tensor):
     """
     Performs one special training step to adjust the GAN for performing a dodging / impersonation attack.
@@ -214,6 +214,7 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
     :param bs: the training batch size
     :param kappa: a weighting factor to balance generator gradients gained from glasses and attacker images
     :param dodging: whether to train for a dodging attack, if false instead train for impersonation attack
+    :param verbose: whether to print additional information for the attack training step
     :return g_opt: the updated generator optimizer
     :return d_opt: the updated discriminator optimizer
     :return objective_d: the discriminator´s objective
@@ -223,28 +224,43 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
     # assert batch size assumptions
     assert bs % 2 == 0
     half_batch_size = bs // 2
+    Fakesave = 0
+# TODO merge both gradienttape namespace intos one???
+# TODO function for saving drawed glasses for debugging?
+
 
     # update discriminator
     with tf.GradientTape() as d_tape:
         random_vectors = tf.random.normal([half_batch_size, 25])
         fake_glasses = gen(random_vectors)
+        Fakesave = fake_glasses
 
         # train discriminator on real and fake glasses
         real_output = dis(real_glasses_a, training=True)
         fake_output = dis(fake_glasses, training=True)
         dis_loss_a = dcgan_utils.get_discrim_loss(fake_output, real_output)
     dis_gradients = d_tape.gradient(dis_loss_a, dis.trainable_variables)
-    d_opt.apply_gradients(zip(dis_gradients, dis.trainable_variables))
+    if verbose:
+        print(50 * '-')
+        print(f'Dis gradients: {dis_gradients}')
+        print(50 * '-')
+#    d_opt.apply_gradients(zip(dis_gradients, dis.trainable_variables))
 
     # update generator
-    with tf.GradientTape() as g_tape:
+    with tf.GradientTape() as g_tape, tf.GradientTape() as g_tape_s:
         # pass another half-batch of fake glasses to compute gradients for generator
         random_vectors = tf.random.normal([half_batch_size, 25])
         other_fake_glasses = gen(random_vectors)
-        fake_output = dis(other_fake_glasses, training=False)  # get discriminator output for generator
-        real_output = dis(real_glasses_b, training=False)
+        fake_output = dis(other_fake_glasses)  # get discriminator output for generator
+        real_output = dis(real_glasses_b)
         dis_output = tf.concat([fake_output, real_output], 0)
-        dis_loss_b = dcgan_utils.get_discrim_loss(fake_output, real_output)
+        dis_loss_b = dcgan_utils.get_gen_loss(fake_output)
+        if verbose:
+            print(50 * '-')
+            print(f'Fake glasses B: {other_fake_glasses}')
+            print(f'Output of fake glasses B from discriminator: {fake_output}')
+            print(f'The gen loss from dis: {dis_loss_b}')
+            print(50 * '-')
 
         # switch to face recognition net, but remove softmax
         attack_images = merge_face_images_with_fake_glasses(data_path, target_path, gen, half_batch_size)
@@ -253,21 +269,33 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
         facenet_cut.add(logits_layer)
         facenet_cut.layers[-1].set_weights(facenet.layers[-1].get_weights())  # copy trained weights to classification layer
         # TODO whatif image sizes are 96
+        facenet_cut.summary()
         facenet_logits_output = facenet_cut(attack_images)  # the logits as output
         custom_facenet_loss = compute_custom_loss(target, facenet_logits_output)
         facenet_output = facenet(attack_images)
+        if verbose:
+            print(50 * '-')
+            print(f'The facenet logits: {facenet_logits_output}')
+            print(f'The special facenet loss: {custom_facenet_loss}')
+            print(50 * '-')
 
     # apply gradients from discriminator and face net to generator
     gen_gradients_glasses = g_tape.gradient(dis_loss_b, gen.trainable_variables)
-    gen_gradients_attack = g_tape.gradient(custom_facenet_loss, gen.trainable_variables)
-    if dodging:
-        gen_gradients_attack = - gen_gradients_attack  # reverse attack gradients for dodging attack
+    gen_gradients_attack = g_tape_s.gradient(custom_facenet_loss, gen.trainable_variables)
+    if verbose:
+        print(50 * '-')
+        print(f'Gen gradients normal: {gen_gradients_glasses}')
+        print(f'Gen gradients attack: {gen_gradients_attack}')
+#    if dodging:
+#        gen_gradients_attack = [-gr for gr in gen_gradients_attack]  # reverse attack gradients for dodging attack
     gen_gradients = join_gradients(gen_gradients_glasses, gen_gradients_attack, kappa)
     g_opt.apply_gradients(zip(gen_gradients, gen.trainable_variables))
 
     # compute objectives
     objective_d = tf.reduce_mean(dis_output)  # average confidence of the discriminator in fake images
     objective_f = facenet_output[target]  # face net´s confidence that images originate from target
+    if verbose:
+        print(100 * '_')
 
     return g_opt, d_opt, objective_d, objective_f
 
