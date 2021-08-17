@@ -1,5 +1,6 @@
 import os
 import random
+import time
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -12,6 +13,20 @@ import eyeglass_generator as gen_module
 crop_coordinates = [53, 25, 53 + 64, 25 + 176]
 
 
+def scale_tensor_to_std(tensor: tf.Tensor, vrange: list) -> tf.Tensor:
+    """
+    Scales a given tensor to the range [0, 255], also casting to UINT8.
+
+    :param tensor: the tensor, assuming float values
+    :param vrange: the range of the values in the input tensor, given in a list of two numerical values
+    """
+    img_scaled = tf.add(tf.cast(tensor, tf.float32), tf.constant(-vrange[0], dtype=tf.float32))
+    img_scaled *= (255. / (vrange[1] + (-vrange[0])))
+    img_scaled = tf.cast(img_scaled, tf.uint8)
+
+    return img_scaled
+
+
 def show_img_from_tensor(img: tf.Tensor, vrange):
     """
     Shows an image with matplotlib.
@@ -21,15 +36,28 @@ def show_img_from_tensor(img: tf.Tensor, vrange):
     """
 
     # scale to range [0, 255]
-    img_scaled = tf.add(tf.cast(img, tf.float32), tf.constant(-vrange[0], dtype=tf.float32))
-    img_scaled *= (255. / (vrange[1] + (-vrange[0])))
-    img_scaled = tf.cast(img_scaled, tf.uint8)
-    print(img_scaled)
+    img_scaled = scale_tensor_to_std(img, vrange)
 
     # show image
     plt.figure()
     plt.imshow(img_scaled)
     plt.show()
+
+
+def save_img_from_tensor(img: tf.Tensor, vrange: list, name: str, use_time: bool = True):
+    """
+    Saves an image given by a tensor to a file in the out directory. Might be useful for debugging purposes.
+
+    :param img: the image represented as tensor
+    :param vrange: the range of the tensor values given as list of two values
+    :param name: a name (prefix) to save the image in the 'out' directory
+    :param use_time: whether to append a timestamp to the output file name
+    """
+
+    img = scale_tensor_to_std(img, vrange)  # scale to needed range
+    img = Image.fromarray(img.eval())  # numpy array -> pillow image
+    filename = '../out/' + name + '_' + (str(time.time() if use_time else ''))  # compose name
+    img.save(filename)  # save to file
 
 
 def pad_glasses_image(glass: tf.Tensor):
@@ -192,6 +220,7 @@ def join_gradients(gradients_a: tf.Tensor, gradients_b: tf.Tensor, kappa: float)
     return gradients
 
 
+@tf.function
 def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str, target: int,
                             real_glasses_a: tf.Tensor, real_glasses_b: tf.Tensor,
                             g_opt, d_opt, bs: int, kappa: float, dodging=True, verbose=True) \
@@ -224,33 +253,31 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
     # assert batch size assumptions
     assert bs % 2 == 0
     half_batch_size = bs // 2
-    Fakesave = 0
-# TODO merge both gradienttape namespace intos one???
-# TODO function for saving drawed glasses for debugging?
 
+    with tf.GradientTape() as d_tape, tf.GradientTape() as g_tape, tf.GradientTape() as g_tape_s:
 
-    # update discriminator
-    with tf.GradientTape() as d_tape:
-        random_vectors = tf.random.normal([half_batch_size, 25])
-        fake_glasses = gen(random_vectors)
-        Fakesave = fake_glasses
+        # update discriminator phase:
+
+        # generate fake glasses
+        random_vectors_a = tf.random.normal([half_batch_size, 25])
+        fake_glasses = gen(random_vectors_a)
+        if verbose:
+            for i in range(3):
+                save_img_from_tensor(fake_glasses[i], [-1, 1], 'fake-a')
 
         # train discriminator on real and fake glasses
         real_output = dis(real_glasses_a, training=True)
         fake_output = dis(fake_glasses, training=True)
         dis_loss_a = dcgan_utils.get_discrim_loss(fake_output, real_output)
-    dis_gradients = d_tape.gradient(dis_loss_a, dis.trainable_variables)
-    if verbose:
-        print(50 * '-')
-        print(f'Dis gradients: {dis_gradients}')
-        print(50 * '-')
-#    d_opt.apply_gradients(zip(dis_gradients, dis.trainable_variables))
 
-    # update generator
-    with tf.GradientTape() as g_tape, tf.GradientTape() as g_tape_s:
+        # update generator phase:
+
         # pass another half-batch of fake glasses to compute gradients for generator
-        random_vectors = tf.random.normal([half_batch_size, 25])
-        other_fake_glasses = gen(random_vectors)
+        random_vectors_b = tf.random.normal([half_batch_size, 25])
+        other_fake_glasses = gen(random_vectors_b)
+        if verbose:
+            for i in range(3):
+                save_img_from_tensor(other_fake_glasses[i], [-1, 1], 'fake-b')
         fake_output = dis(other_fake_glasses)  # get discriminator output for generator
         real_output = dis(real_glasses_b)
         dis_output = tf.concat([fake_output, real_output], 0)
@@ -267,7 +294,8 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
         facenet_cut = tf.keras.models.Sequential(facenet.layers[:-1])  # TODO also works with non-linear models?
         logits_layer = tf.keras.layers.Dense(143)  # TODO dehardcode
         facenet_cut.add(logits_layer)
-        facenet_cut.layers[-1].set_weights(facenet.layers[-1].get_weights())  # copy trained weights to classification layer
+        facenet_cut.layers[-1].set_weights(
+            facenet.layers[-1].get_weights())  # copy trained weights to classification layer
         # TODO whatif image sizes are 96
         facenet_cut.summary()
         facenet_logits_output = facenet_cut(attack_images)  # the logits as output
@@ -279,6 +307,15 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
             print(f'The special facenet loss: {custom_facenet_loss}')
             print(50 * '-')
 
+    # APPLY BLOCK: dis
+    dis_gradients = d_tape.gradient(dis_loss_a, dis.trainable_variables)
+    if verbose:
+        print(50 * '-')
+        print(f'Dis gradients: {dis_gradients}')
+        print(50 * '-')
+    d_opt.apply_gradients(zip(dis_gradients, dis.trainable_variables))
+
+    # APPLY BLOCK: gen
     # apply gradients from discriminator and face net to generator
     gen_gradients_glasses = g_tape.gradient(dis_loss_b, gen.trainable_variables)
     gen_gradients_attack = g_tape_s.gradient(custom_facenet_loss, gen.trainable_variables)

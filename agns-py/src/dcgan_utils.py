@@ -57,15 +57,15 @@ def produce_training_batches(data, bs=32):
 
 
 @DeprecationWarning
-def display_custom_loading_bar(msg, current_prog, max):
+def display_custom_loading_bar(msg, current_prog, max_prog_val):
     """
     A help function to generate a loading bar when loading and processing the training data.
 
     :param msg: the start of the loading bar string
     :param current_prog: the current progress, as an absolute number
-    :param max: the maximum progress as absolute number
+    :param max_prog_val: the maximum progress as absolute number
     """
-    progress = (current_prog / max) * 100  # progress in %
+    progress = (current_prog / max_prog_val) * 100  # progress in %
     progress_saved = progress
     bars_left = 50  # one char for every 2%
     display_str = msg + ':   '
