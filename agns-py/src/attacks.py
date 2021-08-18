@@ -55,7 +55,8 @@ def save_img_from_tensor(img: tf.Tensor, vrange: list, name: str, use_time: bool
     """
 
     img = scale_tensor_to_std(img, vrange)  # scale to needed range
-    img = Image.fromarray(img.eval())  # numpy array -> pillow image
+    img = np.asarray(img)
+    img = Image.fromarray(img)  # numpy array -> pillow image
     filename = '../out/' + name + '_' + (str(time.time() if use_time else ''))  # compose name
     img.save(filename)  # save to file
 
