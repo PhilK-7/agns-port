@@ -44,19 +44,36 @@ def show_img_from_tensor(img: tf.Tensor, vrange):
     plt.show()
 
 
-def save_img_from_tensor(img: tf.Tensor, vrange: list, name: str, use_time: bool = True):
+def convert_to_numpy_slice(imgs: tf.Tensor, i: int) -> np.ndarray:
     """
-    Saves an image given by a tensor to a file in the out directory. Might be useful for debugging purposes.
+    Receives images represented by a tensor (value range [-1, 1]),
+     and converts one image specified by index to a ndarray with range [0, 255].
 
-    :param img: the image represented as tensor
-    :param vrange: the range of the tensor values given as list of two values
+    :param imgs: the image as a tf.Tensor
+    :param i: the index of the image in the input tensor
+    :return: a NumPy array with scaled integer values that represents a slice of the input tensor
+    """
+    imgs: np.ndarray = imgs.numpy()
+    img = imgs[i]
+    img = (img + 1) * 127.5
+    img = img.astype(np.uint8)
+
+    return img
+
+
+def save_img_from_tensor(img, name: str, use_time: bool = True):
+    """
+    Saves an image given by a NumPy array to a file in the out directory. Might be useful for debugging purposes.
+
+    :param img: the image represented as ndarray
     :param name: a name (prefix) to save the image in the 'out' directory
     :param use_time: whether to append a timestamp to the output file name
     """
 
-    img = scale_tensor_to_std(img, vrange)  # scale to needed range
-    img = Image.fromarray(img.eval())  # numpy array -> pillow image
-    filename = '../out/' + name + '_' + (str(time.time() if use_time else ''))  # compose name
+    img = Image.fromarray(img)  # numpy array -> pillow image
+    if not os.path.exists('../out'):  # setup 'out' folder if missing
+        os.mkdir('../out')
+    filename = '../out/' + name + '_' + (str(time.time() if use_time else '')) + '.png'  # compose name
     img.save(filename)  # save to file
 
 
@@ -220,7 +237,7 @@ def join_gradients(gradients_a: tf.Tensor, gradients_b: tf.Tensor, kappa: float)
     return gradients
 
 
-@tf.function
+#@tf.function
 def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str, target: int,
                             real_glasses_a: tf.Tensor, real_glasses_b: tf.Tensor,
                             g_opt, d_opt, bs: int, kappa: float, dodging=True, verbose=True) \
@@ -261,9 +278,6 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
         # generate fake glasses
         random_vectors_a = tf.random.normal([half_batch_size, 25])
         fake_glasses = gen(random_vectors_a)
-        if verbose:
-            for i in range(3):
-                save_img_from_tensor(fake_glasses[i], [-1, 1], 'fake-a')
 
         # train discriminator on real and fake glasses
         real_output = dis(real_glasses_a, training=True)
@@ -277,14 +291,14 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
         other_fake_glasses = gen(random_vectors_b)
         if verbose:
             for i in range(3):
-                save_img_from_tensor(other_fake_glasses[i], [-1, 1], 'fake-b')
+                glass = convert_to_numpy_slice(other_fake_glasses, i)
+                save_img_from_tensor(glass, 'fake-b')
         fake_output = dis(other_fake_glasses)  # get discriminator output for generator
         real_output = dis(real_glasses_b)
         dis_output = tf.concat([fake_output, real_output], 0)
         dis_loss_b = dcgan_utils.get_gen_loss(fake_output)
         if verbose:
             print(50 * '-')
-            print(f'Fake glasses B: {other_fake_glasses}')
             print(f'Output of fake glasses B from discriminator: {fake_output}')
             print(f'The gen loss from dis: {dis_loss_b}')
             print(50 * '-')
@@ -302,17 +316,14 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
         custom_facenet_loss = compute_custom_loss(target, facenet_logits_output)
         facenet_output = facenet(attack_images)
         if verbose:
-            print(50 * '-')
+            print(90 * '=')
             print(f'The facenet logits: {facenet_logits_output}')
+            print(90 * '-')
             print(f'The special facenet loss: {custom_facenet_loss}')
-            print(50 * '-')
+            print(90 * '-')
 
     # APPLY BLOCK: dis
     dis_gradients = d_tape.gradient(dis_loss_a, dis.trainable_variables)
-    if verbose:
-        print(50 * '-')
-        print(f'Dis gradients: {dis_gradients}')
-        print(50 * '-')
     d_opt.apply_gradients(zip(dis_gradients, dis.trainable_variables))
 
     # APPLY BLOCK: gen
@@ -320,11 +331,13 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
     gen_gradients_glasses = g_tape.gradient(dis_loss_b, gen.trainable_variables)
     gen_gradients_attack = g_tape_s.gradient(custom_facenet_loss, gen.trainable_variables)
     if verbose:
-        print(50 * '-')
+        print(90 * '=')
         print(f'Gen gradients normal: {gen_gradients_glasses}')
+        print(90 * '-')
         print(f'Gen gradients attack: {gen_gradients_attack}')
-#    if dodging:
-#        gen_gradients_attack = [-gr for gr in gen_gradients_attack]  # reverse attack gradients for dodging attack
+        print(90 * '-')
+    if dodging:
+        gen_gradients_attack = [-gr for gr in gen_gradients_attack]  # reverse attack gradients for dodging attack
     gen_gradients = join_gradients(gen_gradients_glasses, gen_gradients_attack, kappa)
     g_opt.apply_gradients(zip(gen_gradients, gen.trainable_variables))
 
@@ -413,10 +426,20 @@ def show_attack_results():
 
 
 if __name__ == '__main__':
+    # LE BOILERPLATE SHIAT
+    # set parameters
+    USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
+    if USE_REMOTE:
+        os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
+        os.environ["CUDA_VISIBLE_DEVICES"] = '1'
+        dap = os.path.expanduser('~') + '/storage-private/data/'
+    else:
+        dap = '../data/'
+
     # run to see example of merged attack images
     generator = gen_module.build_model()
     generator.load_weights('../saved-models/gweights')
-    examples = merge_face_images_with_fake_glasses('../data/', '/pubfig/dataset_aligned/Danny_Devito/aligned/',
+    examples = merge_face_images_with_fake_glasses(dap, 'pubfig/dataset_aligned/Danny_Devito/aligned/',
                                                    generator, 10)
     show_img_from_tensor(examples[0], [0, 255])
     show_img_from_tensor(examples[1], [0, 255])
