@@ -237,7 +237,7 @@ def join_gradients(gradients_a: tf.Tensor, gradients_b: tf.Tensor, kappa: float)
     return gradients
 
 
-#@tf.function
+#@tf.function  # NOTE: if decorated with tf.Function, this function cannot be properly debugged
 def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str, target: int,
                             real_glasses_a: tf.Tensor, real_glasses_b: tf.Tensor,
                             g_opt, d_opt, bs: int, kappa: float, dodging=True, verbose=True) \
@@ -293,26 +293,25 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
             for i in range(3):
                 glass = convert_to_numpy_slice(other_fake_glasses, i)
                 save_img_from_tensor(glass, 'fake-b')
-        fake_output = dis(other_fake_glasses)  # get discriminator output for generator
+        fake_output = dis(other_fake_glasses, training=True)  # get discriminator output for generator
         real_output = dis(real_glasses_b)
         dis_output = tf.concat([fake_output, real_output], 0)
         dis_loss_b = dcgan_utils.get_gen_loss(fake_output)
         if verbose:
             print(50 * '-')
-            print(f'Output of fake glasses B from discriminator: {fake_output}')
-            print(f'The gen loss from dis: {dis_loss_b}')
+            #print(f'The gen loss from dis: {dis_loss_b}')
             print(50 * '-')
 
         # switch to face recognition net, but remove softmax
-        attack_images = merge_face_images_with_fake_glasses(data_path, target_path, gen, half_batch_size)
-        facenet_cut = tf.keras.models.Sequential(facenet.layers[:-1])  # TODO also works with non-linear models?
+        attack_images = merge_face_images_with_fake_glasses(data_path, target_path, gen, half_batch_size)  # TODO is problem that merging is not expressed as tf graph?
+        facenet_cut = tf.keras.models.Sequential(facenet.layers[:-1], name='Face Recognition')  # TODO also works with non-linear models?
         logits_layer = tf.keras.layers.Dense(143)  # TODO dehardcode
         facenet_cut.add(logits_layer)
         facenet_cut.layers[-1].set_weights(
             facenet.layers[-1].get_weights())  # copy trained weights to classification layer
         # TODO whatif image sizes are 96
         facenet_cut.summary()
-        facenet_logits_output = facenet_cut(attack_images)  # the logits as output
+        facenet_logits_output = facenet_cut(attack_images, training=True)  # the logits as output
         custom_facenet_loss = compute_custom_loss(target, facenet_logits_output)
         facenet_output = facenet(attack_images)
         if verbose:
@@ -332,7 +331,7 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
     gen_gradients_attack = g_tape_s.gradient(custom_facenet_loss, gen.trainable_variables)
     if verbose:
         print(90 * '=')
-        print(f'Gen gradients normal: {gen_gradients_glasses}')
+        #print(f'Gen gradients normal: {gen_gradients_glasses}')
         print(90 * '-')
         print(f'Gen gradients attack: {gen_gradients_attack}')
         print(90 * '-')
@@ -431,7 +430,7 @@ if __name__ == '__main__':
     USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
     if USE_REMOTE:
         os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
-        os.environ["CUDA_VISIBLE_DEVICES"] = '1'
+        os.environ["CUDA_VISIBLE_DEVICES"] = '2'
         dap = os.path.expanduser('~') + '/storage-private/data/'
     else:
         dap = '../data/'
@@ -439,7 +438,7 @@ if __name__ == '__main__':
     # run to see example of merged attack images
     generator = gen_module.build_model()
     generator.load_weights('../saved-models/gweights')
-    examples = merge_face_images_with_fake_glasses(dap, 'pubfig/dataset_aligned/Danny_Devito/aligned/',
+    examples = merge_face_images_with_fake_glasses(dap, 'pubfig/dataset_aligned/Gisele_Bundchen/aligned/',
                                                    generator, 10)
     show_img_from_tensor(examples[0], [0, 255])
     show_img_from_tensor(examples[1], [0, 255])
