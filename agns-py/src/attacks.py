@@ -202,11 +202,15 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
         # switch to face recognition net, but remove softmax
 
         # make extended generator model
+        # TODO maybe instead of creating here, gen_extended and facenet_cut should also be given as arguments?
+        # TODO express loss more direct / only in TF terms?
+        # TODO maybe use tf.variables instead everywhere other than tf.tensors?
         gen_extended = gen
         gen_extended.add(GlassesFacesMerger(data_path, target_path, half_batch_size))
-        gen_extended.summary()
-        print('Generate attack images...')
+        #gen_extended.summary()
+        print('Generating attack images...')
         attack_images = gen_extended(random_vectors_b, training=True)  # merged images
+        g_tape_s.watch(attack_images)
         if verbose:
             mims = (attack_images * 2) - 1
             for i in range(3):
@@ -219,9 +223,11 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
         facenet_cut.layers[-1].set_weights(
             facenet.layers[-1].get_weights())  # copy trained weights to classification layer
         # TODO whatif image sizes are 96
-        facenet_cut.summary()
+        #facenet_cut.summary()
         facenet_logits_output = facenet_cut(attack_images, training=True)  # the logits as output
+        g_tape_s.watch(facenet_logits_output)
         custom_facenet_loss = compute_custom_loss(target, facenet_logits_output)
+        g_tape_s.watch(custom_facenet_loss)
         facenet_output = facenet(attack_images)
         if verbose:
             print(90 * '=')
@@ -240,7 +246,7 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
     gen_gradients_attack = g_tape_s.gradient(custom_facenet_loss, gen_extended.trainable_variables)
     if verbose:
         print(90 * '=')
-        # print(f'Gen gradients normal: {gen_gradients_glasses}')
+        #print(f'Gen gradients normal: {gen_gradients_glasses}')
         print(90 * '-')
         print(f'Gen gradients attack: {gen_gradients_attack}')
         print(90 * '-')
