@@ -2,7 +2,7 @@ import os
 import random
 import tensorflow as tf
 from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image, scale_integer_to_zero_one_tensor, \
-    save_img_from_tensor
+    save_img_from_tensor, convert_to_numpy_slice
 from PIL import Image
 import numpy as np
 
@@ -261,7 +261,7 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
         """
         Merges received glasses images with some face images of the given target.
 
-        :param inputs: a tensor of generated glasses, expected shape (n_inputs, 64, 176, 3)
+        :param inputs: a tensor of generated glasses, expected shape (n_inputs, 64, 176, 3), values range [-1, 1]
         :return: a tensor of shape (n_inputs, output_size, 3)
         """
 
@@ -269,6 +269,11 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
             return tf.zeros((self.n_inputs, self.outsize[0], self.outsize[1], 3))
         face_ims = random.sample(self.target_ims, self.n_inputs)  # draw face samples
         merged_images = []
+
+        # TEST
+        for i in range(self.n_inputs):
+            save_img_from_tensor(convert_to_numpy_slice(inputs, i), 'inp-glass')
+        #
 
         # merge faces and glasses
         for i, face_img in enumerate(face_ims):
@@ -281,7 +286,11 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
             # NOTE: output range here is [0, 255]
             merged_img: tf.Tensor = merge_images_using_mask(self.dap, img, pad_glasses_image(inputs[i]),
                                                             mask=self.mask_img)
-            save_img_from_tensor(merged_img, 'layer')  # TODO test
+            # TEST
+            timg = merged_img.numpy()
+            timg = timg.astype(np.uint8)
+            save_img_from_tensor(timg, 'layer')
+            #
 
             # resize result again if desired image size is not 224x224
             if self.outsize != (224, 224):

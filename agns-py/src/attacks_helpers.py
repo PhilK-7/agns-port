@@ -70,6 +70,11 @@ def merge_images_using_mask(data_path: str, img_a: tf.Tensor, img_b: tf.Tensor,
         mask_img = mask
 
     glasses_image = tf.add(img_b, tf.ones(img_b.shape)) * 127.5  # scale glasses image to have same range as face image
+    # TEST
+    timg = glasses_image.numpy()
+    timg = timg.astype(np.uint8)
+    save_img_from_tensor(timg, 'merge')
+    #
     face_image = tf.cast(img_a, tf.float32)
 
     # merge images

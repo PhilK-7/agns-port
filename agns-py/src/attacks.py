@@ -201,11 +201,12 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
 
         # switch to face recognition net, but remove softmax
 
-        gen_extended = tf.keras.models.clone_model(gen)
+        # make extended generator model
+        gen_extended = gen
         gen_extended.add(GlassesFacesMerger(data_path, target_path, half_batch_size))
         gen_extended.summary()
         print('Generate attack images...')
-        attack_images = gen_extended(random_vectors_b)  # merged images
+        attack_images = gen_extended(random_vectors_b, training=True)  # merged images
         if verbose:
             mims = (attack_images * 2) - 1
             for i in range(3):
