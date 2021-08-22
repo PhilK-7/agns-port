@@ -1,7 +1,7 @@
 import os
 import random
 import tensorflow as tf
-from attacks import load_mask, merge_images_using_mask, pad_glasses_image
+from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image
 from PIL import Image
 import numpy as np
 

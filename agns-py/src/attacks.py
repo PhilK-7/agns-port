@@ -9,8 +9,8 @@ from PIL import Image
 
 import dcgan_utils
 import eyeglass_generator as gen_module
-
-crop_coordinates = [53, 25, 53 + 64, 25 + 176]
+from special_layers import GlassesFacesMerger
+from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image
 
 
 def scale_tensor_to_std(tensor: tf.Tensor, vrange: list) -> tf.Tensor:
@@ -77,81 +77,7 @@ def save_img_from_tensor(img, name: str, use_time: bool = True):
     img.save(filename)  # save to file
 
 
-def pad_glasses_image(glass: tf.Tensor):
-    """
-    Pads a generated glasses image as reverse transformation to the cropping that was applied to the original data.
-
-    :param glass: the glasses image, represented as tensor (range [-1, 1])
-    :return: a bigger tensor that represents 224x224 pixels, with black padding added
-    """
-
-    img = tf.Variable(tf.fill([224, 224, 3], -1.))  # initialize black 224x224 image
-
-    # assign all values from the generated glasses image
-    for i in range(crop_coordinates[0], crop_coordinates[2]):
-        for j in range(crop_coordinates[1], crop_coordinates[3]):
-            img = img[i, j].assign(glass[i - crop_coordinates[0], j - crop_coordinates[1]])
-
-    return img
-
-
-def load_mask(data_path: str, mask_path: str) -> tf.Tensor:
-    """
-    Loads the mask for glasses images.
-
-    :param data_path: the path to the data directory
-    :param mask_path: the relative path to the mask image (from 'data')
-    :return: the mask as tensor, with float values in [0, 1]
-    """
-    mask_path = data_path + mask_path  # full path
-    mask_img = Image.open(mask_path)
-    mask_img = np.asarray(mask_img)
-    mask_img = tf.convert_to_tensor(mask_img)
-    mask_img = tf.cast(mask_img, tf.float32)
-    mask_img = mask_img / 255  # scale to [0, 1]
-
-    return mask_img
-
-
-def merge_images_using_mask(data_path: str, img_a: tf.Tensor, img_b: tf.Tensor,
-                            mask_path: str = '', mask: tf.Tensor = None) -> tf.Tensor:
-    """
-    Merges two images A and B, using a provided filter mask.
-
-    :param data_path: the path to the data directory
-    :param img_a: the first image (face), that a part of the other image should be overlayed on (range [0, 255]);
-        assumed to be of shape (224, 224)
-    :param img_b: the second image (glasses), that should (in part) be overlayed on the other one (range [-1, 1]);
-        the same shape as img_a
-    :param mask_path: the relative path (from data) to a filter mask that determines which pixels of image B
-        should be put onto image A - the mask has only black and white pixels that are interpreted in a boolean manner;
-        can be left empty if mask is already supplied as tensor
-    :param mask: alternatively, the mask is already loaded and can be supplied as tensor here
-        (use this when needing the same mask repeatedly for efficiency)
-    :return: a tensor where the pixels of image B are put over those in image A
-        as specified by the mask (range [0, 255]), of image shape 224x224
-    """
-
-    # load mask and convert it to boolean mask tensor
-    if mask is None:
-        mask_img = load_mask(data_path, mask_path)
-    else:
-        mask_img = mask
-
-    glasses_image = tf.add(img_b, tf.ones(img_b.shape)) * 127.5  # scale glasses image to have same range as face image
-    face_image = tf.cast(img_a, tf.float32)
-
-    # merge images
-    masked_glasses_img = tf.math.multiply(glasses_image, mask_img)  # cancel out pixels that are outside of mask area
-    invert_mask_img = -(mask_img - tf.ones(mask_img.shape))  # flip 0 and 1 in mask
-    masked_face_img = tf.math.multiply(face_image, invert_mask_img)  # remove pixels that will be replaced
-    merged_img = masked_face_img + masked_glasses_img
-    merged_img = tf.cast(merged_img, tf.uint8)
-
-    return merged_img
-
-
-@DeprecationWarning
+#@DeprecationWarning
 def merge_face_images_with_fake_glasses(data_path: str, rel_path, gen: tf.keras.Model, n_samples: int) -> tf.Tensor:
     """
     Draws some random samples from the given face image directory (relative to data path),
@@ -240,7 +166,7 @@ def join_gradients(gradients_a: tf.Tensor, gradients_b: tf.Tensor, kappa: float)
     return gradients
 
 
-#@tf.function  # NOTE: if decorated with tf.Function, this function cannot be properly debugged
+# @tf.function  # NOTE: if decorated with tf.Function, this function cannot be properly debugged
 def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str, target: int,
                             real_glasses_a: tf.Tensor, real_glasses_b: tf.Tensor,
                             g_opt, d_opt, bs: int, kappa: float, dodging=True, verbose=True) \
@@ -302,13 +228,16 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
         dis_loss_b = dcgan_utils.get_gen_loss(fake_output)
         if verbose:
             print(50 * '-')
-            #print(f'The gen loss from dis: {dis_loss_b}')
+            # print(f'The gen loss from dis: {dis_loss_b}')
             print(50 * '-')
 
         # switch to face recognition net, but remove softmax
-        attack_images = merge_face_images_with_fake_glasses(data_path, target_path, gen, half_batch_size)  # TODO is problem that merging is not expressed as tf graph?
-        # TODO implement layer: input is output of generator last layer, output is tensor(s) where glasses + faces merged
-        facenet_cut = tf.keras.models.Sequential(facenet.layers[:-1], name='Face Recognition')  # TODO also works with non-linear models?
+
+        gen_extended = tf.keras.models.Sequential([gen, GlassesFacesMerger(data_path, target_path)])
+        gen_extended.summary()
+        attack_images = gen_extended(other_fake_glasses)  # merged images
+        facenet_cut = tf.keras.models.Sequential(facenet.layers[:-1],
+                                                 name='Face Recognition')  # TODO also works with non-linear models?
         logits_layer = tf.keras.layers.Dense(143)  # TODO dehardcode
         facenet_cut.add(logits_layer)
         facenet_cut.layers[-1].set_weights(
@@ -332,10 +261,10 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
     # APPLY BLOCK: gen
     # apply gradients from discriminator and face net to generator
     gen_gradients_glasses = g_tape.gradient(dis_loss_b, gen.trainable_variables)
-    gen_gradients_attack = g_tape_s.gradient(custom_facenet_loss, gen.trainable_variables)
+    gen_gradients_attack = g_tape_s.gradient(custom_facenet_loss, gen_extended.trainable_variables)
     if verbose:
         print(90 * '=')
-        #print(f'Gen gradients normal: {gen_gradients_glasses}')
+        # print(f'Gen gradients normal: {gen_gradients_glasses}')
         print(90 * '-')
         print(f'Gen gradients attack: {gen_gradients_attack}')
         print(90 * '-')
@@ -398,7 +327,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
         g = glasses[i_g]  # TODO need to also resize?!
 
         for i_f in range(0, n, bs // 2):
-            n_iter = np.min([bs//2, n-i_f])
+            n_iter = np.min([bs // 2, n - i_f])
             face_ims_iter = face_ds.take(n_iter)  # take next subset of faces for inner iteration
             # merge faces images and current glasses
             merged_ims = []
