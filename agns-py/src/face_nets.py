@@ -205,7 +205,7 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
         ds_path += '/'
 
     # get part of PubFig dataset, separated by classes; also scale pixel values and image size
-    datagen = ImageDataGenerator(rescale=1. / 255)
+    datagen = ImageDataGenerator(rescale=1. / 255)  # scale [0, 1]
     datagen = datagen.flow_from_directory(ds_path, (224, 224))
     '''
     WARNING: If there are mysterious duplicate files starting with '._' in the subclass directories, the program

@@ -1,7 +1,8 @@
 import os
 import random
 import tensorflow as tf
-from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image
+from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image, scale_integer_to_zero_one_tensor, \
+    save_img_from_tensor
 from PIL import Image
 import numpy as np
 
@@ -231,12 +232,13 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
     Merges those glasses with face images of the given target.
     """
 
-    def __init__(self, data_path: str, target_path: str, output_size: tuple = (224, 224)):
+    def __init__(self, data_path: str, target_path: str, n_inputs: int, output_size: tuple = (224, 224)):
         """
         The constructor for the merger layer.
 
         :param data_path: path to the 'data' directory
         :param target_path: relative path of the target´s image dataset, based on data_path
+        :param n_inputs: the number of samples in an input batch, fixed here
         :param output_size: specifies the desired output size of the images of this layer, a duple of two integers
         """
         super(GlassesFacesMerger, self).__init__(name='Merger')
@@ -247,6 +249,7 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
         assert len(output_size) == 2
         self.mask_img = load_mask(data_path, 'eyeglasses/eyeglasses_mask_6percent.png')  # load mask tensor
         self.outsize = output_size
+        self.n_inputs = n_inputs
 
     def get_config(self):
         conf = super().get_config().copy()
@@ -258,12 +261,13 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
         """
         Merges received glasses images with some face images of the given target.
 
-        :param inputs: a tensor of generated glasses, expected shape (?, 64, 176, 3)
-        :return: a tensor of shape
+        :param inputs: a tensor of generated glasses, expected shape (n_inputs, 64, 176, 3)
+        :return: a tensor of shape (n_inputs, output_size, 3)
         """
 
-        n_ims = inputs.shape[0]  # number of images to be merged
-        face_ims = random.sample(self.target_ims, n_ims)  # draw face samples
+        if inputs.shape[0] != self.n_inputs:  # handle special case when Sequential API calls this function to add layer
+            return tf.zeros((self.n_inputs, self.outsize[0], self.outsize[1], 3))
+        face_ims = random.sample(self.target_ims, self.n_inputs)  # draw face samples
         merged_images = []
 
         # merge faces and glasses
@@ -274,8 +278,10 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
             img = np.asarray(img)
             img = tf.convert_to_tensor(img)
 
+            # NOTE: output range here is [0, 255]
             merged_img: tf.Tensor = merge_images_using_mask(self.dap, img, pad_glasses_image(inputs[i]),
-                                                 mask=self.mask_img)
+                                                            mask=self.mask_img)
+            save_img_from_tensor(merged_img, 'layer')  # TODO test
 
             # resize result again if desired image size is not 224x224
             if self.outsize != (224, 224):
@@ -287,4 +293,8 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
                 merged_img = img
             merged_images.append(merged_img)
 
-        return tf.stack(merged_images)
+        # combine results and scale to range needed for face recognition networks
+        result = tf.stack(merged_images)
+        result = scale_integer_to_zero_one_tensor(result)  # TODO dehardcode: OF has other scale
+
+        return result

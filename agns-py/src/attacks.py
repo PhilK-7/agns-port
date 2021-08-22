@@ -10,7 +10,8 @@ from PIL import Image
 import dcgan_utils
 import eyeglass_generator as gen_module
 from special_layers import GlassesFacesMerger
-from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image
+from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image, convert_to_numpy_slice, \
+    save_img_from_tensor
 
 
 def scale_tensor_to_std(tensor: tf.Tensor, vrange: list) -> tf.Tensor:
@@ -42,39 +43,6 @@ def show_img_from_tensor(img: tf.Tensor, vrange):
     plt.figure()
     plt.imshow(img_scaled)
     plt.show()
-
-
-def convert_to_numpy_slice(imgs: tf.Tensor, i: int) -> np.ndarray:
-    """
-    Receives images represented by a tensor (value range [-1, 1]),
-     and converts one image specified by index to a ndarray with range [0, 255].
-
-    :param imgs: the image as a tf.Tensor
-    :param i: the index of the image in the input tensor
-    :return: a NumPy array with scaled integer values that represents a slice of the input tensor
-    """
-    imgs: np.ndarray = imgs.numpy()
-    img = imgs[i]
-    img = (img + 1) * 127.5
-    img = img.astype(np.uint8)
-
-    return img
-
-
-def save_img_from_tensor(img, name: str, use_time: bool = True):
-    """
-    Saves an image given by a NumPy array to a file in the out directory. Might be useful for debugging purposes.
-
-    :param img: the image represented as ndarray
-    :param name: a name (prefix) to save the image in the 'out' directory
-    :param use_time: whether to append a timestamp to the output file name
-    """
-
-    img = Image.fromarray(img)  # numpy array -> pillow image
-    if not os.path.exists('../out'):  # setup 'out' folder if missing
-        os.mkdir('../out')
-    filename = '../out/' + name + '_' + (str(time.time() if use_time else '')) + '.png'  # compose name
-    img.save(filename)  # save to file
 
 
 #@DeprecationWarning
@@ -233,9 +201,16 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
 
         # switch to face recognition net, but remove softmax
 
-        gen_extended = tf.keras.models.Sequential([gen, GlassesFacesMerger(data_path, target_path)])
+        gen_extended = tf.keras.models.clone_model(gen)
+        gen_extended.add(GlassesFacesMerger(data_path, target_path, half_batch_size))
         gen_extended.summary()
-        attack_images = gen_extended(other_fake_glasses)  # merged images
+        print('Generate attack images...')
+        attack_images = gen_extended(random_vectors_b)  # merged images
+        if verbose:
+            mims = (attack_images * 2) - 1
+            for i in range(3):
+                mimg = convert_to_numpy_slice(mims, random.randint(0, half_batch_size-1))
+                save_img_from_tensor(mimg, 'merged')
         facenet_cut = tf.keras.models.Sequential(facenet.layers[:-1],
                                                  name='Face Recognition')  # TODO also works with non-linear models?
         logits_layer = tf.keras.layers.Dense(143)  # TODO dehardcode

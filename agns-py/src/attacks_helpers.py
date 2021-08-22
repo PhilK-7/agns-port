@@ -1,3 +1,6 @@
+import os
+import time
+
 import tensorflow as tf
 from PIL import Image
 import numpy as np
@@ -77,3 +80,49 @@ def merge_images_using_mask(data_path: str, img_a: tf.Tensor, img_b: tf.Tensor,
     merged_img = tf.cast(merged_img, tf.uint8)
 
     return merged_img
+
+
+def scale_integer_to_zero_one_tensor(tensor: tf.Tensor) -> tf.Tensor:
+    """
+    Receives a tensor of (unsigned) integer values in [0, 255], and scales the values to [0., 1.].
+
+    :param tensor: a tf.Tensor with int values in range between 0 and 255
+    :return: a tensor of the same size as the input, with tf.float32 values between 0 and 1
+    """
+    t = tf.cast(tensor, tf.float32)
+    t = t / 255.
+
+    return t
+
+
+def convert_to_numpy_slice(imgs: tf.Tensor, i: int) -> np.ndarray:
+    """
+    Receives images represented by a tensor (value range [-1, 1]),
+     and converts one image specified by index to a ndarray with range [0, 255].
+
+    :param imgs: the image as a tf.Tensor
+    :param i: the index of the image in the input tensor
+    :return: a NumPy array with scaled integer values that represents a slice of the input tensor
+    """
+    imgs: np.ndarray = imgs.numpy()
+    img = imgs[i]
+    img = (img + 1) * 127.5
+    img = img.astype(np.uint8)
+
+    return img
+
+
+def save_img_from_tensor(img, name: str, use_time: bool = True):
+    """
+    Saves an image given by a NumPy array to a file in the out directory. Might be useful for debugging purposes.
+
+    :param img: the image represented as ndarray
+    :param name: a name (prefix) to save the image in the 'out' directory
+    :param use_time: whether to append a timestamp to the output file name
+    """
+
+    img = Image.fromarray(img)  # numpy array -> pillow image
+    if not os.path.exists('../out'):  # setup 'out' folder if missing
+        os.mkdir('../out')
+    filename = '../out/' + name + '_' + (str(time.time() if use_time else '')) + '.png'  # compose name
+    img.save(filename)  # save to file
