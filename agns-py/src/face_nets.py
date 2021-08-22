@@ -2,17 +2,17 @@ import os
 import sys
 from os import path
 
-from special_layers import LocalResponseNormalization, L2Normalization, InceptionModule, \
-    InceptionModuleShrink
-
-# for usage from command line
-sys.path.append(path.dirname(path.dirname(path.abspath('face_nets.py'))))
-
 import tensorflow as tf
 import tensorflow.keras.applications.vgg16 as vgg
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import tensorflow_addons as tfa
 from os.path import expanduser
+
+from special_layers import LocalResponseNormalization, L2Normalization, InceptionModule, \
+    InceptionModuleShrink
+
+# for usage from command line
+sys.path.append(path.dirname(path.dirname(path.abspath('face_nets.py'))))
 
 
 def write_class_mapping(imgen_dict):

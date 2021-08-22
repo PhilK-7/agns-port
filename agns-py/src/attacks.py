@@ -119,15 +119,17 @@ def merge_images_using_mask(data_path: str, img_a: tf.Tensor, img_b: tf.Tensor,
     Merges two images A and B, using a provided filter mask.
 
     :param data_path: the path to the data directory
-    :param img_a: the first image (face), that a part of the other image should be overlayed on (range [0, 255])
-    :param img_b: the second image (glasses), that should (in part) be overlayed on the other one (range [-1, 1])
+    :param img_a: the first image (face), that a part of the other image should be overlayed on (range [0, 255]);
+        assumed to be of shape (224, 224)
+    :param img_b: the second image (glasses), that should (in part) be overlayed on the other one (range [-1, 1]);
+        the same shape as img_a
     :param mask_path: the relative path (from data) to a filter mask that determines which pixels of image B
         should be put onto image A - the mask has only black and white pixels that are interpreted in a boolean manner;
         can be left empty if mask is already supplied as tensor
     :param mask: alternatively, the mask is already loaded and can be supplied as tensor here
         (use this when needing the same mask repeatedly for efficiency)
     :return: a tensor where the pixels of image B are put over those in image A
-        as specified by the mask (range [0, 255])
+        as specified by the mask (range [0, 255]), of image shape 224x224
     """
 
     # load mask and convert it to boolean mask tensor
@@ -149,6 +151,7 @@ def merge_images_using_mask(data_path: str, img_a: tf.Tensor, img_b: tf.Tensor,
     return merged_img
 
 
+@DeprecationWarning
 def merge_face_images_with_fake_glasses(data_path: str, rel_path, gen: tf.keras.Model, n_samples: int) -> tf.Tensor:
     """
     Draws some random samples from the given face image directory (relative to data path),
@@ -304,6 +307,7 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
 
         # switch to face recognition net, but remove softmax
         attack_images = merge_face_images_with_fake_glasses(data_path, target_path, gen, half_batch_size)  # TODO is problem that merging is not expressed as tf graph?
+        # TODO implement layer: input is output of generator last layer, output is tensor(s) where glasses + faces merged
         facenet_cut = tf.keras.models.Sequential(facenet.layers[:-1], name='Face Recognition')  # TODO also works with non-linear models?
         logits_layer = tf.keras.layers.Dense(143)  # TODO dehardcode
         facenet_cut.add(logits_layer)

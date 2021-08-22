@@ -1,4 +1,9 @@
+import os
+import random
 import tensorflow as tf
+from attacks import load_mask, merge_images_using_mask, pad_glasses_image
+from PIL import Image
+import numpy as np
 
 
 class LocalResponseNormalization(tf.keras.layers.Layer):
@@ -217,3 +222,69 @@ class InceptionModuleShrink(tf.keras.layers.Layer):
         pool = self.pool(inputs)
 
         return tf.keras.layers.Concatenate(axis=3)([p1, p2, pool])  # combine output filters
+
+
+class GlassesFacesMerger(tf.keras.layers.Layer):
+    """
+    Layer for executing dodging / impersonation attacks.
+    Receives generated fake glasses meant for fooling a face recognition system.
+    Merges those glasses with face images of the given target.
+    """
+
+    def __init__(self, data_path: str, target_path: str, output_size: tuple = (224, 224)):
+        """
+        The constructor for the merger layer.
+
+        :param data_path: path to the 'data' directory
+        :param target_path: relative path of the target´s image dataset, based on data_path
+        :param output_size: specifies the desired output size of the images of this layer, a duple of two integers
+        """
+        super(GlassesFacesMerger, self).__init__(name='Merger')
+
+        self.dap = data_path
+        tp = data_path + target_path
+        self.target_ims = [tp + im for im in os.listdir(tp)]  # get paths in target ds
+        assert len(output_size) == 2
+        self.mask_img = load_mask(data_path, 'eyeglasses/eyeglasses_mask_6percent.png')  # load mask tensor
+        self.outsize = output_size
+
+    def get_config(self):
+        conf = super().get_config().copy()
+        # conf.update(dict...) if any parameters given
+
+        return conf
+
+    def call(self, inputs, **kwargs):
+        """
+        Merges received glasses images with some face images of the given target.
+
+        :param inputs: a tensor of generated glasses, expected shape (?, 64, 176, 3)
+        :return: a tensor of shape
+        """
+
+        n_ims = inputs.shape[0]  # number of images to be merged
+        face_ims = random.sample(self.target_ims, n_ims)  # draw face samples
+        merged_images = []
+
+        # merge faces and glasses
+        for i, face_img in enumerate(face_ims):
+            # process image to tensor
+            img = Image.open(face_img)
+            img = img.resize((224, 224))
+            img = np.asarray(img)
+            img = tf.convert_to_tensor(img)
+
+            merged_img: tf.Tensor = merge_images_using_mask(self.dap, img, pad_glasses_image(inputs[i]),
+                                                 mask=self.mask_img)
+
+            # resize result again if desired image size is not 224x224
+            if self.outsize != (224, 224):
+                img = merged_img.numpy()
+                img = Image.fromarray(img)
+                img = img.resize(self.outsize)
+                img = np.asarray(img)
+                img = tf.convert_to_tensor(img)
+                merged_img = img
+            merged_images.append(merged_img)
+
+        return tf.stack(merged_images)
