@@ -61,8 +61,7 @@ if __name__ == '__main__':
         g_opt, d_opt, obj_d, obj_f = attacks.do_attack_training_step(dap, gen_model, dis_model,
                                                                      add_merger_to_generator(gen_model, dap, img_path,
                                                                                              bs // 2, img_size),
-                                                                     strip_softmax_from_face_recognition_model(
-                                                                         face_model, 143), img_path,
+                                                                     face_model, img_path,
                                                                      target, glasses_a, glasses_b,
                                                                      g_opt, d_opt, bs, kappa)
         # TODO what to do with obj values?

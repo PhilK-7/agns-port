@@ -280,7 +280,7 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
             img = tf.convert_to_tensor(img)
 
             # NOTE: output range here is [0, 255]
-            merged_img: tf.Variable = merge_images_using_mask(self.dap, img, pad_glasses_image(inputs[i]),
+            merged_img = merge_images_using_mask(self.dap, img, pad_glasses_image(inputs[i]),
                                                               mask=self.mask_img)
 
             # resize result again if desired image size is not 224x224
@@ -294,6 +294,6 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
             merged_images.append(merged_img)
 
         # combine results and scale to range needed for face recognition networks
-        result = tf.Variable(tf.stack(merged_images))
+        result = tf.stack(merged_images)
 
         return result

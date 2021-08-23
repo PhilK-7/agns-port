@@ -82,6 +82,7 @@ def merge_face_images_with_fake_glasses(data_path: str, rel_path, gen: tf.keras.
     return tf.stack(merged_images)
 
 
+@DeprecationWarning
 def compute_custom_loss(target: int, predictions):
     """
     Computes a custom loss that is used instead of cross-entropy for the face recognition networks.
@@ -139,7 +140,7 @@ def join_gradients(gradients_a: tf.Tensor, gradients_b: tf.Tensor, kappa: float)
 
 
 # @tf.function  # NOTE: if decorated with tf.Function, this function cannot be properly debugged
-def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet_cut, target_path: str, target: int,
+def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet, target_path: str, target: int,
                             real_glasses_a: tf.Tensor, real_glasses_b: tf.Tensor,
                             g_opt, d_opt, bs: int, kappa: float, dodging=True, verbose=True) \
         -> (tf.keras.optimizers.Adam, tf.keras.optimizers.Adam, tf.Tensor, tf.Tensor):
@@ -152,7 +153,7 @@ def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet_cut, targ
     :param gen: the generator model, generates fake glasses
     :param dis: the discriminator model, critics glasses
     :param gen_ext: the generator model + added merger on top, generates merged face images with glasses
-    :param facenet_cut: the face recognition model, but without softmax in the last layer, recognizes faces (logits)
+    :param facenet: the face recognition model
     :param target_path: the path to the target´s image directory, relative to 'data'
     :param target: the target´s index
     :param real_glasses_a: a batch of real glasses images, sized according to bs
@@ -207,25 +208,29 @@ def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet_cut, targ
         # switch to face recognition net, but remove softmax
 
         print('Generating attack images...')
-        attack_images = tf.Variable(gen_ext(random_vectors_b, training=True))  # merged images
+        # TODO Connection somwhere <= attackimages broken?
+        # TODO test
+        composed_model = tf.keras.models.Sequential([gen_ext, facenet])
+        facenet_output = composed_model(random_vectors_b, training=True)
+        #
+        
+        attack_images = gen_ext(random_vectors_b, training=True)  # merged images
         if verbose:
             mims = (attack_images * 2) - 1
             for i in range(4):
                 mimg = convert_to_numpy_slice(mims, random.randint(0, half_batch_size-1))
                 save_img_from_tensor(mimg, 'merged')
         # TODO whatif image sizes are 96
-        facenet_logits_output = tf.Variable(facenet_cut(attack_images, training=True))  # the logits as output
-        # TODO test CCE loss
-        alt_loss = tf.keras.losses.CategoricalCrossentropy(from_logits=True)
-        #custom_facenet_loss = tf.Variable(compute_custom_loss(target, facenet_logits_output))
-        targets = tf.Variable(tf.zeros((half_batch_size, 143)))
-        targets[:, target] = 1
-        custom_facenet_loss = alt_loss(targets, facenet_logits_output)
-        facenet_output = tf.nn.softmax(facenet_cut(attack_images))  # actual classification outputs
+        facenet_output = facenet(attack_images, training=True)  # the logits as output
+        '''sw = tf.Variable(tf.fill((143, ), 0.5/(143 - 1)))  # TODO dehardcode
+        sw = sw[target].assign(0.5)'''
+        alt_loss = tf.keras.losses.SparseCategoricalCrossentropy()
+        targets = tf.fill((half_batch_size,), target)
+        custom_facenet_loss = alt_loss(targets, facenet_output)
         #print(g_tape_s.watched_variables())
         if verbose:
             print(90 * '=')
-            #print(f'The facenet logits: {facenet_logits_output}')
+            #print(f'The facenet logits: {facenet_output}')
             print(90 * '-')
             print(f'The special facenet loss: {custom_facenet_loss}')
             print(90 * '-')
@@ -236,8 +241,14 @@ def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet_cut, targ
 
     # APPLY BLOCK: gen
     # apply gradients from discriminator and face net to generator
+    # TODO test:
+    for i in range(len(facenet.layers)):
+        facenet.layers[i].trainable = True
+    for i in range(len(gen_ext.layers)):
+        gen_ext.layers[i].trainable = True
+    #
     gen_gradients_glasses = g_tape.gradient(dis_loss_b, gen.trainable_variables)
-    gen_gradients_attack = g_tape_s.gradient(custom_facenet_loss, facenet_cut.trainable_variables)
+    gen_gradients_attack = g_tape_s.gradient(custom_facenet_loss, gen_ext.trainable_variables)
     if verbose:
         print(90 * '=')
         #print(f'Gen gradients normal: {gen_gradients_glasses}')

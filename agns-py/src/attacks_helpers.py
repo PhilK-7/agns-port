@@ -45,7 +45,7 @@ def load_mask(data_path: str, mask_path: str) -> tf.Tensor:
 
 
 def merge_images_using_mask(data_path: str, img_a: tf.Tensor, img_b: tf.Tensor,
-                            mask_path: str = '', mask: tf.Tensor = None) -> tf.Variable:
+                            mask_path: str = '', mask: tf.Tensor = None):
     """
     Merges two images A and B, using a provided filter mask.
 
@@ -59,7 +59,7 @@ def merge_images_using_mask(data_path: str, img_a: tf.Tensor, img_b: tf.Tensor,
         can be left empty if mask is already supplied as tensor
     :param mask: alternatively, the mask is already loaded and can be supplied as tensor here
         (use this when needing the same mask repeatedly for efficiency)
-    :return: a tensor-variable where the pixels of image B are put over those in image A
+    :return: a tensor-like object where the pixels of image B are put over those in image A
         as specified by the mask (range [0., 1.]), of image shape 224x224
     """
 
@@ -87,7 +87,7 @@ def merge_images_using_mask(data_path: str, img_a: tf.Tensor, img_b: tf.Tensor,
     masked_face_img = tf.math.multiply(face_image, invert_mask_img)  # remove pixels that will be replaced
     merged_img = masked_face_img + masked_glasses_img
 
-    return tf.Variable(merged_img)
+    return merged_img
 
 
 def scale_integer_to_zero_one_tensor(tensor: tf.Tensor) -> tf.Tensor:
