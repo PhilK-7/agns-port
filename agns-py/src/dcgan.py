@@ -76,23 +76,29 @@ def preprocess_real_glasses_images(data_path: str):
     print(f'Preprocessing all images took {total_time} seconds.')
 
 
-def load_real_images(data_path: str):
+def load_real_images(data_path: str, alt_path=None, alt_bs=None, resize_shape=None):
     """
     Loads the training images for the DCGAN from path 'data/eyeglasses/cropped' at the same level.
     This transforms them into an efficient Tensorflow Dataset, with image values ranging in [-1, 1].
+    Alternatively can load other image datasets.
 
     :param data_path: the path to the data directory
+    :param alt_path: an optional alternative path to load another image dataset instead
+    :param alt_bs: optional different specified batch size
+    :param resize_shape: optional target resized shape, must be a list of two integer values if given
     :return: the images as Tensorflow PrefetchDataset
     """
 
     # get paths
-    ds_path = data_path + 'eyeglasses/cropped/'
+    ds_path = data_path + ('eyeglasses/cropped/' if alt_path is None else alt_path)
     img_files = os.listdir(ds_path)
     data_tensors = []
 
     # load images and transform to needed range
     for img_name in img_files:
         img = tf.image.decode_png(tf.io.read_file(ds_path + img_name), channels=3)
+        if resize_shape is not None:
+            img = tf.image.resize(img, resize_shape)
         img = tf.image.convert_image_dtype(img, tf.float32)  # ATTENTION: this also scales to range [0, 1]
         img = img * 2 - 1
         data_tensors.append(img)
@@ -101,7 +107,7 @@ def load_real_images(data_path: str):
     ds = tf.data.Dataset.from_tensor_slices(data_tensors)
 
     ds = ds.shuffle(2000).repeat(-1)  # shuffle and repeat infinitely
-    ds = ds.batch(BATCH_SIZE)  # make batches
+    ds = ds.batch(BATCH_SIZE if alt_bs is None else alt_bs)  # make batches
     ds = ds.prefetch(tf.data.experimental.AUTOTUNE)
 
     return ds

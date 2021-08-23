@@ -50,9 +50,9 @@ def merge_images_using_mask(data_path: str, img_a: tf.Tensor, img_b: tf.Tensor,
     Merges two images A and B, using a provided filter mask.
 
     :param data_path: the path to the data directory
-    :param img_a: the first image (face), that a part of the other image should be overlayed on (range [0, 255]);
+    :param img_a: the first image (face), that a part of the other image should be overlayed on (range [-1., 1.]);
         assumed to be of shape (224, 224)
-    :param img_b: the second image (glasses), that should (in part) be overlayed on the other one (range [-1, 1]);
+    :param img_b: the second image (glasses), that should (in part) be overlayed on the other one (range [-1., 1.]);
         the same shape as img_a
     :param mask_path: the relative path (from data) to a filter mask that determines which pixels of image B
         should be put onto image A - the mask has only black and white pixels that are interpreted in a boolean manner;
@@ -69,17 +69,15 @@ def merge_images_using_mask(data_path: str, img_a: tf.Tensor, img_b: tf.Tensor,
     else:
         mask_img = mask
 
-    glasses_image = tf.add(img_b, tf.ones(img_b.shape)) / 2.  # scale glasses image to [0., 1.]
+    # scale images to [0., 1.]
+    glasses_image = tf.add(img_b, tf.ones(img_b.shape)) / 2.
+    face_image = tf.add(img_a, tf.ones(img_a.shape)) / 2.
     # TEST
     timg = glasses_image * 255
     timg = timg.numpy()
     timg = timg.astype(np.uint8)
     save_img_from_tensor(timg, 'merge')
     #
-
-    # scale face image to [0., 1.]
-    face_image = tf.cast(img_a, tf.float32)
-    face_image = face_image / 255.
 
     # merge images
     masked_glasses_img = tf.math.multiply(glasses_image, mask_img)  # cancel out pixels that are outside of mask area
@@ -154,6 +152,7 @@ def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_
     return model
 
 
+@DeprecationWarning
 def strip_softmax_from_face_recognition_model(facenet, n_classes):
     """
     Removes the last layer (softmax classification output) from a face recognition model,

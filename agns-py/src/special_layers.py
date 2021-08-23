@@ -6,6 +6,7 @@ import tensorflow as tf
 from PIL import Image
 
 from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image
+from dcgan import load_real_images
 
 
 class LocalResponseNormalization(tf.keras.layers.Layer):
@@ -245,6 +246,7 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
         super(GlassesFacesMerger, self).__init__(name='Merger')
 
         self.dap = data_path
+        self.tap = target_path
         tp = data_path + target_path
         self.target_ims = [tp + im for im in os.listdir(tp)]  # get paths in target ds
         assert len(output_size) == 2
@@ -268,23 +270,19 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
 
         if inputs.shape[0] != self.n_inputs:  # handle special case when Sequential API calls this function to add layer
             return tf.zeros((self.n_inputs, self.outsize[0], self.outsize[1], 3))
-        face_ims = random.sample(self.target_ims, self.n_inputs)  # draw face samples
+        face_ds = load_real_images(self.dap, self.tap, self.n_inputs, self.outsize)
         merged_images = []
 
         # merge faces and glasses
+        face_ims = face_ds.take(1)  # one batch of face images
         for i, face_img in enumerate(face_ims):
-            # process image to tensor
-            img = Image.open(face_img)
-            img = img.resize((224, 224))
-            img = np.asarray(img)
-            img = tf.convert_to_tensor(img)
 
             # NOTE: output range here is [0, 255]
-            merged_img = merge_images_using_mask(self.dap, img, pad_glasses_image(inputs[i]),
-                                                              mask=self.mask_img)
+            merged_img = merge_images_using_mask(self.dap, face_img, pad_glasses_image(inputs[i]),
+                                                 mask=self.mask_img)
 
             # resize result again if desired image size is not 224x224
-            if self.outsize != (224, 224):  # TODO test block
+            if self.outsize != (224, 224):  # TODO test block; do not use pillow
                 img = merged_img.numpy()
                 img = Image.fromarray(img)
                 img = img.resize(self.outsize)
@@ -295,5 +293,6 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
 
         # combine results and scale to range needed for face recognition networks
         result = tf.stack(merged_images)
+        result = tf.reshape(result, result.shape[1:])
 
         return result
