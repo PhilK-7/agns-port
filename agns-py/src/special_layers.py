@@ -1,10 +1,11 @@
 import os
 import random
-import tensorflow as tf
-from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image, scale_integer_to_zero_one_tensor, \
-    save_img_from_tensor, convert_to_numpy_slice
-from PIL import Image
+
 import numpy as np
+import tensorflow as tf
+from PIL import Image
+
+from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image
 
 
 class LocalResponseNormalization(tf.keras.layers.Layer):
@@ -279,11 +280,11 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
             img = tf.convert_to_tensor(img)
 
             # NOTE: output range here is [0, 255]
-            merged_img: tf.Tensor = merge_images_using_mask(self.dap, img, pad_glasses_image(inputs[i]),
-                                                            mask=self.mask_img)
+            merged_img: tf.Variable = merge_images_using_mask(self.dap, img, pad_glasses_image(inputs[i]),
+                                                              mask=self.mask_img)
 
             # resize result again if desired image size is not 224x224
-            if self.outsize != (224, 224):
+            if self.outsize != (224, 224):  # TODO test block
                 img = merged_img.numpy()
                 img = Image.fromarray(img)
                 img = img.resize(self.outsize)
@@ -293,7 +294,6 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
             merged_images.append(merged_img)
 
         # combine results and scale to range needed for face recognition networks
-        result = tf.stack(merged_images)
-        result = scale_integer_to_zero_one_tensor(result)  # TODO dehardcode: OF has other scale
+        result = tf.Variable(tf.stack(merged_images))
 
         return result
