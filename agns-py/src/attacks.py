@@ -93,11 +93,17 @@ def compute_custom_loss(target: int, predictions):
         in a classification model, a tensor-like object
     :return: the custom loss weighing target and non-target predictions
     """
-    predictions = tf.reduce_mean(predictions, 0)  # average over half-batch
-    target_logit = predictions[target]
-    other_logits_sum = tf.reduce_sum(predictions) - target_logit
+    preds = tf.reduce_mean(predictions, 0)  # average over half-batch
 
-    return target_logit - other_logits_sum
+    return preds[target]
+
+    '''
+    preds = tf.reduce_mean(predictions, 0)  # average over half-batch: (hbs, n_classes) -> (n_classes)
+    target_logit = preds[target]
+    other_logits_sum = tf.subtract(tf.reduce_sum(preds), tf.constant(target_logit))
+    res = tf.subtract(target_logit, other_logits_sum)
+
+    return res'''
 
 
 def join_gradients(gradients_a: tf.Tensor, gradients_b: tf.Tensor, kappa: float) -> tf.Tensor:
@@ -209,14 +215,19 @@ def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet_cut, targ
                 save_img_from_tensor(mimg, 'merged')
         # TODO whatif image sizes are 96
         facenet_logits_output = tf.Variable(facenet_cut(attack_images, training=True))  # the logits as output
-        custom_facenet_loss = tf.Variable(compute_custom_loss(target, facenet_logits_output))
+        # TODO test CCE loss
+        alt_loss = tf.keras.losses.CategoricalCrossentropy(from_logits=True)
+        #custom_facenet_loss = tf.Variable(compute_custom_loss(target, facenet_logits_output))
+        targets = tf.Variable(tf.zeros((half_batch_size, 143)))
+        targets[:, target] = 1
+        custom_facenet_loss = alt_loss(targets, facenet_logits_output)
         facenet_output = tf.nn.softmax(facenet_cut(attack_images))  # actual classification outputs
         #print(g_tape_s.watched_variables())
         if verbose:
             print(90 * '=')
             #print(f'The facenet logits: {facenet_logits_output}')
             print(90 * '-')
-            #print(f'The special facenet loss: {custom_facenet_loss}')
+            print(f'The special facenet loss: {custom_facenet_loss}')
             print(90 * '-')
 
     # APPLY BLOCK: dis
@@ -226,12 +237,12 @@ def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet_cut, targ
     # APPLY BLOCK: gen
     # apply gradients from discriminator and face net to generator
     gen_gradients_glasses = g_tape.gradient(dis_loss_b, gen.trainable_variables)
-    gen_gradients_attack = g_tape_s.gradient(custom_facenet_loss, gen_ext.trainable_variables)
+    gen_gradients_attack = g_tape_s.gradient(custom_facenet_loss, facenet_cut.trainable_variables)
     if verbose:
         print(90 * '=')
         #print(f'Gen gradients normal: {gen_gradients_glasses}')
         print(90 * '-')
-        #print(f'Gen gradients attack: {gen_gradients_attack}')
+        print(f'Gen gradients attack: {gen_gradients_attack}')
         print(90 * '-')
     if dodging:
         gen_gradients_attack = [-gr for gr in gen_gradients_attack]  # reverse attack gradients for dodging attack

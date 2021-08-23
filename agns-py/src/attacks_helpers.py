@@ -165,6 +165,8 @@ def strip_softmax_from_face_recognition_model(facenet, n_classes):
     model = tf.keras.models.Sequential(facenet.layers[:-1])
     model.add(tf.keras.layers.Dense(n_classes, name='Logits'))  # dense layer without activation
     model.layers[-1].set_weights(facenet.layers[-1].get_weights())  # copy classification layer weights
+    for i in range(len(model.layers)):
+        model.layers[i].trainable = True  # set all trainable to enable gradient backprop
     #model.summary()
 
     return model
