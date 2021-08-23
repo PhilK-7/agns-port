@@ -100,12 +100,12 @@ def scale_integer_to_zero_one_tensor(tensor: tf.Tensor) -> tf.Tensor:
     return t
 
 
-def convert_to_numpy_slice(imgs: tf.Tensor, i: int) -> np.ndarray:
+def convert_to_numpy_slice(imgs, i: int) -> np.ndarray:
     """
     Receives images represented by a tensor (value range [-1, 1]),
      and converts one image specified by index to a ndarray with range [0, 255].
 
-    :param imgs: the image as a tf.Tensor
+    :param imgs: the image as a tensor-like object
     :param i: the index of the image in the input tensor
     :return: a NumPy array with scaled integer values that represents a slice of the input tensor
     """
@@ -144,9 +144,9 @@ def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_
     :param output_size: the desired image output size
     :return: a new generator model that has merged faces with glasses as output images
     """
-    model = generator
+    model = tf.keras.models.Sequential(generator.layers, name='Gen_Merge')  # copy rest layers
     from special_layers import GlassesFacesMerger
-    model.add(GlassesFacesMerger(data_path, target_path, n_inputs, output_size))
+    model.add(GlassesFacesMerger(data_path, target_path, n_inputs, output_size))  # add merging layer
 
     return model
 
@@ -161,7 +161,7 @@ def strip_softmax_from_face_recognition_model(facenet, n_classes):
     """
     model = tf.keras.models.Sequential(facenet.layers[:-1])
     model.add(tf.keras.layers.Dense(n_classes, name='Logits'))  # dense layer without activation
-    model.layers[-1].set_weights(facenet.layers[-1].get_weights())  # TODO test all weights transferred?
-    model.summary()
+    model.layers[-1].set_weights(facenet.layers[-1].get_weights())  # copy classification layer weights
+    #model.summary()
 
     return model

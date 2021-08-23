@@ -82,7 +82,7 @@ def merge_face_images_with_fake_glasses(data_path: str, rel_path, gen: tf.keras.
     return tf.stack(merged_images)
 
 
-def compute_custom_loss(target: int, predictions: tf.Tensor):
+def compute_custom_loss(target: int, predictions):
     """
     Computes a custom loss that is used instead of cross-entropy for the face recognition networks.
     This optimizes the gradients to focus on one specific target class.
@@ -90,7 +90,7 @@ def compute_custom_loss(target: int, predictions: tf.Tensor):
 
     :param target: the target index, so n for target with index n / the n+1-th person of a set of target classes
     :param predictions: the logits that are output of the layer before the softmax (output) layer
-        in a classification model, a tensor
+        in a classification model, a tensor-like object
     :return: the custom loss weighing target and non-target predictions
     """
     predictions = tf.reduce_mean(predictions, 0)  # average over half-batch
@@ -200,27 +200,23 @@ def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet_cut, targ
 
         # switch to face recognition net, but remove softmax
 
-        # TODO express loss more direct / only in TF terms?
-        # TODO maybe use tf.variables instead everywhere other than tf.tensors?
         print('Generating attack images...')
-        attack_images = gen_ext(random_vectors_b, training=True)  # merged images
-        g_tape_s.watch(attack_images)
+        attack_images = tf.Variable(gen_ext(random_vectors_b, training=True))  # merged images
         if verbose:
             mims = (attack_images * 2) - 1
-            for i in range(3):
+            for i in range(4):
                 mimg = convert_to_numpy_slice(mims, random.randint(0, half_batch_size-1))
                 save_img_from_tensor(mimg, 'merged')
         # TODO whatif image sizes are 96
-        facenet_logits_output = facenet_cut(attack_images, training=True)  # the logits as output
-        g_tape_s.watch(facenet_logits_output)
-        custom_facenet_loss = compute_custom_loss(target, facenet_logits_output)
-        g_tape_s.watch(custom_facenet_loss)
+        facenet_logits_output = tf.Variable(facenet_cut(attack_images, training=True))  # the logits as output
+        custom_facenet_loss = tf.Variable(compute_custom_loss(target, facenet_logits_output))
         facenet_output = tf.nn.softmax(facenet_cut(attack_images))  # actual classification outputs
+        #print(g_tape_s.watched_variables())
         if verbose:
             print(90 * '=')
-            print(f'The facenet logits: {facenet_logits_output}')
+            #print(f'The facenet logits: {facenet_logits_output}')
             print(90 * '-')
-            print(f'The special facenet loss: {custom_facenet_loss}')
+            #print(f'The special facenet loss: {custom_facenet_loss}')
             print(90 * '-')
 
     # APPLY BLOCK: dis
@@ -235,7 +231,7 @@ def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet_cut, targ
         print(90 * '=')
         #print(f'Gen gradients normal: {gen_gradients_glasses}')
         print(90 * '-')
-        print(f'Gen gradients attack: {gen_gradients_attack}')
+        #print(f'Gen gradients attack: {gen_gradients_attack}')
         print(90 * '-')
     if dodging:
         gen_gradients_attack = [-gr for gr in gen_gradients_attack]  # reverse attack gradients for dodging attack

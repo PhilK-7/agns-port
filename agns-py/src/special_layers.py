@@ -270,11 +270,6 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
         face_ims = random.sample(self.target_ims, self.n_inputs)  # draw face samples
         merged_images = []
 
-        # TEST
-        for i in range(self.n_inputs):
-            save_img_from_tensor(convert_to_numpy_slice(inputs, i), 'inp-glass')
-        #
-
         # merge faces and glasses
         for i, face_img in enumerate(face_ims):
             # process image to tensor
@@ -286,11 +281,6 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
             # NOTE: output range here is [0, 255]
             merged_img: tf.Tensor = merge_images_using_mask(self.dap, img, pad_glasses_image(inputs[i]),
                                                             mask=self.mask_img)
-            # TEST
-            timg = merged_img.numpy()
-            timg = timg.astype(np.uint8)
-            save_img_from_tensor(timg, 'layer')
-            #
 
             # resize result again if desired image size is not 224x224
             if self.outsize != (224, 224):
