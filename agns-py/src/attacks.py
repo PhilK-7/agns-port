@@ -94,17 +94,13 @@ def compute_custom_loss(target: int, predictions):
         in a classification model, a tensor-like object
     :return: the custom loss weighing target and non-target predictions
     """
-    preds = tf.reduce_mean(predictions, 0)  # average over half-batch
 
-    return preds[target]
-
-    '''
     preds = tf.reduce_mean(predictions, 0)  # average over half-batch: (hbs, n_classes) -> (n_classes)
     target_logit = preds[target]
     other_logits_sum = tf.subtract(tf.reduce_sum(preds), tf.constant(target_logit))
     res = tf.subtract(target_logit, other_logits_sum)
 
-    return res'''
+    return res
 
 
 def join_gradients(gradients_a: tf.Tensor, gradients_b: tf.Tensor, kappa: float) -> tf.Tensor:
@@ -205,7 +201,7 @@ def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet, target_p
             # print(f'The gen loss from dis: {dis_loss_b}')
             print(50 * '-')
 
-        # switch to face recognition net, but remove softmax
+        # switch to face recognition net
 
         print('Generating attack images...')
         # TODO Connection somwhere <= attackimages broken?
@@ -213,7 +209,7 @@ def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet, target_p
         composed_model = tf.keras.models.Sequential([gen_ext, facenet])
         facenet_output = composed_model(random_vectors_b, training=True)
         #
-        
+        '''
         attack_images = gen_ext(random_vectors_b, training=True)  # merged images
         if verbose:
             mims = (attack_images * 2) - 1
@@ -222,8 +218,7 @@ def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet, target_p
                 save_img_from_tensor(mimg, 'merged')
         # TODO whatif image sizes are 96
         facenet_output = facenet(attack_images, training=True)  # the logits as output
-        '''sw = tf.Variable(tf.fill((143, ), 0.5/(143 - 1)))  # TODO dehardcode
-        sw = sw[target].assign(0.5)'''
+        '''
         alt_loss = tf.keras.losses.SparseCategoricalCrossentropy()
         targets = tf.fill((half_batch_size,), target)
         custom_facenet_loss = alt_loss(targets, facenet_output)
@@ -241,14 +236,16 @@ def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet, target_p
 
     # APPLY BLOCK: gen
     # apply gradients from discriminator and face net to generator
+    '''
     # TODO test:
     for i in range(len(facenet.layers)):
         facenet.layers[i].trainable = True
     for i in range(len(gen_ext.layers)):
         gen_ext.layers[i].trainable = True
     #
+    '''
     gen_gradients_glasses = g_tape.gradient(dis_loss_b, gen.trainable_variables)
-    gen_gradients_attack = g_tape_s.gradient(custom_facenet_loss, gen_ext.trainable_variables)
+    gen_gradients_attack = g_tape_s.gradient(custom_facenet_loss, composed_model.trainable_variables)
     if verbose:
         print(90 * '=')
         #print(f'Gen gradients normal: {gen_gradients_glasses}')
