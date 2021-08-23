@@ -131,3 +131,36 @@ def save_img_from_tensor(img, name: str, use_time: bool = True):
         os.mkdir('../out')
     filename = '../out/' + name + '_' + (str(time.time() if use_time else '')) + '.png'  # compose name
     img.save(filename)  # save to file
+
+
+def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_size=(224, 224)):
+    """
+    Receives a generator model and adds a GlassesFacesMerger on top of it, given the parameters.
+
+    :param generator: the generator model object (likely a tf.keras.models.Sequential)
+    :param data_path: path to the 'data' directory
+    :param target_path: relative path of the target´s dataset (from 'data')
+    :param n_inputs: the fixed number of inputs, predetermines what the entire models input batch size must be
+    :param output_size: the desired image output size
+    :return: a new generator model that has merged faces with glasses as output images
+    """
+    model = generator
+    from special_layers import GlassesFacesMerger
+    model.add(GlassesFacesMerger(data_path, target_path, n_inputs, output_size))
+
+    return model
+
+
+def strip_softmax_from_face_recognition_model(facenet, n_classes):
+    """
+    Removes the last layer (softmax classification output) from a face recognition model,
+    and adds an equivalent last dense layer without softmax activation that just outputs the logits.
+
+    :param facenet: the face recognition model
+    :param n_classes: the number of output classes
+    """
+    model = tf.keras.models.Sequential([facenet.layers[:-1]])  # copy all layers but last one
+    model.add(tf.keras.layers.Dense(n_classes, name='Logits'))  # dense layer without activation
+    model.layers[-1].set_weights(facenet.layers[-1].get_weights())  # TODO test all weights transferred?
+
+    return model

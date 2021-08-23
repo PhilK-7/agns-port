@@ -1,6 +1,5 @@
 import os
 import random
-import time
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -9,7 +8,6 @@ from PIL import Image
 
 import dcgan_utils
 import eyeglass_generator as gen_module
-from special_layers import GlassesFacesMerger
 from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image, convert_to_numpy_slice, \
     save_img_from_tensor
 
@@ -135,7 +133,7 @@ def join_gradients(gradients_a: tf.Tensor, gradients_b: tf.Tensor, kappa: float)
 
 
 # @tf.function  # NOTE: if decorated with tf.Function, this function cannot be properly debugged
-def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str, target: int,
+def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet_cut, target_path: str, target: int,
                             real_glasses_a: tf.Tensor, real_glasses_b: tf.Tensor,
                             g_opt, d_opt, bs: int, kappa: float, dodging=True, verbose=True) \
         -> (tf.keras.optimizers.Adam, tf.keras.optimizers.Adam, tf.Tensor, tf.Tensor):
@@ -145,9 +143,10 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
     Trains the DCGAN with glasses as well as attacker images.
 
     :param data_path: the path to the data directory
-    :param gen: the generator model
-    :param dis: the discriminator model
-    :param facenet: the face recognition model
+    :param gen: the generator model, generates fake glasses
+    :param dis: the discriminator model, critics glasses
+    :param gen_ext: the generator model + added merger on top, generates merged face images with glasses
+    :param facenet_cut: the face recognition model, but without softmax in the last layer, recognizes faces (logits)
     :param target_path: the path to the target´s image directory, relative to 'data'
     :param target: the target´s index
     :param real_glasses_a: a batch of real glasses images, sized according to bs
@@ -201,34 +200,22 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
 
         # switch to face recognition net, but remove softmax
 
-        # make extended generator model
-        # TODO maybe instead of creating here, gen_extended and facenet_cut should also be given as arguments?
         # TODO express loss more direct / only in TF terms?
         # TODO maybe use tf.variables instead everywhere other than tf.tensors?
-        gen_extended = gen
-        gen_extended.add(GlassesFacesMerger(data_path, target_path, half_batch_size))
-        #gen_extended.summary()
         print('Generating attack images...')
-        attack_images = gen_extended(random_vectors_b, training=True)  # merged images
+        attack_images = gen_ext(random_vectors_b, training=True)  # merged images
         g_tape_s.watch(attack_images)
         if verbose:
             mims = (attack_images * 2) - 1
             for i in range(3):
                 mimg = convert_to_numpy_slice(mims, random.randint(0, half_batch_size-1))
                 save_img_from_tensor(mimg, 'merged')
-        facenet_cut = tf.keras.models.Sequential(facenet.layers[:-1],
-                                                 name='Face Recognition')  # TODO also works with non-linear models?
-        logits_layer = tf.keras.layers.Dense(143)  # TODO dehardcode
-        facenet_cut.add(logits_layer)
-        facenet_cut.layers[-1].set_weights(
-            facenet.layers[-1].get_weights())  # copy trained weights to classification layer
         # TODO whatif image sizes are 96
-        #facenet_cut.summary()
         facenet_logits_output = facenet_cut(attack_images, training=True)  # the logits as output
         g_tape_s.watch(facenet_logits_output)
         custom_facenet_loss = compute_custom_loss(target, facenet_logits_output)
         g_tape_s.watch(custom_facenet_loss)
-        facenet_output = facenet(attack_images)
+        facenet_output = tf.nn.softmax(facenet_cut(attack_images))  # actual classification outputs
         if verbose:
             print(90 * '=')
             print(f'The facenet logits: {facenet_logits_output}')
@@ -243,7 +230,7 @@ def do_attack_training_step(data_path: str, gen, dis, facenet, target_path: str,
     # APPLY BLOCK: gen
     # apply gradients from discriminator and face net to generator
     gen_gradients_glasses = g_tape.gradient(dis_loss_b, gen.trainable_variables)
-    gen_gradients_attack = g_tape_s.gradient(custom_facenet_loss, gen_extended.trainable_variables)
+    gen_gradients_attack = g_tape_s.gradient(custom_facenet_loss, gen_ext.trainable_variables)
     if verbose:
         print(90 * '=')
         #print(f'Gen gradients normal: {gen_gradients_glasses}')
@@ -342,7 +329,7 @@ def show_attack_results():
 if __name__ == '__main__':
     # LE BOILERPLATE SHIAT
     # set parameters
-    USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
+    USE_REMOTE = False  # set depending whether code is executed on remote workstation or not
     if USE_REMOTE:
         os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
         os.environ["CUDA_VISIBLE_DEVICES"] = '2'
