@@ -13,7 +13,7 @@ import tensorflow as tf
 if __name__ == '__main__':
     # LE BOILERPLATE SHIAT
     # set parameters
-    USE_REMOTE = False  # set depending whether code is executed on remote workstation or not
+    USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
     if USE_REMOTE:
         os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
         os.environ["CUDA_VISIBLE_DEVICES"] = '2'

@@ -159,8 +159,9 @@ def strip_softmax_from_face_recognition_model(facenet, n_classes):
     :param facenet: the face recognition model
     :param n_classes: the number of output classes
     """
-    model = tf.keras.models.Sequential([facenet.layers[:-1]])  # copy all layers but last one
+    model = tf.keras.models.Sequential(facenet.layers[:-1])
     model.add(tf.keras.layers.Dense(n_classes, name='Logits'))  # dense layer without activation
     model.layers[-1].set_weights(facenet.layers[-1].get_weights())  # TODO test all weights transferred?
+    model.summary()
 
     return model
