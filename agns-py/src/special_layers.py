@@ -14,7 +14,7 @@ class LocalResponseNormalization(tf.keras.layers.Layer):
     Applies the parameters needed in OpenFace NN4.small2.v1.
     """
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         super(LocalResponseNormalization, self).__init__()
 
     def get_config(self):
@@ -31,7 +31,7 @@ class L2Pooling(tf.keras.layers.Layer):
     Uses pooling size 3, as needed in OpenFace NN4.small2.v1.
     """
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         super(L2Pooling, self).__init__()
 
     def get_config(self):
@@ -52,7 +52,7 @@ class L2Normalization(tf.keras.layers.Layer):
     The L2 Normalization layer. Just computes the L2 norm of its input.
     """
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         super(L2Normalization, self).__init__()
 
     def get_config(self):
@@ -71,7 +71,7 @@ class InceptionModule(tf.keras.layers.Layer):
     An alternate version is also supported that has no 5x5 convolution part.
     """
 
-    def __init__(self, conv_output_sizes, reduce_sizes, name, use_l2_pooling=False):
+    def __init__(self, conv_output_sizes, reduce_sizes, name, use_l2_pooling=False, **kwargs):
         """
         :param conv_output_sizes: the output sizes (filter counts) for 3x3 and 5x5 convolution;
             a list of length 2, or length 1, then the 5x5 convolution pathway is omitted
@@ -168,7 +168,7 @@ class InceptionModuleShrink(tf.keras.layers.Layer):
     Like in the normal inception module, the paths´ output feature maps are combined to one single output.
     """
 
-    def __init__(self, conv_output_sizes, reduce_sizes, name):
+    def __init__(self, conv_output_sizes, reduce_sizes, name, **kwargs):
         """
         :param conv_output_sizes: the output sizes (filter counts) for the 3x3 and 5x5 convolution paths,
             meaning their second convolution output channel count each
@@ -233,7 +233,7 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
     Merges those glasses with face images of the given target.
     """
 
-    def __init__(self, data_path: str, target_path: str, n_inputs: int, output_size: tuple = (224, 224)):
+    def __init__(self, data_path: str, target_path: str, n_inputs: int, output_size: tuple = (224, 224), **kwargs):
         """
         The constructor for the merger layer.
 
@@ -275,7 +275,7 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
 
         # merge faces and glasses
         face_ims = face_ds.take(1)  # one batch of face images
-        for i, face_img in enumerate(face_ims):
+        for i, face_img in enumerate(*face_ims):
 
             # NOTE: output range here is [0, 255]
             merged_img = merge_images_using_mask(self.dap, face_img, pad_glasses_image(inputs[i]),

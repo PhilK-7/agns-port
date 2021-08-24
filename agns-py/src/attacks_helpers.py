@@ -82,6 +82,13 @@ def merge_images_using_mask(data_path: str, img_a: tf.Tensor, img_b: tf.Tensor,
     masked_face_img = tf.math.multiply(face_image, invert_mask_img)  # remove pixels that will be replaced
     merged_img = masked_face_img + masked_glasses_img
 
+    # TEST
+    timg = merged_img * 255
+    timg = timg.numpy()
+    timg = timg.astype(np.uint8)
+    save_img_from_tensor(timg, 'merged')
+    #
+
     return merged_img
 
 

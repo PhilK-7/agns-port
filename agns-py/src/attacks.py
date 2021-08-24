@@ -217,7 +217,7 @@ def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet, target_p
                 mimg = convert_to_numpy_slice(mims, random.randint(0, half_batch_size-1))
                 save_img_from_tensor(mimg, 'merged')
         # TODO whatif image sizes are 96
-        facenet_output = facenet(attack_images, training=True)  # the logits as output
+        #facenet_output = facenet(attack_images, training=True)  # the logits as output
         '''
         alt_loss = tf.keras.losses.SparseCategoricalCrossentropy()
         targets = tf.fill((half_batch_size,), target)
