@@ -349,4 +349,4 @@ if __name__ == '__main__':
     else:
         ep = int(sys.argv[1])
 
-    train_vgg_dnn(ep, True)
+    train_vgg_dnn(ep, False)

@@ -138,7 +138,7 @@ def save_img_from_tensor(img, name: str, use_time: bool = True):
     img.save(filename)  # save to file
 
 
-def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_size=(224, 224)):
+def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_size=(224, 224), new_version=True):
     """
     Receives a generator model and adds a GlassesFacesMerger on top of it, given the parameters.
 
@@ -147,11 +147,17 @@ def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_
     :param target_path: relative path of the target´s dataset (from 'data')
     :param n_inputs: the fixed number of inputs, predetermines what the entire models input batch size must be
     :param output_size: the desired image output size
+    :param new_version: use combination of newer multiple layers instead of GlassesFacesMerge
     :return: a new generator model that has merged faces with glasses as output images
     """
     model = tf.keras.models.Sequential(generator.layers, name='Gen_Merge')  # copy rest layers
-    from special_layers import GlassesFacesMerger
-    model.add(GlassesFacesMerger(data_path, target_path, n_inputs, output_size))  # add merging layer
+    from special_layers import GlassesFacesMerger, BlackPadding, Resizer
+    if not new_version:
+        model.add(GlassesFacesMerger(data_path, target_path, n_inputs, output_size))  # add merging layer
+    else:
+        model.add(BlackPadding())
+        # TODO middle layer!
+        #model.add(Resizer(output_size))
 
     return model
 

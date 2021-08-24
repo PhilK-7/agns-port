@@ -322,6 +322,7 @@ class BlackPadding(tf.keras.layers.Layer):
 class Resizer(tf.keras.layers.Layer):
     """
     Resizes images to a specified output size.
+    NOTE: From tf 2.5+, a specific layer is available for this.
     """
     def __init__(self, output_size=(224, 224), **kwargs):
         """
@@ -340,6 +341,6 @@ class Resizer(tf.keras.layers.Layer):
 
     def call(self, inputs, **kwargs):
         img = tf.io.encode_png(inputs)
-
+        img = tf.image.resize(img, [224, 224])
 
 
