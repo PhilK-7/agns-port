@@ -275,7 +275,7 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
 
         # merge faces and glasses
         face_ims = face_ds.take(1)  # one batch of face images
-        for i, face_img in enumerate(*face_ims):
+        for i, face_img in enumerate(face_ims):
 
             # NOTE: output range here is [0, 255]
             merged_img = merge_images_using_mask(self.dap, face_img, pad_glasses_image(inputs[i]),
@@ -296,6 +296,50 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
         result = tf.reshape(result, result.shape[1:])
 
         return result
+
+
+# TODO implement new layers that replace whole merger layer, but part for part
+
+class BlackPadding(tf.keras.layers.Layer):
+    """
+    A layer that receives a tensor of size (?, 64, 176, 3), and pads it with black values (-1.)
+    to achieve the output size 224x224.
+    """
+    def __init__(self, **kwargs):
+        """
+        Initializes a black padding layer.
+        """
+        super(BlackPadding, self).__init__()
+
+    def call(self, inputs, **kwargs):
+        crop_coordinates = [53, 25, 53 + 64, 25 + 176]
+        paddings = tf.constant([[crop_coordinates[0], 0], [0, 0]])
+        result = tf.pad(inputs, paddings, "CONSTANT", constant_values=-1.)
+
+        return result
+
+
+class Resizer(tf.keras.layers.Layer):
+    """
+    Resizes images to a specified output size.
+    """
+    def __init__(self, output_size=(224, 224), **kwargs):
+        """
+        Initializes a black padding layer.
+        """
+        super(Resizer, self).__init__()
+        self.os = output_size
+
+    def get_config(self):
+        conf = super().get_config().copy()
+        conf.update({
+            'output_size': self.os
+        })
+
+        return conf
+
+    def call(self, inputs, **kwargs):
+        img = tf.io.encode_png(inputs)
 
 
 

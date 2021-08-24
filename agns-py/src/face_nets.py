@@ -58,9 +58,6 @@ def get_original_vgg_model():
     return model
 
 
-# custom layers
-
-
 def build_openface_model():
     """
     Builds the nn4.small2 OpenFace model, with about 3.74M trainable parameters (3733968)
@@ -198,15 +195,16 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
     model.summary()
 
     # load dataset, rescale + resize images
-    ds_path = data_path + 'pubfig/dataset_'
+    ds_path = data_path + 'pubfig/dataset_aligned'
     if not bigger_class_n:
-        ds_path += '10/'
+        ds_path += '_10/'
     else:
         ds_path += '/'
 
     # get part of PubFig dataset, separated by classes; also scale pixel values and image size
-    datagen = ImageDataGenerator(rescale=1. / 255)  # scale [0, 1]
-    datagen = datagen.flow_from_directory(ds_path, (224, 224))
+    datagen = ImageDataGenerator(rescale=1. / 255, validation_split=0.2)  # scale [0, 1]
+    train_gen = datagen.flow_from_directory(ds_path, (224, 224), subset='training')
+    val_gen = datagen.flow_from_directory(ds_path, (224, 224), subset='validation')
     '''
     WARNING: If there are mysterious duplicate files starting with '._' in the subclass directories, the program
     will crash.
@@ -217,7 +215,7 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
     # do training
     opt = tf.keras.optimizers.Adam(learning_rate=5e-4)  # can be adjusted, use smaller rate the more progressed
     model.compile(opt, 'categorical_crossentropy', ['accuracy'])
-    losses = model.fit(datagen, epochs=epochs, ).history
+    losses = model.fit(train_gen, epochs=epochs, validation_data=val_gen).history
 
     # save model state
     model.save(save_path)
@@ -249,13 +247,14 @@ def pretrain_openface_model(epochs=1):
     # load aligned face images and transform
     ds_path = data_path + 'pubfig/dataset_aligned'
     datagen = ImageDataGenerator(rescale=1. / 127.5, preprocessing_function=lambda t: t - 1)
-    datagen = datagen.flow_from_directory(ds_path, target_size=(96, 96), class_mode='sparse')
+    train_gen = datagen.flow_from_directory(ds_path, target_size=(96, 96), class_mode='sparse', subset='training')
+    val_gen = datagen.flow_from_directory(ds_path, target_size=(96, 96), class_mode='sparse', subset='validation')
 
     # train model
     opt = tf.keras.optimizers.Adam(learning_rate=2e-3)
     pretain_loss = tfa.losses.TripletSemiHardLoss()
     model.compile(opt, pretain_loss)
-    model.fit(datagen, epochs=epochs)
+    model.fit(train_gen, epochs=epochs, validation_data=val_gen)
 
     # save after (continued) training
     model.save(model_path)
@@ -289,14 +288,14 @@ def train_of_dnn(epochs=1, bigger_class_n=True):
         ds_path += '_10'
 
     # load aligned face images and transform
-    datagen = ImageDataGenerator(rescale=1. / 127.5, preprocessing_function=lambda t: t - 1)
+    datagen = ImageDataGenerator(rescale=1. / 127.5, preprocessing_function=lambda t: t - 1, validation_split=0.2)
     datagen = datagen.flow_from_directory(ds_path, target_size=(96, 96))
     write_class_mapping(datagen.class_indices)
 
     # train model
     opt = tf.keras.optimizers.Adam(learning_rate=1e-5)  # adjust according to training progress
     model.compile(opt, 'categorical_crossentropy', ['accuracy'])
-    model.fit(datagen, epochs=epochs)
+    model.fit(datagen, epochs=epochs, validation_split=0.2)
 
     # save model after training
     model.save(save_path)
@@ -337,11 +336,11 @@ if __name__ == '__main__':
                       'L2Normalization': L2Normalization}
 
     # set parameters
-    USE_REMOTE = False  # set depending whether code is executed on remote workstation or not
+    USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
     if USE_REMOTE:
         os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
-        os.environ["CUDA_VISIBLE_DEVICES"] = '4'
-        data_path = expanduser('~') + '/storage-private/'
+        os.environ["CUDA_VISIBLE_DEVICES"] = '2'
+        data_path = expanduser('~') + '/storage-private/data/'
     else:
         data_path = '../data/'
 
@@ -350,4 +349,4 @@ if __name__ == '__main__':
     else:
         ep = int(sys.argv[1])
 
-    train_of_dnn(ep, True)
+    train_vgg_dnn(ep, True)

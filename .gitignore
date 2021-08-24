@@ -8,3 +8,6 @@ agns-py/src/__pycache__/*
 *.h5
 agns-py/saved-models/*
 *idea*
+*/saved-models/*
+*.zip
+*venv*
