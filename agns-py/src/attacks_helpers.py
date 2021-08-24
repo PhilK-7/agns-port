@@ -16,7 +16,7 @@ def pad_glasses_image(glass: tf.Tensor):
     :return: a bigger tensor that represents 224x224 pixels, with black padding added
     """
 
-    img = tf.Variable(tf.fill([224, 224, 3], -1.))  # initialize black 224x224 image
+    img = tf.fill([224, 224, 3], -1.)  # initialize black 224x224 image
 
     # assign all values from the generated glasses image
     for i in range(crop_coordinates[0], crop_coordinates[2]):
@@ -35,11 +35,8 @@ def load_mask(data_path: str, mask_path: str) -> tf.Tensor:
     :return: the mask as tensor, with float values in [0, 1]
     """
     mask_path = data_path + mask_path  # full path
-    mask_img = Image.open(mask_path)
-    mask_img = np.asarray(mask_img)
-    mask_img = tf.convert_to_tensor(mask_img)
-    mask_img = tf.cast(mask_img, tf.float32)
-    mask_img = mask_img / 255  # scale to [0, 1]
+    mask_img = tf.image.decode_png(tf.io.read_file(mask_path), channels=3)
+    mask_img = tf.image.convert_image_dtype(mask_img, tf.float32)  # scales to [0., 1.]
 
     return mask_img
 
