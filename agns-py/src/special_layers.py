@@ -1,5 +1,4 @@
 import os
-import random
 
 import numpy as np
 import tensorflow as tf
@@ -273,7 +272,7 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
         face_ds = load_real_images(self.dap, self.tap, self.n_inputs, self.outsize)
         merged_images = []
 
-        '''
+
         # merge faces and glasses
         face_ims = face_ds.take(1)  # one batch of face images
         for i, face_img in enumerate(face_ims):
@@ -296,8 +295,7 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
         result = tf.stack(merged_images)
         result = tf.reshape(result, result.shape[1:])
 
-        return result'''
+        return result
 
-        # TEST
 
 

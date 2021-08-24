@@ -16,12 +16,12 @@ def pad_glasses_image(glass: tf.Tensor):
     :return: a bigger tensor that represents 224x224 pixels, with black padding added
     """
 
-    img = tf.fill([224, 224, 3], -1.)  # initialize black 224x224 image
+    img = tf.Variable(tf.fill([224, 224, 3], -1.))  # initialize black 224x224 image
 
     # assign all values from the generated glasses image
     for i in range(crop_coordinates[0], crop_coordinates[2]):
         for j in range(crop_coordinates[1], crop_coordinates[3]):
-            img = img[i, j].assign(glass[i - crop_coordinates[0], j - crop_coordinates[1]])
+            img[i, j].assign(glass[i - crop_coordinates[0], j - crop_coordinates[1]])
 
     return img
 

@@ -236,14 +236,14 @@ def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet, target_p
 
     # APPLY BLOCK: gen
     # apply gradients from discriminator and face net to generator
-    '''
+
     # TODO test:
     for i in range(len(facenet.layers)):
         facenet.layers[i].trainable = True
     for i in range(len(gen_ext.layers)):
         gen_ext.layers[i].trainable = True
     #
-    '''
+
     gen_gradients_glasses = g_tape.gradient(dis_loss_b, gen.trainable_variables)
     gen_gradients_attack = g_tape_s.gradient(custom_facenet_loss, composed_model.trainable_variables)
     if verbose:
