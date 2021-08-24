@@ -18,6 +18,7 @@ def scale_tensor_to_std(tensor: tf.Tensor, vrange: list) -> tf.Tensor:
 
     :param tensor: the tensor, assuming float values
     :param vrange: the range of the values in the input tensor, given in a list of two numerical values
+    :return: the tensor with scaled integer values
     """
     img_scaled = tf.add(tf.cast(tensor, tf.float32), tf.constant(-vrange[0], dtype=tf.float32))
     img_scaled *= (255. / (vrange[1] + (-vrange[0])))

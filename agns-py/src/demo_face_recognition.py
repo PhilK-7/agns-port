@@ -5,6 +5,7 @@ import tensorflow as tf
 
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 from special_layers import LocalResponseNormalization, InceptionModule, InceptionModuleShrink, L2Normalization
+from matplotlib import pyplot as plt
 
 
 # custom layer objects for OpenFace
@@ -66,7 +67,7 @@ if __name__ == '__main__':
     model_path += '.h5'
     model = tf.keras.models.load_model(model_path, custom_objects=custom_objects)
 
-    # load dataset
+    # load dataset just for class dictionary
     ds_path = dap + 'pubfig/' + ('dataset_aligned' if input_2 == 4 else 'dataset_aligned_10')  # get correct path
     # get appropriate data generator
     if input_1 == 2:
@@ -96,9 +97,42 @@ if __name__ == '__main__':
         target_index = random.randint(0, max_target_index)
     else:
         print('You chose as target: \n\n')
-    target_name: str = class_dict[target_index]
-    target_name = target_name.replace('_', ' ')
+    target_dir: str = class_dict[target_index]
+    target_name = target_dir.replace('_', ' ')
     print(target_name)
 
-    # TODO: get data in tensor format, pass images, and show results incl. probs visually
-    
+    n_ims = 5
+    target_dir = ds_path + '/' + target_dir + '/aligned'
+    target_ims = [target_dir + '/' + p for p in os.listdir(target_dir)]  # paths of target images
+    selected_ims = random.sample(target_ims, n_ims)
+    count_correct = 0
+
+    # model inference
+    for img in selected_ims:
+        img = tf.image.decode_png(tf.io.read_file(img), channels=3)  # decode to std uint8
+        show_img = img  # save original
+        img = tf.image.convert_image_dtype(img, tf.float32)  # scale to [0., 1.]
+        if input_1 == 2:
+            img = (img * 2) - 1  # rescale to [-1., 1.] for OF
+        img = tf.image.resize(img, ([224, 224] if input_1 == 1 else [96, 96]))  # resize for needed input size
+        img = tf.reshape(img, [1, *img.shape])  # must be 4D tensor
+        pred = model.predict(img)
+        predicted_index = tf.argmax(pred, axis=1).numpy()[0]  # index of predicted target
+        predicted_prob = pred[0, predicted_index]  # confidence for target prediction
+        predicted_class = class_dict[predicted_index]
+        print(predicted_index)
+        print(predicted_class)
+        print(predicted_prob)
+        if predicted_index == target_index:
+            count_correct += 1
+
+        # show with Matplotlib
+        header = predicted_class + ' (' + str(predicted_index) + ') : ' + str(predicted_prob)
+        plt.figure()
+        plt.title(header)
+        plt.imshow(show_img)
+        plt.show()
+
+    # evaluation metric
+    acc = count_correct / n_ims * 100
+    print(f'Accuracy: {acc} %')
