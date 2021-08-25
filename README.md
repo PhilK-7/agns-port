@@ -25,5 +25,24 @@ At the top level directory, a shell script 'align_all.sh' is provided, in case y
 from the original images again, you can e.g. execeute `bash align_all.sh`(it will take some minutes).
 It used Dlib to align face images to a 68-landmark pose.
 
+## Training
+There are already pretrained models provided in saved-models. If you want to train the face recognition
+models (VGG / OpenFace 10/143), go to `face_nets.py`. It has two functions to train those models
+from scratch, or also to continue training existing models.
+
+There is no guarantee to succeed at reaching your goal when training a deep learning model. It is
+highly non-deterministic, and different things can go wrong. In general, it is good practice to
+keep a validation set during training, verify model functionality by hand, and better train a
+model n times for x epochs, instead of training it for n * x epochs straight. Why?
+At least here in this code, the training and validation splits are different each time. This means
+each time, the alignment of data is different. 
+
+Trained models can be loaded with `tf.keras.load_model`. The most popular save formats are .h5 and
+the Tensorflow format (recognized by .index / .data-... endings). Some models, particularly those
+that use custom implemented layers that receive extra parameters, need to be loaded with explicitly
+given custom objects to be restored.
+
 ## Execution
 
+... Also take note that content plotted with Matplotlib remotely will show up in the SciView of
+PyCharm Pro.

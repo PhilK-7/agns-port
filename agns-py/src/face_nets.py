@@ -23,7 +23,7 @@ def write_class_mapping(imgen_dict):
     """
 
     # determine path
-    save_path = '../data/pubfig'
+    save_path = data_path + 'pubfig'
     if len(imgen_dict) == 10:
         save_path += '/class-mapping_10.txt'
     else:
@@ -289,13 +289,14 @@ def train_of_dnn(epochs=1, bigger_class_n=True):
 
     # load aligned face images and transform
     datagen = ImageDataGenerator(rescale=1. / 127.5, preprocessing_function=lambda t: t - 1, validation_split=0.2)
-    datagen = datagen.flow_from_directory(ds_path, target_size=(96, 96))
-    write_class_mapping(datagen.class_indices)
+    train_gen = datagen.flow_from_directory(ds_path, target_size=(96, 96), subset='training')
+    val_gen = datagen.flow_from_directory(ds_path, (96, 96), subset='validation')
+    write_class_mapping(train_gen.class_indices)
 
     # train model
     opt = tf.keras.optimizers.Adam(learning_rate=1e-5)  # adjust according to training progress
     model.compile(opt, 'categorical_crossentropy', ['accuracy'])
-    model.fit(datagen, epochs=epochs, validation_split=0.2)
+    model.fit(train_gen, epochs=epochs, validation_data=val_gen)
 
     # save model after training
     model.save(save_path)
@@ -349,4 +350,4 @@ if __name__ == '__main__':
     else:
         ep = int(sys.argv[1])
 
-    train_vgg_dnn(ep, False)
+    train_of_dnn(ep, True)
