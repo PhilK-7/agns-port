@@ -35,7 +35,12 @@ highly non-deterministic, and different things can go wrong. In general, it is g
 keep a validation set during training, verify model functionality by hand, and better train a
 model n times for x epochs, instead of training it for n * x epochs straight. Why?
 At least here in this code, the training and validation splits are different each time. This means
-each time, the alignment of data is different. 
+each time, the alignment of data is different. Also it makes sense to change the learning rate between
+different training sessions, decreasing it over time. The validation accuracy is a weak, but useful
+indicator how much a model is progressed. Don´t train a model too much: this means it overfits to
+the data, and thus generalizes poorly. If the validation accuracy only drops for an extended period
+of time, this is an indicator of overfitting. It is recommended to finish the training process at a
+rather stable validation accuracy.
 
 Trained models can be loaded with `tf.keras.load_model`. The most popular save formats are .h5 and
 the Tensorflow format (recognized by .index / .data-... endings). Some models, particularly those

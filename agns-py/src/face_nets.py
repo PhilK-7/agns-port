@@ -166,12 +166,13 @@ def build_of_custom_part(bigger_class_n=False):
     return model
 
 
-def train_vgg_dnn(epochs=1, bigger_class_n=True):
+def train_vgg_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
     """
     Trains the complete custom VGG 143/10 model on the given dataset.
     Either starts training / fine-tuning from scratch, or continues with a found saved model state.
 
     :param epochs: how many training epochs long to train for this function call
+    :param lr: the learning rate
     :param bigger_class_n: whether to train the VGG 143 model, instead of the VGG 10 model
         (also deciding which subset of the PubFig data is used)
     """
@@ -213,7 +214,7 @@ def train_vgg_dnn(epochs=1, bigger_class_n=True):
     '''
 
     # do training
-    opt = tf.keras.optimizers.Adam(learning_rate=5e-4)  # can be adjusted, use smaller rate the more progressed
+    opt = tf.keras.optimizers.Adam(learning_rate=lr)  # can be adjusted, use smaller rate the more progressed
     model.compile(opt, 'categorical_crossentropy', ['accuracy'])
     losses = model.fit(train_gen, epochs=epochs, validation_data=val_gen).history
 
@@ -261,12 +262,13 @@ def pretrain_openface_model(epochs=1):
     print('Model state saved.')
 
 
-def train_of_dnn(epochs=1, bigger_class_n=True):
+def train_of_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
     """
     Trains the custom OF 143/10 model on the given dataset, based on the OpenFace model.
     Either starts training from scratch, or continues with a found saved model state.
 
     :param epochs: how many training epochs long to train for this function call
+    :param lr: the learning rate
     :param bigger_class_n: whether to train the OF 143 model, instead of the OF 10 model
         (also deciding which subset of the PubFig data is used)
     """
@@ -294,7 +296,7 @@ def train_of_dnn(epochs=1, bigger_class_n=True):
     write_class_mapping(train_gen.class_indices)
 
     # train model
-    opt = tf.keras.optimizers.Adam(learning_rate=1e-5)  # adjust according to training progress
+    opt = tf.keras.optimizers.Adam(learning_rate=lr)  # adjust according to training progress
     model.compile(opt, 'categorical_crossentropy', ['accuracy'])
     model.fit(train_gen, epochs=epochs, validation_data=val_gen)
 
@@ -350,4 +352,4 @@ if __name__ == '__main__':
     else:
         ep = int(sys.argv[1])
 
-    train_of_dnn(ep, True)
+    train_of_dnn(ep, 6e-5, False)
