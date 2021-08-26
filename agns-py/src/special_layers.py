@@ -304,6 +304,7 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
 # TODO implement new layers that replace whole merger layer, but part for part
 
 class BlackPadding(tf.keras.layers.Layer):
+    # VERIFIED: works, correct images, gradients passed through
     """
     A layer that receives a tensor of size (?, 64, 176, 3), and pads it with black values (-1.)
     to achieve the output size 224x224.
@@ -315,7 +316,20 @@ class BlackPadding(tf.keras.layers.Layer):
         super(BlackPadding, self).__init__()
 
     def call(self, inputs, **kwargs):
-        return pad_glasses_image(inputs)
+        imgs = inputs + 1  # temporarily shift to [0., 2.]
+        crop_coordinates = [53, 25, 53 + 64, 25 + 176]
+        imgs = tf.keras.layers.ZeroPadding2D(((crop_coordinates[0], 224 - crop_coordinates[2]),
+                                              (crop_coordinates[1], 224 - crop_coordinates[3])))(imgs)
+        imgs = imgs - 1  # back to [-1., 1.] range
+
+        '''for i in range(4):
+                    img = convert_to_numpy_slice(imgs, random.randint(0, inputs.shape[0] - 1))
+                    save_img_from_tensor(img, 'blackpadding')'''
+
+        return imgs
+
+# TODO middle layer that merges glasses and faces without breaking the GradientTape!
+# idea: apply masks to faces dataset, then add those images to output of BlackPadding
 
 
 class Resizer(tf.keras.layers.Layer):
