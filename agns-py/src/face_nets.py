@@ -2,11 +2,13 @@ import os
 import sys
 from os import path
 
+import numpy as np
 import tensorflow as tf
 import tensorflow.keras.applications.vgg16 as vgg
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import tensorflow_addons as tfa
 from os.path import expanduser
+from sklearn.utils import class_weight
 
 from special_layers import LocalResponseNormalization, L2Normalization, InceptionModule, \
     InceptionModuleShrink
@@ -43,6 +45,20 @@ def write_class_mapping(imgen_dict):
     # make file
     with open(save_path, 'w') as file:
         file.write(textstr)
+
+
+def get_class_weights(gen_classes):
+    """
+    Computes class weights for a (training) generator in order to balanced out class differences during training.
+
+    :param gen_classes: a DirectoryIterator´s classes object
+    :return: a list of computed class weights
+    """
+    weights = class_weight.compute_class_weight('balanced', classes=np.unique(gen_classes), y=gen_classes)
+    weights = {i: weights[i] for i in range(len(weights))}
+    print(f'Computed class weights {weights}')
+
+    return weights
 
 
 def get_original_vgg_model():
@@ -216,7 +232,8 @@ def train_vgg_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
     # do training
     opt = tf.keras.optimizers.Adam(learning_rate=lr)  # can be adjusted, use smaller rate the more progressed
     model.compile(opt, 'categorical_crossentropy', ['accuracy'])
-    losses = model.fit(train_gen, epochs=epochs, validation_data=val_gen).history
+    class_weights = get_class_weights(train_gen.classes)
+    losses = model.fit(train_gen, epochs=epochs, validation_data=val_gen, class_weight=class_weights).history
 
     # save model state
     model.save(save_path)
@@ -298,7 +315,8 @@ def train_of_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
     # train model
     opt = tf.keras.optimizers.Adam(learning_rate=lr)  # adjust according to training progress
     model.compile(opt, 'categorical_crossentropy', ['accuracy'])
-    model.fit(train_gen, epochs=epochs, validation_data=val_gen)
+    class_weights = get_class_weights(train_gen.classes)
+    model.fit(train_gen, epochs=epochs, validation_data=val_gen, class_weight=class_weights)
 
     # save model after training
     model.save(save_path)
@@ -352,4 +370,4 @@ if __name__ == '__main__':
     else:
         ep = int(sys.argv[1])
 
-    train_of_dnn(ep, 6e-5, False)
+    train_of_dnn(ep, 3e-4, True)

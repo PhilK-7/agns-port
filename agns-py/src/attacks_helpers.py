@@ -10,18 +10,18 @@ crop_coordinates = [53, 25, 53 + 64, 25 + 176]
 
 def pad_glasses_image(glass: tf.Tensor):
     """
-    Pads a generated glasses image as reverse transformation to the cropping that was applied to the original data.
+    Pads generated glasses image(s) as reverse transformation to the cropping that was applied to the original data.
 
-    :param glass: the glasses image, represented as tensor (range [-1, 1])
+    :param glass: the glasses image, represented as 4D tensor (range [-1., 1.])
     :return: a bigger tensor that represents 224x224 pixels, with black padding added
     """
 
-    img = tf.Variable(tf.fill([224, 224, 3], -1.))  # initialize black 224x224 image
+    img = tf.Variable(tf.fill([glass.shape[0], 224, 224, 3], -1.))  # initialize black 224x224 image
 
     # assign all values from the generated glasses image
     for i in range(crop_coordinates[0], crop_coordinates[2]):
         for j in range(crop_coordinates[1], crop_coordinates[3]):
-            img[i, j].assign(glass[i - crop_coordinates[0], j - crop_coordinates[1]])
+            img[:, i, j].assign(glass[:, i - crop_coordinates[0], j - crop_coordinates[1], :])
 
     return img
 
@@ -110,7 +110,7 @@ def convert_to_numpy_slice(imgs, i: int) -> np.ndarray:
     Receives images represented by a tensor (value range [-1, 1]),
      and converts one image specified by index to a ndarray with range [0, 255].
 
-    :param imgs: the image as a tensor-like object
+    :param imgs: the images as a tensor-like object
     :param i: the index of the image in the input tensor
     :return: a NumPy array with scaled integer values that represents a slice of the input tensor
     """
@@ -155,9 +155,9 @@ def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_
     if not new_version:
         model.add(GlassesFacesMerger(data_path, target_path, n_inputs, output_size))  # add merging layer
     else:
-        model.add(BlackPadding())
+        #model.add(BlackPadding())
         # TODO middle layer!
-        #model.add(Resizer(output_size))
+        model.add(Resizer(output_size))
 
     return model
 

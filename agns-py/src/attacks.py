@@ -44,7 +44,7 @@ def show_img_from_tensor(img: tf.Tensor, vrange):
     plt.show()
 
 
-#@DeprecationWarning
+@DeprecationWarning
 def merge_face_images_with_fake_glasses(data_path: str, rel_path, gen: tf.keras.Model, n_samples: int) -> tf.Tensor:
     """
     Draws some random samples from the given face image directory (relative to data path),

@@ -1,10 +1,12 @@
 import os
+import random
 
 import numpy as np
 import tensorflow as tf
 from PIL import Image
 
-from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image
+from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image, save_img_from_tensor, \
+    convert_to_numpy_slice
 from dcgan import load_real_images
 
 
@@ -226,6 +228,7 @@ class InceptionModuleShrink(tf.keras.layers.Layer):
         return tf.keras.layers.Concatenate(axis=3)([p1, p2, pool])  # combine output filters
 
 
+@DeprecationWarning
 class GlassesFacesMerger(tf.keras.layers.Layer):
     """
     Layer for executing dodging / impersonation attacks.
@@ -312,14 +315,11 @@ class BlackPadding(tf.keras.layers.Layer):
         super(BlackPadding, self).__init__()
 
     def call(self, inputs, **kwargs):
-        crop_coordinates = [53, 25, 53 + 64, 25 + 176]
-        paddings = tf.constant([[crop_coordinates[0], 0], [0, 0]])
-        result = tf.pad(inputs, paddings, "CONSTANT", constant_values=-1.)
-
-        return result
+        return pad_glasses_image(inputs)
 
 
 class Resizer(tf.keras.layers.Layer):
+    # VERIFIED: works, correct images, gradients passed through
     """
     Resizes images to a specified output size.
     NOTE: From tf 2.5+, a specific layer is available for this.
@@ -340,7 +340,13 @@ class Resizer(tf.keras.layers.Layer):
         return conf
 
     def call(self, inputs, **kwargs):
-        img = tf.io.encode_png(inputs)
-        img = tf.image.resize(img, [224, 224])
+        imgs = tf.image.resize(inputs, [224, 224])
+
+
+        '''for i in range(4):
+            img = convert_to_numpy_slice(imgs, random.randint(0, inputs.shape[0] - 1))
+            save_img_from_tensor(img, 'resizer')'''
+
+        return imgs
 
 

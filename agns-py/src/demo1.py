@@ -16,7 +16,7 @@ if __name__ == '__main__':
     USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
     if USE_REMOTE:
         os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
-        os.environ["CUDA_VISIBLE_DEVICES"] = '2'
+        os.environ["CUDA_VISIBLE_DEVICES"] = '3'
         dap = os.path.expanduser('~') + '/storage-private/data/'
     else:
         dap = '../data/'
