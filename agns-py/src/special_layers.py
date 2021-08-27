@@ -275,7 +275,6 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
         face_ds = load_real_images(self.dap, self.tap, self.n_inputs, self.outsize)
         merged_images = []
 
-
         # merge faces and glasses
         face_ims = face_ds.take(1)  # one batch of face images
         for i, face_img in enumerate(face_ims):
@@ -309,6 +308,7 @@ class BlackPadding(tf.keras.layers.Layer):
     A layer that receives a tensor of size (?, 64, 176, 3), and pads it with black values (-1.)
     to achieve the output size 224x224.
     """
+
     def __init__(self, **kwargs):
         """
         Initializes a black padding layer.
@@ -328,8 +328,60 @@ class BlackPadding(tf.keras.layers.Layer):
 
         return imgs
 
+
 # TODO middle layer that merges glasses and faces without breaking the GradientTape!
 # idea: apply masks to faces dataset, then add those images to output of BlackPadding
+
+class FaceAdder(tf.keras.layers.Layer):
+    def __init__(self, data_path: str, target_path: str, **kwargs):
+        """
+        Initializes the FaceAdder layer, which adds masked face images of a target to (padded) glasses inputs.
+        The face images are processed so that masked pixels are 'removed', and the results are overlayed
+        onto the padded, generated fake glasses.
+        Expects an input tensor of size (?, 224, 224, 3)
+
+        :param data_path: path to the 'data' directory
+        :param target_path: relative path of the target´s image dataset, based on data_path
+        """
+        super(FaceAdder, self).__init__()
+
+        # find target images
+        ims_path = data_path + target_path
+        face_ims = os.listdir(ims_path)
+        ims_tensors = []
+
+        mask_img = load_mask(data_path, 'eyeglasses/eyeglasses_mask_6percent.png')  # load mask as tensor (224x224)
+
+        # open face images and apply mask to them
+        for face_img in face_ims:
+            img = tf.io.decode_png(tf.io.read_file(face_img), channels=3)
+            img = tf.image.convert_image_dtype(img, tf.float32)  # scale [0., 1.]
+
+            merged_img = tf.Variable(img)
+            for i in range(224):
+                for j in range(224):
+                    if mask_img[i, j, 0] == 1:  # if mask pixel is white
+                        merged_img = merged_img[i, j, :].assign(tf.zeros((1, 1, 3)))  # set face pixel to black
+
+            ims_tensors.append(tf.Tensor(merged_img))
+
+        self.face_tensors = ims_tensors  # save as field to apply when layer is called, range [0., 1.]
+
+        for i in range(4):  # TODO test
+            img = (ims_tensors[i] * 2) - 1
+            img = convert_to_numpy_slice(ims_tensors, random.randint(0, len(ims_tensors) - 1))
+            save_img_from_tensor(img, 'faceadder-init')
+
+
+def get_config(self):
+    conf = super().get_config().copy()
+    # TODO update?
+
+    return conf
+
+
+def call(self, inputs, **kwargs):
+    pass
 
 
 class Resizer(tf.keras.layers.Layer):
@@ -338,6 +390,7 @@ class Resizer(tf.keras.layers.Layer):
     Resizes images to a specified output size.
     NOTE: From tf 2.5+, a specific layer is available for this.
     """
+
     def __init__(self, output_size=(224, 224), **kwargs):
         """
         Initializes a black padding layer.
@@ -356,11 +409,8 @@ class Resizer(tf.keras.layers.Layer):
     def call(self, inputs, **kwargs):
         imgs = tf.image.resize(inputs, [224, 224])
 
-
         '''for i in range(4):
             img = convert_to_numpy_slice(imgs, random.randint(0, inputs.shape[0] - 1))
             save_img_from_tensor(img, 'resizer')'''
 
         return imgs
-
-
