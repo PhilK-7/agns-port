@@ -151,12 +151,12 @@ def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_
     :return: a new generator model that has merged faces with glasses as output images
     """
     model = tf.keras.models.Sequential(generator.layers, name='Gen_Merge')  # copy rest layers
-    from special_layers import GlassesFacesMerger, BlackPadding, Resizer
+    from special_layers import GlassesFacesMerger, BlackPadding, Resizer, FaceAdder
     if not new_version:
         model.add(GlassesFacesMerger(data_path, target_path, n_inputs, output_size))  # add merging layer
     else:
         model.add(BlackPadding())
-        # TODO middle layer!
+        model.add(FaceAdder(data_path, target_path))
         model.add(Resizer(output_size))
 
     return model
