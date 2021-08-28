@@ -83,7 +83,6 @@ def merge_face_images_with_fake_glasses(data_path: str, rel_path, gen: tf.keras.
     return tf.stack(merged_images)
 
 
-@DeprecationWarning
 def compute_custom_loss(target: int, predictions):
     """
     Computes a custom loss that is used instead of cross-entropy for the face recognition networks.
@@ -137,7 +136,7 @@ def join_gradients(gradients_a: tf.Tensor, gradients_b: tf.Tensor, kappa: float)
 
 
 # @tf.function  # NOTE: if decorated with tf.Function, this function cannot be properly debugged
-def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet, target_path: str, target: int,
+def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
                             real_glasses_a: tf.Tensor, real_glasses_b: tf.Tensor,
                             g_opt, d_opt, bs: int, kappa: float, dodging=True, verbose=True) \
         -> (tf.keras.optimizers.Adam, tf.keras.optimizers.Adam, tf.Tensor, tf.Tensor):
@@ -146,12 +145,10 @@ def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet, target_p
     This requires the current optimizers, a given target, real glasses image, and of course the DCGAN model.
     Trains the DCGAN with glasses as well as attacker images.
 
-    :param data_path: the path to the data directory
     :param gen: the generator model, generates fake glasses
     :param dis: the discriminator model, critics glasses
     :param gen_ext: the generator model + added merger on top, generates merged face images with glasses
-    :param facenet: the face recognition model
-    :param target_path: the path to the target´s image directory, relative to 'data'
+    :param facenet: the face recognition model, without softmax
     :param target: the target´s index
     :param real_glasses_a: a batch of real glasses images, sized according to bs
     :param real_glasses_b: another batch of real glasses images, sized according to bs
@@ -202,13 +199,11 @@ def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet, target_p
         # switch to face recognition net
 
         print('Generating attack images...')
-        gen_ext.summary()
         attack_images = gen_ext(random_vectors_b, training=True)
         facenet_output = facenet(attack_images, training=True)  # the logits as output
+        assert len(gen.trainable_variables) == len(gen_ext.trainable_variables)
 
-        alt_loss = tf.keras.losses.SparseCategoricalCrossentropy()
-        targets = tf.fill((half_batch_size,), target)
-        custom_facenet_loss = alt_loss(targets, facenet_output)
+        custom_facenet_loss = compute_custom_loss(target, facenet_output)
         if verbose:
             print(90 * '=')
             #print(f'The facenet logits: {facenet_output}')
@@ -238,6 +233,7 @@ def do_attack_training_step(data_path: str, gen, dis, gen_ext, facenet, target_p
 
     # compute objectives
     objective_d = tf.reduce_mean(dis_output)  # average confidence of the discriminator in fake images
+    facenet_output = tf.nn.softmax(facenet_output)
     objective_f = facenet_output[target]  # face net´s confidence that images originate from target
     if verbose:
         print(100 * '_')

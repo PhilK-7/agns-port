@@ -152,7 +152,7 @@ def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_
     :param new_version: use combination of newer multiple layers instead of GlassesFacesMerge
     :return: a new generator model that has merged faces with glasses as output images
     """
-    model = tf.keras.models.Sequential(generator.layers, name='Gen_Merge')  # copy rest layers
+    model = tf.keras.models.Sequential([generator], name='Gen_Merge')  # copy rest layers
     from special_layers import GlassesFacesMerger, BlackPadding, Resizer, FaceAdder
     if not new_version:
         model.add(GlassesFacesMerger(data_path, target_path, n_inputs, output_size))  # add merging layer
@@ -164,7 +164,6 @@ def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_
     return model
 
 
-@DeprecationWarning
 def strip_softmax_from_face_recognition_model(facenet, n_classes):
     """
     Removes the last layer (softmax classification output) from a face recognition model,
@@ -176,8 +175,5 @@ def strip_softmax_from_face_recognition_model(facenet, n_classes):
     model = tf.keras.models.Sequential(facenet.layers[:-1])
     model.add(tf.keras.layers.Dense(n_classes, name='Logits'))  # dense layer without activation
     model.layers[-1].set_weights(facenet.layers[-1].get_weights())  # copy classification layer weights
-    for i in range(len(model.layers)):
-        model.layers[i].trainable = True  # set all trainable to enable gradient backprop
-    # model.summary()
 
     return model
