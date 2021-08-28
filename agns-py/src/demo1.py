@@ -41,6 +41,10 @@ if __name__ == '__main__':
     img_size = (224, 224)  # input size for VGG
     mask_path = 'eyeglasses/eyeglasses_mask_6percent.png'
 
+    # get special versions of gen/fn
+    gen_model_ext = add_merger_to_generator(gen_model, dap, img_path, bs // 2, img_size, True)
+    face_model = strip_softmax_from_face_recognition_model(face_model, 143)
+
     # get glasses dataset to draw two half-batches from each training epoch (already shuffled and batched)
     print('Loading glasses dataset...')
     glasses_ds = dcgan.load_real_images(dap)
@@ -50,19 +54,22 @@ if __name__ == '__main__':
     print('Perform special training:')
     current_ep = 1
     g_opt, d_opt = tf.keras.optimizers.Adam(learning_rate=lr), tf.keras.optimizers.Adam(learning_rate=lr)
+
     while current_ep <= ep:
         print(f'Attack training epoch {current_ep}.')
+
+        # get real glasses as half-batches
         glasses = glasses_ds.take(1)  # take one batch
         glasses = [p for p in glasses]  # unravel
         glasses = tf.stack(glasses)
         glasses = tf.reshape(glasses, glasses.shape[1:])
         glasses_a, glasses_b = glasses[:bs // 2], glasses[bs // 2:]
-        print(glasses_a.shape)
+        if current_ep == 1:
+            print(glasses_a.shape)
+
         g_opt, d_opt, obj_d, obj_f = attacks.do_attack_training_step(gen_model, dis_model,
-                                                                     add_merger_to_generator(gen_model, dap, img_path,
-                                                                                             bs // 2, img_size, True),
-                                                                     strip_softmax_from_face_recognition_model(
-                                                                         face_model, 143), target, glasses_a, glasses_b,
+                                                                     gen_model_ext,
+                                                                     face_model, target, glasses_a, glasses_b,
                                                                      g_opt, d_opt, bs, kappa)
         # TODO what to do with obj values?
         print(obj_d, obj_f)
