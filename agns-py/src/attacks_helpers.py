@@ -155,7 +155,7 @@ def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_
     if not new_version:
         model.add(GlassesFacesMerger(data_path, target_path, n_inputs, output_size))  # add merging layer
     else:
-        model.add(BlackPadding())
+        model.add(BlackPadding(data_path))
         model.add(FaceAdder(data_path, target_path))
         model.add(Resizer(output_size))
 

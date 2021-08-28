@@ -284,7 +284,7 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
                                                  mask=self.mask_img)
 
             # resize result again if desired image size is not 224x224
-            if self.outsize != (224, 224):  # TODO test block; do not use pillow
+            if self.outsize != (224, 224):
                 img = merged_img.numpy()
                 img = Image.fromarray(img)
                 img = img.resize(self.outsize)
@@ -300,33 +300,38 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
         return result
 
 
-# TODO implement new layers that replace whole merger layer, but part for part
-
 class BlackPadding(tf.keras.layers.Layer):
-    # VERIFIED: works, correct images, gradients passed through
+    # VERIFIED: works, correct images, gradients passed through  TODO VERIFY AGAIN?
     """
     A layer that receives a tensor of size (?, 64, 176, 3), and pads it with black values (-1.)
     to achieve the output size 224x224.
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, data_path: str, **kwargs):
         """
         Initializes a black padding layer.
+
+        :param data_path: path to the 'data' directory
         """
         super(BlackPadding, self).__init__()
+        self.dap = data_path
 
     def call(self, inputs, **kwargs):
         imgs = inputs + 1  # temporarily shift to [0., 2.]
+        # reverse transformation to crop: zero-pad glasses appropriately
         crop_coordinates = [53, 25, 53 + 64, 25 + 176]
         imgs = tf.keras.layers.ZeroPadding2D(((crop_coordinates[0], 224 - crop_coordinates[2]),
                                               (crop_coordinates[1], 224 - crop_coordinates[3])))(imgs)
-        imgs = imgs - 1  # back to [-1., 1.] range
 
         # TODO also remove artifacts using mask (only pure TF math ops!)
+        mask_img = load_mask(self.dap, 'eyeglasses/eyeglasses_mask_6percent.png')  # load 224x224 mask to pixel-filter
+        mask_tensor = tf.stack([mask_img for _ in range(inputs.shape[0])])  # replicate to batch dimension
+        imgs = tf.math.multiply(imgs, mask_tensor)
+        imgs = imgs - 1  # back to [-1., 1.] range
 
-        '''for i in range(4):
-                    img = convert_to_numpy_slice(imgs, random.randint(0, inputs.shape[0] - 1))
-                    save_img_from_tensor(img, 'blackpadding')'''
+        for i in range(16):
+            img = convert_to_numpy_slice(imgs, random.randint(0, inputs.shape[0] - 1))
+            save_img_from_tensor(img, 'blackpadding_' + str(i))
 
         return imgs
 
@@ -369,11 +374,11 @@ class FaceAdder(tf.keras.layers.Layer):
 
         self.face_tensors = ims_tensors  # save as field to apply when layer is called, range [0., 1.]
 
-        for i in range(4):
+        '''for i in range(4):
             img: tf.Tensor = ims_tensors[i] * 255
             img: np.ndarray = img.numpy()
             img = img.astype(np.uint8)
-            save_img_from_tensor(img, 'faceadder-init')
+            save_img_from_tensor(img, 'faceadder-init')'''
 
     def get_config(self):
         conf = super().get_config().copy()
@@ -389,11 +394,11 @@ class FaceAdder(tf.keras.layers.Layer):
 
         result = inputs + faces
 
-        for i in range(6):
+        for i in range(16):
             img = (result[i] + 1) * 127.5
             img = img.numpy()
             img = img.astype(np.uint8)
-            save_img_from_tensor(img, 'faceadder-CALL')
+            save_img_from_tensor(img, 'faceadder-CALL_' + str(i))
 
         return result
 
