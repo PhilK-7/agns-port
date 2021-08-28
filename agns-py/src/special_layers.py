@@ -328,9 +328,9 @@ class BlackPadding(tf.keras.layers.Layer):
         imgs = tf.math.multiply(imgs, mask_tensor)  # mask out everything outside of mask area
         imgs = imgs - 1  # back to [-1., 1.] range
 
-        for i in range(16):
+        '''for i in range(16):
             img = convert_to_numpy_slice(imgs, random.randint(0, inputs.shape[0] - 1))
-            save_img_from_tensor(img, 'blackpadding_' + str(i))
+            save_img_from_tensor(img, 'blackpadding_' + str(i))'''
 
         return imgs
 
@@ -369,11 +369,11 @@ class FaceAdder(tf.keras.layers.Layer):
 
         self.face_tensors = ims_tensors  # save as field to apply when layer is called, range [0., 1.]
 
-        for i in range(16):
+        '''for i in range(16):
             img: tf.Tensor = ims_tensors[i] * 255
             img: np.ndarray = img.numpy()
             img = img.astype(np.uint8)
-            save_img_from_tensor(img, 'faceadder-init_' + str(i))
+            save_img_from_tensor(img, 'faceadder-init_' + str(i))'''
 
     def get_config(self):
         conf = super().get_config().copy()
@@ -395,11 +395,11 @@ class FaceAdder(tf.keras.layers.Layer):
 
         result = inputs + faces  # merge glasses and faces
 
-        for i in range(16):
+        '''for i in range(16):
             img = (result[i] + 1) * 127.5
             img = img.numpy()
             img = img.astype(np.uint8)
-            save_img_from_tensor(img, 'faceadder-CALL_' + str(i))
+            save_img_from_tensor(img, 'faceadder-CALL_' + str(i))'''
 
         return result
 
@@ -438,11 +438,12 @@ class Resizer(tf.keras.layers.Layer):
         :param inputs: a tensor of size (?, 224, 224, 3), value range [-1., 1.]
         """
         imgs = tf.image.resize(inputs, self.os)
+
+        for i in range(4):
+            img = convert_to_numpy_slice(imgs, random.randint(0, inputs.shape[0] - 1))
+            save_img_from_tensor(img, 'resizer')
+
         if self.scale:
             imgs = (imgs + 1) / 2  # scale to [0., 1.]
-
-        '''for i in range(4):
-            img = convert_to_numpy_slice(imgs, random.randint(0, inputs.shape[0] - 1))
-            save_img_from_tensor(img, 'resizer')'''
 
         return imgs

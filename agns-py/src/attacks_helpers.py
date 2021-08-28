@@ -138,7 +138,8 @@ def save_img_from_tensor(img, name: str, use_time: bool = True):
     img.save(filename)  # save to file
 
 
-def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_size=(224, 224), new_version=True):
+def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_size=(224, 224),
+                            scale_to_zero_base=False, new_version=True):
     """
     Receives a generator model and adds a GlassesFacesMerger on top of it, given the parameters.
 
@@ -147,6 +148,7 @@ def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_
     :param target_path: relative path of the target´s dataset (from 'data')
     :param n_inputs: the fixed number of inputs, predetermines what the entire models input batch size must be
     :param output_size: the desired image output size
+    :param scale_to_zero_base: whether the resizer layer should scale the values to [0., 1.] range
     :param new_version: use combination of newer multiple layers instead of GlassesFacesMerge
     :return: a new generator model that has merged faces with glasses as output images
     """
@@ -157,7 +159,7 @@ def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_
     else:
         model.add(BlackPadding(data_path))
         model.add(FaceAdder(data_path, target_path))
-        model.add(Resizer(output_size))
+        model.add(Resizer(output_size, scale_to_zero_base))
 
     return model
 
@@ -176,6 +178,6 @@ def strip_softmax_from_face_recognition_model(facenet, n_classes):
     model.layers[-1].set_weights(facenet.layers[-1].get_weights())  # copy classification layer weights
     for i in range(len(model.layers)):
         model.layers[i].trainable = True  # set all trainable to enable gradient backprop
-    #model.summary()
+    # model.summary()
 
     return model
