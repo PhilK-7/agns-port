@@ -103,36 +103,32 @@ def compute_custom_loss(target: int, predictions):
     return res
 
 
-def join_gradients(gradients_a: tf.Tensor, gradients_b: tf.Tensor, kappa: float) -> tf.Tensor:
+def join_gradients(gradients_a, gradients_b, kappa: float):
     """
     Joins two sets of computed gradients using a weighting factor and returns one set of gradients of the same size.
 
-    :param gradients_a: a tensor of gradients
-    :param gradients_b: another tensor of gradients, has the same shape as gradients_a
+    :param gradients_a: a list of gradient tensors
+    :param gradients_b: another list of gradient tensors, with the same respective sizes as in gradients_a
     :param kappa: a number between 0 and 1, weighs the two different gradient sets
-    :return: a tensor of joined gradients, with the same shape as the original sets
+    :return: a list of the tensors of joined gradients, with the same shape as the original sets
     """
     assert 0 <= kappa <= 1  # check that kappa in correct range
-    gradients = tf.Variable(gradients_a)  # copy gradients shape
+    joined_gradients = []
 
-    # compute joined gradients
-    for i in range(gradients.shape[0]):
-        d1 = tf.Variable(gradients_a[i])
-        d2 = tf.Variable(gradients_b[1])
-        norm_1 = tf.norm(tf.reshape(d1, np.prod(d1.shape)))
-        norm_2 = tf.norm(tf.reshape(d2, np.prod(d2.shape)))
+    for i_gr in range(len(gradients_a)):  # join every pair of gradient tensors
+        t_a, t_b = gradients_a[i_gr], gradients_b[i_gr]  # gradient tensors
+        norm_a, norm_b = tf.norm(t_a), tf.norm(t_b)  # norms
 
-        if norm_1 > norm_2:
-            d1 = d1 * (norm_2 / norm_1)
+        # scale one gradient tensor, depending on relation of their norms
+        if norm_a > norm_b:
+            t_a = t_a * (norm_b / norm_a)
         else:
-            d2 = d2 * (norm_1 / norm_2)
-        gradients[i] = kappa * d1 + (1 - kappa) * d2
+            t_b = t_b * (norm_a / norm_b)
 
-    # convert and check
-    gradients = tf.convert_to_tensor(gradients)
-    assert gradients.shape == gradients_a.shape
+        joined_gradient = kappa * t_a + (1 - kappa) * t_b  # weighted sum is the joined gradient
+        joined_gradients.append(joined_gradient)
 
-    return gradients
+    return joined_gradients
 
 
 # @tf.function  # NOTE: if decorated with tf.Function, this function cannot be properly debugged
@@ -188,7 +184,7 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
         other_fake_glasses = gen(random_vectors_b)
 
         fake_output = dis(other_fake_glasses, training=True)  # get discriminator output for generator
-        real_output = dis(real_glasses_b)
+        real_output = dis(real_glasses_b, training=True)
         dis_output = tf.concat([fake_output, real_output], 0)
         dis_loss_b = dcgan_utils.get_gen_loss(fake_output)
         if verbose:
@@ -206,7 +202,7 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
         custom_facenet_loss = compute_custom_loss(target, facenet_output)
         if verbose:
             print(90 * '=')
-            #print(f'The facenet logits: {facenet_output}')
+            # print(f'The facenet logits: {facenet_output}')
             print(90 * '-')
             print(f'The special facenet loss: {custom_facenet_loss}')
             print(90 * '-')
@@ -222,7 +218,7 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
     gen_gradients_attack = g_tape_s.gradient(custom_facenet_loss, gen_ext.trainable_variables)
     if verbose:
         print(90 * '=')
-        #print(f'Gen gradients normal: {gen_gradients_glasses}')
+        # print(f'Gen gradients normal: {gen_gradients_glasses}')
         print(90 * '-')
         print(f'Gen gradients attack: {gen_gradients_attack}')
         print(90 * '-')
@@ -231,10 +227,10 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
     gen_gradients = join_gradients(gen_gradients_glasses, gen_gradients_attack, kappa)
     g_opt.apply_gradients(zip(gen_gradients, gen.trainable_variables))
 
-    # compute objectives
+    # compute objectives  TODO dis_output / objective_d problem
     objective_d = tf.reduce_mean(dis_output)  # average confidence of the discriminator in fake images
-    facenet_output = tf.nn.softmax(facenet_output)
-    objective_f = facenet_output[target]  # face net´s confidence that images originate from target
+    facenet_output = tf.nn.softmax(facenet_output, axis=0)
+    objective_f = facenet_output[:, target]  # face net´s confidence that images originate from target
     if verbose:
         print(100 * '_')
 
