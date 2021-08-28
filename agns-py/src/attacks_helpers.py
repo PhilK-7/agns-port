@@ -16,12 +16,12 @@ def pad_glasses_image(glass: tf.Tensor):
     :return: a bigger tensor that represents 224x224 pixels, with black padding added
     """
 
-    img = tf.Variable(tf.fill([glass.shape[0], 224, 224, 3], -1.))  # initialize black 224x224 image
+    img = tf.Variable(tf.fill([224, 224, 3], -1.))  # initialize black 224x224 image
 
     # assign all values from the generated glasses image
     for i in range(crop_coordinates[0], crop_coordinates[2]):
         for j in range(crop_coordinates[1], crop_coordinates[3]):
-            img[:, i, j].assign(glass[:, i - crop_coordinates[0], j - crop_coordinates[1], :])
+            img[i, j].assign(glass[i - crop_coordinates[0], j - crop_coordinates[1], :])
 
     return img
 
@@ -46,7 +46,7 @@ def merge_images_using_mask(data_path: str, img_a: tf.Tensor, img_b: tf.Tensor,
     """
     Merges two images A and B, using a provided filter mask.
 
-    :param data_path: the path to the data directory
+    :param data_path: the path to the data directory; can be empty if mask is given as tensor
     :param img_a: the first image (face), that a part of the other image should be overlayed on (range [-1., 1.]);
         assumed to be of shape (224, 224)
     :param img_b: the second image (glasses), that should (in part) be overlayed on the other one (range [-1., 1.]);

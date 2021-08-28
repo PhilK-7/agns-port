@@ -238,19 +238,22 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
 
 
 def check_objective_met(data_path: str, gen, facenet, target: int, target_path: str, mask_path: str,
-                        stop_prob: float, bs: int, dodge=True) -> bool:
+                        stop_prob: float, bs: int, facenet_in_size=(224, 224), scale_to_polar=False,
+                        dodge=True) -> bool:
     """
     Checks whether the attack objective has been yet met. It tries generated fake glasses with a face image dataset
     and checks whether the face recognition network can be fooled successfully.
 
     :param data_path: the path to the data directory
     :param gen: the generator model (of the DCGAN)
-    :param facenet: the face recognition model
+    :param facenet: the face recognition model, without softmax
     :param target: the target´s index
     :param target_path: relative path to target dataset (from 'data')
     :param mask_path: relative path to mask image (from 'data')
     :param stop_prob: a stopping probability, related to the face net´s output target probabilities (a value in [0, 1])
     :param bs: the training batch size, must be an even number
+    :param facenet_in_size: the face net´s image input size
+    :param scale_to_polar: whether to rescale the merged images´ value range to [-1., 1.]
     :param dodge: whether to check for a successful dodging attack (check for impersonation attack instead if false)
     :return: whether an attack could be performed successfully
     """
@@ -265,10 +268,13 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
     mask = load_mask(data_path, mask_path)  # get mask tensor
 
     # get full target dataset (scaled to range [-1, 1])
-    img_files = os.listdir(target_path)
+    img_files = os.listdir(data_path + target_path)
+    n = len(img_files)
     data_tensors = []
     for img_file in img_files:
         img = tf.image.decode_png(tf.io.read_file(data_path + target_path + img_file), channels=3)
+        img = tf.image.convert_image_dtype(img, tf.float32)
+        img = tf.image.resize(img, (224, 224))  # resize to standard
         data_tensors.append(img)
 
     for i_g in range(bs // 2):  # iterate over generated glasses
@@ -276,28 +282,37 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
         face_ds = tf.data.Dataset.from_tensor_slices(data_tensors)
         face_ds = face_ds.shuffle(1000)
         # classify faces with eyeglasses
-        n = tf.data.experimental.cardinality(face_ds)
-        probs = tf.Variable(tf.zeros((n, 1)))  # variable tensor that holds predicted probabilities
+        probs = tf.Variable(tf.zeros((n,)))  # variable tensor that holds predicted probabilities
         # get current fake glasses
-        g = glasses[i_g]  # TODO need to also resize?!
+        g = glasses[i_g]
 
-        for i_f in range(0, n, bs // 2):
+        for i_f in range(0, n, bs // 2):  # iterate over half-batches of faces
             n_iter = np.min([bs // 2, n - i_f])
             face_ims_iter = face_ds.take(n_iter)  # take next subset of faces for inner iteration
             # merge faces images and current glasses
             merged_ims = []
             for face_img in face_ims_iter:
-                merged_ims.append(merge_images_using_mask(data_path, face_img, g, mask=mask))
+                face_img = (face_img * 2) - 1  # scale to [-1., 1.]
+                g = pad_glasses_image(g)  # zero pad
+                # merge to image tensor size (n_iter, 224, 224, 3) with value range [0., 1.]
+                mimg = merge_images_using_mask(data_path, face_img, g, mask=mask)
+                mimg = tf.image.resize(mimg, facenet_in_size)  # resize (needed for OF)
+                if scale_to_polar:  # rescale to [-1., 1.] (needed for OF)
+                    mimg = (mimg * 2) - 1
+                merged_ims.append(mimg)
+                # TODO also resize / scale?
             face_ims_iter = tf.stack(merged_ims)
             # classify the faces
-            faces_preds = facenet.predict(face_ims_iter)
+            faces_preds = tf.nn.softmax(facenet.predict(face_ims_iter))
 
-            # check if mean target probability in desired range
+            # write predicted confidences for target into probabilities
             for i_t in range(n_iter):
-                probs[i_f + i_t] = faces_preds[i_t, target]  # get target prediction probability
-            mean_prob = tf.reduce_mean(probs)
-            if (mean_prob <= stop_prob and dodge) or (mean_prob >= stop_prob and not dodge):
-                return True  # attack successful
+                probs = probs[i_f + i_t].assign(faces_preds[i_t, target])  # get target prediction probability
+
+        # check if mean target probability in desired range
+        mean_prob = tf.reduce_mean(probs)
+        if (mean_prob <= stop_prob and dodge) or (mean_prob >= stop_prob and not dodge):
+            return True  # attack successful
 
     return False  # no single successful attack
 

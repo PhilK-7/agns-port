@@ -73,7 +73,8 @@ if __name__ == '__main__':
                                                                      g_opt, d_opt, bs, kappa)
         # TODO what to do with obj values?
         print(obj_d, obj_f)
-        if attacks.check_objective_met(dap, gen_model, face_model, target, img_path, mask_path, stop_prob, bs, True):
+        if attacks.check_objective_met(dap, gen_model, face_model, target, img_path, mask_path, stop_prob, bs, img_size,
+                                       dodge=True):
             print('<<<<<< Dodging attack successful! >>>>>>')
             break
 
