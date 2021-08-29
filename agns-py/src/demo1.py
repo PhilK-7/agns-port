@@ -16,7 +16,7 @@ if __name__ == '__main__':
     USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
     if USE_REMOTE:
         os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
-        os.environ["CUDA_VISIBLE_DEVICES"] = '3'
+        os.environ["CUDA_VISIBLE_DEVICES"] = '2'
         dap = os.path.expanduser('~') + '/storage-private/data/'
     else:
         dap = '../data/'
@@ -31,6 +31,7 @@ if __name__ == '__main__':
     # load models and set more values
     print('Loading models...')
     face_model = load_model('../saved-models/vgg_143.h5')  # needs to be fooled
+    face_model = strip_softmax_from_face_recognition_model(face_model, 143)
     gen_model = eyeglass_generator.build_model()
     gen_model.load_weights('../saved-models/gweights')
     dis_model = eyeglass_discriminator.build_model()
@@ -40,10 +41,6 @@ if __name__ == '__main__':
     img_path = 'pubfig/dataset_aligned/Danny_Devito/aligned/'  # relative to 'data'
     img_size = (224, 224)  # input size for VGG
     mask_path = 'eyeglasses/eyeglasses_mask_6percent.png'
-
-    # get special versions of gen/fn
-    gen_model_ext = add_merger_to_generator(gen_model, dap, img_path, bs // 2, img_size, True)
-    face_model = strip_softmax_from_face_recognition_model(face_model, 143)
 
     # get glasses dataset to draw two half-batches from each training epoch (already shuffled and batched)
     print('Loading glasses dataset...')
@@ -67,12 +64,18 @@ if __name__ == '__main__':
         if current_ep == 1:
             print(glasses_a.shape)
 
-        g_opt, d_opt, obj_d, obj_f = attacks.do_attack_training_step(gen_model, dis_model,
-                                                                     gen_model_ext,
-                                                                     face_model, target, glasses_a, glasses_b,
-                                                                     g_opt, d_opt, bs, kappa)
+        # gen_model_ext must be renewed because gen is updated
+        gen_model_ext = add_merger_to_generator(gen_model, dap, img_path, bs // 2, img_size, True)
+        # execute one attack step
+        gen_model, dis_model, g_opt, d_opt, obj_d, obj_f = attacks.do_attack_training_step(gen_model, dis_model,
+                                                                                           gen_model_ext,
+                                                                                           face_model, target,
+                                                                                           glasses_a, glasses_b,
+                                                                                           g_opt, d_opt, bs, kappa)
         # TODO what to do with obj values?
         print(obj_d, obj_f)
+        # check whether attack already successful
+        print('Checking attack progress...')
         if attacks.check_objective_met(dap, gen_model, face_model, target, img_path, mask_path, stop_prob, bs, img_size,
                                        dodge=True):
             print('<<<<<< Dodging attack successful! >>>>>>')

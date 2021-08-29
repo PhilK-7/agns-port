@@ -66,30 +66,27 @@ def merge_images_using_mask(data_path: str, img_a: tf.Tensor, img_b: tf.Tensor,
     else:
         mask_img = mask
 
-    # scale images to [0., 1.]
-    glasses_image = tf.add(img_b, tf.ones(img_b.shape)) / 2.
-    face_image = tf.add(img_a, tf.ones(img_a.shape)) / 2.
-    # TEST
-    timg = glasses_image * 255
-    timg = timg.numpy()
-    timg = timg.astype(np.uint8)
-    save_img_from_tensor(timg, 'merge')
-    #
+    # process face image
+    fimg = img_a + 1  # to range to [0., 2.]
+    inv_mask_img = -mask_img + 1  # inverted mask
+    fimg = tf.math.multiply(fimg, inv_mask_img)  # remove pixels in glass area
+
+    # process glasses image
+    gimg = img_b + 1  # to range [0., 2.]
+    gimg = tf.math.multiply(gimg, mask_img)  # remove pixels outside of glass area
+    gimg = gimg - 1  # back to range [-1., 1.]
 
     # merge images
-    masked_glasses_img = tf.math.multiply(glasses_image, mask_img)  # cancel out pixels that are outside of mask area
-    invert_mask_img = -(mask_img - tf.ones(mask_img.shape))  # flip 0 and 1 in mask
-    masked_face_img = tf.math.multiply(face_image, invert_mask_img)  # remove pixels that will be replaced
-    merged_img = masked_face_img + masked_glasses_img
+    merged = gimg + fimg  # merge images, output scale [-1., 1.]
 
     # TEST
-    timg = merged_img * 255
+    timg = (merged + 1) * 127.5
     timg = timg.numpy()
     timg = timg.astype(np.uint8)
     save_img_from_tensor(timg, 'merged')
     #
 
-    return merged_img
+    return merged
 
 
 def scale_integer_to_zero_one_tensor(tensor: tf.Tensor) -> tf.Tensor:

@@ -134,8 +134,7 @@ def join_gradients(gradients_a, gradients_b, kappa: float):
 # @tf.function  # NOTE: if decorated with tf.Function, this function cannot be properly debugged
 def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
                             real_glasses_a: tf.Tensor, real_glasses_b: tf.Tensor,
-                            g_opt, d_opt, bs: int, kappa: float, dodging=True, verbose=True) \
-        -> (tf.keras.optimizers.Adam, tf.keras.optimizers.Adam, tf.Tensor, tf.Tensor):
+                            g_opt, d_opt, bs: int, kappa: float, dodging=True, verbose=False):
     """
     Performs one special training step to adjust the GAN for performing a dodging / impersonation attack.
     This requires the current optimizers, a given target, real glasses image, and of course the DCGAN model.
@@ -154,10 +153,8 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
     :param kappa: a weighting factor to balance generator gradients gained from glasses and attacker images
     :param dodging: whether to train for a dodging attack, if false instead train for impersonation attack
     :param verbose: whether to print additional information for the attack training step
-    :return g_opt: the updated generator optimizer
-    :return d_opt: the updated discriminator optimizer
-    :return objective_d: the discriminator´s objective
-    :return objective_f: the face recognition net´s objective
+    :return: the updated generator model, the updated discriminator model, the updated generator optimizer,
+     the updated discriminator optimizer, the discriminator´s objective, the face recognition net´s objective
     """
 
     # assert batch size assumptions
@@ -189,7 +186,7 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
         dis_loss_b = dcgan_utils.get_gen_loss(fake_output)
         if verbose:
             print(50 * '-')
-            # print(f'The gen loss from dis: {dis_loss_b}')
+            print(f'The gen loss from dis: {dis_loss_b}')
             print(50 * '-')
 
         # switch to face recognition net
@@ -202,7 +199,7 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
         custom_facenet_loss = compute_custom_loss(target, facenet_output)
         if verbose:
             print(90 * '=')
-            # print(f'The facenet logits: {facenet_output}')
+            print(f'The facenet logits: {facenet_output}')
             print(90 * '-')
             print(f'The special facenet loss: {custom_facenet_loss}')
             print(90 * '-')
@@ -218,7 +215,7 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
     gen_gradients_attack = g_tape_s.gradient(custom_facenet_loss, gen_ext.trainable_variables)
     if verbose:
         print(90 * '=')
-        # print(f'Gen gradients normal: {gen_gradients_glasses}')
+        print(f'Gen gradients normal: {gen_gradients_glasses}')
         print(90 * '-')
         print(f'Gen gradients attack: {gen_gradients_attack}')
         print(90 * '-')
@@ -233,8 +230,9 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
     objective_f = facenet_output[:, target]  # face net´s confidence that images originate from target
     if verbose:
         print(100 * '_')
+    print('Attack iteration done.')
 
-    return g_opt, d_opt, objective_d, objective_f
+    return gen, dis, g_opt, d_opt, objective_d, objective_f
 
 
 def check_objective_met(data_path: str, gen, facenet, target: int, target_path: str, mask_path: str,
@@ -296,6 +294,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
                 g = pad_glasses_image(g)  # zero pad
                 # merge to image tensor size (n_iter, 224, 224, 3) with value range [0., 1.]
                 mimg = merge_images_using_mask(data_path, face_img, g, mask=mask)
+                # TODO there might be a problem with merging function, see images?!
                 mimg = tf.image.resize(mimg, facenet_in_size)  # resize (needed for OF)
                 if scale_to_polar:  # rescale to [-1., 1.] (needed for OF)
                     mimg = (mimg * 2) - 1
@@ -310,7 +309,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
                 probs = probs[i_f + i_t].assign(faces_preds[i_t, target])  # get target prediction probability
 
         # check if mean target probability in desired range
-        mean_prob = tf.reduce_mean(probs)
+        mean_prob = tf.reduce_mean(probs).numpy()
         if (mean_prob <= stop_prob and dodge) or (mean_prob >= stop_prob and not dodge):
             return True  # attack successful
 
