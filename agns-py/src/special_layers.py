@@ -439,9 +439,9 @@ class Resizer(tf.keras.layers.Layer):
         """
         imgs = tf.image.resize(inputs, self.os)
 
-        for i in range(4):
+        '''for i in range(4):
             img = convert_to_numpy_slice(imgs, random.randint(0, inputs.shape[0] - 1))
-            save_img_from_tensor(img, 'resizer')
+            save_img_from_tensor(img, 'resizer')'''
 
         if self.scale:
             imgs = (imgs + 1) / 2  # scale to [0., 1.]

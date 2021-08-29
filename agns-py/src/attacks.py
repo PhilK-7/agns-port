@@ -153,7 +153,8 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
     :param kappa: a weighting factor to balance generator gradients gained from glasses and attacker images
     :param dodging: whether to train for a dodging attack, if false instead train for impersonation attack
     :param verbose: whether to print additional information for the attack training step
-    :return: the updated generator model, the updated discriminator model, the updated generator optimizer,
+    :return: the updated generator model, the updated discriminator model, the updated extended generator model
+     (updated with the same gradients as the normal generator), the updated generator optimizer,
      the updated discriminator optimizer, the discriminator´s objective, the face recognition net´s objective
     """
 
@@ -222,7 +223,8 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
     if dodging:
         gen_gradients_attack = [-gr for gr in gen_gradients_attack]  # reverse attack gradients for dodging attack
     gen_gradients = join_gradients(gen_gradients_glasses, gen_gradients_attack, kappa)
-    g_opt.apply_gradients(zip(gen_gradients, gen.trainable_variables))
+    g_opt.apply_gradients(zip(gen_gradients, gen.trainable_variables))  # apply to original generator
+    g_opt.apply_gradients(zip(gen_gradients, gen_ext.trainable_variables))  # also sync extended generator
 
     # compute objectives  TODO dis_output / objective_d problem
     objective_d = tf.reduce_mean(dis_output)  # average confidence of the discriminator in fake images
@@ -232,7 +234,7 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
         print(100 * '_')
     print('Attack iteration done.')
 
-    return gen, dis, g_opt, d_opt, objective_d, objective_f
+    return gen, dis, gen_ext, g_opt, d_opt, objective_d, objective_f
 
 
 def check_objective_met(data_path: str, gen, facenet, target: int, target_path: str, mask_path: str,
@@ -283,6 +285,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
         probs = tf.Variable(tf.zeros((n,)))  # variable tensor that holds predicted probabilities
         # get current fake glasses
         g = glasses[i_g]
+        g = pad_glasses_image(g)  # zero pad
 
         for i_f in range(0, n, bs // 2):  # iterate over half-batches of faces
             n_iter = np.min([bs // 2, n - i_f])
@@ -291,7 +294,6 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
             merged_ims = []
             for face_img in face_ims_iter:
                 face_img = (face_img * 2) - 1  # scale to [-1., 1.]
-                g = pad_glasses_image(g)  # zero pad
                 # merge to image tensor size (n_iter, 224, 224, 3) with value range [0., 1.]
                 mimg = merge_images_using_mask(data_path, face_img, g, mask=mask)
                 # TODO there might be a problem with merging function, see images?!

@@ -76,11 +76,19 @@ def merge_images_using_mask(data_path: str, img_a: tf.Tensor, img_b: tf.Tensor,
     gimg = tf.math.multiply(gimg, mask_img)  # remove pixels outside of glass area
     gimg = gimg - 1  # back to range [-1., 1.]
 
+    # TEST
+    timg = (gimg + 1) * 127.5
+    timg = timg.numpy()
+    timg = timg.astype(np.uint8)
+    save_img_from_tensor(timg, 'merge')
+    #
+
     # merge images
     merged = gimg + fimg  # merge images, output scale [-1., 1.]
+    merged = (merged + 1) / 2  # scale [0., 1.]
 
     # TEST
-    timg = (merged + 1) * 127.5
+    timg = merged * 255
     timg = timg.numpy()
     timg = timg.astype(np.uint8)
     save_img_from_tensor(timg, 'merged')
