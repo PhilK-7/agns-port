@@ -55,6 +55,7 @@ discrim.mat weight parameters:
 '''
 
 if __name__ == '__main__':
+    # (deprecated) show model weights from saved .mat files
     # load_fr_mat_model_weights('../matlab-models/openface10-recognition-nn.mat')
     data = io.loadmat('../matlab-models/openface10-recognition-nn.mat')
     print(data)

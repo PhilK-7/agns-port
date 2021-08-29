@@ -100,16 +100,3 @@ def convert_image_to_matrix(impath):
     img.show()
 
     return mapped_matrix
-
-
-if __name__ == '__main__':
-    model = build_model()
-    model = load_discrim_weights(model)
-    fake_img = np.random.randint(0, 255, (1, 64, 176, 3))
-    real_img = convert_image_to_matrix('../eyeglasses/glasses000019-2.png')
-    model.build()
-    pred = model.predict(real_img)
-    if pred >= 0.5:
-        print('Real!')
-    else:
-        print('Fake!')

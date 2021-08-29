@@ -3,7 +3,7 @@ Repository for the WIP Python port of the "agns" (Adversarial Generative Network
 
 ## Requirements
 - Python 3.8+
-- at least one NVidia GPU, with 10+ GB VRAM
+- at least one NVidia GPU, with 11+ GB VRAM
 - the correct NVidia CUDA version + CUDNN installed
 - at least 2 GB of free storage
 
@@ -47,7 +47,13 @@ the Tensorflow format (recognized by .index / .data-... endings). Some models, p
 that use custom implemented layers that receive extra parameters, need to be loaded with explicitly
 given custom objects to be restored.
 
-## Execution
+## Code Remarks
+Functions not used anymore are marked with a DepreciationWarning. They still might be useful, but are
+not necessarily tested with the current state of the code.
 
+## Execution
+There are different demos, all files that are exclusively for demonstration purposes (but might do
+more) start with 'demo'. Go to demo_main and start the script, which lets you pick which of the
+normal demos to execute.
 ... Also take note that content plotted with Matplotlib remotely will show up in the SciView of
 PyCharm Pro.

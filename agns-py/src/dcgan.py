@@ -15,6 +15,7 @@ from tensorflow.python.framework.errors_impl import NotFoundError
 import eyeglass_discriminator
 import eyeglass_generator
 import dcgan_utils
+from setup import setup_params
 
 '''
 Some parts were taken from official tutorials:
@@ -341,12 +342,7 @@ if __name__ == '__main__':
     custom_objects = {'MiniBatchDiscrimination': eyeglass_discriminator.MiniBatchDiscrimination}
 
     # set parameters
-    USE_REMOTE = False  # set depending whether code is executed on remote workstation or not
-    if USE_REMOTE:
-        os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
-        os.environ["CUDA_VISIBLE_DEVICES"] = '4'
-        dap = expanduser('~') + '/storage-private/data/'
-    else:
-        dap = '../data/'
+    dap = setup_params(True)
 
+    # set parameters accordingly to current training need
     train_dcgan(dap, 5, start_fresh=True)

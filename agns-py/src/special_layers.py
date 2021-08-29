@@ -5,8 +5,7 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 
-from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image, save_img_from_tensor, \
-    convert_to_numpy_slice
+from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image
 from dcgan import load_real_images
 
 

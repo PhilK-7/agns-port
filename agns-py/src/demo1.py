@@ -1,26 +1,18 @@
-import os
-
+import tensorflow as tf
 from tensorflow.keras.models import load_model
 
+import attacks
+import dcgan
 import eyeglass_discriminator
 import eyeglass_generator
 from attacks_helpers import add_merger_to_generator, strip_softmax_from_face_recognition_model
-import dcgan
-import attacks
-import tensorflow as tf
+from setup import setup_params
 
 # subject n° 19 digital dodging attack -vs- VGG143
 if __name__ == '__main__':
-    # LE BOILERPLATE SHIAT
-    # set parameters
-    USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
-    if USE_REMOTE:
-        os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
-        os.environ["CUDA_VISIBLE_DEVICES"] = '2'
-        dap = os.path.expanduser('~') + '/storage-private/data/'
-    else:
-        dap = '../data/'
+    dap = setup_params(True)
 
+    # some hyperparameters
     ep = 100
     lr = 5e-5
     weight_decay = 1e-5  # TODO also?
@@ -54,7 +46,7 @@ if __name__ == '__main__':
     g_opt, d_opt = tf.keras.optimizers.Adam(learning_rate=lr), tf.keras.optimizers.Adam(learning_rate=lr)
 
     while current_ep <= ep:
-        print(f'=== Attack training epoch {current_ep}. ===')
+        print(f'======= Attack training epoch {current_ep}. =======')
 
         # get real glasses as half-batches
         glasses = glasses_ds.take(1)  # take one batch

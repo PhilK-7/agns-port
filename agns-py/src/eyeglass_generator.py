@@ -50,6 +50,7 @@ def build_model():
 # NOTE: start fresh training instead
 @DeprecationWarning
 def load_gen_weights(gmodel):
+    import model_importer
     npas = model_importer.load_dcgan_mat_model_weights('../matlab-models/gen.mat')
     gmodel.layers[0].set_weights([npas[0], dcgan_utils.get_xavier_initialization((7040,))])
     gmodel.layers[4].set_weights([np.reshape(npas[3], (5, 5, 80, 160)), dcgan_utils.get_xavier_initialization((80,))])
@@ -80,23 +81,7 @@ def save_gen_output_to_file(matrix):
     matrix = np.asarray(matrix, dtype=np.uint8)
     img = Image.fromarray(matrix, 'RGB')
 
-    #img.show()
+    # img.show()
     if not os.path.exists('../out'):
         os.makedirs('../out')
     img.save('../out/generated_glass.png', 'PNG')
-
-
-if __name__ == '__main__':
-    # outdated, go to demo_generate_eyeglasses.py instead
-
-    import model_importer
-
-    model = build_model()
-    model = load_gen_weights(model)
-    vector = np.random.uniform(-1, 1, 25)
-    vector = np.reshape(vector, (1, 25))
-    #print(np.shape(vector))
-    model.build()
-    pred = scale_gen_output(np.reshape(model.predict(vector), (64, 176, 3)))
-    print(pred)
-    save_gen_output_to_file(pred)
