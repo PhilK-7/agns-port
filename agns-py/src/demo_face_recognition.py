@@ -5,6 +5,7 @@ import tensorflow as tf
 
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 from special_layers import LocalResponseNormalization, InceptionModule, InceptionModuleShrink, L2Normalization
+from setup import setup_params
 from matplotlib import pyplot as plt
 
 
@@ -14,15 +15,7 @@ custom_objects = {'LocalResponseNormalization': LocalResponseNormalization,
                   'InceptionModuleShrink': InceptionModuleShrink,
                   'L2Normalization': L2Normalization}
 
-# LE BOILERPLATE SHIAT
-# set parameters
-USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
-if USE_REMOTE:
-    os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
-    os.environ["CUDA_VISIBLE_DEVICES"] = '2'
-    dap = os.path.expanduser('~') + '/storage-private/data/'
-else:
-    dap = '../data/'
+dap = setup_params(True)
 
 if __name__ == '__main__':
     # which network type

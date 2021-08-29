@@ -54,7 +54,7 @@ if __name__ == '__main__':
     g_opt, d_opt = tf.keras.optimizers.Adam(learning_rate=lr), tf.keras.optimizers.Adam(learning_rate=lr)
 
     while current_ep <= ep:
-        print(f'Attack training epoch {current_ep}.')
+        print(f'=== Attack training epoch {current_ep}. ===')
 
         # get real glasses as half-batches
         glasses = glasses_ds.take(1)  # take one batch
@@ -76,7 +76,8 @@ if __name__ == '__main__':
                                                                                                           g_opt, d_opt,
                                                                                                           bs, kappa)
         # TODO what to do with obj values?
-        print(obj_d, obj_f)
+        print(f'Dis. trust in manipulated fake glasses: {obj_d.numpy()}')
+        print(obj_f)
         # check whether attack already successful
         print('Checking attack progress...')
         if attacks.check_objective_met(dap, gen_model, face_model, target, img_path, mask_path, stop_prob, bs, img_size,

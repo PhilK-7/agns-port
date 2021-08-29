@@ -10,6 +10,7 @@ import dcgan_utils
 import eyeglass_generator as gen_module
 from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image, convert_to_numpy_slice, \
     save_img_from_tensor
+from setup import setup_params
 
 
 def scale_tensor_to_std(tensor: tf.Tensor, vrange: list) -> tf.Tensor:
@@ -49,6 +50,7 @@ def merge_face_images_with_fake_glasses(data_path: str, rel_path, gen: tf.keras.
     """
     Draws some random samples from the given face image directory (relative to data path),
     and puts them together with generated fake eyeglasses.
+    NOTE: now only used for demonstration purpose, do NOT use it in Tensorflow models
 
     :param data_path: the path to the data directory
     :param rel_path: the relative path of the face image directory (from 'data')
@@ -152,7 +154,7 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
     :param bs: the training batch size
     :param kappa: a weighting factor to balance generator gradients gained from glasses and attacker images
     :param dodging: whether to train for a dodging attack, if false instead train for impersonation attack
-    :param verbose: whether to print additional information for the attack training step
+    :param verbose: whether to print additional information for the attack training step; useful for debugging
     :return: the updated generator model, the updated discriminator model, the updated extended generator model
      (updated with the same gradients as the normal generator), the updated generator optimizer,
      the updated discriminator optimizer, the discriminator´s objective, the face recognition net´s objective
@@ -226,7 +228,7 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
     g_opt.apply_gradients(zip(gen_gradients, gen.trainable_variables))  # apply to original generator
     g_opt.apply_gradients(zip(gen_gradients, gen_ext.trainable_variables))  # also sync extended generator
 
-    # compute objectives  TODO dis_output / objective_d problem
+    # compute objectives
     objective_d = tf.reduce_mean(dis_output)  # average confidence of the discriminator in fake images
     facenet_output = tf.nn.softmax(facenet_output, axis=0)
     objective_f = facenet_output[:, target]  # face net´s confidence that images originate from target
@@ -296,12 +298,10 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
                 face_img = (face_img * 2) - 1  # scale to [-1., 1.]
                 # merge to image tensor size (n_iter, 224, 224, 3) with value range [0., 1.]
                 mimg = merge_images_using_mask(data_path, face_img, g, mask=mask)
-                # TODO there might be a problem with merging function, see images?!
                 mimg = tf.image.resize(mimg, facenet_in_size)  # resize (needed for OF)
                 if scale_to_polar:  # rescale to [-1., 1.] (needed for OF)
                     mimg = (mimg * 2) - 1
                 merged_ims.append(mimg)
-                # TODO also resize / scale?
             face_ims_iter = tf.stack(merged_ims)
             # classify the faces
             faces_preds = tf.nn.softmax(facenet.predict(face_ims_iter))
@@ -313,7 +313,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
         # check if mean target probability in desired range
         mean_prob = tf.reduce_mean(probs).numpy()
         if (mean_prob <= stop_prob and dodge) or (mean_prob >= stop_prob and not dodge):
-            return True  # attack successful
+            return True  # attack successful if facenet fooled with at least on glass
 
     return False  # no single successful attack
 
@@ -329,21 +329,24 @@ def show_attack_results():
 
 
 if __name__ == '__main__':
-    # LE BOILERPLATE SHIAT
-    # set parameters
-    USE_REMOTE = False  # set depending whether code is executed on remote workstation or not
-    if USE_REMOTE:
-        os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
-        os.environ["CUDA_VISIBLE_DEVICES"] = '2'
-        dap = os.path.expanduser('~') + '/storage-private/data/'
-    else:
-        dap = '../data/'
+    # demo for merged images
+    dap = setup_params(True)
 
     # run to see example of merged attack images
     generator = gen_module.build_model()
     generator.load_weights('../saved-models/gweights')
-    examples = merge_face_images_with_fake_glasses(dap, 'pubfig/dataset_aligned/Gisele_Bundchen/aligned/',
-                                                   generator, 10)
-    show_img_from_tensor(examples[0], [0, 255])
-    show_img_from_tensor(examples[1], [0, 255])
-    show_img_from_tensor(examples[2], [0, 255])
+    inputs = tf.random.normal((3, 25))
+    outputs = generator.predict(inputs)
+    tap = 'pubfig/dataset_aligned/Gisele_Bundchen/aligned/'
+    map = 'eyeglasses/eyeglasses_mask_6percent.png'
+    face_imgs = os.listdir(dap + tap)
+    for i, fim in enumerate(random.sample([dap + tap + fi for fi in face_imgs], 3)):
+        fimg = tf.image.decode_png(tf.io.read_file(fim), channels=3)
+        fimg = tf.image.convert_image_dtype(fimg, tf.float32)
+        fimg = tf.image.resize(fimg, (224, 224))
+        fimg = (fimg * 2) - 1
+        gimg = outputs[i]
+        gimg = pad_glasses_image(gimg)
+        mimg = merge_images_using_mask(dap, fimg, gimg, map)
+        show_img_from_tensor(mimg, [0, 1])
+
