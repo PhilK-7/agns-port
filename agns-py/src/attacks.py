@@ -204,8 +204,8 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
             print(90 * '=')
             print(f'The facenet logits: {facenet_output}')
             print(90 * '-')
-            print(f'The special facenet loss: {custom_facenet_loss}')
-            print(90 * '-')
+        print(f'The special facenet loss: {custom_facenet_loss}')
+        print(90 * '-')
 
     # APPLY BLOCK: dis
     dis_gradients = d_tape.gradient(dis_loss_a, dis.trainable_variables)
@@ -229,9 +229,10 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
     g_opt.apply_gradients(zip(gen_gradients, gen_ext.trainable_variables))  # also sync extended generator
 
     # compute objectives
-    objective_d = tf.reduce_mean(dis_output)  # average confidence of the discriminator in fake images
-    facenet_output = tf.nn.softmax(facenet_output, axis=0)
+    objective_d = tf.reduce_mean(dis_output)  # average confidence of the discriminator in glasses images (half fake)
+    facenet_output = tf.nn.softmax(facenet_output, axis=0)  # probabilities, shape (half_batch_size, n_classes)
     objective_f = facenet_output[:, target]  # face net´s confidence that images originate from target
+    objective_f = tf.reduce_mean(objective_f)  # average over batch dimension
     if verbose:
         print(100 * '_')
     print('Attack iteration done.')
@@ -288,6 +289,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
         # get current fake glasses
         g = glasses[i_g]
         g = pad_glasses_image(g)  # zero pad
+        last_face_ims_inner_iter = None  # save last set of merged attack images here
 
         for i_f in range(0, n, bs // 2):  # iterate over half-batches of faces
             n_iter = np.min([bs // 2, n - i_f])
@@ -303,6 +305,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
                     mimg = (mimg * 2) - 1
                 merged_ims.append(mimg)
             face_ims_iter = tf.stack(merged_ims)
+            last_face_ims_inner_iter = face_ims_iter
             # classify the faces
             faces_preds = tf.nn.softmax(facenet.predict(face_ims_iter))
 
@@ -313,7 +316,11 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
         # check if mean target probability in desired range
         mean_prob = tf.reduce_mean(probs).numpy()
         if (mean_prob <= stop_prob and dodge) or (mean_prob >= stop_prob and not dodge):
-            return True  # attack successful if facenet fooled with at least on glass
+            # pick random successful image and show it
+            random_show_img = last_face_ims_inner_iter[random.randint(0, last_face_ims_inner_iter.shape[0])]
+            show_img_from_tensor(random_show_img, ([-1, 1] if scale_to_polar else [0, 1]))
+
+            return True  # attack successful if facenet fooled with at least one glasses image
 
     return False  # no single successful attack
 

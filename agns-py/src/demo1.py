@@ -68,8 +68,8 @@ if __name__ == '__main__':
                                                                                                           g_opt, d_opt,
                                                                                                           bs, kappa)
         # TODO what to do with obj values?
-        print(f'Dis. trust in manipulated fake glasses: {obj_d.numpy()}')
-        print(obj_f)
+        print(f'Dis. average trust in manipulated fake glasses + real glasses: {obj_d.numpy()}')
+        print(f'Facenet´s average trust that attack images belong to target: {obj_f.numpy()}')
         # check whether attack already successful
         print('Checking attack progress...')
         if attacks.check_objective_met(dap, gen_model, face_model, target, img_path, mask_path, stop_prob, bs, img_size,
