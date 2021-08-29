@@ -15,7 +15,6 @@ if __name__ == '__main__':
     # some hyperparameters
     ep = 100
     lr = 5e-5
-    weight_decay = 1e-5  # TODO also?
     kappa = 0.25
     stop_prob = 0.01
     bs = 32
@@ -58,6 +57,7 @@ if __name__ == '__main__':
             print(glasses_a.shape)
 
         # execute one attack step
+        # TODO check that generators´ weights change!
         gen_model, dis_model, gen_model_ext, g_opt, d_opt, obj_d, obj_f = attacks.do_attack_training_step(gen_model,
                                                                                                           dis_model,
                                                                                                           gen_model_ext,
@@ -67,7 +67,6 @@ if __name__ == '__main__':
                                                                                                           glasses_b,
                                                                                                           g_opt, d_opt,
                                                                                                           bs, kappa)
-        # TODO what to do with obj values?
         print(f'Dis. average trust in manipulated fake glasses + real glasses: {obj_d.numpy()}')
         print(f'Facenet´s average trust that attack images belong to target: {obj_f.numpy()}')
         # check whether attack already successful

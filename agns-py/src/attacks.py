@@ -8,8 +8,7 @@ from PIL import Image
 
 import dcgan_utils
 import eyeglass_generator as gen_module
-from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image, convert_to_numpy_slice, \
-    save_img_from_tensor
+from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image
 from setup import setup_params
 
 
@@ -325,14 +324,30 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
     return False  # no single successful attack
 
 
-# TODO implement dodging attack
+def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size, g_path: str, d_path: str,
+                   fn_path: str, n_bigger_class: bool, ep: int, lr: float, kappa: float, stop_prob: float, bs: int,
+                   target_index: int, dodging: bool):
+    """
+    Executes an attack with all the given parameters. Checks success after every attack training epoch.
 
-
-# TODO implement impersonation attack
-
-# TODO show attack results
-def show_attack_results():
+    :param data_path: the path to the 'data' directory
+    :param target_path: the relative path of the target directory from 'data'
+    :param mask_path: the relative path of the mask from 'data'
+    :param fn_img_size: the facenet´s input size as iterable of two integers
+    :param g_path: the path of the saved generator model
+    :param d_path: the path of the saved discriminator model
+    :param fn_path: the path of the saved face recognition model
+    :param n_bigger_class: whether the face predictor has 143 output classes (instead of only 10)
+    :param ep: how many epochs to execute the attack training loop
+    :param lr: the learning rate for the optimizer´s of the generator and discriminator
+    :param kappa: a weighting number in [0., 1.] for joining gradients of discriminator and facenet
+    :param stop_prob: the stopping probability that determines when an attack is deemed successful
+    :param bs: the training batch size
+    :param target_index: the index of the target in the given dataset (starting from 0)
+    :param dodging: whether to execute a dodging attack, instead of an impersonation attack
+    """
     pass
+    # TODO implement generic
 
 
 if __name__ == '__main__':
@@ -356,4 +371,3 @@ if __name__ == '__main__':
         gimg = pad_glasses_image(gimg)
         mimg = merge_images_using_mask(dap, fimg, gimg, map)
         show_img_from_tensor(mimg, [0, 1])
-
