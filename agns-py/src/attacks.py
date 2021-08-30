@@ -208,7 +208,8 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
             print(90 * '=')
             print(f'The facenet logits: {facenet_output}')
             print(90 * '-')
-        print(f'The special facenet loss: {custom_facenet_loss}')
+        loss_objective = 'MINIMIZED' if dodging else 'MAXIMIZED'
+        print(f'The special facenet loss to be {loss_objective} : {custom_facenet_loss}')
         print(90 * '-')
 
     # APPLY BLOCK: dis
@@ -391,7 +392,7 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
         print(f'======= Attack training epoch {current_ep}. =======')
 
         # get real glasses as half-batches
-        glasses = glasses_ds.take(1)  # take one batch
+        glasses = glasses_ds.take(1)  # take one batch (dataset is repeated infinitely)
         glasses = [p for p in glasses]  # unravel
         glasses = tf.stack(glasses)
         glasses = tf.reshape(glasses, glasses.shape[1:])
@@ -416,8 +417,11 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
         print('Checking attack progress...')
         if check_objective_met(data_path, gen_model, face_model, target_index, target_path, mask_path, stop_prob, bs,
                                fn_img_size, not vgg_not_of, dodging):
-            print('<<<<<< Dodging attack successful! >>>>>>')
+            attack_name = 'Dodging' if dodging else 'Impersonation'
+            print(f'<<<<<< {attack_name} attack successful! >>>>>>')
             break
+        else:
+            print('No attack success yet.')
 
         current_ep += 1
 
