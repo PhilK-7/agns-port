@@ -172,7 +172,7 @@ def strip_softmax_from_face_recognition_model(facenet):
     :param facenet: the face recognition model
     :return: a copy of the model, but without softmax at the end
     """
-    facenet.summary()
+
     # cut off only last layer: softmax (Simplex)
     model = tf.keras.models.Sequential([*facenet.layers[0].layers, *facenet.layers[1].layers[:-1]])
 

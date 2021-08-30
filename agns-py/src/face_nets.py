@@ -378,4 +378,16 @@ if __name__ == '__main__':
     else:
         ep = int(sys.argv[1])
 
-    train_vgg_dnn(ep, 5e-4, True)
+    # training calls here
+    train_of_dnn(ep, 5e-3, True)
+    train_of_dnn(ep, 1e-3, True)
+    train_of_dnn(ep, 5e-4, True)
+    train_of_dnn(ep, 1e-4, True)
+    train_of_dnn(ep, 5e-5, True)
+    train_of_dnn(ep, 1e-5, True)
+    train_of_dnn(ep, 5e-6, True)
+    train_of_dnn(ep, 1e-4, True)
+    train_of_dnn(ep, 5e-5, True)
+    train_of_dnn(ep, 1e-5, True)
+    train_of_dnn(ep, 5e-6, True)
+    train_vgg_dnn(ep, 1e-5, True)
