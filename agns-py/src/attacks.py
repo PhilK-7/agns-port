@@ -5,11 +5,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 from PIL import Image
+from tensorflow.python.keras.models import load_model
 
 import dcgan_utils
 import eyeglass_generator as gen_module
-from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image
+from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image, \
+    strip_softmax_from_face_recognition_model, add_merger_to_generator
 from setup import setup_params
+import dcgan
+import eyeglass_generator
+import eyeglass_discriminator
 
 
 def scale_tensor_to_std(tensor: tf.Tensor, vrange: list) -> tf.Tensor:
@@ -298,11 +303,11 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
             for face_img in face_ims_iter:
                 face_img = (face_img * 2) - 1  # scale to [-1., 1.]
                 # merge to image tensor size (n_iter, 224, 224, 3) with value range [0., 1.]
-                mimg = merge_images_using_mask(data_path, face_img, g, mask=mask)
-                mimg = tf.image.resize(mimg, facenet_in_size)  # resize (needed for OF)
+                merged_img = merge_images_using_mask(data_path, face_img, g, mask=mask)
+                merged_img = tf.image.resize(merged_img, facenet_in_size)  # resize (needed for OF)
                 if scale_to_polar:  # rescale to [-1., 1.] (needed for OF)
-                    mimg = (mimg * 2) - 1
-                merged_ims.append(mimg)
+                    merged_img = (merged_img * 2) - 1
+                merged_ims.append(merged_img)
             face_ims_iter = tf.stack(merged_ims)
             last_face_ims_inner_iter = face_ims_iter
             # classify the faces
@@ -326,7 +331,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
 
 def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size, g_path: str, d_path: str,
                    fn_path: str, n_bigger_class: bool, ep: int, lr: float, kappa: float, stop_prob: float, bs: int,
-                   target_index: int, dodging: bool):
+                   target_index: int, vgg_not_of: bool, dodging: bool):
     """
     Executes an attack with all the given parameters. Checks success after every attack training epoch.
 
@@ -344,10 +349,65 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
     :param stop_prob: the stopping probability that determines when an attack is deemed successful
     :param bs: the training batch size
     :param target_index: the index of the target in the given dataset (starting from 0)
+    :param vgg_not_of: whether the used facenet is a VGG, instead of OpenFace
     :param dodging: whether to execute a dodging attack, instead of an impersonation attack
     """
-    pass
-    # TODO implement generic
+
+    # load models and do some customization
+    print('Loading models...')
+    face_model = load_model(fn_path)  # needs to be fooled
+    face_model = strip_softmax_from_face_recognition_model(face_model, (143 if n_bigger_class else 10))
+    gen_model = eyeglass_generator.build_model()
+    gen_model.load_weights(g_path)
+    dis_model = eyeglass_discriminator.build_model()
+    dis_model.load_weights(d_path)
+    gen_model_ext = add_merger_to_generator(gen_model, data_path, target_path, bs // 2, fn_img_size,
+                                            vgg_not_of)  # must be updated
+    print('All models loaded.')
+
+    # get glasses dataset to draw two half-batches from each training epoch (already shuffled and batched)
+    print('Loading glasses dataset...')
+    glasses_ds = dcgan.load_real_images(data_path)
+    print('Glasses dataset ready.')
+
+    # perform special training
+    print('Perform special training:')
+    current_ep = 1
+    g_opt, d_opt = tf.keras.optimizers.Adam(learning_rate=lr), tf.keras.optimizers.Adam(learning_rate=lr)
+
+    while current_ep <= ep:
+        print(f'======= Attack training epoch {current_ep}. =======')
+
+        # get real glasses as half-batches
+        glasses = glasses_ds.take(1)  # take one batch
+        glasses = [p for p in glasses]  # unravel
+        glasses = tf.stack(glasses)
+        glasses = tf.reshape(glasses, glasses.shape[1:])
+        glasses_a, glasses_b = glasses[:bs // 2], glasses[bs // 2:]
+        if current_ep == 1:
+            print(glasses_a.shape)
+
+        # execute one attack step
+        # TODO check that generators´ weights change!
+        gen_model, dis_model, gen_model_ext, g_opt, d_opt, obj_d, obj_f = do_attack_training_step(gen_model,
+                                                                                                  dis_model,
+                                                                                                  gen_model_ext,
+                                                                                                  face_model,
+                                                                                                  target_index,
+                                                                                                  glasses_a,
+                                                                                                  glasses_b,
+                                                                                                  g_opt, d_opt,
+                                                                                                  bs, kappa, dodging)
+        print(f'Dis. average trust in manipulated fake glasses + real glasses: {obj_d.numpy()}')
+        print(f'Facenet´s average trust that attack images belong to target: {obj_f.numpy()}')
+        # check whether attack already successful
+        print('Checking attack progress...')
+        if check_objective_met(data_path, gen_model, face_model, target_index, target_path, mask_path, stop_prob, bs,
+                               fn_img_size, not vgg_not_of, dodging):
+            print('<<<<<< Dodging attack successful! >>>>>>')
+            break
+
+        current_ep += 1
 
 
 if __name__ == '__main__':
@@ -360,7 +420,7 @@ if __name__ == '__main__':
     inputs = tf.random.normal((3, 25))
     outputs = generator.predict(inputs)
     tap = 'pubfig/dataset_aligned/Gisele_Bundchen/aligned/'
-    map = 'eyeglasses/eyeglasses_mask_6percent.png'
+    maskp = 'eyeglasses/eyeglasses_mask_6percent.png'
     face_imgs = os.listdir(dap + tap)
     for i, fim in enumerate(random.sample([dap + tap + fi for fi in face_imgs], 3)):
         fimg = tf.image.decode_png(tf.io.read_file(fim), channels=3)
@@ -369,5 +429,5 @@ if __name__ == '__main__':
         fimg = (fimg * 2) - 1
         gimg = outputs[i]
         gimg = pad_glasses_image(gimg)
-        mimg = merge_images_using_mask(dap, fimg, gimg, map)
+        mimg = merge_images_using_mask(dap, fimg, gimg, maskp)
         show_img_from_tensor(mimg, [0, 1])
