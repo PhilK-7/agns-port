@@ -15,6 +15,7 @@ from setup import setup_params
 import dcgan
 import eyeglass_generator
 import eyeglass_discriminator
+from special_layers import LocalResponseNormalization, L2Normalization, InceptionModule, InceptionModuleShrink
 
 
 def scale_tensor_to_std(tensor: tf.Tensor, vrange: list) -> tf.Tensor:
@@ -368,8 +369,16 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
 
     # load models and do some customization
     print('Loading models...')
-    face_model = load_model(fn_path)  # needs to be fooled
-    face_model = strip_softmax_from_face_recognition_model(face_model, (143 if n_bigger_class else 10))
+    # load facenet that needs to be fooled
+    if vgg_not_of:
+        face_model = load_model(fn_path)
+    else:
+        custom_objects = {'LocalResponseNormalization': LocalResponseNormalization,
+                          'InceptionModule': InceptionModule,
+                          'InceptionModuleShrink': InceptionModuleShrink,
+                          'L2Normalization': L2Normalization}
+        face_model = load_model(fn_path, custom_objects=custom_objects)
+    face_model = strip_softmax_from_face_recognition_model(face_model)
     gen_model = eyeglass_generator.build_model()
     gen_model.load_weights(g_path)
     dis_model = eyeglass_discriminator.build_model()

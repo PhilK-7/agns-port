@@ -3,7 +3,7 @@ from setup import setup_params
 
 # subject n° 19 digital dodging attack -vs- VGG143
 if __name__ == '__main__':
-    dap = setup_params(True, 4)
+    dap = setup_params(True)
 
     # some hyperparameters
     ep = 100  # TODO 1 ?!

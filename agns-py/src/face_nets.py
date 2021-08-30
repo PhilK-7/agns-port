@@ -9,6 +9,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import tensorflow_addons as tfa
 from os.path import expanduser
 from sklearn.utils import class_weight
+from setup import setup_params
 
 from special_layers import LocalResponseNormalization, L2Normalization, InceptionModule, \
     InceptionModuleShrink
@@ -133,7 +134,7 @@ def build_openface_model():
 
     # assemble model
     model = tf.keras.Model(inputs=[inp], outputs=[x], name='Openface_NN4.Small2.v1')
-    model.summary()
+    # model.summary()
 
     return model
 
@@ -147,11 +148,13 @@ def build_vgg_custom_part(bigger_class_n=False):
     :return the additional part of VGG 143/10 as tf.keras.Sequential object
     """
     inp = tf.keras.layers.InputLayer((4096,), name='Descriptor_Input')
-    dense = tf.keras.layers.Dense(143 if bigger_class_n else 10, activation='softmax', name='Simplex')
+    dense = tf.keras.layers.Dense(143 if bigger_class_n else 10, name='Logits')
+    simplex = tf.keras.layers.Softmax(name='Simplex')
 
     model = tf.keras.Sequential([
         inp,
-        dense
+        dense,
+        simplex
     ],
         name='VGG143_head' if bigger_class_n else 'VGG10_head')
     # model.summary()
@@ -169,15 +172,17 @@ def build_of_custom_part(bigger_class_n=False):
     """
     inp = tf.keras.layers.InputLayer((128,), name='Sphere_Input')
     dense_1 = tf.keras.layers.Dense(286 if bigger_class_n else 12, name='Fully_Connected', activation='tanh')
-    dense_2 = tf.keras.layers.Dense(143 if bigger_class_n else 10, name='Simplex', activation='softmax')
+    dense_2 = tf.keras.layers.Dense(143 if bigger_class_n else 10, name='Logits')
+    simplex = tf.keras.layers.Softmax(name='Simplex')
 
     model = tf.keras.Sequential([
         inp,
         dense_1,
-        dense_2
+        dense_2,
+        simplex
     ],
         name='OF143_head' if bigger_class_n else 'OF10_head')
-    model.summary()
+    # model.summary()
 
     return model
 
@@ -210,6 +215,10 @@ def train_vgg_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
         print('No saved weights found. Start training new model...')
 
     model.summary()
+    if not os.path.exists('../out'):
+        os.mkdir('../out')
+    tf.keras.utils.plot_model(model, '../out/' + ('vgg_143.png' if bigger_class_n else 'vgg_10.png'),
+                              expand_nested=True)
 
     # load dataset, rescale + resize images
     ds_path = data_path + 'pubfig/dataset_aligned'
@@ -237,6 +246,7 @@ def train_vgg_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
 
     # save model state
     model.save(save_path)
+    print('VGG model saved.')
 
 
 # go to agns-port and execute align_all.sh with pubfig/dataset_ in data to get dataset_aligned
@@ -301,6 +311,11 @@ def train_of_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
         top_model = build_of_custom_part(bigger_class_n)
         model = tf.keras.Sequential([base_model, top_model])
 
+    model.summary()
+    if not os.path.exists('../out'):
+        os.mkdir('../out')
+    tf.keras.utils.plot_model(model, '../out/' + ('of143.png' if bigger_class_n else 'of10.png'), expand_nested=True)
+
     # get data
     ds_path = data_path + 'pubfig/dataset_aligned'
     if not bigger_class_n:
@@ -320,7 +335,7 @@ def train_of_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
 
     # save model after training
     model.save(save_path)
-    print('Model saved.')
+    print('OpenFace model saved.')
 
 
 def build_detector_model():
@@ -356,18 +371,11 @@ if __name__ == '__main__':
                       'InceptionModuleShrink': InceptionModuleShrink,
                       'L2Normalization': L2Normalization}
 
-    # set parameters
-    USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
-    if USE_REMOTE:
-        os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
-        os.environ["CUDA_VISIBLE_DEVICES"] = '2'
-        data_path = expanduser('~') + '/storage-private/data/'
-    else:
-        data_path = '../data/'
+    data_path = setup_params(True, (1,))
 
     if len(sys.argv) < 2:
         ep = 1
     else:
         ep = int(sys.argv[1])
 
-    train_of_dnn(ep, 3e-4, True)
+    train_vgg_dnn(ep, 5e-4, True)

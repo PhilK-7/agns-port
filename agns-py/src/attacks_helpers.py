@@ -165,16 +165,15 @@ def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_
     return model
 
 
-def strip_softmax_from_face_recognition_model(facenet, n_classes):
+def strip_softmax_from_face_recognition_model(facenet):
     """
-    Removes the last layer (softmax classification output) from a face recognition model,
-    and adds an equivalent last dense layer without softmax activation that just outputs the logits.
+    Removes the last layer (softmax classification output) from a face recognition model.
 
     :param facenet: the face recognition model
-    :param n_classes: the number of output classes
+    :return: a copy of the model, but without softmax at the end
     """
-    model = tf.keras.models.Sequential(facenet.layers[:-1])
-    model.add(tf.keras.layers.Dense(n_classes, name='Logits'))  # dense layer without activation
-    model.layers[-1].set_weights(facenet.layers[-1].get_weights())  # copy classification layer weights
+    facenet.summary()
+    # cut off only last layer: softmax (Simplex)
+    model = tf.keras.models.Sequential([*facenet.layers[0].layers, *facenet.layers[1].layers[:-1]])
 
     return model

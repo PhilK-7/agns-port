@@ -3,7 +3,7 @@ from attacks import execute_attack
 
 # subject n° 1 digital impersonation attack -vs- OpenFace 10
 if __name__ == '__main__':
-    dap = setup_params(True, 0)
+    dap = setup_params(True)
 
     ep = 100  # TODO 1 ?!
     stop_prob = 0.924

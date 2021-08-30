@@ -3,12 +3,15 @@ Repository for the WIP Python port of the "agns" (Adversarial Generative Network
 
 ## Requirements
 - Python 3.8+
+- the packages listed in the requirements.txt
+- plus pyviz package and Graphviz additionaly if you want graphs of the models 
+(comment out `plot_model` to ignore)
 - at least one NVidia GPU, with 11+ GB VRAM
 - the correct NVidia CUDA version + CUDNN installed
 - at least 2 GB of free storage
 
 ## Dependencies
-install requirements in your venv with `pip install -r requirements.txt`
+Install requirements in your venv with `pip install -r requirements.txt`.
 Python 3.8 recommended.
 It is *not* recommended using another Tensorflow, Numpy version etc. than provided. Especially Tensorflow can cause
 some unexpected problems with this.
