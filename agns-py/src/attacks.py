@@ -269,6 +269,17 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
     assert bs % 2 == 0
     assert 0 <= stop_prob <= 1
 
+    # help function per call
+    def draw_random_image(imgs: tf.Tensor, scaled_to_polar: bool):
+        """
+        Draws a random image (merged face + glasses) from a given set.
+
+        :param imgs: a tensor of merged images
+        :param scaled_to_polar: whether the images´ value range were scaled to [-1. 1.]
+        """
+        random_show_img = imgs[random.randint(0, imgs.shape[0])]
+        show_img_from_tensor(random_show_img, ([-1, 1] if scaled_to_polar else [0, 1]))
+
     # generate fake eyeglasses
     random_vectors = tf.random.normal([bs // 2, 25])
     glasses = gen.predict(random_vectors)
@@ -283,6 +294,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
         img = tf.image.convert_image_dtype(img, tf.float32)
         img = tf.image.resize(img, (224, 224))  # resize to standard
         data_tensors.append(img)
+    last_face_ims_inner_iter = None  # save last set of merged attack images here
 
     for i_g in range(bs // 2):  # iterate over generated glasses
         # generate new dataset instance for iteration
@@ -293,7 +305,6 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
         # get current fake glasses
         g = glasses[i_g]
         g = pad_glasses_image(g)  # zero pad
-        last_face_ims_inner_iter = None  # save last set of merged attack images here
 
         for i_f in range(0, n, bs // 2):  # iterate over half-batches of faces
             n_iter = np.min([bs // 2, n - i_f])
@@ -321,11 +332,12 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
         mean_prob = tf.reduce_mean(probs).numpy()
         if (mean_prob <= stop_prob and dodge) or (mean_prob >= stop_prob and not dodge):
             # pick random successful image and show it
-            random_show_img = last_face_ims_inner_iter[random.randint(0, last_face_ims_inner_iter.shape[0])]
-            show_img_from_tensor(random_show_img, ([-1, 1] if scale_to_polar else [0, 1]))
+            print(f'>>>>>>> mean_prob: {mean_prob}')
+            draw_random_image(last_face_ims_inner_iter, scale_to_polar)  # show example for successful image
 
             return True  # attack successful if facenet fooled with at least one glasses image
 
+    draw_random_image(last_face_ims_inner_iter, scale_to_polar)  # show one image per function call
     return False  # no single successful attack
 
 
