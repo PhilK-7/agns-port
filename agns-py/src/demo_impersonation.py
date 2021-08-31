@@ -23,3 +23,4 @@ if __name__ == '__main__':
     execute_attack(dap, target_path, mask_path, img_size, g_path, d_path, fn_path, False, ep, lr, kappa, stop_prob, 32,
                    target, False, False)
     # TODO fix bug causing objective checker to fail after epoch 2
+    # TODO check again: target =/= impersonator !

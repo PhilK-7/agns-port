@@ -5,17 +5,22 @@ from os import path
 import numpy as np
 import tensorflow as tf
 import tensorflow.keras.applications.vgg16 as vgg
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import tensorflow_addons as tfa
-from os.path import expanduser
 from sklearn.utils import class_weight
-from setup import setup_params
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
+from setup import setup_params
 from special_layers import LocalResponseNormalization, L2Normalization, InceptionModule, \
     InceptionModuleShrink
 
 # for usage from command line
 sys.path.append(path.dirname(path.dirname(path.abspath('face_nets.py'))))
+
+# custom layer objects
+custom_objects = {'LocalResponseNormalization': LocalResponseNormalization,
+                  'InceptionModule': InceptionModule,
+                  'InceptionModuleShrink': InceptionModuleShrink,
+                  'L2Normalization': L2Normalization}
 
 
 def write_class_mapping(imgen_dict):
@@ -253,14 +258,16 @@ def train_vgg_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
 # do the same for dataset_10 instead to get only the 10 classes, when training OF10 model
 
 
-@DeprecationWarning
-def pretrain_openface_model(epochs=1):
+# @DeprecationWarning
+def pretrain_openface_model(epochs=10, bs=160, lr=5e-3):
     """
-    NOTE: Working on local (CPU), not tested on server (GPU). Pretraining not necessary for training OF models.
+    NOTE: Pretraining not necessary for training OF models. Also, NaN losses can occur during training.
     Trains the OpenFace NN4.small2.v1 model, as preparation for the custom OF 143/10 models.
     Uses aligned images from the PubFig dataset, from all 143 classes.
 
     :param epochs: the amount of epochs to train the model this function call
+    :param bs: the training batch size
+    :param lr: the learning rate
     """
 
     # get trained model
@@ -275,14 +282,14 @@ def pretrain_openface_model(epochs=1):
     # load aligned face images and transform
     ds_path = data_path + 'pubfig/dataset_aligned'
     datagen = ImageDataGenerator(rescale=1. / 127.5, preprocessing_function=lambda t: t - 1)
-    train_gen = datagen.flow_from_directory(ds_path, target_size=(96, 96), class_mode='sparse', subset='training')
-    val_gen = datagen.flow_from_directory(ds_path, target_size=(96, 96), class_mode='sparse', subset='validation')
+    # use extra large batches for training (see triplets problem)
+    datagen = datagen.flow_from_directory(ds_path, target_size=(96, 96), class_mode='sparse', batch_size=bs)
 
     # train model
-    opt = tf.keras.optimizers.Adam(learning_rate=2e-3)
+    opt = tf.keras.optimizers.Adam(learning_rate=lr)
     pretain_loss = tfa.losses.TripletSemiHardLoss()
     model.compile(opt, pretain_loss)
-    model.fit(train_gen, epochs=epochs, validation_data=val_gen)
+    model.fit(datagen, epochs=epochs)
 
     # save after (continued) training
     model.save(model_path)
@@ -307,9 +314,13 @@ def train_of_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
         print('Saved model state found. Continue training:')
     except (ImportError, IOError):
         print('No saved state for the complete OF' + ('143' if bigger_class_n else '10') + ' model found.')
-        base_model = build_openface_model()
-        top_model = build_of_custom_part(bigger_class_n)
-        model = tf.keras.Sequential([base_model, top_model])
+        try:
+            base_model = tf.keras.models.load_model('../saved-models/openface.h5')
+            top_model = build_of_custom_part(bigger_class_n)
+            model = tf.keras.Sequential([base_model, top_model])
+        except (ImportError, IOError):
+            print('Also no pretrained OpenFace base model found. Pretrain OpenFace first.')
+            return
 
     model.summary()
     if not os.path.exists('../out'):
@@ -364,13 +375,6 @@ def build_detector_model():
 
 
 if __name__ == '__main__':
-
-    # custom layer objects
-    custom_objects = {'LocalResponseNormalization': LocalResponseNormalization,
-                      'InceptionModule': InceptionModule,
-                      'InceptionModuleShrink': InceptionModuleShrink,
-                      'L2Normalization': L2Normalization}
-
     data_path = setup_params(True, (1,))
 
     if len(sys.argv) < 2:
@@ -378,16 +382,6 @@ if __name__ == '__main__':
     else:
         ep = int(sys.argv[1])
 
+    # VGG is good, don´t continue training
     # training calls here
-    train_of_dnn(ep, 5e-3, True)
-    train_of_dnn(ep, 1e-3, True)
-    train_of_dnn(ep, 5e-4, True)
-    train_of_dnn(ep, 1e-4, True)
-    train_of_dnn(ep, 5e-5, True)
-    train_of_dnn(ep, 1e-5, True)
-    train_of_dnn(ep, 5e-6, True)
-    train_of_dnn(ep, 1e-4, True)
-    train_of_dnn(ep, 5e-5, True)
-    train_of_dnn(ep, 1e-5, True)
-    train_of_dnn(ep, 5e-6, True)
-    train_vgg_dnn(ep, 1e-5, True)
+    pretrain_openface_model(150, 256, 1e-2)
