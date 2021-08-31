@@ -6,7 +6,7 @@ from attacks import execute_attack
 
 
 def main(gpus: tuple = (0,)):
-    dap = setup_params(True)
+    dap = setup_params(True, gpus)
 
     ep = 100  # TODO 1 ?!
     stop_prob = 0.924
@@ -24,6 +24,7 @@ def main(gpus: tuple = (0,)):
     d_path = '../saved-models/dweights'
 
     # execute impersonation attack
+    print('Trying to impersonate Eva Mendes against Barack Obama...')
     execute_attack(dap, impersonator_path, mask_path, img_size, g_path, d_path, fn_path, False, ep, lr, kappa,
                    stop_prob, 32,
                    target, False, False)

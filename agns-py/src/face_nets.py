@@ -314,7 +314,7 @@ def train_of_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
     except (ImportError, IOError):
         print('No saved state for the complete OF' + ('143' if bigger_class_n else '10') + ' model found.')
         try:
-            base_model = tf.keras.models.load_model('../saved-models/openface.h5')
+            base_model = tf.keras.models.load_model('../saved-models/openface.h5', custom_objects=custom_objects)
             top_model = build_of_custom_part(bigger_class_n)
             model = tf.keras.Sequential([base_model, top_model])
         except (ImportError, IOError):
@@ -383,4 +383,4 @@ if __name__ == '__main__':
 
     # VGG is good, don´t continue training
     # training calls here
-    pretrain_openface_model(100, 256, 1e-4)
+    train_of_dnn(50, 5e-3, True)

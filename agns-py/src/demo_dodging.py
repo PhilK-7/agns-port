@@ -25,10 +25,11 @@ def main(gpus: tuple = (0,)):
     d_path = '../saved-models/dweights'
 
     # execute dodging attack
+    print('Trying to dodge Danny Devito...')
     attacks.execute_attack(dap, target_path, mask_path, img_size, g_path, d_path, fn_path, True, ep, lr, kappa,
                            stop_prob, bs, target, True, True)
     # TODO same bug as with recognition! fix it (useful: set prob 0.00)
 
 
 if __name__ == '__main__':
-    main()
+    main((1,))

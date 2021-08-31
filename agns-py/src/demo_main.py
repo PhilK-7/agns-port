@@ -31,7 +31,7 @@ if __name__ == '__main__':
 
     # launch a demo
     print(100 * '=' + '\n\n')
-    time.sleep(1.5)
+    time.sleep(1.0)
     if demo_index == 1:
         print('Starting demo_face_recognition.')
         time.sleep(1.5)
@@ -47,4 +47,4 @@ if __name__ == '__main__':
     if demo_index == 4:
         print('Starting demo_impersonation.')
         time.sleep(1.5)
-        demo_impersonation.main()
+        demo_impersonation.main(gpus)

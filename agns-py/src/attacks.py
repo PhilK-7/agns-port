@@ -279,7 +279,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
         :param imgs: a tensor of merged images
         :param scaled_to_polar: whether the images´ value range were scaled to [-1. 1.]
         """
-        random_show_img = imgs[random.randint(0, imgs.shape[0])]
+        random_show_img = imgs[random.randint(0, imgs.shape[0] - 1)]
         show_img_from_tensor(random_show_img, ([-1, 1] if scaled_to_polar else [0, 1]))
 
     # generate fake eyeglasses
@@ -412,6 +412,7 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
 
         # execute one attack step
         # TODO check that generators´ weights change!
+        print(gen_model.trainable_weights[0])
         gen_model, dis_model, gen_model_ext, g_opt, d_opt, obj_d, obj_f = do_attack_training_step(gen_model,
                                                                                                   dis_model,
                                                                                                   gen_model_ext,
@@ -431,7 +432,7 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
             print(f'<<<<<< {attack_name} attack successful! >>>>>>')
             break
         else:
-            print('No attack success yet.')
+            print('No attack success yet. \n\n')
 
         current_ep += 1
 
