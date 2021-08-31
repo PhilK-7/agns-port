@@ -1,19 +1,12 @@
-import os
+import matplotlib.pyplot as plt
+import numpy as np
 
 import eyeglass_generator as gen
-import numpy as np
-import matplotlib.pyplot as plt
+from setup import setup_params
 
-if __name__ == '__main__':
-    # LE BOILERPLATE SHIAT
-    # set parameters
-    USE_REMOTE = True  # set depending whether code is executed on remote workstation or not
-    if USE_REMOTE:
-        os.environ["CUDA_DEVICE_ORDER"] = 'PCI_BUS_ID'
-        os.environ["CUDA_VISIBLE_DEVICES"] = '2'
-        dap = os.path.expanduser('~') + '/storage-private/data/'
-    else:
-        dap = '../data/'
+
+def main(gpus: tuple = (0,)):
+    setup_params(True, gpus)
 
     # load generator
     print('Loading model...')
@@ -28,7 +21,7 @@ if __name__ == '__main__':
         pseudorand = input('Please enter a number as pseudo randomness:  ')
         try:
             pseudorand = int(pseudorand)
-        except:
+        except ValueError:
             print('\n Please enter a valid number.')
 
     # generate random input vectors
@@ -51,3 +44,7 @@ if __name__ == '__main__':
         plt.axis('off')
     plt.show()
     gen.save_gen_output_to_file(glasses[np.random.randint(0, 15)])  # save one example to 'out'
+
+
+if __name__ == '__main__':
+    main()

@@ -3,13 +3,13 @@ from setup import setup_params
 
 # subject n° 19 digital dodging attack -vs- VGG143
 if __name__ == '__main__':
-    dap = setup_params(True)
+    dap = setup_params(True, (0,))
 
     # some hyperparameters
     ep = 100  # TODO 1 ?!
     lr = 5e-5
     kappa = 0.25
-    stop_prob = 0.01
+    stop_prob = 0.00
     bs = 32
 
     # set paths and more values
@@ -24,3 +24,4 @@ if __name__ == '__main__':
     # execute dodging attack
     attacks.execute_attack(dap, target_path, mask_path, img_size, g_path, d_path, fn_path, True, ep, lr, kappa,
                            stop_prob, bs, target, True, True)
+    # TODO same bug as with recognition! fix it (useful: set prob 0.00)

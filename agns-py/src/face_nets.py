@@ -258,7 +258,6 @@ def train_vgg_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
 # do the same for dataset_10 instead to get only the 10 classes, when training OF10 model
 
 
-# @DeprecationWarning
 def pretrain_openface_model(epochs=10, bs=160, lr=5e-3):
     """
     NOTE: Pretraining not necessary for training OF models. Also, NaN losses can occur during training.
@@ -375,7 +374,7 @@ def build_detector_model():
 
 
 if __name__ == '__main__':
-    data_path = setup_params(True, (1,))
+    data_path = setup_params(True, (0,))
 
     if len(sys.argv) < 2:
         ep = 1
@@ -384,4 +383,4 @@ if __name__ == '__main__':
 
     # VGG is good, don´t continue training
     # training calls here
-    pretrain_openface_model(150, 256, 1e-2)
+    pretrain_openface_model(100, 256, 6e-4)

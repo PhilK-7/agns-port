@@ -8,16 +8,16 @@ from special_layers import LocalResponseNormalization, InceptionModule, Inceptio
 from setup import setup_params
 from matplotlib import pyplot as plt
 
-
 # custom layer objects for OpenFace
 custom_objects = {'LocalResponseNormalization': LocalResponseNormalization,
                   'InceptionModule': InceptionModule,
                   'InceptionModuleShrink': InceptionModuleShrink,
                   'L2Normalization': L2Normalization}
 
-dap = setup_params(True)
 
-if __name__ == '__main__':
+def main(gpus: tuple = (0,)):
+    dap = setup_params(True, gpus)
+
     # which network type
     print('Choose your flavor: VGG or OpenFace?')
     input_1 = 0
@@ -84,7 +84,7 @@ if __name__ == '__main__':
         if target_index not in range(max_target_index):
             target_index = -1
     except ValueError:
-        pass
+        print('No valid number given.')
     if target_index == -1:
         print('A random target is chosen: \n\n')
         target_index = random.randint(0, max_target_index)
@@ -129,3 +129,7 @@ if __name__ == '__main__':
     # evaluation metric
     acc = count_correct / n_ims * 100
     print(f'Accuracy: {acc} %')
+
+
+if __name__ == '__main__':
+    main()

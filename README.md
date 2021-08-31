@@ -1,5 +1,5 @@
 # agns-port
-Repository for the WIP Python port of the "agns" (Adversarial Generative Networks) paper code.
+Repository for the Python port of the "agns" (Adversarial Generative Networks) paper code.
 
 ## Requirements
 - Python 3.8+
@@ -25,13 +25,29 @@ selected. Those give the basis for the 143 classes. Another subset of those clas
 problem formulation, as the non-celebrity (researcher) images were not provided.
 
 At the top level directory, a shell script 'align_all.sh' is provided, in case you want to create aligned versions
-from the original images again, you can e.g. execeute `bash align_all.sh`(it will take some minutes).
+from the original images again, you can e.g. execute `bash align_all.sh`(it will take some minutes).
 It used Dlib to align face images to a 68-landmark pose.
+
+## Models
+The face recognition model are based on VGG-16, as well as FaceNet (OpenFace) small version.
+The models were trained on aligned images in the given PubFig dataset.
+The DCGAN´s purpose is to generate fake eyeglasses, just like those in the provided eyeglasses
+dataset. As small change to the paper, mini-batch discrimination was added to the generator
+in order to have a wider diversity of colors, and slightly better looking results.
 
 ## Training
 There are already pretrained models provided in saved-models. If you want to train the face recognition
 models (VGG / OpenFace 10/143), go to `face_nets.py`. It has two functions to train those models
 from scratch, or also to continue training existing models.
+If in the right directory ('../saved-models') saved models exist, the training continues from that
+checkpoint, otherwise training is started from the begin.
+The VGG models are easier to train.
+The training function for those is `train_vgg_dnn`. Pay attention that the parameter `bigger_class_n`
+determines whether the 143-class version is trained, or the 10-class one.
+For 
+training the OpenFace models, it is very recommended to properly pretrain the base model first with
+`pretrain_openface_model`. Then, if the loss is considerably low, continue and train the full model
+with `train_of_dnn`.
 
 There is no guarantee to succeed at reaching your goal when training a deep learning model. It is
 highly non-deterministic, and different things can go wrong. In general, it is good practice to
