@@ -1,8 +1,11 @@
 from setup import setup_params
 from attacks import execute_attack
 
+
 # subject n° 1 digital impersonation attack -vs- OpenFace 10
-if __name__ == '__main__':
+
+
+def main(gpus: tuple = (0,)):
     dap = setup_params(True)
 
     ep = 100  # TODO 1 ?!
@@ -11,8 +14,9 @@ if __name__ == '__main__':
     lr = 5e-5
 
     # set values
-    target = 1
-    target_path = 'pubfig/dataset_aligned_10/Barack_Obama/aligned/'
+    target = 1  # target to impersonate: Barack Obama
+    # impersonator chosen: Eva Mendes
+    impersonator_path = 'pubfig/dataset_aligned_10/Eva_Mendes/aligned/'
     img_size = (96, 96)  # input size for OpenFace
     mask_path = 'eyeglasses/eyeglasses_mask_6percent.png'
     fn_path = '../saved-models/of10.h5'
@@ -20,7 +24,11 @@ if __name__ == '__main__':
     d_path = '../saved-models/dweights'
 
     # execute impersonation attack
-    execute_attack(dap, target_path, mask_path, img_size, g_path, d_path, fn_path, False, ep, lr, kappa, stop_prob, 32,
+    execute_attack(dap, impersonator_path, mask_path, img_size, g_path, d_path, fn_path, False, ep, lr, kappa,
+                   stop_prob, 32,
                    target, False, False)
     # TODO fix bug causing objective checker to fail after epoch 2
-    # TODO check again: target =/= impersonator !
+
+
+if __name__ == '__main__':
+    main()

@@ -383,4 +383,4 @@ if __name__ == '__main__':
 
     # VGG is good, don´t continue training
     # training calls here
-    pretrain_openface_model(100, 256, 6e-4)
+    pretrain_openface_model(100, 256, 1e-4)

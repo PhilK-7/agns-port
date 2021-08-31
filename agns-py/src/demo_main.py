@@ -1,6 +1,11 @@
 import demo_face_recognition
 import demo_generate_eyeglasses
 import time
+import demo_dodging
+import demo_impersonation
+
+# specify GPUs to use
+gpus = (1,)
 
 if __name__ == '__main__':
     print('AGNs')
@@ -8,9 +13,11 @@ if __name__ == '__main__':
 
     print('> Enter \'1\' to test the face recognition models.')
     print('> Enter \'2\' to test the glasses generator.')
+    print('> Enter \'3\' to test the dodging attack.')
+    print('> Enter \'4\' to test the impersonation attack.')
     # TODO add rest
 
-    accepted_inputs = (1, 2)
+    accepted_inputs = (1, 2, 3, 4)
 
     # select a demo
     demo_index = -1
@@ -27,7 +34,17 @@ if __name__ == '__main__':
     time.sleep(1.5)
     if demo_index == 1:
         print('Starting demo_face_recognition.')
-        demo_face_recognition.main((1,))
+        time.sleep(1.5)
+        demo_face_recognition.main(gpus)
     if demo_index == 2:
         print('Starting demo_generate_eyeglasses.')
-        demo_generate_eyeglasses.main((1,))
+        time.sleep(1.5)
+        demo_generate_eyeglasses.main(gpus)
+    if demo_index == 3:
+        print('Starting demo_dodging.')
+        time.sleep(1.5)
+        demo_dodging.main(gpus)
+    if demo_index == 4:
+        print('Starting demo_impersonation.')
+        time.sleep(1.5)
+        demo_impersonation.main()

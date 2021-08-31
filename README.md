@@ -73,6 +73,6 @@ not necessarily tested with the current state of the code.
 ## Execution
 There are different demos, all files that are exclusively for demonstration purposes (but might do
 more) start with 'demo'. Go to demo_main and start the script, which lets you pick which of the
-normal demos to execute.
+normal demos to execute. You can specifiy the GPU(s) to use in parameter `gpus`.
 ... Also take note that content plotted with Matplotlib remotely will show up in the SciView of
 PyCharm Pro.

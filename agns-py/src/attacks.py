@@ -350,7 +350,7 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
     Executes an attack with all the given parameters. Checks success after every attack training epoch.
 
     :param data_path: the path to the 'data' directory
-    :param target_path: the relative path of the target directory from 'data'
+    :param target_path: the relative path of the target (or impersonator) directory from 'data'
     :param mask_path: the relative path of the mask from 'data'
     :param fn_img_size: the facenet´s input size as iterable of two integers
     :param g_path: the path of the saved generator model
