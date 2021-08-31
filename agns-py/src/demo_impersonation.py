@@ -11,7 +11,7 @@ def main(gpus: tuple = (0,)):
     ep = 100  # TODO 1 ?!
     stop_prob = 0.924
     kappa = 0.25
-    lr = 5e-5
+    lr = 5e-4
 
     # set values
     target = 1  # target to impersonate: Barack Obama
@@ -28,8 +28,7 @@ def main(gpus: tuple = (0,)):
     execute_attack(dap, impersonator_path, mask_path, img_size, g_path, d_path, fn_path, False, ep, lr, kappa,
                    stop_prob, 32,
                    target, False, False)
-    # TODO fix bug causing objective checker to fail after epoch 2
 
 
 if __name__ == '__main__':
-    main()
+    main((1,))

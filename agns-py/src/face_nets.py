@@ -383,4 +383,4 @@ if __name__ == '__main__':
 
     # VGG is good, don´t continue training
     # training calls here
-    train_of_dnn(50, 5e-3, True)
+    train_of_dnn(50, 1e-4, True)

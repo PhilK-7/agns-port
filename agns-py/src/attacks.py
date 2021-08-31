@@ -297,6 +297,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
         img = tf.image.resize(img, (224, 224))  # resize to standard
         data_tensors.append(img)
     last_face_ims_inner_iter = None  # save last set of merged attack images here
+    best_mean = 1.0 if dodge else 0.0  # track best mean probs
 
     for i_g in range(bs // 2):  # iterate over generated glasses
         # generate new dataset instance for iteration
@@ -332,6 +333,9 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
 
         # check if mean target probability in desired range
         mean_prob = tf.reduce_mean(probs).numpy()
+        if (dodge and mean_prob < best_mean) or (not dodge and mean_prob > best_mean):
+            best_mean = mean_prob
+        # check success criterion
         if (mean_prob <= stop_prob and dodge) or (mean_prob >= stop_prob and not dodge):
             # pick random successful image and show it
             print(f'>>>>>>> mean_prob: {mean_prob}')
@@ -340,6 +344,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
             return True  # attack successful if facenet fooled with at least one glasses image
 
     draw_random_image(last_face_ims_inner_iter, scale_to_polar)  # show one image per function call
+    print(f'Best mean prob in iteration: {best_mean}')
     return False  # no single successful attack
 
 
@@ -411,8 +416,6 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
             print(glasses_a.shape)
 
         # execute one attack step
-        # TODO check that generators´ weights change!
-        print(gen_model.trainable_weights[0])
         gen_model, dis_model, gen_model_ext, g_opt, d_opt, obj_d, obj_f = do_attack_training_step(gen_model,
                                                                                                   dis_model,
                                                                                                   gen_model_ext,
@@ -422,6 +425,9 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
                                                                                                   glasses_b,
                                                                                                   g_opt, d_opt,
                                                                                                   bs, kappa, dodging)
+        # after copying the model instances, both versions of the generator model are equal and updated
+        # the discriminator is also updated; but the facenet stays exactly the same!
+
         print(f'Dis. average trust in manipulated fake glasses + real glasses: {obj_d.numpy()}')
         print(f'Facenet´s average trust that attack images belong to target: {obj_f.numpy()}')
         # check whether attack already successful
