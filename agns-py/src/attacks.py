@@ -90,6 +90,7 @@ def merge_face_images_with_fake_glasses(data_path: str, rel_path, gen: tf.keras.
     return tf.stack(merged_images)
 
 
+#@tf.function
 def compute_custom_loss(target: int, predictions):
     """
     Computes a custom loss that is used instead of cross-entropy for the face recognition networks.
@@ -138,7 +139,6 @@ def join_gradients(gradients_a, gradients_b, kappa: float):
     return joined_gradients
 
 
-# @tf.function  # NOTE: if decorated with tf.Function, this function cannot be properly debugged
 def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
                             real_glasses_a: tf.Tensor, real_glasses_b: tf.Tensor,
                             g_opt, d_opt, bs: int, kappa: float, dodging=True, verbose=False):
@@ -191,7 +191,7 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
         fake_output = dis(other_fake_glasses, training=True)  # get discriminator output for generator
         real_output = dis(real_glasses_b, training=True)
         dis_output = tf.concat([fake_output, real_output], 0)
-        dis_loss_b = dcgan_utils.get_gen_loss(fake_output)
+        dis_loss_b = dcgan_utils.get_gen_loss(dis_output)
         if verbose:
             print(50 * '-')
             print(f'The gen loss from dis: {dis_loss_b}')
@@ -345,6 +345,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
 
     draw_random_image(last_face_ims_inner_iter, scale_to_polar)  # show one image per function call
     print(f'Best mean prob in iteration: {best_mean}')
+
     return False  # no single successful attack
 
 

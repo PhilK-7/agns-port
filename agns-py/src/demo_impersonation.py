@@ -8,10 +8,10 @@ from attacks import execute_attack
 def main(gpus: tuple = (0,)):
     dap = setup_params(True, gpus)
 
-    ep = 100  # TODO 1 ?!
+    ep = 100  # maximum attack tries
     stop_prob = 0.924
     kappa = 0.25
-    lr = 5e-4
+    lr = 5e-2
 
     # set values
     target = 1  # target to impersonate: Barack Obama
@@ -31,4 +31,4 @@ def main(gpus: tuple = (0,)):
 
 
 if __name__ == '__main__':
-    main((1,))
+    main((2,))

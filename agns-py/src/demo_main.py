@@ -15,7 +15,6 @@ if __name__ == '__main__':
     print('> Enter \'2\' to test the glasses generator.')
     print('> Enter \'3\' to test the dodging attack.')
     print('> Enter \'4\' to test the impersonation attack.')
-    # TODO add rest
 
     accepted_inputs = (1, 2, 3, 4)
 
