@@ -90,7 +90,7 @@ def merge_face_images_with_fake_glasses(data_path: str, rel_path, gen: tf.keras.
     return tf.stack(merged_images)
 
 
-#@tf.function
+# @tf.function
 def compute_custom_loss(target: int, predictions):
     """
     Computes a custom loss that is used instead of cross-entropy for the face recognition networks.
@@ -141,7 +141,8 @@ def join_gradients(gradients_a, gradients_b, kappa: float):
 
 def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
                             real_glasses_a: tf.Tensor, real_glasses_b: tf.Tensor,
-                            g_opt, d_opt, bs: int, kappa: float, dodging=True, verbose=False):
+                            g_opt, d_opt, bs: int, kappa: float, dodging=True, use_ce_loss: bool = True,
+                            verbose=False):
     """
     Performs one special training step to adjust the GAN for performing a dodging / impersonation attack.
     This requires the current optimizers, a given target, real glasses image, and of course the DCGAN model.
@@ -159,6 +160,8 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
     :param bs: the training batch size
     :param kappa: a weighting factor to balance generator gradients gained from glasses and attacker images
     :param dodging: whether to train for a dodging attack, if false instead train for impersonation attack
+    :param use_ce_loss: whether to use sparse categorical cross entropy loss instead of the special one
+        for impersonation attacks
     :param verbose: whether to print additional information for the attack training step; useful for debugging
     :return: the updated generator model, the updated discriminator model, the updated extended generator model
      (updated with the same gradients as the normal generator), the updated generator optimizer,
@@ -202,14 +205,17 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
         print('Generating attack images...')
         attack_images = gen_ext(random_vectors_b, training=True)
         facenet_output = facenet(attack_images, training=True)  # the logits as output
-        assert len(gen.trainable_variables) == len(gen_ext.trainable_variables)
 
         custom_facenet_loss = compute_custom_loss(target, facenet_output)
+        if not dodging and use_ce_loss:
+            cel = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+            truth = [target for _ in range(half_batch_size)]
+            custom_facenet_loss = cel(truth, facenet_output)
         if verbose:
             print(90 * '=')
             print(f'The facenet logits: {facenet_output}')
             print(90 * '-')
-        loss_objective = 'MINIMIZED' if dodging else 'MAXIMIZED'
+        loss_objective = 'MINIMIZED' if (dodging or True) else 'MAXIMIZED'
         print(f'The special facenet loss to be {loss_objective} : {custom_facenet_loss}')
         print(90 * '-')
 
@@ -236,7 +242,7 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
 
     # compute objectives
     objective_d = tf.reduce_mean(dis_output)  # average confidence of the discriminator in glasses images (half fake)
-    facenet_output = tf.nn.softmax(facenet_output, axis=0)  # probabilities, shape (half_batch_size, n_classes)
+    facenet_output = tf.nn.softmax(facenet_output, axis=1)  # probabilities, shape (half_batch_size, n_classes)
     objective_f = facenet_output[:, target]  # face net´s confidence that images originate from target
     objective_f = tf.reduce_mean(objective_f)  # average over batch dimension
     if verbose:
@@ -325,11 +331,13 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
             face_ims_iter = tf.stack(merged_ims)
             last_face_ims_inner_iter = face_ims_iter
             # classify the faces
-            faces_preds = tf.nn.softmax(facenet.predict(face_ims_iter))
+            preds = facenet.predict(face_ims_iter)
+            faces_preds = tf.nn.softmax(preds, axis=1)
 
             # write predicted confidences for target into probabilities
             for i_t in range(n_iter):
-                probs = probs[i_f + i_t].assign(faces_preds[i_t, target])  # get target prediction probability
+                target_preds = faces_preds[i_t, target]
+                probs = probs[i_f + i_t].assign(target_preds)  # get target prediction probability
 
         # check if mean target probability in desired range
         mean_prob = tf.reduce_mean(probs).numpy()
