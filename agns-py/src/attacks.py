@@ -90,8 +90,8 @@ def merge_face_images_with_fake_glasses(data_path: str, rel_path, gen: tf.keras.
     return tf.stack(merged_images)
 
 
-# @tf.function
-def compute_custom_loss(target: int, predictions):
+@tf.function
+def compute_custom_loss(target: int, predictions, weight_factor: int = 1):
     """
     Computes a custom loss that is used instead of cross-entropy for the face recognition networks.
     This optimizes the gradients to focus on one specific target class.
@@ -99,16 +99,18 @@ def compute_custom_loss(target: int, predictions):
 
     :param target: the target index, so n for target with index n / the n+1-th person of a set of target classes
     :param predictions: the logits that are output of the layer before the softmax (output) layer
-        in a classification model, a tensor-like object
+        in a classification model, a tensor-like object of shape (half_batch_size, n_classes)
+    :param weight_factor: an optional weighting factor for the target / evader class,
+        should be the number of classes
     :return: the custom loss weighing target and non-target predictions
     """
 
-    preds = tf.reduce_mean(predictions, 0)  # average over half-batch: (hbs, n_classes) -> (n_classes)
-    target_logit = preds[target]
-    other_logits_sum = tf.subtract(tf.reduce_sum(preds), tf.constant(target_logit))
-    res = tf.subtract(target_logit, other_logits_sum)
+    target_logits = predictions[:, target]  # logits for the target  # logits_target
+    logits_sum = tf.reduce_sum(predictions, axis=1)  # sum of all logits (along batch dimension)
+    other_logits_sum = logits_sum - target_logits  # sum_i!=target logits_i
+    res = weight_factor * target_logits - other_logits_sum
 
-    return res
+    return tf.reduce_mean(res)
 
 
 def join_gradients(gradients_a, gradients_b, kappa: float):
@@ -141,7 +143,7 @@ def join_gradients(gradients_a, gradients_b, kappa: float):
 
 def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
                             real_glasses_a: tf.Tensor, real_glasses_b: tf.Tensor,
-                            g_opt, d_opt, bs: int, kappa: float, dodging=True, use_ce_loss: bool = True,
+                            g_opt, d_opt, bs: int, kappa: float, dodging=True, use_ce_loss: bool = False,
                             verbose=False):
     """
     Performs one special training step to adjust the GAN for performing a dodging / impersonation attack.
@@ -215,7 +217,7 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
             print(90 * '=')
             print(f'The facenet logits: {facenet_output}')
             print(90 * '-')
-        loss_objective = 'MINIMIZED' if (dodging or True) else 'MAXIMIZED'
+        loss_objective = 'MINIMIZED' if (dodging or use_ce_loss) else 'MAXIMIZED'
         print(f'The special facenet loss to be {loss_objective} : {custom_facenet_loss}')
         print(90 * '-')
 
@@ -355,6 +357,8 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
     print(f'Best mean prob in iteration: {best_mean}')
 
     return False  # no single successful attack
+
+# TODO investigate: why are objective_f and mean_prob so different?
 
 
 def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size, g_path: str, d_path: str,
