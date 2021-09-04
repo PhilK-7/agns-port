@@ -11,19 +11,26 @@ crop_coordinates = [53, 25, 53 + 64, 25 + 176]
 def pad_glasses_image(glass: tf.Tensor):
     """
     Pads generated glasses image(s) as reverse transformation to the cropping that was applied to the original data.
+    Can also be used for batched tensors of multiple images.
 
     :param glass: the glasses image, represented as 4D tensor (range [-1., 1.])
     :return: a bigger tensor that represents 224x224 pixels, with black padding added
     """
 
-    img = tf.Variable(tf.fill([224, 224, 3], -1.))  # initialize black 224x224 image
+    init_shape = glass.shape
+    assert len(init_shape) in (3, 4)
+    glass = glass + 1  # range [0., 2.]
+    # widen dimensions if single image
+    if len(init_shape) != 4:
+        glass = tf.reshape(glass, [1, *init_shape])
 
-    # assign all values from the generated glasses image
-    for i in range(crop_coordinates[0], crop_coordinates[2]):
-        for j in range(crop_coordinates[1], crop_coordinates[3]):
-            img[i, j].assign(glass[i - crop_coordinates[0], j - crop_coordinates[1], :])
+    # NOTE: if available, better use a layer than writing values to a tf.Variable, because the latter is much slower
+    pad_layer = tf.keras.layers.ZeroPadding2D(((crop_coordinates[0], 224 - crop_coordinates[2]),
+                                              (crop_coordinates[1], 224 - crop_coordinates[3])))
+    glass = pad_layer(glass)  # reverse transformation to crop: black padding
+    glass = glass - 1  # back to [-1., 1.]
 
-    return img
+    return glass
 
 
 def load_mask(data_path: str, mask_path: str) -> tf.Tensor:

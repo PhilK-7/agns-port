@@ -6,6 +6,7 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 from tensorflow.python.keras.models import load_model
+from typing import List
 
 import dcgan_utils
 import eyeglass_generator as gen_module
@@ -90,7 +91,7 @@ def merge_face_images_with_fake_glasses(data_path: str, rel_path, gen: tf.keras.
     return tf.stack(merged_images)
 
 
-#@tf.function
+@tf.function
 def compute_custom_loss(target: int, predictions, weight_factor: int = 1, apply_softmax: bool = True):
     """
     Computes a custom loss that is used instead of cross-entropy for the face recognition networks.
@@ -258,7 +259,7 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
     return gen, dis, gen_ext, g_opt, d_opt, objective_d, objective_f
 
 
-def check_objective_met(data_path: str, gen, facenet, target: int, target_path: str, mask_path: str,
+def check_objective_met(data_path: str, gen, facenet, target: int, target_ds_tensors: List[tf.Tensor], mask_path: str,
                         stop_prob: float, bs: int, facenet_in_size=(224, 224), scale_to_polar=False,
                         dodge=True) -> bool:
     """
@@ -269,7 +270,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
     :param gen: the generator model (of the DCGAN)
     :param facenet: the face recognition model, without softmax
     :param target: the target´s index
-    :param target_path: relative path to target dataset (from 'data')
+    :param target_ds_tensors: a list of the target (or impersonator) dataset´s images as tensors
     :param mask_path: relative path to mask image (from 'data')
     :param stop_prob: a stopping probability, related to the face net´s output target probabilities (a value in [0, 1])
     :param bs: the training batch size, must be an even number
@@ -300,30 +301,25 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
     mask = load_mask(data_path, mask_path)  # get mask tensor
 
     # get full target dataset (scaled to range [-1, 1])
-    img_files = os.listdir(data_path + target_path)
-    n = len(img_files)
-    data_tensors = []
-    for img_file in img_files:
-        img = tf.image.decode_png(tf.io.read_file(data_path + target_path + img_file), channels=3)
-        img = tf.image.convert_image_dtype(img, tf.float32)
-        img = tf.image.resize(img, (224, 224))  # resize to standard
-        data_tensors.append(img)
     last_face_ims_inner_iter = None  # save last set of merged attack images here
     best_mean = 1.0 if dodge else 0.0  # track best mean probs
 
+    n = len(target_ds_tensors)
+    # zero pad glasses images
+    glasses = pad_glasses_image(glasses)
+
     for i_g in range(bs // 2):  # iterate over generated glasses
         # generate new dataset instance for iteration
-        face_ds = tf.data.Dataset.from_tensor_slices(data_tensors)
-        face_ds = face_ds.shuffle(1000)
+
         # classify faces with eyeglasses
         probs = tf.Variable(tf.zeros((n,)))  # variable tensor that holds predicted probabilities
         # get current fake glasses
         g = glasses[i_g]
-        g = pad_glasses_image(g)  # zero pad
 
         for i_f in range(0, n, bs // 2):  # iterate over half-batches of faces
             n_iter = np.min([bs // 2, n - i_f])
-            face_ims_iter = face_ds.take(n_iter)  # take next subset of faces for inner iteration
+            # take next half-batch of faces for inner iteration
+            face_ims_iter = target_ds_tensors[i_f: i_f + min(i_f + (bs // 2), n)]
             # merge faces images and current glasses
             merged_ims = []
             for face_img in face_ims_iter:
@@ -361,6 +357,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_path: 
     print(f'Best mean prob in iteration: {best_mean}')
 
     return False  # no single successful attack
+
 
 # TODO investigate: why are objective_f and mean_prob so different?
 
@@ -415,6 +412,22 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
     glasses_ds = dcgan.load_real_images(data_path, alt_bs=bs, sample_limit=1000)
     print('Glasses dataset ready.')
 
+    # get target/impersonator dataset
+    if dodging:
+        print('Loading target dataset...')
+    else:
+        print('Loading impersonator dataset...')
+    target_img_files = os.listdir(data_path + target_path)
+    n = len(target_img_files)
+    data_tensors = []
+    for img_file in target_img_files:
+        img = tf.image.decode_png(tf.io.read_file(data_path + target_path + img_file), channels=3)
+        img = tf.image.convert_image_dtype(img, tf.float32)  # scale is [0., 1.]
+        img = tf.image.resize(img, (224, 224))  # resize to standard
+        data_tensors.append(img)
+    target_ds_tensors = data_tensors
+    print('Other dataset ready.')
+
     # perform special training
     print('Perform special training:')
     current_ep = 1
@@ -449,7 +462,8 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
         print(f'Facenet´s average trust that attack images belong to target: {obj_f.numpy()}')
         # check whether attack already successful
         print('Checking attack progress...')
-        if check_objective_met(data_path, gen_model, face_model, target_index, target_path, mask_path, stop_prob, bs,
+        if check_objective_met(data_path, gen_model, face_model, target_index, target_ds_tensors, mask_path, stop_prob,
+                               bs,
                                fn_img_size, not vgg_not_of, dodging):
             attack_name = 'Dodging' if dodging else 'Impersonation'
             print(f'<<<<<< {attack_name} attack successful! >>>>>>')

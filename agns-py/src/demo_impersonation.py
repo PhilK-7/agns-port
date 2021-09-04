@@ -11,7 +11,7 @@ def main(gpus: tuple = (0,)):
     ep = 20  # maximum attack tries
     stop_prob = 0.924
     kappa = 0.25
-    lr = 5e-4
+    lr = 5e-2
 
     # set values
     target = 1  # target to impersonate: Barack Obama
