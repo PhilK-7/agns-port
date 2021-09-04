@@ -110,7 +110,7 @@ def compute_custom_loss(target: int, predictions, weight_factor: int = 1):
     other_logits_sum = logits_sum - target_logits  # sum_i!=target logits_i
     res = weight_factor * target_logits - other_logits_sum
 
-    return tf.reduce_mean(res)
+    return tf.reduce_mean(res)  # average loss in batch
 
 
 def join_gradients(gradients_a, gradients_b, kappa: float):
@@ -163,7 +163,7 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
     :param kappa: a weighting factor to balance generator gradients gained from glasses and attacker images
     :param dodging: whether to train for a dodging attack, if false instead train for impersonation attack
     :param use_ce_loss: whether to use sparse categorical cross entropy loss instead of the special one
-        for impersonation attacks
+        for impersonation attacks (only experimental)
     :param verbose: whether to print additional information for the attack training step; useful for debugging
     :return: the updated generator model, the updated discriminator model, the updated extended generator model
      (updated with the same gradients as the normal generator), the updated generator optimizer,
@@ -402,13 +402,13 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
     dis_model = eyeglass_discriminator.build_model()
     dis_model.load_weights(d_path)
     gen_model_ext = add_merger_to_generator(gen_model, data_path, target_path, bs // 2, fn_img_size,
-                                            vgg_not_of)  # must be updated
+                                            vgg_not_of)  # must be updated (synced) during attack
     print('All models loaded.')
     face_model.summary()
 
     # get glasses dataset to draw two half-batches from each training epoch (already shuffled and batched)
     print('Loading glasses dataset...')
-    glasses_ds = dcgan.load_real_images(data_path)
+    glasses_ds = dcgan.load_real_images(data_path, alt_bs=bs, sample_limit=1000)
     print('Glasses dataset ready.')
 
     # perform special training

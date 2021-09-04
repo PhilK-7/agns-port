@@ -1,5 +1,6 @@
 import math
 import os
+import random
 import time
 from os.path import expanduser
 
@@ -77,7 +78,7 @@ def preprocess_real_glasses_images(data_path: str):
     print(f'Preprocessing all images took {total_time} seconds.')
 
 
-def load_real_images(data_path: str, alt_path=None, alt_bs=None, resize_shape=None):
+def load_real_images(data_path: str, alt_path=None, alt_bs=None, sample_limit: int = -1, resize_shape=None):
     """
     Loads the training images for the DCGAN from path 'data/eyeglasses/cropped' at the same level.
     This transforms them into an efficient Tensorflow Dataset, with image values ranging in [-1, 1].
@@ -86,6 +87,7 @@ def load_real_images(data_path: str, alt_path=None, alt_bs=None, resize_shape=No
     :param data_path: the path to the data directory
     :param alt_path: an optional alternative path to load another image dataset instead
     :param alt_bs: optional different specified batch size
+    :param sample_limit: whether to use only a specified amount of sample instead of the whole dataset
     :param resize_shape: optional target resized shape, must be a list of two integer values if given
     :return: the images as Tensorflow PrefetchDataset
     """
@@ -93,6 +95,11 @@ def load_real_images(data_path: str, alt_path=None, alt_bs=None, resize_shape=No
     # get paths
     ds_path = data_path + ('eyeglasses/cropped/' if alt_path is None else alt_path)
     img_files = os.listdir(ds_path)
+    # limit if specified
+    if sample_limit != -1:
+        assert sample_limit > 0
+        random.shuffle(img_files)
+        img_files = img_files[:sample_limit]  # take only sample_limit random samples
     data_tensors = []
 
     # load images and transform to needed range
@@ -101,13 +108,13 @@ def load_real_images(data_path: str, alt_path=None, alt_bs=None, resize_shape=No
         if resize_shape is not None:
             img = tf.image.resize(img, resize_shape)
         img = tf.image.convert_image_dtype(img, tf.float32)  # ATTENTION: this also scales to range [0, 1]
-        img = img * 2 - 1
+        img = img * 2 - 1  # scale [-1., 1.]
         data_tensors.append(img)
 
     # make Tensorflow dataset
     ds = tf.data.Dataset.from_tensor_slices(data_tensors)
 
-    ds = ds.shuffle(2000).repeat(-1)  # shuffle and repeat infinitely
+    ds = ds.shuffle(1000).repeat(-1)  # shuffle and repeat infinitely
     ds = ds.batch(BATCH_SIZE if alt_bs is None else alt_bs)  # make batches
     ds = ds.prefetch(tf.data.experimental.AUTOTUNE)
 
