@@ -92,7 +92,7 @@ def merge_face_images_with_fake_glasses(data_path: str, rel_path, gen: tf.keras.
 
 
 @tf.function
-def compute_custom_loss(target: int, predictions, weight_factor: int = 1, apply_softmax: bool = True):
+def compute_custom_loss(target: int, predictions, weight_factor: int = 1, apply_softmax: bool = False):
     """
     Computes a custom loss that is used instead of cross-entropy for the face recognition networks.
     This optimizes the gradients to focus on one specific target class.
@@ -261,7 +261,7 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
 
 def check_objective_met(data_path: str, gen, facenet, target: int, target_ds_tensors: List[tf.Tensor], mask_path: str,
                         stop_prob: float, bs: int, facenet_in_size=(224, 224), scale_to_polar=False,
-                        dodge=True) -> bool:
+                        dodge=True) -> [bool, float]:
     """
     Checks whether the attack objective has been yet met. It tries generated fake glasses with a face image dataset
     and checks whether the face recognition network can be fooled successfully.
@@ -277,7 +277,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_ds_ten
     :param facenet_in_size: the face net´s image input size
     :param scale_to_polar: whether to rescale the merged images´ value range to [-1., 1.]
     :param dodge: whether to check for a successful dodging attack (check for impersonation attack instead if false)
-    :return: whether an attack could be performed successfully
+    :return: whether an attack could be performed successfully, and the best mean probability (confidence in target)
     """
 
     # sanity check assumptions
@@ -351,12 +351,12 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_ds_ten
             print(f'>>>>>>> mean_prob: {mean_prob}')
             draw_random_image(last_face_ims_inner_iter, scale_to_polar)  # show example for successful image
 
-            return True  # attack successful if facenet fooled with at least one glasses image
+            return True, best_mean  # attack successful if facenet fooled with at least one glasses image
 
     draw_random_image(last_face_ims_inner_iter, scale_to_polar)  # show one image per function call
     print(f'Best mean prob in iteration: {best_mean}')
 
-    return False  # no single successful attack
+    return False, best_mean  # no single successful attack
 
 
 # TODO investigate: why are objective_f and mean_prob so different?
@@ -432,6 +432,7 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
     print('Perform special training:')
     current_ep = 1
     g_opt, d_opt = tf.keras.optimizers.Adam(learning_rate=lr), tf.keras.optimizers.Adam(learning_rate=lr)
+    bmp = 1.0 if dodging else 0.0
 
     while current_ep <= ep:
         print(f'======= Attack training epoch {current_ep}. =======')
@@ -462,9 +463,15 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
         print(f'Facenet´s average trust that attack images belong to target: {obj_f.numpy()}')
         # check whether attack already successful
         print('Checking attack progress...')
-        if check_objective_met(data_path, gen_model, face_model, target_index, target_ds_tensors, mask_path, stop_prob,
-                               bs,
-                               fn_img_size, not vgg_not_of, dodging):
+        done, mp = check_objective_met(data_path, gen_model, face_model, target_index, target_ds_tensors, mask_path,
+                                       stop_prob,
+                                       bs,
+                                       fn_img_size, not vgg_not_of, dodging)
+        # update mean prob record
+        if (dodging and mp < bmp) or (not dodging and mp > bmp):
+            bmp = mp
+            print(f'<<< Current best mean prob: {bmp}')
+        if done:
             attack_name = 'Dodging' if dodging else 'Impersonation'
             print(f'<<<<<< {attack_name} attack successful! >>>>>>')
             break
@@ -472,6 +479,9 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
             print('No attack success yet. \n\n')
 
         current_ep += 1
+
+    # if attack failed, provide best score
+    print(f'Attack failed. \n Best mean prob: {bmp}')
 
 
 if __name__ == '__main__':

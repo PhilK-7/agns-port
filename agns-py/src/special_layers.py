@@ -336,6 +336,7 @@ class BlackPadding(tf.keras.layers.Layer):
 
 class FaceAdder(tf.keras.layers.Layer):
     # VERIFIED: works, correct images, gradients passed through
+    # TODO add alternate mode for real: map images to real glasses
     def __init__(self, data_path: str, target_path: str, **kwargs):
         """
         Initializes the FaceAdder layer, which adds masked face images of a target to (padded) glasses inputs.
@@ -366,6 +367,7 @@ class FaceAdder(tf.keras.layers.Layer):
 
             ims_tensors.append(tf.convert_to_tensor(merged_img))
 
+        random.shuffle(ims_tensors)  # shuffle during layer initialization, not later to keep training more stable
         self.face_tensors = ims_tensors  # save as field to apply when layer is called, range [0., 1.]
 
         '''for i in range(16):
@@ -388,8 +390,13 @@ class FaceAdder(tf.keras.layers.Layer):
         :return: a tensor of the same size, with value range in [-1., 1.]
         """
         n_images = inputs.shape[0]
-        faces = random.sample(self.face_tensors, n_images)
-        faces = tf.stack(faces)  # stack randomly selected face images to one tensor
+        face_ims = self.face_tensors
+        # handle case that half-batch size is higher than dataset size
+        if n_images > len(face_ims):
+            oversample_factor = n_images // len(face_ims) + 1
+            face_ims = [im for _ in range(oversample_factor) for im in face_ims]  # replicate dataset
+        faces = face_ims[:n_images]
+        faces = tf.stack(faces)  # stack face images to one tensor
         faces = faces * 2  # scale to [0., 2.] to enable 'natural' addition: -1 + black = -1, -1 + white = 1
 
         result = inputs + faces  # merge glasses and faces

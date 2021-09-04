@@ -30,6 +30,10 @@ def pad_glasses_image(glass: tf.Tensor):
     glass = pad_layer(glass)  # reverse transformation to crop: black padding
     glass = glass - 1  # back to [-1., 1.]
 
+    # remove batch dimension if single image
+    if len(init_shape) != 4:
+        glass = tf.reshape(glass, glass.shape[1:])
+
     return glass
 
 
