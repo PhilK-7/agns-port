@@ -90,8 +90,8 @@ def merge_face_images_with_fake_glasses(data_path: str, rel_path, gen: tf.keras.
     return tf.stack(merged_images)
 
 
-@tf.function
-def compute_custom_loss(target: int, predictions, weight_factor: int = 1):
+#@tf.function
+def compute_custom_loss(target: int, predictions, weight_factor: int = 1, apply_softmax: bool = True):
     """
     Computes a custom loss that is used instead of cross-entropy for the face recognition networks.
     This optimizes the gradients to focus on one specific target class.
@@ -102,13 +102,17 @@ def compute_custom_loss(target: int, predictions, weight_factor: int = 1):
         in a classification model, a tensor-like object of shape (half_batch_size, n_classes)
     :param weight_factor: an optional weighting factor for the target / evader class,
         should be the number of classes
+    :param apply_softmax: whether to apply softmax to the logits to get probabilities;
+        also shift the loss to have 0 as minimum (avoiding negative losses)
     :return: the custom loss weighing target and non-target predictions
     """
 
+    if apply_softmax:
+        predictions = tf.nn.softmax(predictions)  # logits -> probabilities
     target_logits = predictions[:, target]  # logits for the target  # logits_target
     logits_sum = tf.reduce_sum(predictions, axis=1)  # sum of all logits (along batch dimension)
     other_logits_sum = logits_sum - target_logits  # sum_i!=target logits_i
-    res = weight_factor * target_logits - other_logits_sum
+    res = (1 if apply_softmax else 0) + weight_factor * target_logits - other_logits_sum
 
     return tf.reduce_mean(res)  # average loss in batch
 
@@ -236,8 +240,8 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
         print(90 * '-')
         print(f'Gen gradients attack: {gen_gradients_attack}')
         print(90 * '-')
-    if dodging:
-        gen_gradients_attack = [-gr for gr in gen_gradients_attack]  # reverse attack gradients for dodging attack
+    if not dodging:  # reverse attack gradients for dodging attack to maximize loss (optimizers minimize)
+        gen_gradients_attack = [-gr for gr in gen_gradients_attack]
     gen_gradients = join_gradients(gen_gradients_glasses, gen_gradients_attack, kappa)
     g_opt.apply_gradients(zip(gen_gradients, gen.trainable_variables))  # apply to original generator
     g_opt.apply_gradients(zip(gen_gradients, gen_ext.trainable_variables))  # also sync extended generator

@@ -8,10 +8,10 @@ from attacks import execute_attack
 def main(gpus: tuple = (0,)):
     dap = setup_params(True, gpus)
 
-    ep = 1  # maximum attack tries
+    ep = 20  # maximum attack tries
     stop_prob = 0.924
     kappa = 0.25
-    lr = 5e-5
+    lr = 5e-4
 
     # set values
     target = 1  # target to impersonate: Barack Obama
