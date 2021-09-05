@@ -9,7 +9,7 @@ def main(gpus: tuple = (0,)):
     dap = setup_params(True, gpus)
 
     # some hyperparameters
-    ep = 1  # maximum attack tries
+    ep = 15  # maximum attack tries
     lr = 5e-5
     kappa = 0.25
     stop_prob = 0.01
@@ -31,4 +31,4 @@ def main(gpus: tuple = (0,)):
 
 
 if __name__ == '__main__':
-    main((2,))
+    main((1,))

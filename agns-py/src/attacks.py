@@ -172,7 +172,8 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
     :param verbose: whether to print additional information for the attack training step; useful for debugging
     :return: the updated generator model, the updated discriminator model, the updated extended generator model
      (updated with the same gradients as the normal generator), the updated generator optimizer,
-     the updated discriminator optimizer, the discriminator´s objective, the face recognition net´s objective
+     the updated discriminator optimizer, the discriminator´s objective, the face recognition net´s objective,
+     and the custom facenet loss
     """
 
     # assert batch size assumptions
@@ -256,7 +257,7 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
         print(100 * '_')
     print('Attack iteration done.')
 
-    return gen, dis, gen_ext, g_opt, d_opt, objective_d, objective_f
+    return gen, dis, gen_ext, g_opt, d_opt, objective_d, objective_f, custom_facenet_loss
 
 
 def check_objective_met(data_path: str, gen, facenet, target: int, target_ds_tensors: List[tf.Tensor], mask_path: str,
@@ -362,6 +363,32 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_ds_ten
 # TODO investigate: why are objective_f and mean_prob so different?
 
 
+def produce_attack_stats_plots(loss_history: list, objective_histories: tuple, mp_history: list):
+    """
+    Plots a 2x2 diagram with one line plot for every history.
+    :param loss_history: the history of the custom facenet loss
+    :param objective_histories: the histories of objective_d and objective_f, in a tuple
+    :param mp_history: the history of the mean prob
+    """
+
+    # get epochs axis (x)
+    n_epochs = len(loss_history)
+    epoch_numbers = range(1, n_epochs + 1)
+
+    # one subplot for every history
+    fig, grid = plt.subplots(2, 2, figsize=(8, 6))
+    grid[0, 0].plot(epoch_numbers, objective_histories[0])
+    grid[0, 1].plot(epoch_numbers, objective_histories[1])
+    grid[0, 0].title.set_text('Objective-D')
+    grid[0, 1].title.set_text('Objective-F')
+    grid[1, 0].plot(epoch_numbers, loss_history)
+    grid[1, 0].title.set_text('Loss')
+    grid[1, 1].plot(epoch_numbers, mp_history)
+    grid[1, 1].title.set_text('Mean Prob')
+
+    plt.show()
+
+
 def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size, g_path: str, d_path: str,
                    fn_path: str, n_bigger_class: bool, ep: int, lr: float, kappa: float, stop_prob: float, bs: int,
                    target_index: int, vgg_not_of: bool, dodging: bool):
@@ -433,6 +460,10 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
     current_ep = 1
     g_opt, d_opt = tf.keras.optimizers.Adam(learning_rate=lr), tf.keras.optimizers.Adam(learning_rate=lr)
     bmp = 1.0 if dodging else 0.0
+    loss_history = []
+    mp_history = []
+    obj_d_history, obj_f_history = [], []
+    done = False  # success flag
 
     while current_ep <= ep:
         print(f'======= Attack training epoch {current_ep}. =======')
@@ -447,15 +478,15 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
             print(glasses_a.shape)
 
         # execute one attack step
-        gen_model, dis_model, gen_model_ext, g_opt, d_opt, obj_d, obj_f = do_attack_training_step(gen_model,
-                                                                                                  dis_model,
-                                                                                                  gen_model_ext,
-                                                                                                  face_model,
-                                                                                                  target_index,
-                                                                                                  glasses_a,
-                                                                                                  glasses_b,
-                                                                                                  g_opt, d_opt,
-                                                                                                  bs, kappa, dodging)
+        gen_model, dis_model, gen_model_ext, g_opt, d_opt, obj_d, obj_f, l = do_attack_training_step(gen_model,
+                                                                                                     dis_model,
+                                                                                                     gen_model_ext,
+                                                                                                     face_model,
+                                                                                                     target_index,
+                                                                                                     glasses_a,
+                                                                                                     glasses_b,
+                                                                                                     g_opt, d_opt,
+                                                                                                     bs, kappa, dodging)
         # after copying the model instances, both versions of the generator model are equal and updated
         # the discriminator is also updated; but the facenet stays exactly the same!
 
@@ -463,11 +494,15 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
         print(f'Facenet´s average trust that attack images belong to target: {obj_f.numpy()}')
         # check whether attack already successful
         print('Checking attack progress...')
+        obj_d_history.append(obj_d)
+        obj_f_history.append(obj_f)
+        loss_history.append(l)
         done, mp = check_objective_met(data_path, gen_model, face_model, target_index, target_ds_tensors, mask_path,
                                        stop_prob,
                                        bs,
                                        fn_img_size, not vgg_not_of, dodging)
         # update mean prob record
+        mp_history.append(mp)
         if (dodging and mp < bmp) or (not dodging and mp > bmp):
             bmp = mp
             print(f'<<< Current best mean prob: {bmp}')
@@ -481,7 +516,10 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
         current_ep += 1
 
     # if attack failed, provide best score
-    print(f'Attack failed. \n Best mean prob: {bmp}')
+    if current_ep > ep and not done:
+        print(f'Attack failed. \nBest mean prob: {bmp}')
+    if current_ep > 4:
+        produce_attack_stats_plots(loss_history, (obj_d_history, obj_f_history), mp_history)  # draw statistics plots
 
 
 if __name__ == '__main__':
