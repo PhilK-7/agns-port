@@ -336,8 +336,7 @@ class BlackPadding(tf.keras.layers.Layer):
 
 class FaceAdder(tf.keras.layers.Layer):
     # VERIFIED: works, correct images, gradients passed through
-    # TODO add alternate mode for real: map images to real glasses
-    def __init__(self, data_path: str, target_path: str, **kwargs):
+    def __init__(self, data_path: str, target_path: str, physical: bool, **kwargs):
         """
         Initializes the FaceAdder layer, which adds masked face images of a target to (padded) glasses inputs.
         The face images are processed so that masked pixels are 'removed', and the results are overlayed
@@ -347,8 +346,12 @@ class FaceAdder(tf.keras.layers.Layer):
 
         :param data_path: path to the 'data' directory
         :param target_path: relative path of the target´s image dataset, based on data_path
+        :param physical: whether to adjust this layer for physical attacks
         """
         super(FaceAdder, self).__init__()
+
+        # TODO add alternate mode for real: map images to real glasses
+        # also see MATLAB -> find_green_marks, fitgeotrans ...
 
         # find target images
         ims_path = data_path + target_path

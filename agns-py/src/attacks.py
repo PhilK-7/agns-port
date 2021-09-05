@@ -261,8 +261,8 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
 
 
 def check_objective_met(data_path: str, gen, facenet, target: int, target_ds_tensors: List[tf.Tensor], mask_path: str,
-                        stop_prob: float, bs: int, facenet_in_size=(224, 224), scale_to_polar=False,
-                        dodge=True) -> [bool, float]:
+                        stop_prob: float, bs: int, facenet_in_size=(224, 224), scale_to_polar: bool = False,
+                        dodge: bool = True, physical: bool = False) -> [bool, float]:
     """
     Checks whether the attack objective has been yet met. It tries generated fake glasses with a face image dataset
     and checks whether the face recognition network can be fooled successfully.
@@ -278,6 +278,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_ds_ten
     :param facenet_in_size: the face net´s image input size
     :param scale_to_polar: whether to rescale the merged images´ value range to [-1., 1.]
     :param dodge: whether to check for a successful dodging attack (check for impersonation attack instead if false)
+    :param physical: if the attack is physical
     :return: whether an attack could be performed successfully, and the best mean probability (confidence in target)
     """
 
@@ -326,6 +327,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_ds_ten
             for face_img in face_ims_iter:
                 face_img = (face_img * 2) - 1  # scale to [-1., 1.]
                 # merge to image tensor size (n_iter, 224, 224, 3) with value range [0., 1.]
+                # TODO also change here in case physical used (use same function as in physical FaceAdder)
                 merged_img = merge_images_using_mask(data_path, face_img, g, mask=mask)
                 merged_img = tf.image.resize(merged_img, facenet_in_size)  # resize (needed for OF)
                 if scale_to_polar:  # rescale to [-1., 1.] (needed for OF)
@@ -386,7 +388,11 @@ def produce_attack_stats_plots(loss_history: list, objective_histories: tuple, m
     grid[1, 1].plot(epoch_numbers, mp_history)
     grid[1, 1].title.set_text('Mean Prob')
 
+    # plot and save
     plt.show()
+    if not os.path.exists('../out'):
+        os.mkdir('../out')
+    fig.savefig('../out/attack_stats.png')
 
 
 def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size, g_path: str, d_path: str,
@@ -397,7 +403,7 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
 
     :param data_path: the path to the 'data' directory
     :param target_path: the relative path of the target (or impersonator) directory from 'data'
-    :param mask_path: the relative path of the mask from 'data'
+    :param mask_path: the relative path of the mask from 'data'; provide '<real>' instead for physical attacks
     :param fn_img_size: the facenet´s input size as iterable of two integers
     :param g_path: the path of the saved generator model
     :param d_path: the path of the saved discriminator model
@@ -429,8 +435,9 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
     gen_model.load_weights(g_path)
     dis_model = eyeglass_discriminator.build_model()
     dis_model.load_weights(d_path)
+    physical_attack = mask_path == '<real>'  # switch to physical attack if this string provided
     gen_model_ext = add_merger_to_generator(gen_model, data_path, target_path, bs // 2, fn_img_size,
-                                            vgg_not_of)  # must be updated (synced) during attack
+                                            vgg_not_of, physical=True)  # must be updated (synced) during attack
     print('All models loaded.')
     face_model.summary()
 

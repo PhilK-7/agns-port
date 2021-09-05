@@ -151,7 +151,7 @@ def save_img_from_tensor(img, name: str, use_time: bool = True):
 
 
 def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_size=(224, 224),
-                            scale_to_zero_base=False, new_version=True):
+                            scale_to_zero_base: bool = False, new_version: bool = True, physical: bool = False):
     """
     Receives a generator model and adds a GlassesFacesMerger on top of it, given the parameters.
 
@@ -162,6 +162,7 @@ def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_
     :param output_size: the desired image output size
     :param scale_to_zero_base: whether the resizer layer should scale the values to [0., 1.] range
     :param new_version: use combination of newer multiple layers instead of GlassesFacesMerge
+    :param physical: whether to use the FaceAdder to perform a physical attack
     :return: a new generator model that has merged faces with glasses as output images
     """
     model = tf.keras.models.Sequential([generator], name='Gen_Merge')  # copy rest layers
@@ -170,7 +171,7 @@ def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_
         model.add(GlassesFacesMerger(data_path, target_path, n_inputs, output_size))  # add merging layer
     else:
         model.add(BlackPadding(data_path))
-        model.add(FaceAdder(data_path, target_path))
+        model.add(FaceAdder(data_path, target_path, physical))
         model.add(Resizer(output_size, scale_to_zero_base))
 
     return model
