@@ -5,7 +5,8 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 
-from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image, find_green_marks
+from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image, find_green_marks, \
+    scale_zero_one_to_integer_tensor
 from dcgan import load_real_images
 
 
@@ -357,12 +358,12 @@ class FaceAdder(tf.keras.layers.Layer):
         ims_tensors = []
 
         if physical:
-            pass
         # TODO add alternate mode for real: map images to real glasses
         # also see MATLAB -> find_green_marks, fitgeotrans ...
             for face_img in [ims_path + fi for fi in face_ims]:
                 img = tf.io.decode_png(tf.io.read_file(face_img), channels=3)
                 # TODO get green marks positions
+                img = scale_zero_one_to_integer_tensor(img)
                 find_green_marks(img)
 
         else:  # non-physical: cut out area defined by mask

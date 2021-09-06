@@ -1,9 +1,11 @@
 import os
 import time
 
+import matplotlib.pyplot as plt
 import tensorflow as tf
 from PIL import Image
 import numpy as np
+from skimage import measure, filters
 
 crop_coordinates = [53, 25, 53 + 64, 25 + 176]
 
@@ -117,6 +119,19 @@ def scale_integer_to_zero_one_tensor(tensor: tf.Tensor) -> tf.Tensor:
     return t
 
 
+def scale_zero_one_to_integer_tensor(tensor: tf.Tensor) -> tf.Tensor:
+    """
+    Receives a tensor of float values in [0., 1.] and scales them to [0, 255], converting to uint8.
+
+    :param tensor: a tf.Tensor with float values between 0 and 1
+    :return: a tensor of the same size as the input, with tf.uint8 values between 0 and 255
+    """
+    t = tf.cast(tensor, tf.uint8)
+    t = t * 255
+
+    return t
+
+
 def convert_to_numpy_slice(imgs, i: int) -> np.ndarray:
     """
     Receives images represented by a tensor (value range [-1, 1]),
@@ -195,15 +210,33 @@ def strip_softmax_from_face_recognition_model(facenet):
 def find_green_marks(img: tf.Tensor):
     """
 
-    :param img: the image given as a tensor of integers in range [0, 255], shape (224, 224, 3)
+    :param img: the image given as a tensor of integers in range [0, 255], shape (224, 224, 3), type uint8
     """
 
     # use thresholds to keep only green mark areas
-    r_t, g_t, b_t = 130, 140, 160
-    red_binary = tf.math.less(img[:, :, 0], r_t)
-    green_binary = tf.math.greater(img[:, :, 1], g_t)
+    r_t, g_t, b_t = 150, 150, 145
+    red_binary = tf.math.logical_not(tf.math.less(img[:, :, 0], r_t))
+    green_binary = tf.math.logical_not(tf.math.greater(img[:, :, 1], g_t))
     blue_binary = tf.math.less(img[:, :, 2], b_t)
     binary = tf.math.logical_and(tf.math.logical_and(red_binary, green_binary), blue_binary)  # combine thresholding
-    binary_filter = tf.cast(binary, tf.float32)  # needed numerical
-    filtered_image = tf.math.multiply(img, binary)  # keep only green marks
-    
+    binary_filter = tf.cast(binary, tf.uint8)  # needed numerical
+    binary_filter = tf.stack([binary_filter for _ in range(3)], axis=2)  # broadcast for multiplication
+    filtered_image = tf.math.multiply(img, binary_filter)  # keep only green marks
+
+    '''import matplotlib.pyplot as plt
+    plt.figure()
+    plt.imshow(filtered_image)
+    plt.show()'''
+
+    # find connected components
+    img = filtered_image.numpy()
+    img = filters.gaussian(img, 1.0)  # smooth for better connectivity
+    img_binary = img > filters.threshold_mean(img)
+    labels, num = measure.label(img_binary, return_num=True)
+    print(num)
+    # TODO compute mean coordinates for every blob to get centers for affine transformation
+    labels = labels * 32
+    plt.imshow(labels)
+    plt.show()
+
+

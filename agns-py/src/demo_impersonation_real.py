@@ -24,7 +24,7 @@ def main(gpus: tuple = (0,)):
 
     # execute physical impersonation attack
     print('Trying to impersonate Mahmood Sharif against George Clooney...')
-    execute_attack(dap, impersonator_path, mask_path, img_size, g_path, d_path, fn_path, False, ep, lr, kappa,
+    execute_attack(dap, impersonator_path, '<real>', img_size, g_path, d_path, fn_path, False, ep, lr, kappa,
                    stop_prob, 32,
                    target, True, False)  # TODO what params else to adjust for physical?
 

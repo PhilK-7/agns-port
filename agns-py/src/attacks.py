@@ -437,7 +437,7 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
     dis_model.load_weights(d_path)
     physical_attack = mask_path == '<real>'  # switch to physical attack if this string provided
     gen_model_ext = add_merger_to_generator(gen_model, data_path, target_path, bs // 2, fn_img_size,
-                                            vgg_not_of, physical=True)  # must be updated (synced) during attack
+                                            vgg_not_of, physical=physical_attack)  # must be updated (synced) during attack
     print('All models loaded.')
     face_model.summary()
 
