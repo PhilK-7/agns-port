@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 
-from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image
+from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image, find_green_marks
 from dcgan import load_real_images
 
 
@@ -271,7 +271,7 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
 
         if inputs.shape[0] != self.n_inputs:  # handle special case when Sequential API calls this function to add layer
             return tf.zeros((self.n_inputs, self.outsize[0], self.outsize[1], 3))
-        face_ds = load_real_images(self.dap, self.tap, self.n_inputs, self.outsize)
+        face_ds = load_real_images(self.dap, self.tap, self.n_inputs, resize_shape=self.outsize)
         merged_images = []
 
         # merge faces and glasses
@@ -341,6 +341,7 @@ class FaceAdder(tf.keras.layers.Layer):
         Initializes the FaceAdder layer, which adds masked face images of a target to (padded) glasses inputs.
         The face images are processed so that masked pixels are 'removed', and the results are overlayed
         onto the padded, generated fake glasses.
+        Alternatively, uses mark recognition and affine transformations to map glasses onto physical blueprints.
         Stores the face images of a target as list of tensors with value range [0., 1.]
         Expects an input tensor of size (?, 224, 224, 3)
 
@@ -350,25 +351,32 @@ class FaceAdder(tf.keras.layers.Layer):
         """
         super(FaceAdder, self).__init__()
 
-        # TODO add alternate mode for real: map images to real glasses
-        # also see MATLAB -> find_green_marks, fitgeotrans ...
-
         # find target images
         ims_path = data_path + target_path
         face_ims = os.listdir(ims_path)
         ims_tensors = []
 
-        mask_img = load_mask(data_path, 'eyeglasses/eyeglasses_mask_6percent.png')  # load mask as tensor (224x224)
-        mask_img = -mask_img + 1  # invert mask: instead of keeping everything in glass area, remote those pixels
+        if physical:
+            pass
+        # TODO add alternate mode for real: map images to real glasses
+        # also see MATLAB -> find_green_marks, fitgeotrans ...
+            for face_img in [ims_path + fi for fi in face_ims]:
+                img = tf.io.decode_png(tf.io.read_file(face_img), channels=3)
+                # TODO get green marks positions
+                find_green_marks(img)
 
-        # open face images and apply mask to them
-        for face_img in [ims_path + fi for fi in face_ims]:
-            img = tf.io.decode_png(tf.io.read_file(face_img), channels=3)
-            img = tf.image.convert_image_dtype(img, tf.float32)  # scale [0., 1.]
-            img = tf.image.resize(img, (224, 224))
-            merged_img = tf.math.multiply(img, mask_img)  # mask out glass area with black pixels
+        else:  # non-physical: cut out area defined by mask
+            mask_img = load_mask(data_path, 'eyeglasses/eyeglasses_mask_6percent.png')  # load mask as tensor (224x224)
+            mask_img = -mask_img + 1  # invert mask: instead of keeping everything in glass area, remote those pixels
 
-            ims_tensors.append(tf.convert_to_tensor(merged_img))
+            # open face images and apply mask to them
+            for face_img in [ims_path + fi for fi in face_ims]:
+                img = tf.io.decode_png(tf.io.read_file(face_img), channels=3)
+                img = tf.image.convert_image_dtype(img, tf.float32)  # scale [0., 1.]
+                img = tf.image.resize(img, (224, 224))
+                merged_img = tf.math.multiply(img, mask_img)  # mask out glass area with black pixels
+
+                ims_tensors.append(tf.convert_to_tensor(merged_img))
 
         random.shuffle(ims_tensors)  # shuffle during layer initialization, not later to keep training more stable
         self.face_tensors = ims_tensors  # save as field to apply when layer is called, range [0., 1.]

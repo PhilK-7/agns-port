@@ -190,3 +190,20 @@ def strip_softmax_from_face_recognition_model(facenet):
                                        name='Facenet_No_Softmax')
 
     return model
+
+
+def find_green_marks(img: tf.Tensor):
+    """
+
+    :param img: the image given as a tensor of integers in range [0, 255], shape (224, 224, 3)
+    """
+
+    # use thresholds to keep only green mark areas
+    r_t, g_t, b_t = 130, 140, 160
+    red_binary = tf.math.less(img[:, :, 0], r_t)
+    green_binary = tf.math.greater(img[:, :, 1], g_t)
+    blue_binary = tf.math.less(img[:, :, 2], b_t)
+    binary = tf.math.logical_and(tf.math.logical_and(red_binary, green_binary), blue_binary)  # combine thresholding
+    binary_filter = tf.cast(binary, tf.float32)  # needed numerical
+    filtered_image = tf.math.multiply(img, binary)  # keep only green marks
+    
