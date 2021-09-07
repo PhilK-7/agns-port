@@ -28,7 +28,7 @@ def pad_glasses_image(glass: tf.Tensor):
 
     # NOTE: if available, better use a layer than writing values to a tf.Variable, because the latter is much slower
     pad_layer = tf.keras.layers.ZeroPadding2D(((crop_coordinates[0], 224 - crop_coordinates[2]),
-                                              (crop_coordinates[1], 224 - crop_coordinates[3])))
+                                               (crop_coordinates[1], 224 - crop_coordinates[3])))
     glass = pad_layer(glass)  # reverse transformation to crop: black padding
     glass = glass - 1  # back to [-1., 1.]
 
@@ -209,8 +209,11 @@ def strip_softmax_from_face_recognition_model(facenet):
 
 def find_green_marks(img: tf.Tensor):
     """
+    Computes the center points of the green marks in a given image with worn model eyeglasses.
+    NOTE: This function is optimized for the provided images in 'demo-data2'.
 
     :param img: the image given as a tensor of integers in range [0, 255], shape (224, 224, 3), type uint8
+    :return: a list of duples, which hold the x- and y-coordinate per center point respectively
     """
 
     # use thresholds to keep only green mark areas
@@ -223,20 +226,26 @@ def find_green_marks(img: tf.Tensor):
     binary_filter = tf.stack([binary_filter for _ in range(3)], axis=2)  # broadcast for multiplication
     filtered_image = tf.math.multiply(img, binary_filter)  # keep only green marks
 
-    '''import matplotlib.pyplot as plt
-    plt.figure()
-    plt.imshow(filtered_image)
-    plt.show()'''
-
     # find connected components
     img = filtered_image.numpy()
     img = filters.gaussian(img, 1.0)  # smooth for better connectivity
     img_binary = img > filters.threshold_mean(img)
     labels, num = measure.label(img_binary, return_num=True)
-    print(num)
-    # TODO compute mean coordinates for every blob to get centers for affine transformation
-    labels = labels * 32
+    if num != 7:
+        print('Warning: An incorrect number of blobs has been recognized.')
+
+    # compute blob centres
+    blob_coordinates_values = [np.where(labels == [i, i, i]) for i in range(1, 8)]  # List[Tuple[ndarray x3]]
+    blob_coordinates_values = [(blob_coordinates_values[i][0], blob_coordinates_values[i][1]) for i in range(7)]
+    blob_centres = [(np.mean(blob_coordinates_values[i][0]), np.mean(blob_coordinates_values[i][1])) for i in range(7)]
+    blob_centres = [(int(round(blob_centres[i][0])), int(round(blob_centres[i][1]))) for i in range(7)]
+
+    # visualize found points
+    labels = labels * 32  # make visible
+    for bc in blob_centres:
+        labels[bc[0], bc[1]] = [255, 0, 0]  # mark centers
     plt.imshow(labels)
     plt.show()
 
-
+    return blob_centres
+    
