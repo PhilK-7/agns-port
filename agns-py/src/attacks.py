@@ -10,7 +10,7 @@ from typing import List
 
 import dcgan_utils
 import eyeglass_generator as gen_module
-from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image, \
+from attacks_helpers import load_glasses_mask, merge_images_using_mask, pad_glasses_image, \
     strip_softmax_from_face_recognition_model, add_merger_to_generator
 from setup import setup_params
 import dcgan
@@ -76,7 +76,7 @@ def merge_face_images_with_fake_glasses(data_path: str, rel_path, gen: tf.keras.
 
     # preload mask
     mask_path = 'eyeglasses/eyeglasses_mask_6percent.png'
-    mask_img = load_mask(data_path, mask_path)
+    mask_img = load_glasses_mask(data_path, mask_path)
 
     for i, face_img in enumerate(face_samples_paths):
         # open face image and process it
@@ -300,7 +300,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_ds_ten
     # generate fake eyeglasses
     random_vectors = tf.random.normal([bs // 2, 25])
     glasses = gen.predict(random_vectors)
-    mask = load_mask(data_path, mask_path)  # get mask tensor
+    mask = load_glasses_mask(data_path, mask_path)  # get mask tensor
 
     # get full target dataset (scaled to range [-1, 1])
     last_face_ims_inner_iter = None  # save last set of merged attack images here

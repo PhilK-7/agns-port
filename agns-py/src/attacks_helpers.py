@@ -7,7 +7,10 @@ from PIL import Image
 import numpy as np
 from skimage import measure, filters
 
-crop_coordinates = [53, 25, 53 + 64, 25 + 176]
+crop_coordinates = [53, 25, 53 + 64, 25 + 176]  # in Matlab Code
+# similar as in 'data/auxiliary/eyeglass_marks_centers.mat' in Matlab Code
+glasses_center_coordinates = np.array([[34, 69], [114, 67], [190, 67], [175, 103], [134, 100], [97, 98], [52, 105]],
+                                      dtype='float32')
 
 
 def pad_glasses_image(glass: tf.Tensor):
@@ -39,7 +42,7 @@ def pad_glasses_image(glass: tf.Tensor):
     return glass
 
 
-def load_mask(data_path: str, mask_path: str) -> tf.Tensor:
+def load_glasses_mask(data_path: str, mask_path: str) -> tf.Tensor:
     """
     Loads the mask for glasses images.
 
@@ -75,7 +78,7 @@ def merge_images_using_mask(data_path: str, img_a: tf.Tensor, img_b: tf.Tensor,
 
     # load mask and convert it to boolean mask tensor
     if mask is None:
-        mask_img = load_mask(data_path, mask_path)
+        mask_img = load_glasses_mask(data_path, mask_path)
     else:
         mask_img = mask
 
@@ -234,11 +237,16 @@ def find_green_marks(img: tf.Tensor):
     if num != 7:
         print('Warning: An incorrect number of blobs has been recognized.')
 
-    # compute blob centres
+    # compute blob centers
     blob_coordinates_values = [np.where(labels == [i, i, i]) for i in range(1, 8)]  # List[Tuple[ndarray x3]]
     blob_coordinates_values = [(blob_coordinates_values[i][0], blob_coordinates_values[i][1]) for i in range(7)]
     blob_centres = [(np.mean(blob_coordinates_values[i][0]), np.mean(blob_coordinates_values[i][1])) for i in range(7)]
     blob_centres = [(int(round(blob_centres[i][0])), int(round(blob_centres[i][1]))) for i in range(7)]
+    # NOTE: y and x coordinates are swapped (also the case when plotted etc.), as also done in Matlab code
+
+    # order blob centers (are already grouped in two sets)
+    blob_centres = [*sorted(blob_centres[0:3], key=lambda e: e[1]),
+                    *sorted(blob_centres[3:], key=lambda e: e[1], reverse=True)]
 
     # visualize found points
     labels = labels * 32  # make visible
@@ -247,5 +255,8 @@ def find_green_marks(img: tf.Tensor):
     plt.imshow(labels)
     plt.show()
 
+    # flip y and x to (x, y) as needed further
+    blob_centres = [(b[1], b[0]) for b in blob_centres]
+    blob_centres = np.array([[bc[0], bc[1]] for bc in blob_centres], dtype='float32')
+
     return blob_centres
-    

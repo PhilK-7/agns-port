@@ -4,8 +4,10 @@ import random
 import numpy as np
 import tensorflow as tf
 from PIL import Image
+from cv2 import getPerspectiveTransform, warpPerspective, findHomography
 
-from attacks_helpers import load_mask, merge_images_using_mask, pad_glasses_image, find_green_marks, \
+
+from attacks_helpers import load_glasses_mask, merge_images_using_mask, pad_glasses_image, find_green_marks, \
     scale_zero_one_to_integer_tensor
 from dcgan import load_real_images
 
@@ -252,7 +254,7 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
         tp = data_path + target_path
         self.target_ims = [tp + im for im in os.listdir(tp)]  # get paths in target ds
         assert len(output_size) == 2
-        self.mask_img = load_mask(data_path, 'eyeglasses/eyeglasses_mask_6percent.png')  # load mask tensor
+        self.mask_img = load_glasses_mask(data_path, 'eyeglasses/eyeglasses_mask_6percent.png')  # load mask tensor
         self.outsize = output_size
         self.n_inputs = n_inputs
 
@@ -323,7 +325,7 @@ class BlackPadding(tf.keras.layers.Layer):
         imgs = tf.keras.layers.ZeroPadding2D(((crop_coordinates[0], 224 - crop_coordinates[2]),
                                               (crop_coordinates[1], 224 - crop_coordinates[3])))(imgs)
 
-        mask_img = load_mask(self.dap, 'eyeglasses/eyeglasses_mask_6percent.png')  # load 224x224 mask to pixel-filter
+        mask_img = load_glasses_mask(self.dap, 'eyeglasses/eyeglasses_mask_6percent.png')  # load 224x224 mask to pixel-filter
         mask_tensor = tf.stack([mask_img for _ in range(inputs.shape[0])])  # replicate to batch dimension
         imgs = tf.math.multiply(imgs, mask_tensor)  # mask out everything outside of mask area
         imgs = imgs - 1  # back to [-1., 1.] range
@@ -358,16 +360,19 @@ class FaceAdder(tf.keras.layers.Layer):
         ims_tensors = []
 
         if physical:
+            from attacks_helpers import glasses_center_coordinates
         # TODO add alternate mode for real: map images to real glasses
         # also see MATLAB -> find_green_marks, fitgeotrans ...
             for face_img in [ims_path + fi for fi in face_ims]:
                 img = tf.io.decode_png(tf.io.read_file(face_img), channels=3)
                 # TODO get green marks positions
                 img = scale_zero_one_to_integer_tensor(img)
-                find_green_marks(img)
+                centers = find_green_marks(img)
+                transforms = getPerspectiveTransform(glasses_center_coordinates, centers)  # get projection
+                pass
 
         else:  # non-physical: cut out area defined by mask
-            mask_img = load_mask(data_path, 'eyeglasses/eyeglasses_mask_6percent.png')  # load mask as tensor (224x224)
+            mask_img = load_glasses_mask(data_path, 'eyeglasses/eyeglasses_mask_6percent.png')  # load mask as tensor (224x224)
             mask_img = -mask_img + 1  # invert mask: instead of keeping everything in glass area, remote those pixels
 
             # open face images and apply mask to them
