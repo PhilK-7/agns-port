@@ -9,7 +9,7 @@ from cv2 import getPerspectiveTransform, warpPerspective, findHomography
 
 
 from attacks_helpers import load_glasses_mask, merge_images_using_mask, pad_glasses_image, find_green_marks, \
-    scale_zero_one_to_integer_tensor
+    scale_zero_one_to_integer_tensor, homography_matrix_to_flow, warp_image
 from dcgan import load_real_images
 
 
@@ -387,8 +387,8 @@ class FaceAdder(tf.keras.layers.Layer):
                 tmask = tf.convert_to_tensor(transformed_mask)
                 tmask = -(tmask - 1)  # invert mask
                 cut_img = tf.math.multiply(img, tmask)
-                plt.imshow(cut_img)
-                plt.show()
+                '''plt.imshow(cut_img)
+                plt.show()'''
                 ims_tensors.append(cut_img)
 
             self.tmats = tmats  # keep transformation matrices for call
@@ -440,9 +440,21 @@ class FaceAdder(tf.keras.layers.Layer):
         faces = tf.stack(faces)  # stack face images to one tensor
 
         if self.physical:
-            pass
+            print('phys')
             # TODO apply transformation to glass tensorflow style
-            
+            tmat = self.tmats[0]
+            tmat = tmat.numpy()
+            fimg = face_ims[0]
+            fimg = fimg.numpy()
+            gimg = inputs[0]
+            gimg = (gimg + 1) / 2
+            gimg = tf.reshape(gimg, [1, *gimg.shape])
+            wimg = warp_image(gimg, tmat)
+            wimg = tf.reshape(wimg, wimg.shape[1:])
+            plt.imshow(wimg)
+            plt.show()
+            print('yo')
+
 
         faces = faces * 2  # scale to [0., 2.] to enable 'natural' addition: -1 + black = -1, -1 + white = 1
         result = inputs + faces  # merge glasses and faces

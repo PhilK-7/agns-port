@@ -6,6 +6,7 @@ import tensorflow as tf
 from PIL import Image
 import numpy as np
 from skimage import measure, filters
+from tensorflow_addons.image import dense_image_warp
 
 crop_coordinates = [53, 25, 53 + 64, 25 + 176]  # in Matlab Code
 # similar as in 'data/auxiliary/eyeglass_marks_centers.mat' in Matlab Code
@@ -252,11 +253,40 @@ def find_green_marks(img: tf.Tensor):
     labels = labels * 32  # make visible
     for bc in blob_centres:
         labels[bc[0], bc[1]] = [255, 0, 0]  # mark centers
-    plt.imshow(labels)
-    plt.show()
+    '''plt.imshow(labels)
+    plt.show()'''
 
     # flip y and x to (x, y) as needed further
     blob_centres = [(b[1], b[0]) for b in blob_centres]
     blob_centres = np.array([[bc[0], bc[1]] for bc in blob_centres], dtype='float32')
 
     return blob_centres
+
+
+# taken from:
+def homography_matrix_to_flow(tf_homography_matrix, im_shape1, im_shape2):
+    Y, X = np.meshgrid(range(im_shape1), range(im_shape2))
+    Z = np.ones_like(X)
+    XYZ = np.stack((X, Y, Z), axis=-1)
+    tf_XYZ = tf.constant(XYZ.astype("float64"))
+    tf_XYZ = tf_XYZ[tf.newaxis, :, :, :, tf.newaxis]
+
+    tf_homography_matrix = tf.tile(tf_homography_matrix[tf.newaxis, tf.newaxis], (1, im_shape2, im_shape1, 1, 1))
+    tf_unnormalized_transformed_XYZ = tf.matmul(tf_homography_matrix, tf_XYZ, transpose_b=False)
+    tf_transformed_XYZ = tf_unnormalized_transformed_XYZ / tf_unnormalized_transformed_XYZ[:, :, :, -1][:, :, :,
+                                                           tf.newaxis]
+    flow = -tf.squeeze(tf_transformed_XYZ - tf_XYZ)[..., :2]
+
+    return flow
+
+
+def warp_image(img: np.ndarray, homography_matrix: np.ndarray):
+    inv_homography_matrix = np.linalg.inv(homography_matrix)
+
+    tf_inv_homography_matrix = tf.constant(inv_homography_matrix)[tf.newaxis]
+    flow = homography_matrix_to_flow(tf_inv_homography_matrix, img.shape[1], img.shape[2])[tf.newaxis]
+    flow = tf.tile(flow, (1, 1, 1, 1))  # TODO 1 -> batch size?
+    image_warped = dense_image_warp(tf.transpose(img, (0, 2, 1, 3)), flow)
+    image_warped = tf.transpose(image_warped, (0, 2, 1, 3))
+
+    return image_warped

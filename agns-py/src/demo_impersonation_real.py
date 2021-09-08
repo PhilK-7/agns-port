@@ -19,8 +19,6 @@ def main(gpus: tuple = (0,)):
     fn_path = '../saved-models/vgg_10.h5'
     g_path = '../saved-models/gweights'
     d_path = '../saved-models/dweights'
-    mask_path = 'eyeglasses/eyeglasses_mask_6percent.png'  # not necessartdxy?
-
 
     # execute physical impersonation attack
     print('Trying to impersonate Mahmood Sharif against George Clooney...')
