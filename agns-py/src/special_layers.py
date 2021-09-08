@@ -1,6 +1,7 @@
 import os
 import random
 
+import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 from PIL import Image
@@ -358,18 +359,39 @@ class FaceAdder(tf.keras.layers.Layer):
         ims_path = data_path + target_path
         face_ims = os.listdir(ims_path)
         ims_tensors = []
+        glass_mask = load_glasses_mask(data_path, 'eyeglasses/eyeglasses_mask_6percent.png')
 
         if physical:
             from attacks_helpers import glasses_center_coordinates
-        # TODO add alternate mode for real: map images to real glasses
         # also see MATLAB -> find_green_marks, fitgeotrans ...
+            tmats = []
             for face_img in [ims_path + fi for fi in face_ims]:
                 img = tf.io.decode_png(tf.io.read_file(face_img), channels=3)
-                # TODO get green marks positions
+                plt.imshow(img)
+                plt.show()
                 img = scale_zero_one_to_integer_tensor(img)
                 centers = find_green_marks(img)
-                transforms = getPerspectiveTransform(glasses_center_coordinates, centers)  # get projection
-                pass
+                transformation_matrix = findHomography(glasses_center_coordinates, centers)[0]  # get projection
+                tmat = tf.convert_to_tensor(transformation_matrix)
+                tmats.append(tmat)
+
+                # transform mask
+                mask = glass_mask.numpy()
+                transformed_mask = warpPerspective(mask, transformation_matrix, (224, 224))
+                plt.imshow(transformed_mask)
+                plt.show()
+
+                # cut out transformed mask area from face
+                img = tf.convert_to_tensor(img)
+                img = tf.cast(img, tf.float32) / 255.  # scale [0., 1.]
+                tmask = tf.convert_to_tensor(transformed_mask)
+                tmask = -(tmask - 1)  # invert mask
+                cut_img = tf.math.multiply(img, tmask)
+                plt.imshow(cut_img)
+                plt.show()
+
+
+            self.tmats = tmats
 
         else:  # non-physical: cut out area defined by mask
             mask_img = load_glasses_mask(data_path, 'eyeglasses/eyeglasses_mask_6percent.png')  # load mask as tensor (224x224)
