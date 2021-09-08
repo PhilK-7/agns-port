@@ -220,9 +220,9 @@ def find_green_marks(img: tf.Tensor):
     """
 
     # use thresholds to keep only green mark areas
-    r_t, g_t, b_t = 150, 150, 145
-    red_binary = tf.math.logical_not(tf.math.less(img[:, :, 0], r_t))
-    green_binary = tf.math.logical_not(tf.math.greater(img[:, :, 1], g_t))
+    r_t, g_t, b_t = 155, 175, 155
+    red_binary = tf.math.less(img[:, :, 0], r_t)
+    green_binary = tf.math.greater(img[:, :, 1], g_t)
     blue_binary = tf.math.less(img[:, :, 2], b_t)
     binary = tf.math.logical_and(tf.math.logical_and(red_binary, green_binary), blue_binary)  # combine thresholding
     binary_filter = tf.cast(binary, tf.uint8)  # needed numerical

@@ -362,14 +362,14 @@ class FaceAdder(tf.keras.layers.Layer):
         glass_mask = load_glasses_mask(data_path, 'eyeglasses/eyeglasses_mask_6percent.png')
 
         if physical:
+            self.physical = True
             from attacks_helpers import glasses_center_coordinates
-        # also see MATLAB -> find_green_marks, fitgeotrans ...
+            # also see MATLAB -> find_green_marks, fitgeotrans ...
             tmats = []
+
             for face_img in [ims_path + fi for fi in face_ims]:
+                # find transformation
                 img = tf.io.decode_png(tf.io.read_file(face_img), channels=3)
-                plt.imshow(img)
-                plt.show()
-                img = scale_zero_one_to_integer_tensor(img)
                 centers = find_green_marks(img)
                 transformation_matrix = findHomography(glasses_center_coordinates, centers)[0]  # get projection
                 tmat = tf.convert_to_tensor(transformation_matrix)
@@ -378,8 +378,8 @@ class FaceAdder(tf.keras.layers.Layer):
                 # transform mask
                 mask = glass_mask.numpy()
                 transformed_mask = warpPerspective(mask, transformation_matrix, (224, 224))
-                plt.imshow(transformed_mask)
-                plt.show()
+                '''plt.imshow(transformed_mask)
+                plt.show()'''
 
                 # cut out transformed mask area from face
                 img = tf.convert_to_tensor(img)
@@ -389,11 +389,12 @@ class FaceAdder(tf.keras.layers.Layer):
                 cut_img = tf.math.multiply(img, tmask)
                 plt.imshow(cut_img)
                 plt.show()
+                ims_tensors.append(cut_img)
 
-
-            self.tmats = tmats
+            self.tmats = tmats  # keep transformation matrices for call
 
         else:  # non-physical: cut out area defined by mask
+            self.physical = False
             mask_img = load_glasses_mask(data_path, 'eyeglasses/eyeglasses_mask_6percent.png')  # load mask as tensor (224x224)
             mask_img = -mask_img + 1  # invert mask: instead of keeping everything in glass area, remote those pixels
 
@@ -406,7 +407,8 @@ class FaceAdder(tf.keras.layers.Layer):
 
                 ims_tensors.append(tf.convert_to_tensor(merged_img))
 
-        random.shuffle(ims_tensors)  # shuffle during layer initialization, not later to keep training more stable
+            random.shuffle(ims_tensors)  # shuffle during layer initialization, not later to keep training more stable
+
         self.face_tensors = ims_tensors  # save as field to apply when layer is called, range [0., 1.]
 
         '''for i in range(16):
@@ -436,8 +438,13 @@ class FaceAdder(tf.keras.layers.Layer):
             face_ims = [im for _ in range(oversample_factor) for im in face_ims]  # replicate dataset
         faces = face_ims[:n_images]
         faces = tf.stack(faces)  # stack face images to one tensor
-        faces = faces * 2  # scale to [0., 2.] to enable 'natural' addition: -1 + black = -1, -1 + white = 1
 
+        if self.physical:
+            pass
+            # TODO apply transformation to glass tensorflow style
+            
+
+        faces = faces * 2  # scale to [0., 2.] to enable 'natural' addition: -1 + black = -1, -1 + white = 1
         result = inputs + faces  # merge glasses and faces
 
         '''for i in range(16):
