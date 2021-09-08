@@ -263,6 +263,7 @@ def find_green_marks(img: tf.Tensor):
     return blob_centres
 
 
+# TODO adjust
 # taken from:
 def homography_matrix_to_flow(tf_homography_matrix, im_shape1, im_shape2):
     Y, X = np.meshgrid(range(im_shape1), range(im_shape2))
@@ -280,12 +281,12 @@ def homography_matrix_to_flow(tf_homography_matrix, im_shape1, im_shape2):
     return flow
 
 
-def warp_image(img: np.ndarray, homography_matrix: np.ndarray):
+def warp_image(img: np.ndarray, homography_matrix: np.ndarray, bs: int = 16):
     inv_homography_matrix = np.linalg.inv(homography_matrix)
 
     tf_inv_homography_matrix = tf.constant(inv_homography_matrix)[tf.newaxis]
     flow = homography_matrix_to_flow(tf_inv_homography_matrix, img.shape[1], img.shape[2])[tf.newaxis]
-    flow = tf.tile(flow, (1, 1, 1, 1))  # TODO 1 -> batch size?
+    flow = tf.tile(flow, (16, 1, 1, 1))
     image_warped = dense_image_warp(tf.transpose(img, (0, 2, 1, 3)), flow)
     image_warped = tf.transpose(image_warped, (0, 2, 1, 3))
 

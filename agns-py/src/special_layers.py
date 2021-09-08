@@ -432,32 +432,44 @@ class FaceAdder(tf.keras.layers.Layer):
         """
         n_images = inputs.shape[0]
         face_ims = self.face_tensors
+        if self.physical:  # NOTE: computations for physical version must not break gradient descent
+            hmats = self.tmats
+            face_index = random.randint(0, len(face_ims)-1)
+        else:
+            hmats = 0
+            face_index = -1
+
         # handle case that half-batch size is higher than dataset size
         if n_images > len(face_ims):
             oversample_factor = n_images // len(face_ims) + 1
-            face_ims = [im for _ in range(oversample_factor) for im in face_ims]  # replicate dataset
+            if self.physical:
+                face_ims = [face_ims[face_index] for _ in range(n_images)]
+            else:
+                face_ims = [im for _ in range(oversample_factor) for im in face_ims]  # replicate dataset
         faces = face_ims[:n_images]
         faces = tf.stack(faces)  # stack face images to one tensor
 
-        if self.physical:
-            print('phys')
-            # TODO apply transformation to glass tensorflow style
-            tmat = self.tmats[0]
-            tmat = tmat.numpy()
-            fimg = face_ims[0]
-            fimg = fimg.numpy()
-            gimg = inputs[0]
-            gimg = (gimg + 1) / 2
-            gimg = tf.reshape(gimg, [1, *gimg.shape])
-            wimg = warp_image(gimg, tmat)
-            wimg = tf.reshape(wimg, wimg.shape[1:])
-            plt.imshow(wimg)
+        if self.physical:  # transform glasses
+            # take one face image for entire batch
+            fimg = face_ims[face_index].numpy()
+            hmat = hmats[face_index].numpy()
+            wimgs = warp_image(inputs.numpy(), hmat)
+            example = (wimgs[0] + 1) / 2
+            plt.imshow(example)
             plt.show()
-            print('yo')
-
+            summand = wimgs
+        else:  # just add glasses
+            summand = inputs
 
         faces = faces * 2  # scale to [0., 2.] to enable 'natural' addition: -1 + black = -1, -1 + white = 1
-        result = inputs + faces  # merge glasses and faces
+        result = summand + faces  # merge glasses and faces
+        for i in range(16):
+            example = result[i]
+            example = (example + 1) / 2
+            plt.imshow(example)
+            plt.show()
+        # TODO further testing
+        # TODO GradientTape broken -> substitute used numpy ops by tf ops
 
         '''for i in range(16):
             img = (result[i] + 1) * 127.5
