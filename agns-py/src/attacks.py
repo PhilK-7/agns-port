@@ -11,7 +11,7 @@ from typing import List
 import dcgan_utils
 import eyeglass_generator as gen_module
 from attacks_helpers import load_glasses_mask, merge_images_using_mask, pad_glasses_image, \
-    strip_softmax_from_face_recognition_model, add_merger_to_generator
+    strip_softmax_from_face_recognition_model, add_merger_to_generator, initialize_faceadder_physical, warp_image
 from setup import setup_params
 import dcgan
 import eyeglass_generator
@@ -324,15 +324,23 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_ds_ten
             face_ims_iter = target_ds_tensors[i_f: i_f + min(i_f + (bs // 2), n)]
             # merge faces images and current glasses
             merged_ims = []
+
             for face_img in face_ims_iter:
-                face_img = (face_img * 2) - 1  # scale to [-1., 1.]
-                # merge to image tensor size (n_iter, 224, 224, 3) with value range [0., 1.]
-                # TODO also change here in case physical used (use same function as in physical FaceAdder)
-                merged_img = merge_images_using_mask(data_path, face_img, g, mask=mask)
+                if physical:
+                    face_img, flow = initialize_faceadder_physical(face_img, mask)  # compute transformation
+                    glass_img = warp_image(g, flow, 1)  # warp glasses
+                    face_img = face_img * 2  # to range [0., 2.]
+                    merged_img = glass_img + face_img  # merge images
+                else:
+                    face_img = (face_img * 2) - 1  # scale to [-1., 1.]
+                    # merge to image tensor size (n_iter, 224, 224, 3) with value range [0., 1.]
+                    merged_img = merge_images_using_mask(data_path, face_img, g, mask=mask)
+
                 merged_img = tf.image.resize(merged_img, facenet_in_size)  # resize (needed for OF)
                 if scale_to_polar:  # rescale to [-1., 1.] (needed for OF)
                     merged_img = (merged_img * 2) - 1
                 merged_ims.append(merged_img)
+
             face_ims_iter = tf.stack(merged_ims)
             last_face_ims_inner_iter = face_ims_iter
             # classify the faces
@@ -397,13 +405,13 @@ def produce_attack_stats_plots(loss_history: list, objective_histories: tuple, m
 
 def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size, g_path: str, d_path: str,
                    fn_path: str, n_bigger_class: bool, ep: int, lr: float, kappa: float, stop_prob: float, bs: int,
-                   target_index: int, vgg_not_of: bool, dodging: bool):
+                   target_index: int, vgg_not_of: bool, dodging: bool, physical: bool = False):
     """
     Executes an attack with all the given parameters. Checks success after every attack training epoch.
 
     :param data_path: the path to the 'data' directory
     :param target_path: the relative path of the target (or impersonator) directory from 'data'
-    :param mask_path: the relative path of the mask from 'data'; provide '<real>' instead for physical attacks
+    :param mask_path: the relative path of the mask from 'data'
     :param fn_img_size: the facenet´s input size as iterable of two integers
     :param g_path: the path of the saved generator model
     :param d_path: the path of the saved discriminator model
@@ -417,6 +425,7 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
     :param target_index: the index of the target in the given dataset (starting from 0)
     :param vgg_not_of: whether the used facenet is a VGG, instead of OpenFace
     :param dodging: whether to execute a dodging attack, instead of an impersonation attack
+    :param physical: whether the executed attack is physical (person is wearing real glasses model)
     """
 
     # load models and do some customization
@@ -435,9 +444,8 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
     gen_model.load_weights(g_path)
     dis_model = eyeglass_discriminator.build_model()
     dis_model.load_weights(d_path)
-    physical_attack = mask_path == '<real>'  # switch to physical attack if this string provided
     gen_model_ext = add_merger_to_generator(gen_model, data_path, target_path, bs // 2, fn_img_size,
-                                            vgg_not_of, physical=physical_attack)  # must be updated (synced) during attack
+                                            vgg_not_of, physical=physical)  # must be updated (synced) during attack
     print('All models loaded.')
     face_model.summary()
 

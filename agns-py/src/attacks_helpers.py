@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from PIL import Image
 import numpy as np
+from cv2 import warpPerspective, findHomography
 from skimage import measure, filters
 from tensorflow_addons.image import dense_image_warp
 
@@ -263,7 +264,45 @@ def find_green_marks(img: tf.Tensor):
     return blob_centres
 
 
-# TODO adjust
+def initialize_faceadder_physical(img: tf.Tensor, glass_mask: tf.Tensor):
+    """
+    Computes values needed for the FaceAdder layer if the executed attack is physical.
+    The real glasses´ center points are estimated, and from them needed transformation are calculated.
+
+    :param img: the face image, the attacker wears real glasses with green marks on it - a tensor of size (224, 224, 3)
+    :param glass_mask: the glasses mask (black and white), also a tensor
+    :return: the prepared face image (the warped glasses are cut out), and the flow needed to warp an image the same way
+    """
+
+    # find transformation
+    centers = find_green_marks(img)
+    transformation_matrix = findHomography(glasses_center_coordinates, centers)[0]  # get projection
+
+    # get transformation flow
+    tmat = tf.convert_to_tensor(transformation_matrix)
+    inv_hmat = tf.linalg.inv(tmat)
+    inv_hmat = tf.constant(tf.reshape(inv_hmat, [1, *inv_hmat.shape]))
+    flow = homography_matrix_to_flow(inv_hmat)
+    flow = tf.reshape(flow, [1, *flow.shape])
+
+    # transform mask
+    mask = glass_mask.numpy()
+    transformed_mask = warpPerspective(mask, transformation_matrix, (224, 224))
+    '''plt.imshow(transformed_mask)
+    plt.show()'''
+
+    # cut out transformed mask area from face
+    img = tf.convert_to_tensor(img)
+    img = tf.cast(img, tf.float32) / 255.  # scale [0., 1.]
+    tmask = tf.convert_to_tensor(transformed_mask)
+    tmask = -(tmask - 1)  # invert mask
+    cut_img = tf.math.multiply(img, tmask)
+    '''plt.imshow(cut_img)
+    plt.show()'''
+
+    return cut_img, flow
+
+
 # based on https://stackoverflow.com/questions/58131815/how-to-perform-a-linear-homography-of-an-image-in-tensorflow
 def homography_matrix_to_flow(tf_homography_matrix, im_shape1=224, im_shape2=224):
     Y, X = tf.meshgrid(range(im_shape1), range(im_shape2))

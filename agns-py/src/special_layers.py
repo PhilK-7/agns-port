@@ -5,11 +5,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 from PIL import Image
-from cv2 import getPerspectiveTransform, warpPerspective, findHomography
 
-
-from attacks_helpers import load_glasses_mask, merge_images_using_mask, pad_glasses_image, find_green_marks, \
-    scale_zero_one_to_integer_tensor, homography_matrix_to_flow, warp_image
+from attacks_helpers import load_glasses_mask, merge_images_using_mask, pad_glasses_image, warp_image, \
+    initialize_faceadder_physical
 from dcgan import load_real_images
 
 
@@ -363,39 +361,14 @@ class FaceAdder(tf.keras.layers.Layer):
 
         if physical:
             self.physical = True
-            from attacks_helpers import glasses_center_coordinates
-            # also see MATLAB -> find_green_marks, fitgeotrans ...
             flows = []
 
             for face_img in [ims_path + fi for fi in face_ims]:
-                # find transformation
-                img = tf.io.decode_png(tf.io.read_file(face_img), channels=3)
-                centers = find_green_marks(img)
-                transformation_matrix = findHomography(glasses_center_coordinates, centers)[0]  # get projection
-
-                # get transformation flow
-                tmat = tf.convert_to_tensor(transformation_matrix)
-                inv_hmat = tf.linalg.inv(tmat)
-                inv_hmat = tf.constant(tf.reshape(inv_hmat, [1, *inv_hmat.shape]))
-                flow = homography_matrix_to_flow(inv_hmat)
-                flow = tf.reshape(flow, [1, *flow.shape])
-                flows.append(flow)
-
-                # transform mask
-                mask = glass_mask.numpy()
-                transformed_mask = warpPerspective(mask, transformation_matrix, (224, 224))
-                '''plt.imshow(transformed_mask)
-                plt.show()'''
-
-                # cut out transformed mask area from face
-                img = tf.convert_to_tensor(img)
-                img = tf.cast(img, tf.float32) / 255.  # scale [0., 1.]
-                tmask = tf.convert_to_tensor(transformed_mask)
-                tmask = -(tmask - 1)  # invert mask
-                cut_img = tf.math.multiply(img, tmask)
-                '''plt.imshow(cut_img)
-                plt.show()'''
+                # recognize needed transformation for image and save it together with prepared image
+                fimg = tf.io.decode_png(tf.io.read_file(face_img), channels=3)
+                cut_img, flow = initialize_faceadder_physical(fimg, glass_mask)
                 ims_tensors.append(cut_img)
+                flows.append(flow)
 
             self.flows = flows  # keep warping flows for call
 
@@ -458,8 +431,8 @@ class FaceAdder(tf.keras.layers.Layer):
         if self.physical:  # transform glasses
             # take one face image for entire batch
             fimg = face_ims[face_index]
-            hmat = flows[face_index]
-            wimgs = warp_image(inputs, flows, inputs.shape[0])
+            flow = flows[face_index]
+            wimgs = warp_image(inputs, flow, inputs.shape[0])
             example = (wimgs[0] + 1) / 2
             plt.imshow(example)
             plt.show()
@@ -469,13 +442,11 @@ class FaceAdder(tf.keras.layers.Layer):
 
         faces = faces * 2  # scale to [0., 2.] to enable 'natural' addition: -1 + black = -1, -1 + white = 1
         result = summand + faces  # merge glasses and faces
-        for i in range(16):
+        for i in range(1):
             example = result[i]
             example = (example + 1) / 2
             plt.imshow(example)
             plt.show()
-        # TODO further testing
-        # TODO GradientTape broken -> substitute used numpy ops by tf ops
 
         '''for i in range(16):
             img = (result[i] + 1) * 127.5

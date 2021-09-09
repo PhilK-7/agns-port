@@ -1,5 +1,8 @@
 import os
 
+from tensorflow.core.protobuf.config_pb2 import ConfigProto
+from tensorflow.python.client.session import InteractiveSession
+
 
 def setup_params(remote: bool, gpu_nrs: tuple = (0,)):
     """
@@ -17,5 +20,10 @@ def setup_params(remote: bool, gpu_nrs: tuple = (0,)):
         dap = os.path.expanduser('~') + '/storage-private/data/'
     else:
         dap = '../data/'
+
+    # set to mitigate mysterious annoying error that says 'No algorithm found (?!)', which seems to be a OOM problem
+    config = ConfigProto()
+    config.gpu_options.allow_growth = True
+    session = InteractiveSession(config=config)
 
     return dap

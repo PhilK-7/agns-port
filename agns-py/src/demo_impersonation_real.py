@@ -8,7 +8,7 @@ def main(gpus: tuple = (0,)):
     dap = setup_params(True, gpus)
 
     ep = 1
-    stop_prob = 0.924
+    stop_prob = 0.999
     kappa = 0.25
     lr = 5e-5
 
@@ -19,12 +19,13 @@ def main(gpus: tuple = (0,)):
     fn_path = '../saved-models/vgg_10.h5'
     g_path = '../saved-models/gweights'
     d_path = '../saved-models/dweights'
+    mask_path = 'eyeglasses/eyeglasses_mask_6percent.png'
 
     # execute physical impersonation attack
     print('Trying to impersonate Mahmood Sharif against George Clooney...')
-    execute_attack(dap, impersonator_path, '<real>', img_size, g_path, d_path, fn_path, False, ep, lr, kappa,
+    execute_attack(dap, impersonator_path, mask_path, img_size, g_path, d_path, fn_path, False, ep, lr, kappa,
                    stop_prob, 32,
-                   target, True, False)  # TODO what params else to adjust for physical?
+                   target, True, False, True)
 
 
 if __name__ == '__main__':
