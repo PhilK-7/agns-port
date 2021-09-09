@@ -365,15 +365,21 @@ class FaceAdder(tf.keras.layers.Layer):
             self.physical = True
             from attacks_helpers import glasses_center_coordinates
             # also see MATLAB -> find_green_marks, fitgeotrans ...
-            tmats = []
+            flows = []
 
             for face_img in [ims_path + fi for fi in face_ims]:
                 # find transformation
                 img = tf.io.decode_png(tf.io.read_file(face_img), channels=3)
                 centers = find_green_marks(img)
                 transformation_matrix = findHomography(glasses_center_coordinates, centers)[0]  # get projection
+
+                # get transformation flow
                 tmat = tf.convert_to_tensor(transformation_matrix)
-                tmats.append(tmat)
+                inv_hmat = tf.linalg.inv(tmat)
+                inv_hmat = tf.constant(tf.reshape(inv_hmat, [1, *inv_hmat.shape]))
+                flow = homography_matrix_to_flow(inv_hmat)
+                flow = tf.reshape(flow, [1, *flow.shape])
+                flows.append(flow)
 
                 # transform mask
                 mask = glass_mask.numpy()
@@ -391,7 +397,7 @@ class FaceAdder(tf.keras.layers.Layer):
                 plt.show()'''
                 ims_tensors.append(cut_img)
 
-            self.tmats = tmats  # keep transformation matrices for call
+            self.flows = flows  # keep warping flows for call
 
         else:  # non-physical: cut out area defined by mask
             self.physical = False
@@ -433,10 +439,10 @@ class FaceAdder(tf.keras.layers.Layer):
         n_images = inputs.shape[0]
         face_ims = self.face_tensors
         if self.physical:  # NOTE: computations for physical version must not break gradient descent
-            hmats = self.tmats
+            flows = self.flows
             face_index = random.randint(0, len(face_ims)-1)
         else:
-            hmats = 0
+            flows = 0
             face_index = -1
 
         # handle case that half-batch size is higher than dataset size
@@ -451,9 +457,9 @@ class FaceAdder(tf.keras.layers.Layer):
 
         if self.physical:  # transform glasses
             # take one face image for entire batch
-            fimg = face_ims[face_index].numpy()
-            hmat = hmats[face_index].numpy()
-            wimgs = warp_image(inputs.numpy(), hmat)
+            fimg = face_ims[face_index]
+            hmat = flows[face_index]
+            wimgs = warp_image(inputs, flows, inputs.shape[0])
             example = (wimgs[0] + 1) / 2
             plt.imshow(example)
             plt.show()

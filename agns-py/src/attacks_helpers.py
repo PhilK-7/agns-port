@@ -264,12 +264,13 @@ def find_green_marks(img: tf.Tensor):
 
 
 # TODO adjust
-# taken from:
-def homography_matrix_to_flow(tf_homography_matrix, im_shape1, im_shape2):
-    Y, X = np.meshgrid(range(im_shape1), range(im_shape2))
-    Z = np.ones_like(X)
-    XYZ = np.stack((X, Y, Z), axis=-1)
-    tf_XYZ = tf.constant(XYZ.astype("float64"))
+# based on https://stackoverflow.com/questions/58131815/how-to-perform-a-linear-homography-of-an-image-in-tensorflow
+def homography_matrix_to_flow(tf_homography_matrix, im_shape1=224, im_shape2=224):
+    Y, X = tf.meshgrid(range(im_shape1), range(im_shape2))
+    Z = tf.ones_like(X)
+    XYZ = tf.stack((X, Y, Z), axis=-1)
+    tf_XYZ = tf.constant(XYZ)
+    tf_XYZ = tf.cast(XYZ, tf.float64)
     tf_XYZ = tf_XYZ[tf.newaxis, :, :, :, tf.newaxis]
 
     tf_homography_matrix = tf.tile(tf_homography_matrix[tf.newaxis, tf.newaxis], (1, im_shape2, im_shape1, 1, 1))
@@ -281,13 +282,10 @@ def homography_matrix_to_flow(tf_homography_matrix, im_shape1, im_shape2):
     return flow
 
 
-def warp_image(img: np.ndarray, homography_matrix: np.ndarray, bs: int = 16):
-    inv_homography_matrix = np.linalg.inv(homography_matrix)
-
-    tf_inv_homography_matrix = tf.constant(inv_homography_matrix)[tf.newaxis]
-    flow = homography_matrix_to_flow(tf_inv_homography_matrix, img.shape[1], img.shape[2])[tf.newaxis]
-    flow = tf.tile(flow, (16, 1, 1, 1))
+def warp_image(img: tf.Tensor, flow, bs: int = 16):
+    flow = tf.tile(flow, (bs, 1, 1, 1))
     image_warped = dense_image_warp(tf.transpose(img, (0, 2, 1, 3)), flow)
     image_warped = tf.transpose(image_warped, (0, 2, 1, 3))
 
     return image_warped
+#
