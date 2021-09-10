@@ -8,7 +8,7 @@ from attacks import execute_attack
 def main(gpus: tuple = (0,)):
     dap = setup_params(True, gpus)
 
-    ep = 100  # maximum attack tries
+    ep = 10000  # maximum attack tries
     stop_prob = 0.924
     kappa = 0.25
     lr = 5e-5
