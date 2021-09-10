@@ -30,3 +30,9 @@ def main(gpus: tuple = (0,)):
 
 if __name__ == '__main__':
     main((3,))
+
+# further tasks:
+# TODO make fresh and complete requirements.txt
+# TODO run normal impersonation with very high epoch number and save image
+# TODO smooth and complete the Readme
+# TODO see rest of todos

@@ -302,7 +302,6 @@ class GlassesFacesMerger(tf.keras.layers.Layer):
 
 
 class BlackPadding(tf.keras.layers.Layer):
-    # VERIFIED: works, correct images, gradients passed through
     """
     A layer that receives a tensor of size (?, 64, 176, 3), and pads it with black values (-1.)
     to achieve the output size 224x224. Also removes artifacts with the mask.
@@ -324,7 +323,8 @@ class BlackPadding(tf.keras.layers.Layer):
         imgs = tf.keras.layers.ZeroPadding2D(((crop_coordinates[0], 224 - crop_coordinates[2]),
                                               (crop_coordinates[1], 224 - crop_coordinates[3])))(imgs)
 
-        mask_img = load_glasses_mask(self.dap, 'eyeglasses/eyeglasses_mask_6percent.png')  # load 224x224 mask to pixel-filter
+        mask_img = load_glasses_mask(self.dap,
+                                     'eyeglasses/eyeglasses_mask_6percent.png')  # load 224x224 mask to pixel-filter
         mask_tensor = tf.stack([mask_img for _ in range(inputs.shape[0])])  # replicate to batch dimension
         imgs = tf.math.multiply(imgs, mask_tensor)  # mask out everything outside of mask area
         imgs = imgs - 1  # back to [-1., 1.] range
@@ -337,7 +337,6 @@ class BlackPadding(tf.keras.layers.Layer):
 
 
 class FaceAdder(tf.keras.layers.Layer):
-    # VERIFIED: works, correct images, gradients passed through
     def __init__(self, data_path: str, target_path: str, physical: bool, **kwargs):
         """
         Initializes the FaceAdder layer, which adds masked face images of a target to (padded) glasses inputs.
@@ -374,7 +373,8 @@ class FaceAdder(tf.keras.layers.Layer):
 
         else:  # non-physical: cut out area defined by mask
             self.physical = False
-            mask_img = load_glasses_mask(data_path, 'eyeglasses/eyeglasses_mask_6percent.png')  # load mask as tensor (224x224)
+            mask_img = load_glasses_mask(data_path,
+                                         'eyeglasses/eyeglasses_mask_6percent.png')  # load mask as tensor (224x224)
             mask_img = -mask_img + 1  # invert mask: instead of keeping everything in glass area, remote those pixels
 
             # open face images and apply mask to them
@@ -413,7 +413,7 @@ class FaceAdder(tf.keras.layers.Layer):
         face_ims = self.face_tensors
         if self.physical:  # NOTE: computations for physical version must not break gradient descent
             flows = self.flows
-            face_index = random.randint(0, len(face_ims)-1)
+            face_index = random.randint(0, len(face_ims) - 1)
         else:
             flows = 0
             face_index = -1
@@ -442,11 +442,6 @@ class FaceAdder(tf.keras.layers.Layer):
 
         faces = faces * 2  # scale to [0., 2.] to enable 'natural' addition: -1 + black = -1, -1 + white = 1
         result = summand + faces  # merge glasses and faces
-        for i in range(1):
-            example = result[i]
-            example = (example + 1) / 2
-            plt.imshow(example)
-            plt.show()
 
         '''for i in range(16):
             img = (result[i] + 1) * 127.5
@@ -458,7 +453,6 @@ class FaceAdder(tf.keras.layers.Layer):
 
 
 class Resizer(tf.keras.layers.Layer):
-    # VERIFIED: works, correct images, gradients passed through
     """
     Resizes images to a specified output size. Scales the value range if needed.
     NOTE: From tf 2.5+, a specific layer is available for this.

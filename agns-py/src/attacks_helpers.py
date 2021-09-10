@@ -303,6 +303,7 @@ def initialize_faceadder_physical(img: tf.Tensor, glass_mask: tf.Tensor):
     return cut_img, flow
 
 
+# next two functions :
 # based on https://stackoverflow.com/questions/58131815/how-to-perform-a-linear-homography-of-an-image-in-tensorflow
 def homography_matrix_to_flow(tf_homography_matrix, im_shape1=224, im_shape2=224):
     Y, X = tf.meshgrid(range(im_shape1), range(im_shape2))
@@ -327,4 +328,4 @@ def warp_image(img: tf.Tensor, flow, bs: int = 16):
     image_warped = tf.transpose(image_warped, (0, 2, 1, 3))
 
     return image_warped
-#
+

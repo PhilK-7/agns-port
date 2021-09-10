@@ -24,6 +24,6 @@ def setup_params(remote: bool, gpu_nrs: tuple = (0,)):
     # set to mitigate mysterious annoying error that says 'No algorithm found (?!)', which seems to be a OOM problem
     config = ConfigProto()
     config.gpu_options.allow_growth = True
-    session = InteractiveSession(config=config)
+    InteractiveSession(config=config)
 
     return dap

@@ -1,5 +1,6 @@
 import os
 import random
+import time
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -400,7 +401,8 @@ def produce_attack_stats_plots(loss_history: list, objective_histories: tuple, m
     plt.show()
     if not os.path.exists('../out'):
         os.mkdir('../out')
-    fig.savefig('../out/attack_stats.png')
+    now = time.time()
+    fig.savefig('../out/attack_stats__' + str(now) + '.png')
 
 
 def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size, g_path: str, d_path: str,
@@ -507,6 +509,7 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
 
         print(f'Dis. average trust in manipulated fake glasses + real glasses: {obj_d.numpy()}')
         print(f'Facenet´s average trust that attack images belong to target: {obj_f.numpy()}')
+
         # check whether attack already successful
         print('Checking attack progress...')
         obj_d_history.append(obj_d)
