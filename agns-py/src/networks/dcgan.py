@@ -2,7 +2,6 @@ import math
 import os
 import random
 import time
-from os.path import expanduser
 
 import imageio
 import shutil
@@ -148,11 +147,11 @@ def generate_samples(generator, epoch, rseed=42):
             plt.title(f'Generator @ E{epoch}')
 
     # save plot
-    if os.path.exists('../saved-plots/samples'):
-        n = len(os.listdir('../saved-plots/samples')) + 1  # the n-th samples image
+    if os.path.exists('../../saved-plots/samples'):
+        n = len(os.listdir('../../saved-plots/samples')) + 1  # the n-th samples image
     else:
         n = 1
-        os.mkdir('../saved-plots/samples')
+        os.mkdir('../../saved-plots/samples')
     plt.savefig(f'../saved-plots/samples/samples_{round(time.time())}_epoch{n}.png')
     # do not draw later
     plt.clf()
@@ -165,12 +164,12 @@ def generate_samples_gif():
     The resulting GIF will be saved at 'saved-plots/samples-history.gif'.
     """
 
-    file_path = '../saved-plots/samples-history.gif'
-    img_paths = sorted(os.listdir('../saved-plots/samples/'))
+    file_path = '../../saved-plots/samples-history.gif'
+    img_paths = sorted(os.listdir('../../saved-plots/samples/'))
 
     with imageio.get_writer(file_path, mode='I', fps=6) as writer:
         for path in img_paths:
-            img = imageio.imread(os.path.join('../saved-plots/samples/', path))
+            img = imageio.imread(os.path.join('../../saved-plots/samples/', path))
 
             writer.append_data(img)
 
@@ -252,7 +251,7 @@ def train_dcgan(data_path, n_epochs, start_fresh=False, epochs_save_period=3):
         loss_hist_path = '../saved-plots/losses.csv'
         if os.path.exists(loss_hist_path):
             os.remove(loss_hist_path)
-        gend_samples_path = '../saved-plots/samples/'
+        gend_samples_path = '../../saved-plots/samples/'
         if os.path.exists(gend_samples_path):
             shutil.rmtree(gend_samples_path)
             os.makedirs(gend_samples_path)

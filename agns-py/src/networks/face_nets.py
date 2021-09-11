@@ -220,8 +220,8 @@ def train_vgg_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
         print('No saved weights found. Start training new model...')
 
     model.summary()
-    if not os.path.exists('../out'):
-        os.mkdir('../out')
+    if not os.path.exists('../../out'):
+        os.mkdir('../../out')
     tf.keras.utils.plot_model(model, '../out/' + ('vgg_143.png' if bigger_class_n else 'vgg_10.png'),
                               expand_nested=True)
 
@@ -322,8 +322,8 @@ def train_of_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
             return
 
     model.summary()
-    if not os.path.exists('../out'):
-        os.mkdir('../out')
+    if not os.path.exists('../../out'):
+        os.mkdir('../../out')
     tf.keras.utils.plot_model(model, '../out/' + ('of143.png' if bigger_class_n else 'of10.png'), expand_nested=True)
 
     # get data

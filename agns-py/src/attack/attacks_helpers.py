@@ -1,7 +1,6 @@
 import os
 import time
 
-import matplotlib.pyplot as plt
 import tensorflow as tf
 from PIL import Image
 import numpy as np
@@ -164,8 +163,8 @@ def save_img_from_tensor(img, name: str, use_time: bool = True):
     """
 
     img = Image.fromarray(img)  # numpy array -> pillow image
-    if not os.path.exists('../out'):  # setup 'out' folder if missing
-        os.mkdir('../out')
+    if not os.path.exists('../../out'):  # setup 'out' folder if missing
+        os.mkdir('../../out')
     filename = '../out/' + name + '_' + (str(time.time() if use_time else '')) + '.png'  # compose name
     img.save(filename)  # save to file
 

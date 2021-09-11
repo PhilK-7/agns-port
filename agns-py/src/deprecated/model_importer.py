@@ -16,6 +16,7 @@ def load_dcgan_mat_model_weights(mat_file_path):
     return [mat for mat in matrix]  # outer numpy array as list
 
 
+@DeprecationWarning
 def load_fr_mat_model_weights(mat_file_path):
     mat_file = io.loadmat(mat_file_path)
     print(mat_file)

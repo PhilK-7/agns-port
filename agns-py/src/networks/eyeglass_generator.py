@@ -82,6 +82,6 @@ def save_gen_output_to_file(matrix):
     img = Image.fromarray(matrix, 'RGB')
 
     # img.show()
-    if not os.path.exists('../out'):
-        os.makedirs('../out')
+    if not os.path.exists('../../out'):
+        os.makedirs('../../out')
     img.save('../out/generated_glass.png', 'PNG')

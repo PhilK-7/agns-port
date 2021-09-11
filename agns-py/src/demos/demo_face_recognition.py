@@ -48,7 +48,7 @@ def main(gpus: tuple = (0,)):
     print('Loading model and dataset...')
 
     # load model
-    model_path = '../saved-models/'
+    model_path = '../../saved-models/'
     if input_1 == 1:
         model_path += 'vgg_'
     if input_1 == 2:

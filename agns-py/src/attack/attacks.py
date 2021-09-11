@@ -9,7 +9,7 @@ from PIL import Image
 from tensorflow.python.keras.models import load_model
 from typing import List
 
-import dcgan_utils
+from ../networks import dcgan_utils
 import eyeglass_generator as gen_module
 from attacks_helpers import load_glasses_mask, merge_images_using_mask, pad_glasses_image, \
     strip_softmax_from_face_recognition_model, add_merger_to_generator, initialize_faceadder_physical, warp_image
@@ -399,10 +399,10 @@ def produce_attack_stats_plots(loss_history: list, objective_histories: tuple, m
 
     # plot and save
     plt.show()
-    if not os.path.exists('../out'):
-        os.mkdir('../out')
+    if not os.path.exists('../../saved-plots'):
+        os.mkdir('../../saved-plots')
     now = time.time()
-    fig.savefig('../out/attack_stats__' + str(now) + '.png')
+    fig.savefig('../saved-plots/attack_stats__' + str(now) + '.png')
 
 
 def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size, g_path: str, d_path: str,

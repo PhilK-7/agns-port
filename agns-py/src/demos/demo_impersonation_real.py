@@ -36,4 +36,5 @@ if __name__ == '__main__':
 # TODO smooth and complete the Readme
 # TODO make better / deeper graph plots for network architectures
 # TODO restructure code into more packages
+# TODO add physical impersonation to demos
 # TODO see rest of todos

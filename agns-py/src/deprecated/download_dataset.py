@@ -19,9 +19,9 @@ def download_images(filename):
 
     for i in range(len(df)):
         # get necessary info and paths
-        subdir_name = '_'.join(df['person'][i+1].split())  # compose sub-directory name for image dataset
+        subdir_name = '_'.join(df['person'][i + 1].split())  # compose sub-directory name for image dataset
         subdir_path = ds_path + subdir_name
-        dl_url = df['url'][i+1]
+        dl_url = df['url'][i + 1]
         if not os.path.exists(subdir_path):  # create class directory if not there
             os.makedirs(subdir_path)
 
@@ -38,4 +38,5 @@ def download_images(filename):
 
 
 if __name__ == '__main__':
-    download_images('dev_urls.txt')
+    pass
+    # download_images('dev_urls.txt')
