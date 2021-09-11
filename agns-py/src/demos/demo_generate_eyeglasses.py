@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-import eyeglass_generator as gen
+import networks.eyeglass_generator as gen
 from setup import setup_params
 
 
@@ -11,7 +11,7 @@ def main(gpus: tuple = (0,)):
     # load generator
     print('Loading model...')
     model = gen.build_model()
-    model.load_weights('../saved-models/gweights')
+    model.load_weights('../../saved-models/gweights')
     model.build()
     print('Generator loaded.')
 

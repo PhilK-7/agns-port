@@ -19,7 +19,7 @@ def setup_params(remote: bool, gpu_nrs: tuple = (0,)):
         os.environ["CUDA_VISIBLE_DEVICES"] = ','.join(list(map(lambda i: str(i), gpu_nrs)))
         dap = os.path.expanduser('~') + '/storage-private/data/'
     else:
-        dap = '../data/'
+        dap = '../data/'  # one back relative to SRC (will be used from packages)
 
     # set to mitigate mysterious annoying error that says 'No algorithm found (?!)', which seems to be a OOM problem
     config = ConfigProto()

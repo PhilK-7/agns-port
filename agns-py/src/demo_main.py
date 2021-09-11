@@ -1,10 +1,8 @@
-import demo_face_recognition
-import demo_generate_eyeglasses
 import time
-import demo_dodging
-import demo_impersonation
+from demos import demo_dodging, demo_impersonation, demo_impersonation_real, demo_face_recognition, \
+    demo_generate_eyeglasses
 
-# specify GPUs to use
+# >>> specify GPU(s) to use <<<
 gpus = (1,)
 
 if __name__ == '__main__':

@@ -1,23 +1,19 @@
 import os
 import random
 import time
+from typing import List
 
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 from PIL import Image
 from tensorflow.python.keras.models import load_model
-from typing import List
 
-from ../networks import dcgan_utils
-import eyeglass_generator as gen_module
 from attacks_helpers import load_glasses_mask, merge_images_using_mask, pad_glasses_image, \
     strip_softmax_from_face_recognition_model, add_merger_to_generator, initialize_faceadder_physical, warp_image
+from networks import dcgan, dcgan_utils, eyeglass_generator, eyeglass_discriminator
+from networks.special_layers import LocalResponseNormalization, L2Normalization, InceptionModule, InceptionModuleShrink
 from setup import setup_params
-import dcgan
-import eyeglass_generator
-import eyeglass_discriminator
-from special_layers import LocalResponseNormalization, L2Normalization, InceptionModule, InceptionModuleShrink
 
 
 def scale_tensor_to_std(tensor: tf.Tensor, vrange: list) -> tf.Tensor:
@@ -545,7 +541,7 @@ if __name__ == '__main__':
     dap = setup_params(True)
 
     # run to see example of merged attack images
-    generator = gen_module.build_model()
+    generator = eyeglass_generator.build_model()
     generator.load_weights('../saved-models/gweights')
     inputs = tf.random.normal((3, 25))
     outputs = generator.predict(inputs)

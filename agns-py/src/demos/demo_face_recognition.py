@@ -4,7 +4,7 @@ import random
 import tensorflow as tf
 
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
-from special_layers import LocalResponseNormalization, InceptionModule, InceptionModuleShrink, L2Normalization
+from networks.special_layers import LocalResponseNormalization, InceptionModule, InceptionModuleShrink, L2Normalization
 from setup import setup_params
 from matplotlib import pyplot as plt
 

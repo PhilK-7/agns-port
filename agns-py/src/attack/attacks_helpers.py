@@ -185,7 +185,7 @@ def add_merger_to_generator(generator, data_path, target_path, n_inputs, output_
     :return: a new generator model that has merged faces with glasses as output images
     """
     model = tf.keras.models.Sequential([generator], name='Gen_Merge')  # copy rest layers
-    from special_layers import GlassesFacesMerger, BlackPadding, Resizer, FaceAdder
+    from networks.special_layers import GlassesFacesMerger, BlackPadding, Resizer, FaceAdder
     if not new_version:
         model.add(GlassesFacesMerger(data_path, target_path, n_inputs, output_size))  # add merging layer
     else:
@@ -327,4 +327,3 @@ def warp_image(img: tf.Tensor, flow, bs: int = 16):
     image_warped = tf.transpose(image_warped, (0, 2, 1, 3))
 
     return image_warped
-

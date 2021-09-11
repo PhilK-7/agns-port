@@ -1,5 +1,5 @@
 import tensorflow as tf
-import model_importer
+from deprecated import model_importer
 import numpy as np
 from PIL import Image
 import dcgan_utils
@@ -51,6 +51,7 @@ class MiniBatchDiscrimination(tf.keras.layers.Layer):
     """
     A mini-batch discrimination layer, which helps in DCGAN training to generate more diverse samples.
     """
+
     def __init__(self, **kwargs):
         super(MiniBatchDiscrimination, self).__init__()
         self.dense_help = tf.keras.layers.Dense(160 * 3)

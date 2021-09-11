@@ -1,4 +1,4 @@
-from attacks import execute_attack
+from attack.attacks import execute_attack
 from setup import setup_params
 
 
@@ -16,7 +16,7 @@ def main(gpus: tuple = (0,)):
     target = 6
     img_size = (224, 224)
     impersonator_path = 'demo-data2/'
-    fn_path = '../saved-models/vgg_10.h5'
+    fn_path = '../../saved-models/vgg_10.h5'
     g_path = '../saved-models/gweights'
     d_path = '../saved-models/dweights'
     mask_path = 'eyeglasses/eyeglasses_mask_6percent.png'
