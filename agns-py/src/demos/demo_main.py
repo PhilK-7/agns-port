@@ -52,9 +52,7 @@ if __name__ == '__main__':
         demo_impersonation_real.main(gpus)
 
 
-# TODO run normal impersonation with very high epoch number and save image
+# TODO run normal impersonation with very high epoch number and save image (per freeze)
 # TODO smooth and complete the Readme
-# TODO problem with saved models not being found
-# TODO make better / deeper graph plots for network architectures
-# TODO restructure code into more packages
+# TODO problem with saved models not being found, especially in this file??? -> provide fallback option for n x '../'
 # TODO see rest of todos

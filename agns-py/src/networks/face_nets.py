@@ -52,6 +52,19 @@ def write_class_mapping(imgen_dict):
         file.write(textstr)
 
 
+def make_model_plot(name: str, model):
+    """
+    Draws a model graph plot.
+    NOTE: Requires Graphviz to be installed.
+
+    :param name: the name of the model
+    """
+    if not os.path.exists('../../saved-plots'):
+        os.mkdir('../../saved-plots')
+    tf.keras.utils.plot_model(model, '../../saved-plots/' + name + '.png',
+                              expand_nested=True, show_shapes=True)
+
+
 def get_class_weights(gen_classes):
     """
     Computes class weights for a (training) generator in order to balanced out class differences during training.
@@ -75,6 +88,7 @@ def get_original_vgg_model():
     base_model = vgg.VGG16(include_top=True)
     model = tf.keras.models.Model(base_model.input, base_model.layers[-2].output, name='VGG_Descriptor')
     # model.summary()
+    make_model_plot('VGG16', model)
 
     return model
 
@@ -139,6 +153,7 @@ def build_openface_model():
     # assemble model
     model = tf.keras.Model(inputs=[inp], outputs=[x], name='Openface_NN4.Small2.v1')
     # model.summary()
+    make_model_plot('OpenFace', model)
 
     return model
 
@@ -154,14 +169,16 @@ def build_vgg_custom_part(bigger_class_n=False):
     inp = tf.keras.layers.InputLayer((4096,), name='Descriptor_Input')
     dense = tf.keras.layers.Dense(143 if bigger_class_n else 10, name='Logits')
     simplex = tf.keras.layers.Softmax(name='Simplex')
+    mname = 'VGG143_head' if bigger_class_n else 'VGG10_head'
 
     model = tf.keras.Sequential([
         inp,
         dense,
         simplex
     ],
-        name='VGG143_head' if bigger_class_n else 'VGG10_head')
+        name=mname)
     # model.summary()
+    make_model_plot(mname, model)
 
     return model
 
@@ -178,6 +195,7 @@ def build_of_custom_part(bigger_class_n=False):
     dense_1 = tf.keras.layers.Dense(286 if bigger_class_n else 12, name='Fully_Connected', activation='tanh')
     dense_2 = tf.keras.layers.Dense(143 if bigger_class_n else 10, name='Logits')
     simplex = tf.keras.layers.Softmax(name='Simplex')
+    mname = 'OF143_head' if bigger_class_n else 'OF10_head'
 
     model = tf.keras.Sequential([
         inp,
@@ -185,8 +203,9 @@ def build_of_custom_part(bigger_class_n=False):
         dense_2,
         simplex
     ],
-        name='OF143_head' if bigger_class_n else 'OF10_head')
+        name=mname)
     # model.summary()
+    make_model_plot(mname, model)
 
     return model
 
@@ -219,10 +238,7 @@ def train_vgg_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
         print('No saved weights found. Start training new model...')
 
     model.summary()
-    if not os.path.exists('../../saved-plots'):
-        os.mkdir('../../saved-plots')
-    tf.keras.utils.plot_model(model, '../../saved-plots' + ('vgg_143.png' if bigger_class_n else 'vgg_10.png'),
-                              expand_nested=True)
+    make_model_plot('vgg_143_full' if bigger_class_n else 'vgg_10_full', model)
 
     # load dataset, rescale + resize images
     ds_path = data_path + 'pubfig/dataset_aligned'
@@ -329,9 +345,7 @@ def train_of_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True, require
                 model = tf.keras.Sequential([of_model, top_model])
 
     model.summary()
-    if not os.path.exists('../../saved-plots'):
-        os.mkdir('../../saved-plots')
-    tf.keras.utils.plot_model(model, '../../saved-plots/' + ('of143.png' if bigger_class_n else 'of10.png'), expand_nested=True)
+    make_model_plot('of143_full' if bigger_class_n else 'of10_full', model)
 
     # get data
     ds_path = data_path + 'pubfig/dataset_aligned'
@@ -390,8 +404,4 @@ if __name__ == '__main__':
 
     # VGG is good, don´t continue training
     # training calls here
-    train_of_dnn(50, 5e-3, False)
-    train_of_dnn(50, 1e-3, False)
-    train_of_dnn(50, 5e-4, False)
-    train_of_dnn(50, 1e-4, False)
-    train_of_dnn(50, 5e-5, False)
+    train_vgg_dnn(50, 5e-3, True)

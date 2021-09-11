@@ -31,5 +31,3 @@ def main(gpus: tuple = (0,)):
 if __name__ == '__main__':
     main((3,))
 
-# further tasks:
-

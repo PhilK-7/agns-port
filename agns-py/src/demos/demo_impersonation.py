@@ -8,10 +8,10 @@ from attack.attacks import execute_attack
 def main(gpus: tuple = (0,)):
     dap = setup_params(True, gpus)
 
-    ep = 100  # maximum attack tries
+    ep = 10000  # maximum attack tries
     stop_prob = 0.924
     kappa = 0.25
-    lr = 5e-5
+    lr = 5e-3
 
     # set values
     target = 1  # target to impersonate: Barack Obama
@@ -19,9 +19,9 @@ def main(gpus: tuple = (0,)):
     impersonator_path = 'pubfig/dataset_aligned_10/Eva_Mendes/aligned/'
     img_size = (96, 96)  # input size for OpenFace
     mask_path = 'eyeglasses/eyeglasses_mask_6percent.png'
-    fn_path = '../../saved-models/of10.h5'
-    g_path = '../../saved-models/gweights'
-    d_path = '../../saved-models/dweights'
+    fn_path = '../saved-models/of10.h5'  # TODO changed
+    g_path = '../saved-models/gweights'
+    d_path = '../saved-models/dweights'
 
     # execute impersonation attack
     print('Trying to impersonate Eva Mendes against Barack Obama...')
@@ -32,3 +32,5 @@ def main(gpus: tuple = (0,)):
 
 if __name__ == '__main__':
     main((2,))
+    '''import tensorflow as tf
+    model = tf.keras.models.load_model('../saved-models/vgg_10.h5')  # WTF? maybe check for multiple options'''
