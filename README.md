@@ -39,7 +39,7 @@ in order to have a wider diversity of colors, and slightly better looking result
 There are already pretrained models provided in saved-models. If you want to train the face recognition
 models (VGG / OpenFace 10/143), go to `face_nets.py`. It has two functions to train those models
 from scratch, or also to continue training existing models.
-If in the right directory ('../saved-models') saved models exist, the training continues from that
+If in the right directory ('../../saved-models') saved models exist, the training continues from that
 checkpoint, otherwise training is started from the begin.
 The VGG models are easier to train.
 The training function for those is `train_vgg_dnn`. Pay attention that the parameter `bigger_class_n`

@@ -1,9 +1,9 @@
 import numpy as np
 import tensorflow as tf
-import dcgan_utils
 import os
-
 from PIL import Image
+
+from networks import dcgan_utils
 
 
 def build_model():

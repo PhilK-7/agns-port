@@ -1,8 +1,9 @@
 import tensorflow as tf
-from deprecated import model_importer
 import numpy as np
 from PIL import Image
-import dcgan_utils
+
+from networks import dcgan_utils
+from deprecated import model_importer
 
 
 def build_model():

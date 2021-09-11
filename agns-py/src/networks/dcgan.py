@@ -2,7 +2,6 @@ import math
 import os
 import random
 import time
-
 import imageio
 import shutil
 import numpy as np
@@ -12,9 +11,7 @@ from matplotlib import pyplot as plt
 import pandas as pd
 from tensorflow.python.framework.errors_impl import NotFoundError
 
-import eyeglass_discriminator
-import eyeglass_generator
-import dcgan_utils
+from networks import eyeglass_discriminator, eyeglass_generator, dcgan_utils
 from setup import setup_params
 
 '''
@@ -152,7 +149,7 @@ def generate_samples(generator, epoch, rseed=42):
     else:
         n = 1
         os.mkdir('../../saved-plots/samples')
-    plt.savefig(f'../saved-plots/samples/samples_{round(time.time())}_epoch{n}.png')
+    plt.savefig(f'../../saved-plots/samples/samples_{round(time.time())}_epoch{n}.png')
     # do not draw later
     plt.clf()
     plt.close(fig)
@@ -351,4 +348,4 @@ if __name__ == '__main__':
     dap = setup_params(True)
 
     # set parameters accordingly to current training need
-    train_dcgan(dap, 5, start_fresh=True)
+    train_dcgan(dap, 5, start_fresh=False)

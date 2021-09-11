@@ -1,5 +1,4 @@
 import os
-
 from tensorflow.core.protobuf.config_pb2 import ConfigProto
 from tensorflow.python.client.session import InteractiveSession
 
@@ -19,9 +18,10 @@ def setup_params(remote: bool, gpu_nrs: tuple = (0,)):
         os.environ["CUDA_VISIBLE_DEVICES"] = ','.join(list(map(lambda i: str(i), gpu_nrs)))
         dap = os.path.expanduser('~') + '/storage-private/data/'
     else:
-        dap = '../data/'  # one back relative to SRC (will be used from packages)
+        dap = '../../data/'  # data path for files in the packages
 
     # set to mitigate mysterious annoying error that says 'No algorithm found (?!)', which seems to be a OOM problem
+    # also drastically reduces memory allocation!
     config = ConfigProto()
     config.gpu_options.allow_growth = True
     InteractiveSession(config=config)

@@ -4,7 +4,7 @@ from urllib.error import URLError
 import os
 from http.client import RemoteDisconnected, InvalidURL
 
-prefix = '../data/pubfig/'
+prefix = '../../data/pubfig/'
 
 
 # NOTE: many links are down; use pre-downloaded 3rd party copy of the dataset instead

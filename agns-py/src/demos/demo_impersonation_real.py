@@ -17,13 +17,13 @@ def main(gpus: tuple = (0,)):
     img_size = (224, 224)
     impersonator_path = 'demo-data2/'
     fn_path = '../../saved-models/vgg_10.h5'
-    g_path = '../saved-models/gweights'
-    d_path = '../saved-models/dweights'
+    g_path = '../../saved-models/gweights'
+    d_path = '../../saved-models/dweights'
     mask_path = 'eyeglasses/eyeglasses_mask_6percent.png'
 
     # execute physical impersonation attack
     print('Trying to impersonate Mahmood Sharif against George Clooney...')
-    execute_attack(dap, impersonator_path, mask_path, img_size, g_path, d_path, fn_path, False, ep, lr, kappa,
+    execute_attack(dap, impersonator_path, mask_path, img_size, g_path, d_path, fn_path, ep, lr, kappa,
                    stop_prob, 32,
                    target, True, False, True)
 
@@ -32,9 +32,4 @@ if __name__ == '__main__':
     main((3,))
 
 # further tasks:
-# TODO run normal impersonation with very high epoch number and save image
-# TODO smooth and complete the Readme
-# TODO make better / deeper graph plots for network architectures
-# TODO restructure code into more packages
-# TODO add physical impersonation to demos
-# TODO see rest of todos
+

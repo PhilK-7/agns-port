@@ -1,6 +1,5 @@
 import os
 import random
-
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
@@ -8,7 +7,7 @@ from PIL import Image
 
 from attack.attacks_helpers import load_glasses_mask, merge_images_using_mask, pad_glasses_image, warp_image, \
     initialize_faceadder_physical
-from dcgan import load_real_images
+from networks.dcgan import load_real_images
 
 
 class LocalResponseNormalization(tf.keras.layers.Layer):

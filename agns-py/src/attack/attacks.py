@@ -9,7 +9,7 @@ import tensorflow as tf
 from PIL import Image
 from tensorflow.python.keras.models import load_model
 
-from attacks_helpers import load_glasses_mask, merge_images_using_mask, pad_glasses_image, \
+from attack.attacks_helpers import load_glasses_mask, merge_images_using_mask, pad_glasses_image, \
     strip_softmax_from_face_recognition_model, add_merger_to_generator, initialize_faceadder_physical, warp_image
 from networks import dcgan, dcgan_utils, eyeglass_generator, eyeglass_discriminator
 from networks.special_layers import LocalResponseNormalization, L2Normalization, InceptionModule, InceptionModuleShrink
@@ -398,11 +398,11 @@ def produce_attack_stats_plots(loss_history: list, objective_histories: tuple, m
     if not os.path.exists('../../saved-plots'):
         os.mkdir('../../saved-plots')
     now = time.time()
-    fig.savefig('../saved-plots/attack_stats__' + str(now) + '.png')
+    fig.savefig('../../saved-plots/attack_stats__' + str(now) + '.png')
 
 
 def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size, g_path: str, d_path: str,
-                   fn_path: str, n_bigger_class: bool, ep: int, lr: float, kappa: float, stop_prob: float, bs: int,
+                   fn_path: str, ep: int, lr: float, kappa: float, stop_prob: float, bs: int,
                    target_index: int, vgg_not_of: bool, dodging: bool, physical: bool = False):
     """
     Executes an attack with all the given parameters. Checks success after every attack training epoch.
@@ -414,7 +414,6 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
     :param g_path: the path of the saved generator model
     :param d_path: the path of the saved discriminator model
     :param fn_path: the path of the saved face recognition model
-    :param n_bigger_class: whether the face predictor has 143 output classes (instead of only 10)
     :param ep: how many epochs to execute the attack training loop
     :param lr: the learning rate for the optimizer´s of the generator and discriminator
     :param kappa: a weighting number in [0., 1.] for joining gradients of discriminator and facenet
@@ -542,7 +541,7 @@ if __name__ == '__main__':
 
     # run to see example of merged attack images
     generator = eyeglass_generator.build_model()
-    generator.load_weights('../saved-models/gweights')
+    generator.load_weights('../../saved-models/gweights')
     inputs = tf.random.normal((3, 25))
     outputs = generator.predict(inputs)
     tap = 'pubfig/dataset_aligned/Gisele_Bundchen/aligned/'

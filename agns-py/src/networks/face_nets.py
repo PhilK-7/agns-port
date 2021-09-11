@@ -1,7 +1,6 @@
 import os
 import sys
 from os import path
-
 import numpy as np
 import tensorflow as tf
 import tensorflow.keras.applications.vgg16 as vgg
@@ -14,7 +13,7 @@ from special_layers import LocalResponseNormalization, L2Normalization, Inceptio
     InceptionModuleShrink
 
 # for usage from command line
-sys.path.append(path.dirname(path.dirname(path.abspath('face_nets.py'))))
+# sys.path.append(path.dirname(path.dirname(path.abspath('face_nets.py'))))
 
 # custom layer objects
 custom_objects = {'LocalResponseNormalization': LocalResponseNormalization,
@@ -220,9 +219,9 @@ def train_vgg_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
         print('No saved weights found. Start training new model...')
 
     model.summary()
-    if not os.path.exists('../../out'):
-        os.mkdir('../../out')
-    tf.keras.utils.plot_model(model, '../out/' + ('vgg_143.png' if bigger_class_n else 'vgg_10.png'),
+    if not os.path.exists('../../saved-plots'):
+        os.mkdir('../../saved-plots')
+    tf.keras.utils.plot_model(model, '../../saved-plots' + ('vgg_143.png' if bigger_class_n else 'vgg_10.png'),
                               expand_nested=True)
 
     # load dataset, rescale + resize images
@@ -295,7 +294,7 @@ def pretrain_openface_model(epochs=10, bs=160, lr=5e-3):
     print('Model state saved.')
 
 
-def train_of_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
+def train_of_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True, require_pretrained=False):
     """
     Trains the custom OF 143/10 model on the given dataset, based on the OpenFace model.
     Either starts training from scratch, or continues with a found saved model state.
@@ -304,27 +303,35 @@ def train_of_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
     :param lr: the learning rate
     :param bigger_class_n: whether to train the OF 143 model, instead of the OF 10 model
         (also deciding which subset of the PubFig data is used)
+    :param require_pretrained: whether a pretrained copy 'openface.h5' is the base for training a new OF model copy
     """
 
     # setup model
-    save_path = '../saved-models/of' + ('143' if bigger_class_n else '10') + '.h5'
+    save_path = '../../saved-models/of' + ('143' if bigger_class_n else '10') + '.h5'
     try:  # continue training
         model = tf.keras.models.load_model(save_path, custom_objects=custom_objects)
         print('Saved model state found. Continue training:')
     except (ImportError, IOError):
         print('No saved state for the complete OF' + ('143' if bigger_class_n else '10') + ' model found.')
         try:
-            base_model = tf.keras.models.load_model('../saved-models/openface.h5', custom_objects=custom_objects)
+            base_model = tf.keras.models.load_model('../../saved-models/openface.h5', custom_objects=custom_objects)
             top_model = build_of_custom_part(bigger_class_n)
+            print('Using pretrained OpenFace base model to train new OpenFace complete model.')
             model = tf.keras.Sequential([base_model, top_model])
         except (ImportError, IOError):
-            print('Also no pretrained OpenFace base model found. Pretrain OpenFace first.')
-            return
+            if require_pretrained:
+                print('Also no pretrained OpenFace base model found. Pretrain OpenFace first.')
+                return
+            else:
+                print('Begin training new OpenFace model, without trained base OpenFace model provided.')
+                of_model = build_openface_model()
+                top_model = build_of_custom_part(bigger_class_n)
+                model = tf.keras.Sequential([of_model, top_model])
 
     model.summary()
-    if not os.path.exists('../../out'):
-        os.mkdir('../../out')
-    tf.keras.utils.plot_model(model, '../out/' + ('of143.png' if bigger_class_n else 'of10.png'), expand_nested=True)
+    if not os.path.exists('../../saved-plots'):
+        os.mkdir('../../saved-plots')
+    tf.keras.utils.plot_model(model, '../../saved-plots/' + ('of143.png' if bigger_class_n else 'of10.png'), expand_nested=True)
 
     # get data
     ds_path = data_path + 'pubfig/dataset_aligned'
@@ -383,4 +390,8 @@ if __name__ == '__main__':
 
     # VGG is good, don´t continue training
     # training calls here
-    train_vgg_dnn(5, 5e-5, True)
+    train_of_dnn(50, 5e-3, False)
+    train_of_dnn(50, 1e-3, False)
+    train_of_dnn(50, 5e-4, False)
+    train_of_dnn(50, 1e-4, False)
+    train_of_dnn(50, 5e-5, False)

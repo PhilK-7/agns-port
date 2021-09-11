@@ -2,11 +2,11 @@ import os
 import random
 
 import tensorflow as tf
-
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
+from matplotlib import pyplot as plt
+
 from networks.special_layers import LocalResponseNormalization, InceptionModule, InceptionModuleShrink, L2Normalization
 from setup import setup_params
-from matplotlib import pyplot as plt
 
 # custom layer objects for OpenFace
 custom_objects = {'LocalResponseNormalization': LocalResponseNormalization,

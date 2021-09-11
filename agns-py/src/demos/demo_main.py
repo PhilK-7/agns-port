@@ -13,8 +13,9 @@ if __name__ == '__main__':
     print('> Enter \'2\' to test the glasses generator.')
     print('> Enter \'3\' to test the dodging attack.')
     print('> Enter \'4\' to test the impersonation attack.')
+    print('> Enter \'5\' to test the physical impersonation attack.')
 
-    accepted_inputs = (1, 2, 3, 4)
+    accepted_inputs = (1, 2, 3, 4, 5)
 
     # select a demo
     demo_index = -1
@@ -45,3 +46,15 @@ if __name__ == '__main__':
         print('Starting demo_impersonation.')
         time.sleep(1.5)
         demo_impersonation.main(gpus)
+    if demo_index == 5:
+        print('Starting demo_impersonation_real.')
+        time.sleep(1.5)
+        demo_impersonation_real.main(gpus)
+
+
+# TODO run normal impersonation with very high epoch number and save image
+# TODO smooth and complete the Readme
+# TODO problem with saved models not being found
+# TODO make better / deeper graph plots for network architectures
+# TODO restructure code into more packages
+# TODO see rest of todos
