@@ -6,7 +6,7 @@ from demos import demo_dodging, demo_impersonation, demo_impersonation_real, dem
 gpus = (1,)
 
 if __name__ == '__main__':
-    print('AGNs')
+    print('AGNs Demo Main')
     print('Which of the demos do you want to launch?')
 
     print('> Enter \'1\' to test the face recognition models.')
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     if demo_index == 4:
         print('Starting demo_impersonation.')
         time.sleep(1.5)
-        demo_impersonation.main(gpus)
+        demo_impersonation.main(gpus, True)
     if demo_index == 5:
         print('Starting demo_impersonation_real.')
         time.sleep(1.5)
@@ -54,5 +54,3 @@ if __name__ == '__main__':
 
 # TODO run normal impersonation with very high epoch number and save image (per freeze)
 # TODO smooth and complete the Readme
-# TODO problem with saved models not being found, especially in this file??? -> provide fallback option for n x '../'
-# TODO see rest of todos

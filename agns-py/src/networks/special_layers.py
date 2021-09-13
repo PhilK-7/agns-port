@@ -395,12 +395,6 @@ class FaceAdder(tf.keras.layers.Layer):
             img = img.astype(np.uint8)
             save_img_from_tensor(img, 'faceadder-init_' + str(i))'''
 
-    def get_config(self):
-        conf = super().get_config().copy()
-        # TODO update?
-
-        return conf
-
     def call(self, inputs, **kwargs):
         """
         Adds some face images of the given target to generated, cleaned fake glasses.
@@ -432,9 +426,9 @@ class FaceAdder(tf.keras.layers.Layer):
             fimg = face_ims[face_index]
             flow = flows[face_index]
             wimgs = warp_image(inputs, flow, inputs.shape[0])
-            example = (wimgs[0] + 1) / 2
+            '''example = (wimgs[0] + 1) / 2
             plt.imshow(example)
-            plt.show()
+            plt.show()'''
             summand = wimgs
         else:  # just add glasses
             summand = inputs

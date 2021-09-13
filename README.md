@@ -1,5 +1,5 @@
 # agns-port
-Repository for the Python port of the "agns" (Adversarial Generative Networks) paper code.
+Repository for the Python port of the "agns" (Adversarial Generative Networks) paper.
 
 ## Requirements
 - Python 3.8+
@@ -68,11 +68,13 @@ given custom objects to be restored.
 
 ## Code Remarks
 Functions not used anymore are marked with a DepreciationWarning. They still might be useful, but are
-not necessarily tested with the current state of the code.
+not necessarily tested with the current state of the code. There is also a deprecated package.
+There are some code snippets in functions left commented out. Their purpose was to show or save images.
 
 ## Execution
 There are different demos, all files that are exclusively for demonstration purposes (but might do
 more) start with 'demo'. Go to demo_main and start the script, which lets you pick which of the
 normal demos to execute. You can specifiy the GPU(s) to use in parameter `gpus`.
+TODO make table that compares demos; models
 ... Also take note that content plotted with Matplotlib remotely will show up in the SciView of
 PyCharm Pro.

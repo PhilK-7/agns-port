@@ -367,9 +367,6 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_ds_ten
     return False, best_mean  # no single successful attack
 
 
-# TODO investigate: why are objective_f and mean_prob so different?
-
-
 def produce_attack_stats_plots(loss_history: list, objective_histories: tuple, mp_history: list):
     """
     Plots a 2x2 diagram with one line plot for every history.
@@ -448,7 +445,7 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
 
     # get glasses dataset to draw two half-batches from each training epoch (already shuffled and batched)
     print('Loading glasses dataset...')
-    glasses_ds = dcgan.load_real_images(data_path, alt_bs=bs, sample_limit=1000)
+    glasses_ds = dcgan.load_real_images(data_path, alt_bs=bs, sample_limit=1000)  # only part of dataset for attack
     print('Glasses dataset ready.')
 
     # get target/impersonator dataset
