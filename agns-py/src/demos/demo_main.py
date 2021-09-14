@@ -51,6 +51,3 @@ if __name__ == '__main__':
         time.sleep(1.5)
         demo_impersonation_real.main(gpus)
 
-
-# TODO run normal impersonation with very high epoch number and save image (per freeze)
-# TODO smooth and complete the Readme

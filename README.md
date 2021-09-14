@@ -19,14 +19,19 @@ The code has a directory 'dependencies' that just contains a shape predictor fil
 bindings for Dlib.
 
 ## Images
-The original files (glasses dataset, PubFig dataset) are provided. Because the original, full PubFig dataset could
+The files (glasses dataset, PubFig dataset) are provided. Because the original, full PubFig dataset could
 not be downloaded from the main source, a third-party provided subset was used. From there, 143 directories were
 selected. Those give the basis for the 143 classes. Another subset of those classes was chosen for the 10 classes
 problem formulation, as the non-celebrity (researcher) images were not provided.
 
+Only a few images of the researcher(s) were given. This is not sufficient to include them as targets
+in a face recognition network, but enough to perform impersonation attacks.
+
 At the top level directory, a shell script 'align_all.sh' is provided, in case you want to create aligned versions
 from the original images again, you can e.g. execute `bash align_all.sh`(it will take some minutes).
-It used Dlib to align face images to a 68-landmark pose.
+It uses Dlib to align face images to a 68-landmark pose.
+
+TODO maybe table for datasets
 
 ## Models
 The face recognition model are based on VGG-16, as well as FaceNet (OpenFace) small version.
@@ -34,6 +39,40 @@ The models were trained on aligned images in the given PubFig dataset.
 The DCGAN´s purpose is to generate fake eyeglasses, just like those in the provided eyeglasses
 dataset. As small change to the paper, mini-batch discrimination was added to the generator
 in order to have a wider diversity of colors, and slightly better looking results.
+
+#### Face Recognition Models (networks/face_nets.py)
+
+| Model | Based on | Save name | Size (params) | Image input size | Values input range | Trained on |
+| :-----| :--------| :---------| :-------------| :----------------| :------------------| :--------- |
+VGG10   | VGG-16   | vgg_10.h5 |               | 224 x 224        | [0., 1.] | pubfig/dataset_aligned_10
+VGG143  | VGG-16   | vgg_143.h5|               | 224 x 224        | [0., 1.] | pubfig/dataset_aligned
+OF10    | FaceNet  | of10.h5   |               | 96 x 96          | [-1., 1.] | pubfig/dataset_aligned_10
+OF143   | FaceNet  | of143.h5  |               | 96 x 96          | [-1., 1.] | pubfig/dataset_aligned
+
+#### DCGAN (networks/dcgan.py, dcgan_utils.py, eyeglass_discriminator.py, eyeglass_generator.py)
+The parts of the DCGAN (Deep Convolutional Adversarial Generative Network) model used for generating eyeglasses.
+The only difference in the architecture (compared to the paper) is additional mini-batch discrimination that
+was used to generate more diverse and slightly better fake images. Note that 'mode collapse' is still possible,
+as it is a problem of GANs in general.
+
+| Model | Save Name | Size (params) | Output | Values input range |
+| :-----| :---------| :-------------| :------| :------------------|
+| Generator | gweights (TF format) |  | 64 x 176 RGB image | (standard) normal distribution |
+| Discriminator | dweights (TF format) |  |  value in [0., 1.], confidence fake/real | [-1., 1.] |
+
+#### Special Layers (networks/special_layers.py)
+
+| Class Name | Functionality |
+| :----------| :-------------|
+| LocalResponseNormalization | LR normalization within specific radius |
+| L2Pooling | special average pooling with Euclidean norm |
+| L2Normalization | just Euclidean norm |
+| InceptionModule | 'original' Inception Module, four parallel Conv/Pool paths |
+| InceptionModuleShrink | similar, but only three paths, and shrinks image |
+| BlackPadding | pads glasses images with black, also applies mask to remove artifacts |
+| FaceAdder | merges fake glasses and faces |
+| Resizer | resizes images (might also scale values) |
+
 
 ## Training
 There are already pretrained models provided in saved-models. If you want to train the face recognition
@@ -69,12 +108,29 @@ given custom objects to be restored.
 ## Code Remarks
 Functions not used anymore are marked with a DepreciationWarning. They still might be useful, but are
 not necessarily tested with the current state of the code. There is also a deprecated package.
-There are some code snippets in functions left commented out. Their purpose was to show or save images.
+There are some code snippets in functions left commented out. Their purpose was to show or 
+save images, intermediate results in different functions.
+
+ TODO more?
 
 ## Execution
-There are different demos, all files that are exclusively for demonstration purposes (but might do
-more) start with 'demo'. Go to demo_main and start the script, which lets you pick which of the
-normal demos to execute. You can specifiy the GPU(s) to use in parameter `gpus`.
-TODO make table that compares demos; models
-... Also take note that content plotted with Matplotlib remotely will show up in the SciView of
+There are different demos, all files that are mainly demonstrating functionality (but might do
+more) start with 'demo'. Go to demo_main and start the script, that lets you pick which of the
+normal demos to execute. You can specify the GPU(s) to use in parameter `gpus`.
+
+Also take note that content plotted with Matplotlib remotely will show up in the SciView of
 PyCharm Pro.
+
+### Demos
+
+| File | Purpose |
+| :----| :-------|
+| demo_main.py | launch other demos
+| demo_face_recognition.py | select and test face recognition models
+| demo_generate_eyeglasses.py | generate fake eyeglasses
+| demo_dodging.py | perform dodging attack
+| demo_impersonation.py | perform impersonation attack
+| demo_impersonation_real.py | perform physical impersonation attack
+
+# TODO
+Was fehlt noch? Lücken? Mehr Erläuterungen?

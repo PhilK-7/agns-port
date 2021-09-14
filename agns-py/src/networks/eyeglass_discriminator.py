@@ -68,6 +68,7 @@ class MiniBatchDiscrimination(tf.keras.layers.Layer):
         diffs = tf.expand_dims(activation, 3) - tf.expand_dims(tf.transpose(activation, [1, 2, 0]), 0)
         abs_diffs = tf.reduce_sum(tf.abs(diffs), 2)
         minibatch_features = tf.reduce_sum(tf.exp(-abs_diffs), 2)
+
         return tf.concat([inputs, minibatch_features], 1)
 
 

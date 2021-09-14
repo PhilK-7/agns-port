@@ -339,7 +339,7 @@ class FaceAdder(tf.keras.layers.Layer):
     def __init__(self, data_path: str, target_path: str, physical: bool, **kwargs):
         """
         Initializes the FaceAdder layer, which adds masked face images of a target to (padded) glasses inputs.
-        The face images are processed so that masked pixels are 'removed', and the results are overlayed
+        The face images are processed so that masked pixels are 'removed', and the results are laid over
         onto the padded, generated fake glasses.
         Alternatively, uses mark recognition and affine transformations to map glasses onto physical blueprints.
         Stores the face images of a target as list of tensors with value range [0., 1.]
