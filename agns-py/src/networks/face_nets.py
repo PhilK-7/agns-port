@@ -395,7 +395,7 @@ def build_detector_model():
 
 
 if __name__ == '__main__':
-    data_path = setup_params(True, (4,))
+    data_path = setup_params(True, (2,))
 
     if len(sys.argv) < 2:
         ep = 1
@@ -404,4 +404,4 @@ if __name__ == '__main__':
 
     # VGG is good, don´t continue training
     # training calls here
-    train_vgg_dnn(50, 5e-3, True)
+    train_of_dnn(50, 5e-3, False)

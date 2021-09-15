@@ -15,7 +15,7 @@ custom_objects = {'LocalResponseNormalization': LocalResponseNormalization,
                   'L2Normalization': L2Normalization}
 
 
-def main(gpus: tuple = (0,)):
+def main(gpus: tuple = (1,)):
     dap = setup_params(True, gpus)
 
     # which network type
@@ -59,6 +59,7 @@ def main(gpus: tuple = (0,)):
         model_path += '143'
     model_path += '.h5'
     model = tf.keras.models.load_model(model_path, custom_objects=custom_objects)
+    model.summary()
 
     # load dataset just for class dictionary
     ds_path = dap + 'pubfig/' + ('dataset_aligned' if input_2 == 4 else 'dataset_aligned_10')  # get correct path
@@ -132,4 +133,4 @@ def main(gpus: tuple = (0,)):
 
 
 if __name__ == '__main__':
-    main()
+    main((2,))
