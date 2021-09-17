@@ -1,6 +1,5 @@
 import os
 import sys
-from os import path
 import numpy as np
 import tensorflow as tf
 import tensorflow.keras.applications.vgg16 as vgg
@@ -227,7 +226,7 @@ def train_vgg_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
         layer.trainable = False
     top_part = build_vgg_custom_part(bigger_class_n)
     class_suffix = '_143' if bigger_class_n else '_10'
-    save_path = '../saved-models/vgg' + class_suffix + '.h5'
+    save_path = '../../saved-models/vgg' + class_suffix + '.h5'
 
     # get saved weights, or start with new transfer learning (fine-tune top layers)
     try:
@@ -285,7 +284,7 @@ def pretrain_openface_model(epochs=10, bs=160, lr=5e-3):
     """
 
     # get trained model
-    model_path = '../saved-models/openface.h5'
+    model_path = '../../saved-models/openface.h5'
     try:
         model = tf.keras.models.load_model(model_path, custom_objects=custom_objects)
         print('Model save state loaded. Continue training:')
@@ -404,4 +403,6 @@ if __name__ == '__main__':
 
     # VGG is good, don´t continue training
     # training calls here
-    train_of_dnn(50, 5e-3, False)
+    #train_of_dnn(50, 5e-3, False)
+    for i in range(2):
+        pretrain_openface_model(50, lr=5e-4)

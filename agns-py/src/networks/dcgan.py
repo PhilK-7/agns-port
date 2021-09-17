@@ -182,12 +182,12 @@ def update_loss_dataframe(g_loss, d_loss):
 
     new_data = pd.DataFrame(np.array([[g_loss, d_loss]]), columns=['GLoss', 'DLoss'])
     try:
-        df = pd.read_csv('../saved-plots/losses.csv', index_col=[0])  # get dataframe
+        df = pd.read_csv('../../saved-plots/losses.csv', index_col=[0])  # get dataframe
         df = pd.concat([df, new_data])
     except FileNotFoundError:  # first training / new training
         df = new_data
 
-    df.to_csv('../saved-plots/losses.csv')  # write back
+    df.to_csv('../../saved-plots/losses.csv')  # write back
 
 
 def plot_losses():
@@ -198,7 +198,7 @@ def plot_losses():
 
     try:
         # get dataframe and extract info
-        df = pd.read_csv('../saved-plots/losses.csv', index_col=[0])
+        df = pd.read_csv('../../saved-plots/losses.csv', index_col=[0])
         epochs_so_far = len(df.index)
         iters_list = range(1, epochs_so_far + 1)
         g_losses = df['GLoss']
@@ -213,7 +213,7 @@ def plot_losses():
         plt.title('DCGAN losses history')
 
         # save plot to file and show it
-        plt.savefig('../saved-plots/dcgan_loss_history.png')
+        plt.savefig('../../saved-plots/dcgan_loss_history.png')
         plt.show()
 
     except FileNotFoundError:  # no dataframe found
@@ -237,15 +237,15 @@ def train_dcgan(data_path, n_epochs, start_fresh=False, epochs_save_period=3):
     d_model = eyeglass_discriminator.build_model()
     if not start_fresh:  # load parameters from previous training
         try:
-            g_model.load_weights('../saved-models/gweights')
-            d_model.load_weights('../saved-models/dweights')
+            g_model.load_weights('../../saved-models/gweights')
+            d_model.load_weights('../../saved-models/dweights')
             print('>>>>>>> DCGAN weights loaded.')
         except NotFoundError:
             print('>>>>>>> No weights found, using fresh initialized weights!')
     else:
         print('>>>>>>> Starting training anew!')
         # new weights; remove outdated files
-        loss_hist_path = '../saved-plots/losses.csv'
+        loss_hist_path = '../../saved-plots/losses.csv'
         if os.path.exists(loss_hist_path):
             os.remove(loss_hist_path)
         gend_samples_path = '../../saved-plots/samples/'
@@ -285,12 +285,12 @@ def train_dcgan(data_path, n_epochs, start_fresh=False, epochs_save_period=3):
     # get data
     print('Fetching dataset...')
     real_image_dataset = load_real_images(data_path)  # load all real images
-    num_samples = len(os.listdir(data_path + '../eyeglasses/cropped/'))
+    num_samples = len(os.listdir(data_path + 'eyeglasses/cropped/'))
     num_batches = math.ceil(num_samples / BATCH_SIZE)  # number of training data batches
 
     # determine total epoch number
     try:
-        epochs_so_far = len(pd.read_csv('../saved-plots/losses.csv', index_col=[0]).index)
+        epochs_so_far = len(pd.read_csv('../../saved-plots/losses.csv', index_col=[0]).index)
     except FileNotFoundError:
         epochs_so_far = 0
 
@@ -316,8 +316,8 @@ def train_dcgan(data_path, n_epochs, start_fresh=False, epochs_save_period=3):
 
         # checkpoint both parts of the model
         if epoch % epochs_save_period == 0:
-            g_model.save_weights('../saved-models/gweights')
-            d_model.save('../saved-models/dweights')
+            g_model.save_weights('../../saved-models/gweights')
+            d_model.save('../../saved-models/dweights')
             print('Model state saved.')
 
         # evaluate epoch
@@ -334,8 +334,8 @@ def train_dcgan(data_path, n_epochs, start_fresh=False, epochs_save_period=3):
         print(f'Epoch lasted for {epoch_time} seconds.')
 
     # save weights, generate samples, and plot loss history
-    g_model.save_weights('../saved-models/gweights')
-    d_model.save('../saved-models/dweights')
+    g_model.save_weights('../../saved-models/gweights')
+    d_model.save('../../saved-models/dweights')
     generate_samples_gif()
     plot_losses()
 

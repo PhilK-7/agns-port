@@ -28,10 +28,20 @@ Only a few images of the researcher(s) were given. This is not sufficient to inc
 in a face recognition network, but enough to perform impersonation attacks.
 
 At the top level directory, a shell script 'align_all.sh' is provided, in case you want to create aligned versions
-from the original images again, you can e.g. execute `bash align_all.sh`(it will take some minutes).
+from the original images again, you can e.g. execute `bash align_all.sh` (it will take some minutes).
 It uses Dlib to align face images to a 68-landmark pose.
 
-TODO maybe table for datasets
+#### Datasets (data/)
+
+| Directory | What | # Images |
+| :---------| :----| :--------|
+| eyeglasses | normal eyeglasses images (+ 1 mask) | 16681 |
+| eyeglasses/cropped | eyeglasses images cropped to 64x176 | 16680 |
+| pubfig/dataset_ | some celebrities from PubFig (143) | 6551 |
+| pubfig/dataset_10 | 10 selected celebrities from dataset_ | 321 |
+| pubfig/dataset_aligned | images from dataset_ aligned to 68-landmarks-pose | 6551 |
+| pubfig/dataset_aligned_10 | aligned version of dataset_10 | 321 |
+| demo-data2 | researcher Mahmood Sharif wearing glasses with green marks | 6 |
 
 ## Models
 The face recognition model are based on VGG-16, as well as FaceNet (OpenFace) small version.
@@ -44,10 +54,10 @@ in order to have a wider diversity of colors, and slightly better looking result
 
 | Model | Based on | Save name | Size (params) | Image input size | Values input range | Trained on |
 | :-----| :--------| :---------| :-------------| :----------------| :------------------| :--------- |
-VGG10   | VGG-16   | vgg_10.h5 |               | 224 x 224        | [0., 1.] | pubfig/dataset_aligned_10
-VGG143  | VGG-16   | vgg_143.h5|               | 224 x 224        | [0., 1.] | pubfig/dataset_aligned
-OF10    | FaceNet  | of10.h5   |               | 96 x 96          | [-1., 1.] | pubfig/dataset_aligned_10
-OF143   | FaceNet  | of143.h5  |               | 96 x 96          | [-1., 1.] | pubfig/dataset_aligned
+VGG10   | VGG-16   | vgg_10.h5 |   134,301,514 | 224 x 224        | [0., 1.] | pubfig/dataset_aligned_10
+VGG143  | VGG-16   | vgg_143.h5|   134,846,415 | 224 x 224        | [0., 1.] | pubfig/dataset_aligned
+OF10    | FaceNet  | of10.h5   |     3,744,958 | 96 x 96          | [-1., 1.] | pubfig/dataset_aligned_10
+OF143   | FaceNet  | of143.h5  |     3,821,215 | 96 x 96          | [-1., 1.] | pubfig/dataset_aligned
 
 #### DCGAN (networks/dcgan.py, dcgan_utils.py, eyeglass_discriminator.py, eyeglass_generator.py)
 The parts of the DCGAN (Deep Convolutional Adversarial Generative Network) model used for generating eyeglasses.
@@ -57,8 +67,8 @@ as it is a problem of GANs in general.
 
 | Model | Save Name | Size (params) | Output | Values input range |
 | :-----| :---------| :-------------| :------| :------------------|
-| Generator | gweights (TF format) |  | 64 x 176 RGB image | (standard) normal distribution |
-| Discriminator | dweights (TF format) |  |  value in [0., 1.], confidence fake/real | [-1., 1.] |
+| Generator | gweights (TF format) | 633,403 | 64 x 176 RGB image | (standard) normal distribution |
+| Discriminator | dweights (TF format) | 3,809,801 |  value in [0., 1.], confidence fake/real | [-1., 1.] |
 
 #### Special Layers (networks/special_layers.py)
 
@@ -111,7 +121,6 @@ not necessarily tested with the current state of the code. There is also a depre
 There are some code snippets in functions left commented out. Their purpose was to show or 
 save images, intermediate results in different functions.
 
- TODO more?
 
 ## Execution
 There are different demos, all files that are mainly demonstrating functionality (but might do
@@ -131,6 +140,3 @@ PyCharm Pro.
 | demo_dodging.py | perform dodging attack
 | demo_impersonation.py | perform impersonation attack
 | demo_impersonation_real.py | perform physical impersonation attack
-
-# TODO
-Was fehlt noch? Lücken? Mehr Erläuterungen?
