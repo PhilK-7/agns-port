@@ -231,10 +231,10 @@ def train_vgg_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
     # get saved weights, or start with new transfer learning (fine-tune top layers)
     try:
         model = tf.keras.models.load_model(save_path)
-        print('Model state loaded. Continue training...')
+        print('\n Model state loaded. Continue training...')
     except OSError:
         model = tf.keras.Sequential([vgg_base, top_part], name='VGG' + class_suffix + '_complete')
-        print('No saved weights found. Start training new model...')
+        print('\n No saved weights found. Start training new model...')
 
     model.summary()
     make_model_plot('vgg_143_full' if bigger_class_n else 'vgg_10_full', model)
@@ -265,7 +265,7 @@ def train_vgg_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True):
 
     # save model state
     model.save(save_path)
-    print('VGG model saved.')
+    print('\n VGG model saved.')
 
 
 # go to agns-port and execute align_all.sh with pubfig/dataset_ in data to get dataset_aligned
@@ -287,10 +287,10 @@ def pretrain_openface_model(epochs=10, bs=160, lr=5e-3):
     model_path = '../../saved-models/openface.h5'
     try:
         model = tf.keras.models.load_model(model_path, custom_objects=custom_objects)
-        print('Model save state loaded. Continue training:')
+        print('\n Model save state loaded. Continue training:')
     except OSError:
         model = build_openface_model()
-        print('No model save state found. Start training:')
+        print('\n No model save state found. Start training:')
 
     # load aligned face images and transform
     ds_path = data_path + 'pubfig/dataset_aligned'
@@ -306,7 +306,7 @@ def pretrain_openface_model(epochs=10, bs=160, lr=5e-3):
 
     # save after (continued) training
     model.save(model_path)
-    print('Model state saved.')
+    print('\n Model state saved.')
 
 
 def train_of_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True, require_pretrained=False):
@@ -325,20 +325,20 @@ def train_of_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True, require
     save_path = '../../saved-models/of' + ('143' if bigger_class_n else '10') + '.h5'
     try:  # continue training
         model = tf.keras.models.load_model(save_path, custom_objects=custom_objects)
-        print('Saved model state found. Continue training:')
+        print('\n Saved model state found. Continue training:')
     except (ImportError, IOError):
-        print('No saved state for the complete OF' + ('143' if bigger_class_n else '10') + ' model found.')
+        print('\n No saved state for the complete OF' + ('143' if bigger_class_n else '10') + ' model found.')
         try:
             base_model = tf.keras.models.load_model('../../saved-models/openface.h5', custom_objects=custom_objects)
             top_model = build_of_custom_part(bigger_class_n)
-            print('Using pretrained OpenFace base model to train new OpenFace complete model.')
+            print('\n Using pretrained OpenFace base model to train new OpenFace complete model.')
             model = tf.keras.Sequential([base_model, top_model])
         except (ImportError, IOError):
             if require_pretrained:
-                print('Also no pretrained OpenFace base model found. Pretrain OpenFace first.')
+                print('\n Also no pretrained OpenFace base model found. Pretrain OpenFace first.')
                 return
             else:
-                print('Begin training new OpenFace model, without trained base OpenFace model provided.')
+                print('\n Begin training new OpenFace model, without trained base OpenFace model provided.')
                 of_model = build_openface_model()
                 top_model = build_of_custom_part(bigger_class_n)
                 model = tf.keras.Sequential([of_model, top_model])
@@ -365,7 +365,7 @@ def train_of_dnn(epochs: int = 1, lr: float = 5e-3, bigger_class_n=True, require
 
     # save model after training
     model.save(save_path)
-    print('OpenFace model saved.')
+    print('\n OpenFace model saved.')
 
 
 def build_detector_model():
@@ -403,6 +403,6 @@ if __name__ == '__main__':
 
     # VGG is good, don´t continue training
     # training calls here
-    #train_of_dnn(50, 5e-3, False)
-    for i in range(2):
-        pretrain_openface_model(50, lr=5e-4)
+    for lr in [5e-5]:
+        train_of_dnn(20, lr, True)
+
