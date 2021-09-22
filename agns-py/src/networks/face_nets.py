@@ -1,4 +1,5 @@
 import os
+import random
 import sys
 import numpy as np
 import tensorflow as tf
@@ -19,6 +20,8 @@ custom_objects = {'LocalResponseNormalization': LocalResponseNormalization,
                   'InceptionModule': InceptionModule,
                   'InceptionModuleShrink': InceptionModuleShrink,
                   'L2Normalization': L2Normalization}
+
+random.seed(42)  # reproducible: same train / val splits
 
 
 def write_class_mapping(imgen_dict):

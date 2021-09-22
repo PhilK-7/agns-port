@@ -140,3 +140,5 @@ PyCharm Pro.
 | demo_dodging.py | perform dodging attack
 | demo_impersonation.py | perform impersonation attack
 | demo_impersonation_real.py | perform physical impersonation attack
+
+# TODO explanations for demos + graphs in images
