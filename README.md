@@ -44,7 +44,7 @@ It uses Dlib to align face images to a 68-landmark pose.
 | demo-data2 | researcher Mahmood Sharif wearing glasses with green marks | 6 |
 
 ## Models
-The face recognition model are based on VGG-16, as well as FaceNet (OpenFace) small version.
+The face recognition models are based on VGG-16, as well as FaceNet (OpenFace) small version.
 The models were trained on aligned images in the given PubFig dataset.
 The DCGAN´s purpose is to generate fake eyeglasses, just like those in the provided eyeglasses
 dataset. As small change to the paper, mini-batch discrimination was added to the generator
@@ -142,3 +142,4 @@ PyCharm Pro.
 | demo_impersonation_real.py | perform physical impersonation attack
 
 # TODO explanations for demos + graphs in images
+# TODO use with another facerec model?

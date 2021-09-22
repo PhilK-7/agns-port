@@ -143,7 +143,7 @@ def join_gradients(gradients_a, gradients_b, kappa: float):
     return joined_gradients
 
 
-def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
+def do_attack_training_step(gen, dis, gen_ext, face_classifier, target: int,
                             real_glasses_a: tf.Tensor, real_glasses_b: tf.Tensor,
                             g_opt, d_opt, bs: int, kappa: float, dodging=True, use_ce_loss: bool = False,
                             verbose=False):
@@ -155,7 +155,7 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
     :param gen: the generator model, generates fake glasses
     :param dis: the discriminator model, critics glasses
     :param gen_ext: the generator model + added merger on top, generates merged face images with glasses
-    :param facenet: the face recognition model, without softmax
+    :param face_classifier: the face recognition model, without softmax
     :param target: the target´s index
     :param real_glasses_a: a batch of real glasses images, sized according to bs
     :param real_glasses_b: another batch of real glasses images, sized according to bs
@@ -170,7 +170,7 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
     :return: the updated generator model, the updated discriminator model, the updated extended generator model
      (updated with the same gradients as the normal generator), the updated generator optimizer,
      the updated discriminator optimizer, the discriminator´s objective, the face recognition net´s objective,
-     and the custom facenet loss
+     and the custom face recognition loss
     """
 
     # assert batch size assumptions
@@ -209,19 +209,19 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
 
         print('Generating attack images...')
         attack_images = gen_ext(random_vectors_b, training=True)
-        facenet_output = facenet(attack_images, training=True)  # the logits as output
+        fc_output = face_classifier(attack_images, training=True)  # the logits as output
 
-        custom_facenet_loss = compute_custom_loss(target, facenet_output)
+        custom_fc_loss = compute_custom_loss(target, fc_output)
         if not dodging and use_ce_loss:
             cel = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
             truth = [target for _ in range(half_batch_size)]
-            custom_facenet_loss = cel(truth, facenet_output)
+            custom_fc_loss = cel(truth, fc_output)
         if verbose:
             print(90 * '=')
-            print(f'The facenet logits: {facenet_output}')
+            print(f'The face classifier´s logits: {fc_output}')
             print(90 * '-')
         loss_objective = 'MINIMIZED' if (dodging or use_ce_loss) else 'MAXIMIZED'
-        print(f'The special facenet loss to be {loss_objective} : {custom_facenet_loss}')
+        print(f'The special face classifier loss to be {loss_objective} : {custom_fc_loss}')
         print(90 * '-')
 
     # APPLY BLOCK: dis
@@ -232,7 +232,7 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
     # apply gradients from discriminator and face net to generator
 
     gen_gradients_glasses = g_tape.gradient(dis_loss_b, gen.trainable_variables)
-    gen_gradients_attack = g_tape_s.gradient(custom_facenet_loss, gen_ext.trainable_variables)
+    gen_gradients_attack = g_tape_s.gradient(custom_fc_loss, gen_ext.trainable_variables)
     if verbose:
         print(90 * '=')
         print(f'Gen gradients normal: {gen_gradients_glasses}')
@@ -247,18 +247,19 @@ def do_attack_training_step(gen, dis, gen_ext, facenet, target: int,
 
     # compute objectives
     objective_d = tf.reduce_mean(dis_output)  # average confidence of the discriminator in glasses images (half fake)
-    facenet_output = tf.nn.softmax(facenet_output, axis=1)  # probabilities, shape (half_batch_size, n_classes)
-    objective_f = facenet_output[:, target]  # face net´s confidence that images originate from target
+    fc_output = tf.nn.softmax(fc_output, axis=1)  # probabilities, shape (half_batch_size, n_classes)
+    objective_f = fc_output[:, target]  # face net´s confidence that images originate from target
     objective_f = tf.reduce_mean(objective_f)  # average over batch dimension
     if verbose:
         print(100 * '_')
     print('Attack iteration done.')
 
-    return gen, dis, gen_ext, g_opt, d_opt, objective_d, objective_f, custom_facenet_loss
+    return gen, dis, gen_ext, g_opt, d_opt, objective_d, objective_f, custom_fc_loss
 
 
-def check_objective_met(data_path: str, gen, facenet, target: int, target_ds_tensors: List[tf.Tensor], mask_path: str,
-                        stop_prob: float, bs: int, facenet_in_size=(224, 224), scale_to_polar: bool = False,
+def check_objective_met(data_path: str, gen, face_classifier, target: int, target_ds_tensors: List[tf.Tensor],
+                        mask_path: str,
+                        stop_prob: float, bs: int, fc_in_size=(224, 224), scale_to_polar: bool = False,
                         dodge: bool = True, physical: bool = False) -> [bool, float]:
     """
     Checks whether the attack objective has been yet met. It tries generated fake glasses with a face image dataset
@@ -266,13 +267,13 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_ds_ten
 
     :param data_path: the path to the data directory
     :param gen: the generator model (of the DCGAN)
-    :param facenet: the face recognition model, without softmax
+    :param face_classifier: the face recognition model, without softmax
     :param target: the target´s index
     :param target_ds_tensors: a list of the target (or impersonator) dataset´s images as tensors
     :param mask_path: relative path to mask image (from 'data')
     :param stop_prob: a stopping probability, related to the face net´s output target probabilities (a value in [0, 1])
     :param bs: the training batch size, must be an even number
-    :param facenet_in_size: the face net´s image input size
+    :param fc_in_size: the face classifier´s image input size
     :param scale_to_polar: whether to rescale the merged images´ value range to [-1., 1.]
     :param dodge: whether to check for a successful dodging attack (check for impersonation attack instead if false)
     :param physical: if the attack is physical
@@ -333,7 +334,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_ds_ten
                     # merge to image tensor size (n_iter, 224, 224, 3) with value range [0., 1.]
                     merged_img = merge_images_using_mask(data_path, face_img, g, mask=mask)
 
-                merged_img = tf.image.resize(merged_img, facenet_in_size)  # resize (needed for OF)
+                merged_img = tf.image.resize(merged_img, fc_in_size)  # resize (needed for OF)
                 if scale_to_polar:  # rescale to [-1., 1.] (needed for OF)
                     merged_img = (merged_img * 2) - 1
                 merged_ims.append(merged_img)
@@ -341,7 +342,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_ds_ten
             face_ims_iter = tf.stack(merged_ims)
             last_face_ims_inner_iter = face_ims_iter
             # classify the faces
-            preds = facenet.predict(face_ims_iter)
+            preds = face_classifier.predict(face_ims_iter)
             faces_preds = tf.nn.softmax(preds, axis=1)
 
             # write predicted confidences for target into probabilities
@@ -359,7 +360,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_ds_ten
             print(f'>>>>>>> mean_prob: {mean_prob}')
             draw_random_image(last_face_ims_inner_iter, scale_to_polar)  # show example for successful image
 
-            return True, best_mean  # attack successful if facenet fooled with at least one glasses image
+            return True, best_mean  # attack successful if face classifier fooled with at least one glasses image
 
     draw_random_image(last_face_ims_inner_iter, scale_to_polar)  # show one image per function call
     print(f'Best mean prob in iteration: {best_mean}')
@@ -370,7 +371,7 @@ def check_objective_met(data_path: str, gen, facenet, target: int, target_ds_ten
 def produce_attack_stats_plots(loss_history: list, objective_histories: tuple, mp_history: list):
     """
     Plots a 2x2 diagram with one line plot for every history.
-    :param loss_history: the history of the custom facenet loss
+    :param loss_history: the history of the custom face classifier loss
     :param objective_histories: the histories of objective_d and objective_f, in a tuple
     :param mp_history: the history of the mean prob
     """
@@ -398,7 +399,7 @@ def produce_attack_stats_plots(loss_history: list, objective_histories: tuple, m
     fig.savefig('../../saved-plots/attack_stats__' + str(now) + '.png')
 
 
-def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size, g_path: str, d_path: str,
+def execute_attack(data_path: str, target_path: str, mask_path: str, fc_img_size, g_path: str, d_path: str,
                    fn_path: str, ep: int, lr: float, kappa: float, stop_prob: float, bs: int,
                    target_index: int, vgg_not_of: bool, dodging: bool, physical: bool = False):
     """
@@ -407,24 +408,24 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
     :param data_path: the path to the 'data' directory
     :param target_path: the relative path of the target (or impersonator) directory from 'data'
     :param mask_path: the relative path of the mask from 'data'
-    :param fn_img_size: the facenet´s input size as iterable of two integers
+    :param fc_img_size: the face classifier´s input size as iterable of two integers
     :param g_path: the path of the saved generator model
     :param d_path: the path of the saved discriminator model
     :param fn_path: the path of the saved face recognition model
     :param ep: how many epochs to execute the attack training loop
     :param lr: the learning rate for the optimizer´s of the generator and discriminator
-    :param kappa: a weighting number in [0., 1.] for joining gradients of discriminator and facenet
+    :param kappa: a weighting number in [0., 1.] for joining gradients of discriminator and face classifier
     :param stop_prob: the stopping probability that determines when an attack is deemed successful
     :param bs: the training batch size
     :param target_index: the index of the target in the given dataset (starting from 0)
-    :param vgg_not_of: whether the used facenet is a VGG, instead of OpenFace
+    :param vgg_not_of: whether the used face classifier is a VGG, instead of OpenFace
     :param dodging: whether to execute a dodging attack, instead of an impersonation attack
     :param physical: whether the executed attack is physical (person is wearing real glasses model)
     """
 
     # load models and do some customization
     print('Loading models...')
-    # load facenet that needs to be fooled
+    # load face classifier that needs to be fooled
     if vgg_not_of:
         face_model = load_model(fn_path)
     else:
@@ -438,7 +439,7 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
     gen_model.load_weights(g_path)
     dis_model = eyeglass_discriminator.build_model()
     dis_model.load_weights(d_path)
-    gen_model_ext = add_merger_to_generator(gen_model, data_path, target_path, bs // 2, fn_img_size,
+    gen_model_ext = add_merger_to_generator(gen_model, data_path, target_path, bs // 2, fc_img_size,
                                             vgg_not_of, physical=physical)  # must be updated (synced) during attack
     print('All models loaded.')
     face_model.summary()
@@ -497,10 +498,10 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
                                                                                                      g_opt, d_opt,
                                                                                                      bs, kappa, dodging)
         # after copying the model instances, both versions of the generator model are equal and updated
-        # the discriminator is also updated; but the facenet stays exactly the same!
+        # the discriminator is also updated; but the face classifier stays exactly the same!
 
         print(f'Dis. average trust in manipulated fake glasses + real glasses: {obj_d.numpy()}')
-        print(f'Facenet´s average trust that attack images belong to target: {obj_f.numpy()}')
+        print(f'Face classifier´s average trust that attack images belong to target: {obj_f.numpy()}')
 
         # check whether attack already successful
         print('Checking attack progress...')
@@ -510,7 +511,7 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fn_img_size
         done, mp = check_objective_met(data_path, gen_model, face_model, target_index, target_ds_tensors, mask_path,
                                        stop_prob,
                                        bs,
-                                       fn_img_size, not vgg_not_of, dodging)
+                                       fc_img_size, not vgg_not_of, dodging)
         # update mean prob record
         mp_history.append(mp)
         if (dodging and mp < bmp) or (not dodging and mp > bmp):
