@@ -400,7 +400,7 @@ def produce_attack_stats_plots(loss_history: list, objective_histories: tuple, m
 
 
 def execute_attack(data_path: str, target_path: str, mask_path: str, fc_img_size, g_path: str, d_path: str,
-                   fn_path: str, ep: int, lr: float, kappa: float, stop_prob: float, bs: int,
+                   fc_path: str, ep: int, lr: float, kappa: float, stop_prob: float, bs: int,
                    target_index: int, vgg_not_of: bool, dodging: bool, physical: bool = False):
     """
     Executes an attack with all the given parameters. Checks success after every attack training epoch.
@@ -411,7 +411,7 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fc_img_size
     :param fc_img_size: the face classifier´s input size as iterable of two integers
     :param g_path: the path of the saved generator model
     :param d_path: the path of the saved discriminator model
-    :param fn_path: the path of the saved face recognition model
+    :param fc_path: the path of the saved face recognition model
     :param ep: how many epochs to execute the attack training loop
     :param lr: the learning rate for the optimizer´s of the generator and discriminator
     :param kappa: a weighting number in [0., 1.] for joining gradients of discriminator and face classifier
@@ -427,13 +427,13 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fc_img_size
     print('Loading models...')
     # load face classifier that needs to be fooled
     if vgg_not_of:
-        face_model = load_model(fn_path)
+        face_model = load_model(fc_path)
     else:
         custom_objects = {'LocalResponseNormalization': LocalResponseNormalization,
                           'InceptionModule': InceptionModule,
                           'InceptionModuleShrink': InceptionModuleShrink,
                           'L2Normalization': L2Normalization}
-        face_model = load_model(fn_path, custom_objects=custom_objects)
+        face_model = load_model(fc_path, custom_objects=custom_objects)
     face_model = strip_softmax_from_face_recognition_model(face_model)
     gen_model = eyeglass_generator.build_model()
     gen_model.load_weights(g_path)

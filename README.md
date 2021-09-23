@@ -143,3 +143,76 @@ PyCharm Pro.
 
 # TODO explanations for demos + graphs in images
 # TODO use with another facerec model?
+
+### Explanation
+
+# TODO add more images (face rec, gen glasses)
+
+#### Face Recognition
+You can choose a face classifier and a target class
+by entering the numbers as explained by the running program.
+Once you´ve chosen both things, five random images from the target class will be selected
+for inference on the face recognition network.
+Then, the network will classify the images. The results will be printed to the console, and
+also visualized with plots. On the console, the predicted classes are output, together with
+their respective confidences. The plot shows every face image together with its predicted class
+(including class index) and the confidence.
+
+#### Generate Eyeglasses
+The trained generator (part of the DCGAN) will be loaded. When requested, enter an integer number
+and press ENTER. Then, a random vector will be generated as input for the generator. The generator´s
+output is then a batch of generated fake glasses, looking like those in the given dataset.
+A plot with nine generate glasses is shown.
+
+#### Dodging
+The dodging attack means the target person tries to evade being recognized by the face classifier
+by using generated fake glasses of the generator, which receives gradients from not only the
+discriminator, but also the face classification network.
+
+**The statistics in the attack plots:**
+
+*Objective-D:* This is the average confidence that the discriminator has in a batch that contains
+both real and fake glasses. The closer to 1, the more realistic are the (altered) fake glasses.
+
+*Objective-F:* The average confidence of the face classifier that images of the target class merged
+with generated fake glasses belong to the target class. The lower, the more successful a
+dodging attack is; the higher, the more successful a impersonation attack.
+
+*Loss:* A special loss for the face classifiers here during the attacks. To maximize the probability
+of a successful dodging attack, the AGN must minimize target class logit minus
+ the sum of all other classes´ logits. Contrary, to maximize impersonation attack success,
+the target class logit must be higher than the sum of all other logits.
+The loss is weakly correlated with Objective-F.
+
+*Mean Prob:* Opposed to Objective-F, this average confidence is calculated after every attack epoch.
+Also, the metric is not computed the same way. The mean prob is the best (lowest for dodging, 
+highest for impersonation attack) average confidence that is computed for any generated fake
+glasses merged with all face images of an attacker. It also tends to converge together with
+Objective-F.
+
+Example:
+
+![](agns-py/saved-plots/attack_stats__1631364113.4607084.png)
+
+In this case, Objective-D increase pretty consistently, which means the fake glasses are almost
+indistinguishable after a few attack epochs. Objective-F is unstable, and goes up after it
+decreased, but goes down when the attack succeeds. The loss behaves rather similarly. 
+The mean prob moves a bit in parallel, but only at the end goes down, just after it went up.
+Here, Danny Devito dodged VGG143 successfully as mean prob went below the threshold (1%) after
+ten attack epochs.
+
+#### Impersonation
+
+![](agns-py/saved-plots/attack_stats__10000_std.png)
+
+TODO write text
+
+#### Physical Impersonation
+
+The research and co-author of the paper Mahmood Sharif tries to impersonate George Clooney against
+VGG10. Opposed to the other attacks that were purely 'digital', in this case the attack wears
+a physical model of glasses that generated fake glasses are mapped onto. The impersonation succeeds
+after only one attack epochs, with extremely high confidence. Objective-D is not necessarily high,
+which is not uncommon when comparing to the progress of other attacks after only one epoch.
+
+####

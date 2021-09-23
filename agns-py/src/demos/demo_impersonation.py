@@ -19,18 +19,18 @@ def main(gpus: tuple = (0,), set_correct_path=False):
     impersonator_path = 'pubfig/dataset_aligned_10/Eva_Mendes/aligned/'
     img_size = (96, 96)  # input size for OpenFace
     mask_path = 'eyeglasses/eyeglasses_mask_6percent.png'
-    fn_path = '../saved-models/of10.h5'  # very weird: somehow in this file .. instead ../.. ?!, but right in main demo
+    fc_path = '../saved-models/of10.h5'  # very weird: somehow in this file .. instead ../.. ?!, but right in main demo
     g_path = '../saved-models/gweights'
     d_path = '../saved-models/dweights'
 
     # very weird directory issue (see above) -> pick either .. or ../..
     if set_correct_path:
-        fn_path = '../' + fn_path
+        fc_path = '../' + fc_path
         g_path, d_path = '../' + g_path, '../' + d_path
 
     # execute impersonation attack
     print('Trying to impersonate Eva Mendes against Barack Obama...')
-    execute_attack(dap, impersonator_path, mask_path, img_size, g_path, d_path, fn_path, ep, lr, kappa,
+    execute_attack(dap, impersonator_path, mask_path, img_size, g_path, d_path, fc_path, ep, lr, kappa,
                    stop_prob, 32,
                    target, False, False)
 
