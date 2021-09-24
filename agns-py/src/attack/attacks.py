@@ -401,7 +401,8 @@ def produce_attack_stats_plots(loss_history: list, objective_histories: tuple, m
 
 def execute_attack(data_path: str, target_path: str, mask_path: str, fc_img_size, g_path: str, d_path: str,
                    fc_path: str, ep: int, lr: float, kappa: float, stop_prob: float, bs: int,
-                   target_index: int, vgg_not_of: bool, dodging: bool, physical: bool = False):
+                   target_index: int, vgg_not_of: bool, dodging: bool, physical: bool = False,
+                   strip_last_layer: bool = True):
     """
     Executes an attack with all the given parameters. Checks success after every attack training epoch.
 
@@ -421,6 +422,7 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fc_img_size
     :param vgg_not_of: whether the used face classifier is a VGG, instead of OpenFace
     :param dodging: whether to execute a dodging attack, instead of an impersonation attack
     :param physical: whether the executed attack is physical (person is wearing real glasses model)
+    :param strip_last_layer: whether to remove the last layer of the loaded face classifier; means it is Softmax layer
     """
 
     # load models and do some customization
@@ -434,7 +436,8 @@ def execute_attack(data_path: str, target_path: str, mask_path: str, fc_img_size
                           'InceptionModuleShrink': InceptionModuleShrink,
                           'L2Normalization': L2Normalization}
         face_model = load_model(fc_path, custom_objects=custom_objects)
-    face_model = strip_softmax_from_face_recognition_model(face_model)
+    if strip_last_layer:  # valid for the case that Softmax is an extra layer at the end of a model
+        face_model = strip_softmax_from_face_recognition_model(face_model)  # assumed: last layer is softmax computation
     gen_model = eyeglass_generator.build_model()
     gen_model.load_weights(g_path)
     dis_model = eyeglass_discriminator.build_model()
