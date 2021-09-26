@@ -4,7 +4,7 @@ Repository for the Python port of the "agns" (Adversarial Generative Networks) p
 ## Requirements
 - Python 3.8+
 - the packages listed in the requirements.txt
-- plus pyviz package and Graphviz additionaly if you want graphs of the models 
+- plus pyviz package and Graphviz additionaly if you want graphs of the models
 (comment out `plot_model` to ignore)
 - at least one NVidia GPU, with 11+ GB VRAM recommended
 - the correct NVidia CUDA version + CUDNN installed
@@ -93,7 +93,7 @@ checkpoint, otherwise training is started from the begin.
 The VGG models are easier to train.
 The training function for those is `train_vgg_dnn`. Pay attention that the parameter `bigger_class_n`
 determines whether the 143-class version is trained, or the 10-class one.
-For 
+For
 training the OpenFace models, it is very recommended to properly pretrain the base model first with
 `pretrain_openface_model`. Then, if the loss is considerably low, continue and train the full model
 with `train_of_dnn`.
@@ -118,7 +118,7 @@ given custom objects to be restored.
 ## Code Remarks
 Functions not used anymore are marked with a DepreciationWarning. They still might be useful, but are
 not necessarily tested with the current state of the code. There is also a deprecated package.
-There are some code snippets in functions left commented out. Their purpose was to show or 
+There are some code snippets in functions left commented out. Their purpose was to show or
 save images, intermediate results in different functions.
 
 ## Using other face classifiers
@@ -208,16 +208,17 @@ both real and fake glasses. The closer to 1, the more realistic are the (altered
 
 *Objective-F:* The average confidence of the face classifier that images of the target class merged
 with generated fake glasses belong to the target class. The lower, the more successful a
-dodging attack is; the higher, the more successful a impersonation attack.
+dodging attack is; the higher, the more successful an impersonation attack.
 
 *Loss:* A special loss for the face classifiers here during the attacks. To maximize the probability
 of a successful dodging attack, the AGN must minimize target class logit minus
  the sum of all other classes´ logits. Contrary, to maximize impersonation attack success,
 the target class logit must be higher than the sum of all other logits.
-The loss is weakly correlated with Objective-F.
+The loss is weakly correlated with Objective-F. The goal during dodging attacks is to minimize the loss,
+and impersonators want to maximize it instead.
 
 *Mean Prob:* Opposed to Objective-F, this average confidence is calculated after every attack epoch.
-Also, the metric is not computed the same way. The mean prob is the best (lowest for dodging, 
+Also, the metric is not computed the same way. The mean prob is the best (lowest for dodging,
 highest for impersonation attack) average confidence that is computed for any generated fake
 glasses merged with all face images of an attacker. It also tends to converge together with
 Objective-F.
@@ -228,7 +229,7 @@ Example:
 
 In this case, Objective-D increases pretty consistently, which means the fake glasses are almost
 indistinguishable after a few attack epochs. Objective-F is unstable, and goes up after it
-decreased, but goes down when the attack succeeds. The loss behaves rather similarly. 
+decreased, but goes down when the attack succeeds. The loss behaves rather similarly.
 The mean prob moves a bit in parallel, but only at the end goes down, just after it went up.
 Here, Danny Devito dodged VGG143 successfully as mean prob went below the threshold (1%) after
 ten attack epochs.
@@ -242,12 +243,12 @@ Objective-D goes up quickly and stabilizes at a level of around 0.95. The loss h
 in its movement, but seems to increase pretty steadily - which is the goal for the impersonation
 attack. The mean probability, which the attacker wants to be as high as possible, cannot reach
 the desired level to call the impersonation successful, and somehow stagnates after a while.
-However, the correlated Objective-F increases rather consistently, even with lots noise.
+However, the correlated Objective-F increases rather consistently, even with lots of noise.
 
 #### Physical Impersonation
 
-The research and co-author of the paper Mahmood Sharif tries to impersonate George Clooney against
-VGG10. Opposed to the other attacks that were purely 'digital', in this case the attack wears
+The researcher and co-author of the paper Mahmood Sharif tries to impersonate George Clooney against
+VGG10. Opposed to the other attacks that were purely 'digital', in this case the attacker wears
 a physical model of glasses that generated fake glasses are mapped onto. The impersonation succeeds
 after only one attack epoch, with extremely high confidence. Objective-D is not that high,
 which seems to be because the attack is executed for only one epoch, where other attacks also
