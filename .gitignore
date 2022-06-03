@@ -7,8 +7,9 @@ agns-py/data/*
 *__pycache__*
 *.h5
 agns-py/saved-models/*
-*idea*
+*.idea/*
 */saved-models/*
 *.zip
 *venv*
 *outlog*
+*.DS_STORE
