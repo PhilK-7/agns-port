@@ -1,5 +1,4 @@
 agns-py/venv/*
-*.png
 venv/*
 agns-py/matlab-models/*
 agns-py/data/*

@@ -255,5 +255,3 @@ which seems to be because the attack is executed for only one epoch, where other
 tend to start off with a lower Objective-D.
 
 ![](agns-py/saved-plots/impersonation-example.png)
-
-####
